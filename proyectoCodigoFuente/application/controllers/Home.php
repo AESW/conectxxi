@@ -17,17 +17,19 @@ class Home extends CI_Controller {
         
         /*Mandar llamar modelos que requieran de actividades de BD*/
         $this->load->model('User');
-        $this->SessionL->validarSesionHome();
+        
     }
     
 	public function index()
 	{
+		$this->SessionL->validarSesionHome();
 		$this->load->view('includes/header');
 		$this->load->view('login/login');
 		$this->load->view('includes/footer');
 	}
 	
 	public function login(){
+		$this->SessionL->validarSesionHome();
 		$data = array();
 		$this->form_validation->set_rules('username', 'Username', 'trim|required');
 		$this->form_validation->set_rules('password', 'Password', 'trim|required');
@@ -66,6 +68,10 @@ class Home extends CI_Controller {
 		$this->load->view('includes/header');
 		$this->load->view('login/login' , $data);
 		$this->load->view('includes/footer');
+	}
+	
+	public function logout(){
+		 $this->SessionL->cerrarSesion();
 	}
 	
 }

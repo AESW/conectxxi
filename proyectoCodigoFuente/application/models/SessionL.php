@@ -8,7 +8,6 @@ class SessionL extends CI_Model {
 	
 	function validarSesion(){
 		if (!isset($this->session->userdata['logged_in'])):
-			
 			redirect('/');
 		endif;
 	}
@@ -16,8 +15,6 @@ class SessionL extends CI_Model {
 	function validarSesionHome(){
 		if (isset($this->session->userdata['logged_in'])):
 			redirect('panel');
-		else:
-			redirect('/');	
 		endif;
 	}
 	
