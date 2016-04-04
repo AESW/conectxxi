@@ -38,7 +38,7 @@ class Home extends CI_Controller {
 			Mas tardar Lunes.
 		*/
 		echo HOME_URL;
-		$proceso = ( isset( $_GET["proceso"] ) )?$this->Sanitize->clean_string($_GET["proceso"]);
+		//$proceso = ( isset( $_GET["proceso"] ) )?$this->Sanitize->clean_string($_GET["proceso"]);
 		
 		$this->load->view('login/login');
 		
