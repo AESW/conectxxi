@@ -37,5 +37,37 @@ class User extends CI_Model {
     }
 	
 	
+	public function login($data) {
+		$condition = "RFC =" . "'" . $data['username'] . "' AND " . "contraseniaUsuario =" . "'" . md5( $data['password'] ) . "'";
+		$this->db->select('*');
+		$this->db->from('Usuarios');
+		$this->db->where($condition);
+		$this->db->limit(1);
+		$query = $this->db->get();
+		
+		if ($query->num_rows() == 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	// Read data from database to show data in admin page
+	public function read_user_information($RFC) {
+	
+		$condition = "RFC =" . "'" . $RFC . "'";
+		$this->db->select('*');
+		$this->db->from('Usuarios');
+		$this->db->where($condition);
+		$this->db->limit(1);
+		$query = $this->db->get();
+		
+		if ($query->num_rows() == 1) {
+			return $query->result();
+		} else {
+			return false;
+		}
+	}
+	
 	
 }

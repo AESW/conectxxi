@@ -17,30 +17,55 @@ class Home extends CI_Controller {
         
         /*Mandar llamar modelos que requieran de actividades de BD*/
         $this->load->model('User');
+        $this->SessionL->validarSesionHome();
     }
     
 	public function index()
 	{
-		/*
-			Llamada de métodos de modelo
-			
-			$this->User->consultasSQLSELECT();
-			Generar el modelo en Workbench.
-			Formulario de datos personales. (Candidatos)
-			Listado de candidatos, buena presentación.
-			
-			Datos de viviendo, retomar puntaje AMAI.
-			Cambiar relación familiar por parentezco.
-			Limitar a 10 los dependientes económicos.
-			Formulario con coockies. 
-			Archivos temporales para poder verlo antes de enviar.
-			
-			Mas tardar Lunes.
-		*/
-		echo HOME_URL;
-		//$proceso = ( isset( $_GET["proceso"] ) )?$this->Sanitize->clean_string($_GET["proceso"]);
-		
+		$this->load->view('includes/header');
 		$this->load->view('login/login');
-		
+		$this->load->view('includes/footer');
 	}
+	
+	public function login(){
+		$data = array();
+		$this->form_validation->set_rules('username', 'Username', 'trim|required');
+		$this->form_validation->set_rules('password', 'Password', 'trim|required');
+		
+		if ($this->form_validation->run() == FALSE) {
+			
+		} else {
+			
+			$data = array(
+				'username' => $this->input->post('username'),
+				'password' => $this->input->post('password')
+			);
+			
+			$result = $this->User->login($data);
+			if ($result == TRUE) {
+
+				$username = $this->input->post('username');
+				$result = $this->User->read_user_information($username);
+				if ($result != false) {
+					$session_data = array(
+						'username' => $result[0]->user_name,
+						'email' => $result[0]->user_email,
+					);
+					// Add user data in session
+					$this->session->set_userdata('logged_in', $session_data);
+					redirect('panel');
+				}
+			} else {
+				$data = array(
+					'error_message' => 'Invalid Username or Password'
+				);
+				
+			}
+		}
+		
+		$this->load->view('includes/header');
+		$this->load->view('login/login' , $data);
+		$this->load->view('includes/footer');
+	}
+	
 }
