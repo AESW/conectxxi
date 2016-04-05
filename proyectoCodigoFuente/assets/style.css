@@ -1,3 +1,8 @@
+html {
+	
+	-webkit-text-size-adjust: none;
+	-ms-text-size-adjust: 100%;
+}
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -14,8 +19,8 @@ time, mark, audio, video {
 	margin: 0;
 	padding: 0;
 	border: 0;
-	font-size: 100%;
-	font: inherit;
+	font-size: 10pt;
+	
 	vertical-align: baseline;
 	font-family: 'Open Sans', sans-serif;
 }
@@ -23,4 +28,256 @@ time, mark, audio, video {
 article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section {
 	display: block;
+}
+.page{
+	max-width: 1024px;
+	width: 100%;
+	margin: 0 auto;
+	
+}
+.header{
+	
+}
+.banner_header{
+	width: 100%;
+	height: 111px;
+	background-image: url(images/header.jpg);
+	background-position: left center;
+	background-repeat: no-repeat;
+}
+.bar_center_header{
+	height: 30px;
+	border-left: 3px solid #357db8;
+	border-right: 3px solid #357db8;
+}
+.content{
+	min-height: 620px;
+	background-image: url(images/background.jpg);
+	background-position: center center;
+	background-size: cover;
+	
+}
+.divisor{
+	border: 7px solid #fff;
+}
+.footer{
+	border-top: 7px solid #78cdd0;
+	background-color: #1391c4;
+	height: 40px;
+}
+.login_page{
+	width: 50%;
+	float: right;
+	min-height: 610px;
+	background-image: url(images/engranes.png);
+	background-position: center center;
+	background-size: 100%;
+	background-repeat: no-repeat;
+	margin-right: 10%;
+	position: relative;
+}
+#login{
+	width: 30%;
+	float: left;
+	margin-left: 10%;
+	margin-top: 400px;
+}
+#login .error_msg{
+	font-size: 10pt;
+	color: #3582bf;
+}
+.label_usuario{
+	float: left;
+	width: 39%;
+	height: 30px;
+	background-color: #3582bf;
+	color: #fff;
+	font-size: 10pt;
+	text-align: right;
+	padding-right: 1%;
+	line-height: 1.8em;
+	background-image: url(images/engrane_bullet.png);
+	background-position: left center;
+	background-size: 32px;
+	background-repeat: no-repeat;
+	-webkit-border-radius: 18px 0px 0px 18px;
+	-moz-border-radius: 18px 0px 0px 18px;
+	border-radius: 18px 0px 0px 18px;
+}
+.input_usuario{
+	float: left;
+	width: 60%;
+	height: 30px;
+	margin-bottom: 10px;
+}
+.input_usuario input{
+	width: 100%;
+	height: 30px;
+	margin-bottom: 10px;
+	-webkit-border-radius: 0px 10px 10px 0px;
+	-moz-border-radius: 0px 10px 10px 0px;
+	border-radius: 0px 10px 10px 0px;
+	border: 0;
+}
+.row_usuario{
+	padding-left: 15px;
+	
+}
+#loginBtn{
+	float: right;
+	display: block;
+	width: 128px;
+	height: 28px;
+	background-image: url(images/btn_login.png);
+	background-position: center center;
+	background-size: 100%;
+	background-color: transparent;
+	border: 0;
+	text-indent: -3000px;
+	cursor: pointer;
+}
+.eaf_option{
+	position: absolute;
+	display: block;
+	width: 100px;
+	height: 100px;
+	background-image: url(images/eaf_gray.png);
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 100%;
+	top: 17%;
+	left: 42%;
+}
+.eaf_option:hover{
+	background-image: url(images/eaf.png);
+}
+
+.fdp_option{
+	position: absolute;
+	display: block;
+	width: 100px;
+	height: 100px;
+	background-image: url(images/eaf_gray.png);
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 100%;
+	top: 38%;
+	left: 23%;
+}
+.fdp_option:hover{
+	background-image: url(images/eaf.png);
+}
+
+.fpm_option{
+	position: absolute;
+	display: block;
+	width: 80px;
+	height: 80px;
+	background-image: url(images/eaf_gray.png);
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 100%;
+	top: 29%;
+	left: 64%;
+}
+.fpm_option:hover{
+	background-image: url(images/eaf.png);
+}
+@media only screen and (min-width : 1024px) {
+	
+}
+
+@media screen and (min-width: 631px) and (max-width: 960px){
+	.login_page{
+		width: 620px;
+		float: none;
+		min-height: 610px;
+		background-image: url(images/engranes.png);
+		background-position: center center;
+		background-size: 100%;
+		background-repeat: no-repeat;
+		margin-right: 10%;
+		position: relative;
+		margin: 0 auto;
+	}
+	#login{
+		width: 50%;
+		float: left;
+		margin-left: 10%;
+		margin-top: 0px;
+	}
+	.eaf_option{
+		top: 11%;
+		left: 44%;
+	}
+	.fdp_option{
+		top: 36%;
+		left: 25%;
+	}
+	.fpm_option{
+		top: 26%;
+		left: 65%;
+	}
+}
+
+@media screen and (min-width: 320px) and (max-width: 630px) {
+	.login_page{
+		width: 315px;
+		float: none;
+		min-height: 410px;
+		background-image: url(images/engranes.png);
+		background-position: center center;
+		background-size: 100%;
+		background-repeat: no-repeat;
+		margin-right: 10%;
+		position: relative;
+		margin: 0 auto;
+	}
+	#login{
+		width: 310px;
+		float: left;
+		margin: 0 auto;
+	}
+	.eaf_option{
+		width: 70px;
+		height: 70px;
+		top: 18%;
+		left: 41%;
+	}
+	.fdp_option{
+		height: 65px;
+		left: 22%;
+		top: 38%;
+		width: 65px;
+	}
+	.fpm_option{
+		height: 50px;
+		left: 64%;
+		top: 31%;
+		width: 50px;
+	}
+}
+
+.etabs { margin: 0; padding: 0; }
+.tab { display: inline-block; zoom:1; *display:inline; background: #eee; border: solid 1px #999; border-bottom: none; -moz-border-radius: 4px 4px 0 0; -webkit-border-radius: 4px 4px 0 0; }
+.tab a { font-size: 14px; line-height: 2em; display: block; padding: 0 10px; outline: none; }
+.tab a:hover { text-decoration: underline; }
+.tab.active { background: #fff; padding-top: 6px; position: relative; top: 1px; border-color: #666; }
+.tab a.active { font-weight: bold; }
+.tab-container .panel-container { background: #fff; border: solid #666 1px; padding: 10px; -moz-border-radius: 0 4px 4px 4px; -webkit-border-radius: 0 4px 4px 4px; }
+.panel-container{
+	min-height: 563px;
+}
+.panel-container h2{
+	font-size: 10pt;
+	width: 100%;
+	background-color: #1391c4;
+	color: #fff;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.panel-container h2 label{
+	padding: 5px;
 }

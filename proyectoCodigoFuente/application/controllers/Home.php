@@ -23,13 +23,19 @@ class Home extends CI_Controller {
 	public function index()
 	{
 		$this->SessionL->validarSesionHome();
-		$this->load->view('includes/header');
+		$dataHeader = array(
+			"titulo" => "Inicio de sesión"
+		);
+		$this->load->view('includes/header' , $dataHeader);
 		$this->load->view('login/login');
 		$this->load->view('includes/footer');
 	}
 	
 	public function login(){
 		$this->SessionL->validarSesionHome();
+		$dataHeader = array(
+			"titulo" => "Inicio de sesión"
+		);
 		$data = array();
 		$this->form_validation->set_rules('username', 'Username', 'trim|required');
 		$this->form_validation->set_rules('password', 'Password', 'trim|required');
@@ -59,13 +65,13 @@ class Home extends CI_Controller {
 				}
 			} else {
 				$data = array(
-					'error_message' => 'Invalid Username or Password'
+					'error_message' => 'Usuario o contraseña no válida'
 				);
 				
 			}
 		}
 		
-		$this->load->view('includes/header');
+		$this->load->view('includes/header' , $dataHeader);
 		$this->load->view('login/login' , $data);
 		$this->load->view('includes/footer');
 	}
