@@ -183,6 +183,18 @@ footer, header, hgroup, menu, nav, section {
 .fpm_option:hover{
 	background-image: url(images/eaf.png);
 }
+.btnNextFDP{
+	padding: 10px;
+	float: right;
+	background-color: #1391c4; /* Green */
+    border: none;
+    color: white;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+	
+}
 @media only screen and (min-width : 1024px) {
 	
 }

@@ -13,8 +13,9 @@
 	
 	<link href="<?php echo HOME_URL; ?>assets/style.css" rel="stylesheet">
     <script src="<?php echo HOME_URL; ?>assets/js/jquery-1.9.1.min.js"></script>
-    <script src="<?php echo HOME_URL; ?>assets/js/jquery.hashchange.js" type="text/javascript"></script>
+    
 	<script src="<?php echo HOME_URL; ?>assets/js/jquery.easytabs.js" type="text/javascript"></script>
+	<script src="<?php echo HOME_URL; ?>assets/js/jquery-scrollto.js"></script>
     <script src="<?php echo HOME_URL; ?>assets/js/general.js"></script>
 </head>
 <body>
