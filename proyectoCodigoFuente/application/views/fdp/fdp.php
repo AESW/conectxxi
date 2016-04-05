@@ -1,9 +1,14 @@
 	<script type="text/javascript">
     $(document).ready( function() {
       $('#tab-container').easytabs();
-      $(".btnNextFDP").click(function(){
+      $("#btnNextFDP1").click(function(){
 	      $('.page').ScrollTo();
 	      $(".step2").trigger("click");
+	      
+      });
+      $("#btnNextFDP2").click(function(){
+	      $('.page').ScrollTo();
+	      $(".step3").trigger("click");
 	      
       });
     });
@@ -202,7 +207,8 @@
 				    </tr>
 			     </table>
 			     
-			     <a class="btnNextFDP">Continuar</a>
+			     <a class="btnNextFDP" id="btnNextFDP1">Continuar</a>
+			     <div style="clear: both;"></div>
 			    <!-- content -->
 			  </div>
 			  <!-- End Paso 1 -->
@@ -402,16 +408,367 @@
 			    </table>
 			    
 			    <h2><label>Datos de contacto del candidato</label></h2>
+			    <table cellpadding="0" cellspacing="0" width="100%">
+				    <tr>
+					    <td>Número de teléfono de casa</td>
+					    <td><input type="text" name="telefono_casa_candidato" class="telefono_casa_candidato" id="telefono_casa_candidato" placeholder="Tel. casa" autocomplete="off" required></td>
+					    <td>Número de teléfono móvil</td>
+					    <td><input type="text" name="telefono_movil_candidato" class="telefono_movil_candidato" id="telefono_movil_candidato" placeholder="Tel. móvil" autocomplete="off" required></td>
+				    </tr>
+				    <tr>
+					    <td>Otro número de teléfono</td>
+					    <td><input type="text" name="telefono_otro_candidato" class="telefono_otro_candidato" id="telefono_otro_candidato" placeholder="Otro teléfono" autocomplete="off" required></td>
+					    <td>Correo electrónico personal</td>
+					    <td><input type="text" name="correo_electronico_candidato" class="correo_electronico_candidato" id="correo_electronico_candidato" placeholder="Correo electrónico" autocomplete="off" required></td>
+				    </tr>
+			    </table>
+			    
+			    <a class="btnNextFDP" id="btnNextFDP2">Continuar</a>
+			    <div style="clear: both;"></div>
 			    <!-- content -->
 			  </div>
 			  <!-- End Paso 2 -->
 			  
+			  <!-- Paso 3 -->
 			  <div id="tabs1-paso3">
-			    <h2>CSS Styles for these tabs</h2>
+			    <h2><label>Familiares y/ conocidos en la empresa</label></h2>
+			    <table cellpadding="0" cellspacing="0" width="100%">
+				    <tr>
+					    <td>Nombre completo</td>
+					    <td><input type="text" name="nombre_completo_familiar_candidato" class="nombre_completo_familiar_candidato" id="nombre_completo_familiar_candidato" placeholder="Nombre completo de familiar" autocomplete="off" required></td>
+					    
+					   <td>Parentezco</td>
+					   <td>
+						    <select name="parentezco_familiar_candidato" class="parentezco_familiar_candidato" id="parentezco_familiar_candidato">
+							   <option value="">Seleccionar opción</option> 
+							   <option value="amigo">Amigo</option>
+							   <option value="conocido">Conocido</option>
+							   <option value="esposo">Esposo</option>
+							   <option value="esposa">Esposa</option>
+							   <option value="hija">Hija</option>
+							   <option value="hijo">Hijo</option>
+							   <option value="madre">Madre</option>
+							   <option value="padre">Padre</option>
+							   <option value="novio">Novio</option>
+							   <option value="novia">Novia</option>
+						   </select>
+					    </td>
+				    </tr>
+					
+			    </table>   
+			    
+			    <h2><label>Documentación requerida</label></h2> 
+			    <table cellpadding="0" cellspacing="0" width="100%">
+				    <tr>
+					    <td>Currículo Vitae</td>
+					    <td>
+						    <span class="btn btn-success fileinput-button">
+						        <i class="glyphicon glyphicon-plus"></i>
+						        <span>Cargar...</span>
+						        <!-- The file input field used as target for the file upload widget -->
+						        <input id="fileupload1" type="file" name="files[]" multiple>
+						    </span>
+						    <!-- The global progress bar -->
+						    <div id="progress1" class="progress">
+						        <div class="progress-bar progress-bar-success"></div>
+						    </div>
+						    <!-- The container for the uploaded files -->
+						    <div id="files1" class="files"></div>
+					    </td>
+					    
+					    <td>Identificación oficial</td>
+					    <td>
+						    <span class="btn btn-success fileinput-button">
+						        <i class="glyphicon glyphicon-plus"></i>
+						        <span>Cargar...</span>
+						        <!-- The file input field used as target for the file upload widget -->
+						        <input id="fileupload2" type="file" name="files[]" multiple>
+						    </span>
+						    <!-- The global progress bar -->
+						    <div id="progress2" class="progress">
+						        <div class="progress-bar progress-bar-success"></div>
+						    </div>
+						    <!-- The container for the uploaded files -->
+						    <div id="files2" class="files"></div>
+					    </td>
+				    </tr>
+				    
+				    <tr>
+					    <td>Comprobante de domicilio</td>
+					    <td>
+						    <span class="btn btn-success fileinput-button">
+						        <i class="glyphicon glyphicon-plus"></i>
+						        <span>Cargar...</span>
+						        <!-- The file input field used as target for the file upload widget -->
+						        <input id="fileupload3" type="file" name="files[]" multiple>
+						    </span>
+						    <!-- The global progress bar -->
+						    <div id="progress3" class="progress">
+						        <div class="progress-bar progress-bar-success"></div>
+						    </div>
+						    <!-- The container for the uploaded files -->
+						    <div id="files3" class="files"></div>
+					    </td>
+					    
+					    <td>Acta de nacimiento</td>
+					    <td>
+						    <span class="btn btn-success fileinput-button">
+						        <i class="glyphicon glyphicon-plus"></i>
+						        <span>Cargar...</span>
+						        <!-- The file input field used as target for the file upload widget -->
+						        <input id="fileupload4" type="file" name="files[]" multiple>
+						    </span>
+						    <!-- The global progress bar -->
+						    <div id="progress4" class="progress">
+						        <div class="progress-bar progress-bar-success"></div>
+						    </div>
+						    <!-- The container for the uploaded files -->
+						    <div id="files4" class="files"></div>
+					    </td>
+				    </tr>
+				    
+				    <tr>
+					    <td>Comprobante de estudios</td>
+					    <td>
+						    <span class="btn btn-success fileinput-button">
+						        <i class="glyphicon glyphicon-plus"></i>
+						        <span>Cargar...</span>
+						        <!-- The file input field used as target for the file upload widget -->
+						        <input id="fileupload5" type="file" name="files[]" multiple>
+						    </span>
+						    <!-- The global progress bar -->
+						    <div id="progress5" class="progress">
+						        <div class="progress-bar progress-bar-success"></div>
+						    </div>
+						    <!-- The container for the uploaded files -->
+						    <div id="files5" class="files"></div>
+					    </td>
+					    
+					    <td>3 cartas de recomendación laborales y/o personales</td>
+					    <td>
+						    <span class="btn btn-success fileinput-button">
+						        <i class="glyphicon glyphicon-plus"></i>
+						        <span>Cargar...</span>
+						        <!-- The file input field used as target for the file upload widget -->
+						        <input id="fileupload6" type="file" name="files[]" multiple>
+						    </span>
+						    <!-- The global progress bar -->
+						    <div id="progress6" class="progress">
+						        <div class="progress-bar progress-bar-success"></div>
+						    </div>
+						    <!-- The container for the uploaded files -->
+						    <div id="files6" class="files"></div>
+					    </td>
+				    </tr>
+			    </table>
+			    
+			    <h2><label>Dependientes económicos</label></h2>
 			    <!-- content -->
 			  </div>
+			  <!-- End Paso 3 -->
+			  
 			  
 			  </form>
 		  </div>
 		</div>
 	</div>
+	
+	<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+	<script src="<?php echo HOME_URL; ?>assets/js/vendor/jquery.ui.widget.js"></script>
+	<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+	<script src="<?php echo HOME_URL; ?>assets/js/jquery.iframe-transport.js"></script>
+	<!-- The basic File Upload plugin -->
+	<script src="<?php echo HOME_URL; ?>assets/js/jquery.fileupload.js"></script>
+	<script>
+	/*jslint unparam: true */
+	/*global window, $ */
+	$(function () {
+	    'use strict';
+	    // Change this to the location of your server-side upload handler:
+	    var url = window.location.hostname === 'blueimp.github.io' ?
+	                '//jquery-file-upload.appspot.com/' : 'server/';
+	    
+	    $('#fileupload1').fileupload({
+	        url: url,
+	        dataType: 'json',
+	        change : function (e, data) {
+		        if(data.files.length>=2){
+		            alert("1 archivo permitido por selección")
+		            return false;
+		        }
+		    },
+	        done: function (e, data) {
+	            $.each(data.result.files, function (index, file) {
+	                $('#files1').text(file.name);
+	            });
+	             
+	        },
+	        progressall: function (e, data) {
+	            var progress = parseInt(data.loaded / data.total * 100, 10);
+	            $('#progress1 .progress-bar').css(
+	                'width',
+	                progress + '%'
+	            );
+	            setInterval(function(){ 
+		            $('#progress1 .progress-bar').css(
+		                'width',
+		                0 + '%'
+		            );
+	            }, 2000);
+	        }
+	    }).prop('disabled', !$.support.fileInput)
+	        .parent().addClass($.support.fileInput ? undefined : 'disabled');
+	        
+	    $('#fileupload2').fileupload({
+	        url: url,
+	        dataType: 'json',
+	        change : function (e, data) {
+		        if(data.files.length>=1){
+		            alert("1 archivo permitido por selección")
+		            return false;
+		        }
+		    },
+	        done: function (e, data) {
+	            $.each(data.result.files, function (index, file) {
+	                $('#files2').text(file.name);
+	            });
+	        },
+	        progressall: function (e, data) {
+	            var progress = parseInt(data.loaded / data.total * 100, 10);
+	            $('#progress2 .progress-bar').css(
+	                'width',
+	                progress + '%'
+	            );
+	            setInterval(function(){ 
+		            $('#progress2 .progress-bar').css(
+		                'width',
+		                0 + '%'
+		            );
+	            }, 2000);
+	        }
+	    }).prop('disabled', !$.support.fileInput)
+	        .parent().addClass($.support.fileInput ? undefined : 'disabled');
+	        
+	    $('#fileupload3').fileupload({
+	        url: url,
+	        dataType: 'json',
+	        change : function (e, data) {
+		        if(data.files.length>=1){
+		            alert("1 archivo permitido por selección")
+		            return false;
+		        }
+		    },
+	        done: function (e, data) {
+	            $.each(data.result.files, function (index, file) {
+	                $('#files3').text(file.name);
+	            });
+	        },
+	        progressall: function (e, data) {
+	            var progress = parseInt(data.loaded / data.total * 100, 10);
+	            $('#progress3 .progress-bar').css(
+	                'width',
+	                progress + '%'
+	            );
+	            setInterval(function(){ 
+		            $('#progress3 .progress-bar').css(
+		                'width',
+		                0 + '%'
+		            );
+	            }, 2000);
+	        }
+	    }).prop('disabled', !$.support.fileInput)
+	        .parent().addClass($.support.fileInput ? undefined : 'disabled');
+	        
+	        
+	    $('#fileupload4').fileupload({
+	        url: url,
+	        dataType: 'json',
+	        change : function (e, data) {
+		        if(data.files.length>=1){
+		            alert("1 archivo permitido por selección")
+		            return false;
+		        }
+		    },
+	        done: function (e, data) {
+	            $.each(data.result.files, function (index, file) {
+	                $('#files4').text(file.name);
+	            });
+	        },
+	        progressall: function (e, data) {
+	            var progress = parseInt(data.loaded / data.total * 100, 10);
+	            $('#progress4 .progress-bar').css(
+	                'width',
+	                progress + '%'
+	            );
+	            setInterval(function(){ 
+		            $('#progress4 .progress-bar').css(
+		                'width',
+		                0 + '%'
+		            );
+	            }, 2000);
+	        }
+	    }).prop('disabled', !$.support.fileInput)
+	        .parent().addClass($.support.fileInput ? undefined : 'disabled');    
+	    
+	    $('#fileupload5').fileupload({
+	        url: url,
+	        dataType: 'json',
+	        change : function (e, data) {
+		        if(data.files.length>=1){
+		            alert("1 archivo permitido por selección")
+		            return false;
+		        }
+		    },
+	        done: function (e, data) {
+	            $.each(data.result.files, function (index, file) {
+	                $('#files5').text(file.name);
+	            });
+	        },
+	        progressall: function (e, data) {
+	            var progress = parseInt(data.loaded / data.total * 100, 10);
+	            $('#progress5 .progress-bar').css(
+	                'width',
+	                progress + '%'
+	            );
+	            setInterval(function(){ 
+		            $('#progress5 .progress-bar').css(
+		                'width',
+		                0 + '%'
+		            );
+	            }, 2000);
+	        }
+	    }).prop('disabled', !$.support.fileInput)
+	        .parent().addClass($.support.fileInput ? undefined : 'disabled'); 
+	        
+	    $('#fileupload6').fileupload({
+	        url: url,
+	        dataType: 'json',
+	        change : function (e, data) {
+		        if(data.files.length>=3){
+		            alert("1 archivo permitido por selección")
+		            return false;
+		        }
+		        
+		    },
+	        done: function (e, data) {
+	            $.each(data.result.files, function (index, file) {
+	                $('<p/>').text(file.name).appendTo('#files6');
+	            });
+	        },
+	        progressall: function (e, data) {
+	            var progress = parseInt(data.loaded / data.total * 100, 10);
+	            $('#progress6 .progress-bar').css(
+	                'width',
+	                progress + '%'
+	            );
+	            setInterval(function(){ 
+		            $('#progress6 .progress-bar').css(
+		                'width',
+		                0 + '%'
+		            );
+	            }, 2000);
+	        }
+	    }).prop('disabled', !$.support.fileInput)
+	        .parent().addClass($.support.fileInput ? undefined : 'disabled');       
+	});
+	</script>

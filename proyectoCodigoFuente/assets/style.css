@@ -193,7 +193,14 @@ footer, header, hgroup, menu, nav, section {
     text-align: center;
     text-decoration: none;
     display: inline-block;
+    margin-top: 
 	
+}
+.btn-success {
+    background-color: #1391c4;
+    border-color: #1391c4;
+    color: #fff;
+    padding: 6px;
 }
 @media only screen and (min-width : 1024px) {
 	

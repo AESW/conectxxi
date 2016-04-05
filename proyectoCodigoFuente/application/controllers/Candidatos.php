@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 require_once(APPPATH.'libraries/Sanitize.php');
-
+require(APPPATH.'libraries/UploadHandler.php');
 
 class Candidatos extends CI_Controller {
 	
@@ -31,5 +31,13 @@ class Candidatos extends CI_Controller {
 		$this->load->view('includes/footer');
 	}
 	
+	public function server(){
+		error_reporting(E_ALL | E_STRICT);
+		
+		$upload_handler = new UploadHandler(array(
+													'accept_file_types' => '/\.(gif|jpe?g|png|pdf|doc|docx)$/i'
+												 )
+										    );
+	}
 	
 }

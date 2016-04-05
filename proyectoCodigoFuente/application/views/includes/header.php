@@ -10,8 +10,10 @@
 	<!--[if lt IE 9]>
 	  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
-	
+	<!-- Bootstrap styles -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 	<link href="<?php echo HOME_URL; ?>assets/style.css" rel="stylesheet">
+	<link rel="stylesheet" href="<?php echo HOME_URL; ?>assets/jquery.fileupload.css">
     <script src="<?php echo HOME_URL; ?>assets/js/jquery-1.9.1.min.js"></script>
     
 	<script src="<?php echo HOME_URL; ?>assets/js/jquery.easytabs.js" type="text/javascript"></script>
