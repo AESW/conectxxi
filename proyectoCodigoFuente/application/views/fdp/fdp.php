@@ -437,9 +437,9 @@
 					    <td>Nombre completo</td>
 					    <td><input type="text" name="nombre_completo_familiar_candidato" class="nombre_completo_familiar_candidato" id="nombre_completo_familiar_candidato" placeholder="Nombre completo de familiar" autocomplete="off" required></td>
 					    
-					   <td>Parentezco</td>
+					   <td>Parentesco</td>
 					   <td>
-						    <select name="parentezco_familiar_candidato" class="parentezco_familiar_candidato" id="parentezco_familiar_candidato">
+						    <select name="parentesco_familiar_candidato" class="parentesco_familiar_candidato" id="parentesco_familiar_candidato">
 							   <option value="">Seleccionar opción</option> 
 							   <option value="amigo">Amigo</option>
 							   <option value="conocido">Conocido</option>
@@ -563,7 +563,101 @@
 			    </table>
 			    
 			    <h2><label>Dependientes económicos</label></h2>
+			    <table cellpadding="0" cellspacing="0" width="100%">
+				    <tr>
+					    <td>Nombre del dependiente económico</td>
+					    <td><input type="text" name="nombre_dependiente_economico_candidato[]" class="nombre_dependiente_economico_candidato" id="nombre_dependiente_economico_candidato1" placeholder="Nombre" autocomplete="off" required></td>
+					    <td>Género</td>
+					    <td>
+						    <select name="genero_dependiente_economico_candidato[]" class="genero_dependiente_economico_candidato" id="genero_dependiente_economico_candidato">
+							      <option value="">Seleccionar género</option>
+							      <option value="Mujer">Mujer</option>
+							      <option value="Hombre">Hombre</option>
+						    </select>
+					    </td>
+				    </tr>
+				    <tr>
+					    <td>Fecha de nacimiento</td>
+					    <td><input type="text" name="fecha_nacimiento_dependiente_economico_candidato[]" class="fecha_nacimiento_dependiente_economico_candidato" id="fecha_nacimiento_dependiente_economico_candidato" placeholder="dd/mm/YYYY" autocomplete="off" required></td>
+					    <td>Parentesco</td>
+					    <td>
+						   <select name="parentesco_dependiente_economico_candidato[]" class="parentesco_dependiente_economico_candidato" id="parentesco_dependiente_economico_candidato">
+							   <option value="">Seleccionar opción</option> 
+							   <option value="amigo">Amigo</option>
+							   <option value="conocido">Conocido</option>
+							   <option value="esposo">Esposo</option>
+							   <option value="esposa">Esposa</option>
+							   <option value="hija">Hija</option>
+							   <option value="hijo">Hijo</option>
+							   <option value="madre">Madre</option>
+							   <option value="padre">Padre</option>
+							   <option value="novio">Novio</option>
+							   <option value="novia">Novia</option>
+						   </select>
+					    </td>
+				    </tr>
+			    </table>
+			    
+			    <h2><label>Contacto de emergencia</label></h2>
+			    <table cellpadding="0" cellspacing="0" width="100%">
+				   <tr>
+					   <td>Nombre de contacto</td>
+					   <td><input type="text" name="nombre_contacto_emergencia_candidato" class="nombre_contacto_emergencia_candidato" id="nombre_contacto_emergencia_candidato" placeholder="Nombre" autocomplete="off" required></td>
+					   <td>Parentesco</td>
+					   <td>
+						   <select name="parentesco_contacto_emergencia_candidato" class="parentesco_contacto_emergencia_candidato" id="parentesco_contacto_emergencia_candidato">
+							   <option value="">Seleccionar opción</option> 
+							   <option value="amigo">Amigo</option>
+							   <option value="conocido">Conocido</option>
+							   <option value="esposo">Esposo</option>
+							   <option value="esposa">Esposa</option>
+							   <option value="hija">Hija</option>
+							   <option value="hijo">Hijo</option>
+							   <option value="madre">Madre</option>
+							   <option value="padre">Padre</option>
+							   <option value="novio">Novio</option>
+							   <option value="novia">Novia</option>
+						   </select>
+					   </td>
+				   </tr> 
+				   <tr>
+					   <td>Número teléfono de casa</td>
+					   <td><input type="text" name="telefono_casa_emergencia_candidato" class="telefono_casa_emergencia_candidato" id="telefono_casa_emergencia_candidato" placeholder="Teléfono casa" autocomplete="off" required></td>
+					   <td>Número teléfono móvil</td>
+					   <td>
+						   <input type="text" name="telefono_movil_emergencia_candidato" class="telefono_movil_emergencia_candidato" id="telefono_movil_emergencia_candidato" placeholder="Teléfono móvil" autocomplete="off" required>
+					   </td>
+				   </tr>
+			    </table>  
+			    
+			    <h2><label>Cuenta bancaria</label></h2>  
 			    <!-- content -->
+			    <table cellpadding="0" cellspacing="0" width="100%">
+				    <tr>
+					    <td>¿Cuenta con cuenta bancaria? 
+						    <br/><input type="radio" name="cuenta_con_cuenta_bancaria" class="cuenta_con_cuenta_bancaria" value="si" />Si <br/>
+						    	<input type="radio" name="cuenta_con_cuenta_bancaria" class="cuenta_con_cuenta_bancaria" value="no" />No
+					    </td>
+				    </tr>
+				    <tr>
+					    <td>Número de cuenta</td>
+					    <td>
+						    <input type="text" name="numero_cuenta_candidato" class="numero_cuenta_candidato" id="numero_cuenta_candidato" placeholder="No. de cuenta" autocomplete="off" required>
+					    </td>
+					    <td>CLABE Interbancaria</td>
+					    <td>
+						    <input type="text" name="clabe_interbancaria_candidato" class="clabe_interbancaria_candidato" id="clabe_interbancaria_candidato" placeholder="CLABE Interbancaria" autocomplete="off" required>
+					    </td>
+				    </tr>
+				    <tr>
+					    <td>Banco</td>
+					    <td><input type="text" name="banco_candidato" class="banco_candidato" id="banco_candidato" placeholder="Nombre del banco" autocomplete="off" required></td>
+				    </tr>
+			    </table>
+			    
+			    <a class="btnNextFDP" id="btnNextFDP3">Registrar</a>
+			    <a class="btnNextFDP" id="btnNextFDP4">Guardar</a>
+			    <div style="clear: both;"></div>
 			  </div>
 			  <!-- End Paso 3 -->
 			  

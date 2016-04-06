@@ -193,8 +193,12 @@ footer, header, hgroup, menu, nav, section {
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    margin-top: 
+    margin-right: 10px; 
 	
+}
+.btnNextFDP:hover{
+	text-decoration: none;
+	color: #fff;
 }
 .btn-success {
     background-color: #1391c4;
