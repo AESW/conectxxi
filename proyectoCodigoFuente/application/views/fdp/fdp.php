@@ -680,7 +680,7 @@
 	    'use strict';
 	    // Change this to the location of your server-side upload handler:
 	    var url = window.location.hostname === 'blueimp.github.io' ?
-	                '//jquery-file-upload.appspot.com/' : 'server/';
+	                '//jquery-file-upload.appspot.com/' : '<?php echo HOME_URL; ?>/candidatos/server/';
 	    
 	    $('#fileupload1').fileupload({
 	        url: url,
@@ -717,7 +717,7 @@
 	        url: url,
 	        dataType: 'json',
 	        change : function (e, data) {
-		        if(data.files.length>=1){
+		        if(data.files.length>=2){
 		            alert("1 archivo permitido por selección")
 		            return false;
 		        }
@@ -747,7 +747,7 @@
 	        url: url,
 	        dataType: 'json',
 	        change : function (e, data) {
-		        if(data.files.length>=1){
+		        if(data.files.length>=2){
 		            alert("1 archivo permitido por selección")
 		            return false;
 		        }
@@ -778,7 +778,7 @@
 	        url: url,
 	        dataType: 'json',
 	        change : function (e, data) {
-		        if(data.files.length>=1){
+		        if(data.files.length>=2){
 		            alert("1 archivo permitido por selección")
 		            return false;
 		        }
@@ -808,7 +808,7 @@
 	        url: url,
 	        dataType: 'json',
 	        change : function (e, data) {
-		        if(data.files.length>=1){
+		        if(data.files.length>=2){
 		            alert("1 archivo permitido por selección")
 		            return false;
 		        }
@@ -838,7 +838,7 @@
 	        url: url,
 	        dataType: 'json',
 	        change : function (e, data) {
-		        if(data.files.length>=3){
+		        if(data.files.length>=4){
 		            alert("1 archivo permitido por selección")
 		            return false;
 		        }
