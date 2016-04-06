@@ -141,7 +141,7 @@ footer, header, hgroup, menu, nav, section {
 	display: block;
 	width: 100px;
 	height: 100px;
-	background-image: url(images/eaf_gray.png);
+	background-image: url(images/eaf.png);
 	background-position: center center;
 	background-repeat: no-repeat;
 	background-size: 100%;
@@ -149,7 +149,7 @@ footer, header, hgroup, menu, nav, section {
 	left: 42%;
 }
 .eaf_option:hover{
-	background-image: url(images/eaf.png);
+	background-image: url(images/eaf_gray.png);
 }
 
 .fdp_option{
@@ -157,7 +157,7 @@ footer, header, hgroup, menu, nav, section {
 	display: block;
 	width: 100px;
 	height: 100px;
-	background-image: url(images/eaf_gray.png);
+	background-image: url(images/fdp.png);
 	background-position: center center;
 	background-repeat: no-repeat;
 	background-size: 100%;
@@ -165,7 +165,7 @@ footer, header, hgroup, menu, nav, section {
 	left: 23%;
 }
 .fdp_option:hover{
-	background-image: url(images/eaf.png);
+	background-image: url(images/fdp_gray.png);
 }
 
 .fpm_option{
@@ -173,7 +173,7 @@ footer, header, hgroup, menu, nav, section {
 	display: block;
 	width: 80px;
 	height: 80px;
-	background-image: url(images/eaf_gray.png);
+	background-image: url(images/fpm.png);
 	background-position: center center;
 	background-repeat: no-repeat;
 	background-size: 100%;
@@ -181,7 +181,7 @@ footer, header, hgroup, menu, nav, section {
 	left: 64%;
 }
 .fpm_option:hover{
-	background-image: url(images/eaf.png);
+	background-image: url(images/fpm_gray.png);
 }
 .btnNextFDP{
 	padding: 10px;
