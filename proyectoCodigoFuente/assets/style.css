@@ -206,6 +206,211 @@ footer, header, hgroup, menu, nav, section {
     color: #fff;
     padding: 6px;
 }
+.panel_eaf{
+	width: 100%;
+	margin: 0 auto 0;
+	
+	min-height: 500px;
+}
+.block_1_eaf{
+	min-width: 320px;
+	min-height: 620px;
+	width: 50%;
+	float: left;
+	position: relative;
+}
+.block_2_eaf{
+	min-width: 320px;
+	min-height: 620px;
+	width: 50%;
+	float: left;
+	position: relative;
+}
+.eaf_reclutamiento_option{
+	display: block;
+	width: 25%;
+	height: 25%;
+	background-image: url(images/1_reclutamiento.png);
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 100%;
+	position: absolute;
+	top: 20%;
+	left: 20%;
+}
+.eaf_reclutamiento_option:hover{
+	background-image: url(images/1_reclutamiento_hover.png);
+}
+.eaf_capacitacion_option{
+	display: block;
+	width: 29%;
+	height: 29%;
+	background-image: url(images/2_capacitacion.png);
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 100%;
+	position: absolute;
+	top: 10%;
+	left: 34.8%;
+}
+.eaf_capacitacion_option:hover{
+	background-image: url(images/2_capacitacion_hover.png);
+}
+.eaf_descuentos_option{
+	display: block;
+	width: 29%;
+	height: 29%;
+	background-image: url(images/6_descuentos.png);
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 100%;
+	position: absolute;
+	position: absolute;
+	top: 35%;
+	left: 37%;
+}
+.eaf_descuentos_option:hover{
+	background-image: url(images/6_descuentos_hover.png);
+}
+.eaf_altas_option{
+	display: block;
+	width: 29%;
+	height: 29%;
+	background-image: url(images/4_alta.png);
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 100%;
+	position: absolute;
+	top: 21%;
+	left: 52%;
+}
+.eaf_altas_option:hover{
+	background-image: url(images/4_alta_hover.png);
+}
+.eaf_asistencia_option{
+	display: block;
+	width: 29%;
+	height: 29%;
+	background-image: url(images/5_asistencia.png);
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 100%;
+	position: absolute;
+	position: absolute;
+	top: 11%;
+	left: 70%;
+}
+.eaf_asistencia_option:hover{
+	background-image: url(images/5_asistencia_hover.png);
+}
+
+.eaf_bonos_option{
+	display: block;
+	width: 29%;
+	height: 29%;
+	background-image: url(images/3_bonos.png);
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 100%;
+	position: absolute;
+	position: absolute;
+	top: 50%;
+	left: 0%;
+}
+.eaf_bonos_option:hover{
+	background-image: url(images/3_bonos_hover.png);
+}
+.eaf_movimientos_option{
+	display: block;
+	width: 29%;
+	height: 29%;
+	background-image: url(images/7_movimientos.png);
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 100%;
+	position: absolute;
+	position: absolute;
+	top: 38%;
+	left: 11%;
+}
+.eaf_movimientos_option:hover{
+	background-image: url(images/7_movimientos_hover.png);
+}
+.eaf_incapacidad_option{
+	display: block;
+	width: 31%;
+	height: 31%;
+	background-image: url(images/8_incapacidad.png);
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 100%;
+	position: absolute;
+	position: absolute;
+	top: 31%;
+	left: 49%;
+}
+.eaf_incapacidad_option:hover{
+	background-image: url(images/8_incapacidad_hover.png);
+}
+.eaf_expediente_option{
+	display: block;
+	width: 29%;
+	height: 29%;
+	background-image: url(images/9_expediente.png);
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 100%;
+	position: absolute;
+	position: absolute;
+	top: 27%;
+	left: 70%;
+}
+.eaf_expediente_option:hover{
+	background-image: url(images/9_expediente_hover.png);
+}
+.eaf_nomina_option{
+	display: block;
+	width: 29%;
+	height: 29%;
+	background-image: url(images/10_nomina.png);
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 100%;
+	position: absolute;
+	position: absolute;
+	top: 54%;
+	left: 59%;
+}
+.eaf_nomina_option:hover{
+	background-image: url(images/10_nomina_hover.png);
+}
+.eaf_vacaciones_option{
+	display: block;
+	width: 29%;
+	height: 29%;
+	background-image: url(images/11_vacaciones.png);
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 100%;
+	position: absolute;
+	position: absolute;
+	top: 65%;
+	left: 73%;
+}
+.eaf_vacaciones_option:hover{
+	background-image: url(images/11_vacaciones_hover.png);
+}
+.eaf_engrane_gde{
+	width: 30%;
+	height: 30%;
+	background-image: url(images/engrane_une.png);
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 100%;
+	position: absolute;
+	top: 49%;
+	left: 33%;
+}
 @media only screen and (min-width : 1024px) {
 	
 }

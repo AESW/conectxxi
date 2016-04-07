@@ -22,7 +22,14 @@ class Panel extends CI_Controller {
     
 	public function index()
 	{
-		echo "Panel";
+		$dataHeader = array(
+			"titulo" => "Panel de usuario"
+		);
+		$dataContent = array();
+		$this->load->view('includes/header' , $dataHeader);
+		$this->load->view('panel/panel' , $dataContent);
+		$this->load->view('includes/footer');
+		
 	}
 	
 }
