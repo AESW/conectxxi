@@ -288,7 +288,7 @@ class Candidatos extends CI_Controller {
 				if( $resultado["telefono_otro_candidato"] == "" ):
 					$error_campos[] = "telefono_otro_candidato";
 				endif;
-				if( $resultado["correo_electronico_candidato"] == "" || !valid_email($resultado["correo_electronico_candidato"]) ):
+				if( $resultado["correo_electronico_candidato"] == "" || !$this->VerificarrDireccionCorreo($resultado["correo_electronico_candidato"]) ):
 					$error_campos[] = "correo_electronico_candidato";
 				endif;
 				if( $resultado["nombre_completo_familiar_candidato"] == "" ):
@@ -339,7 +339,9 @@ class Candidatos extends CI_Controller {
 				if( !empty($camposVacios) ):
 					$error_campos[] = "dependientes_economicos";
 					$error_campos["campos_vacios"] = $camposVacios; 
-				else:
+				endif;
+					
+				if( empty( $error_campos ) ):
 					$hashValidacion = md5( uniqid(microtime()));
 					$fechaRegistro = date('Y-m-d H:i:s');
 					//insertar candidato primero
@@ -627,48 +629,56 @@ class Candidatos extends CI_Controller {
 						$this->db->query( $sqlInsertMetaDatos );
 					
 					
+					if( count( $metasCandidato["nombre_dependiente_economico_candidato"] ) > 0 ):
+						for( $d = 0; $d < count( $metasCandidato["nombre_dependiente_economico_candidato"] ) ; $d++):
+							$insertDependiente = 'INSERT INTO DependientesEconomicos ( nombre , genero , fechaNacimiento , parentesco , idCandidatoFDP ) VALUES ( \''.$resultado["nombre_dependiente_economico_candidato"][$d].'\' , \''.$resultado["genero_dependiente_economico_candidato"][$d].'\' , \''.$resultado["fecha_nacimiento_dependiente_economico_candidato"][$d].'\' , \''.$resultado["parentesco_dependiente_economico_candidato"][$d].'\' , '.$candidatoInsertID.' )';
+							$this->db->query( $insertDependiente );
+							
+						endfor;
+						
+					endif;
+					
+					
+					$mail             = new PHPMailer();
+					//$mail->IsSMTP(); // telling the class to use SMTP
+					$mail->Host       = "localhost"; // SMTP server
+					//$mail->SMTPDebug  = 1;                     // enables SMTP debug information (for testing)
+					$mail->CharSet = 'UTF-8';                                          // 1 = errors and messages
+					                                           // 2 = messages only
+					                                           
+					//Envío por SMTP
+					//$mail->AddBCC('rogelio.monte');
+					
+							 
+					$mail->AddReplyTo( SENDER_EMAIL_REPLY_TO ,SENDER_NAME_REPLY_TO );
+							 
+					
+					$mail->SetFrom( SENDER_EMAIL , SENDER_NAME);
+							 
+					$mail->Subject    = 'Confirmación de datos personales para candidatos.' ;
+					
+					//$mail->AltBody    = "Para ver este mensaje, necesitas un cliente de correo compatible con HTML."; // optional, comment out and test
+					
+					$messageHTML = '<p>Hola '.$resultado["nombre_candidato"].' '.$resultado["apellido_paterno_candidato"].' '.$resultado["apellido_materno_candidato"].'<br/>Para finalizar el proceso de registro como candidato confirma tu cuenta <a href="'.HOME_URL.'/candidatos/verificar/?token='.$hashValidacion.'" target="_blank">aquí</a><br/><br/>Atte. Staff ConectXXI</p>';		
+					 
+					$mail->MsgHTML($messageHTML);
+							 
+					$to   = trim( $resultado["correo_electronico_candidato"] );
+					$address = $to ;
+					$mail->AddAddress($address);
+					$mail->Send();
+					
+					unset($_COOKIE['formArray1']);
+					setcookie('formArray1', '', time() - 3600, '/');
+					
+					unset($_COOKIE['formArray2']);
+					setcookie('formArray2', '', time() - 3600, '/');
+					
+					unset($_COOKIE['formArray3']);
+					setcookie('formArray3', '', time() - 3600, '/');
+					
+					redirect('/candidatos/?registro=completo#tabs1-paso1');
 				endif;
-				
-				$mail             = new PHPMailer();
-				//$mail->IsSMTP(); // telling the class to use SMTP
-				$mail->Host       = "localhost"; // SMTP server
-				//$mail->SMTPDebug  = 1;                     // enables SMTP debug information (for testing)
-				$mail->CharSet = 'UTF-8';                                          // 1 = errors and messages
-				                                           // 2 = messages only
-				                                           
-				//Envío por SMTP
-				//$mail->AddBCC('rogelio.monte');
-				
-						 
-				$mail->AddReplyTo( SENDER_EMAIL_REPLY_TO ,SENDER_NAME_REPLY_TO );
-						 
-				
-				$mail->SetFrom( SENDER_EMAIL , SENDER_NAME);
-						 
-				$mail->Subject    = 'Confirmación de datos personales para candidatos.' ;
-				
-				//$mail->AltBody    = "Para ver este mensaje, necesitas un cliente de correo compatible con HTML."; // optional, comment out and test
-				
-				$messageHTML = '<p>Hola '.$resultado["nombre_candidato"].' '.$resultado["apellido_paterno_candidato"].' '.$resultado["apellido_materno_candidato"].'<br/>Para finalizar el proceso de registro como candidato confirma tu cuenta <a href="'.HOME_URL.'/candidatos/verificar/?token='.$hashValidacion.'" target="_blank">aquí</a><br/><br/>Atte. Staff ConectXXI</p>';		
-				 
-				$mail->MsgHTML($messageHTML);
-						 
-				$to   = trim( $resultado["correo_electronico_candidato"] );
-				$address = $to ;
-				$mail->AddAddress($address);
-				$mail->Send();
-				
-				unset($_COOKIE['formArray1']);
-				setcookie('formArray1', '', time() - 3600, '/');
-				
-				unset($_COOKIE['formArray2']);
-				setcookie('formArray2', '', time() - 3600, '/');
-				
-				unset($_COOKIE['formArray3']);
-				setcookie('formArray3', '', time() - 3600, '/');
-				
-				redirect('/candidatos/?registro=completo#tabs1-paso1');
-				
 				
 			else:
 				redirect('/candidatos');	
@@ -768,4 +778,46 @@ class Candidatos extends CI_Controller {
 		endif;
 	}
 	
+	function VerificarrDireccionCorreo($direccion)
+	{
+	   $Sintaxis='#^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$#';
+	   if(preg_match($Sintaxis,$direccion))
+	      return true;
+	   else
+	     return false;
+	}
+	
+	public function verificar(){
+		$hash = isset( $_GET["token"] )?$this->Sanitize->clean_string($_GET["token"]):"";
+		$error = false;
+		
+		if( $hash == "" ):
+			
+		else:	
+			$sqlHash = "SELECT * FROM CandidatoFDP WHERE hashValidacion = '".$hash."' AND hashValidacion <> '' AND estaValidado = 0 LIMIT 1";
+			$selectHash = $this->db->query( $sqlHash );
+			
+			if( $selectHash->num_rows() > 0 ):
+				$resultHash = $selectHash->result();
+				
+				$updateHash = "UPDATE CandidatoFDP SET estaValidado = 1 , fechaValidacion = '".date("Y-m-d H:i:s")."' WHERE idCandidatoFDP = ".$resultHash[0]->idCandidatoFDP." AND idCandidatoFDP <> ''";
+				$this->db->query($updateHash);
+				$error = true;
+			else:
+				
+			endif;
+			
+		endif;
+		
+		$dataHeader = array(
+			"titulo" => "Confirmar registro candidato"
+		);
+		$dataContent = array(
+			"error" => $error
+		);
+		
+		$this->load->view('includes/header' , $dataHeader);
+		$this->load->view('fdp/confirmar' , $dataContent);
+		$this->load->view('includes/footer');
+	}
 }
