@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 require_once(APPPATH.'libraries/Sanitize.php');
 require(APPPATH.'libraries/UploadHandler.php');
+require_once(APPPATH.'libraries/class.phpmailer.php');
 
 class Candidatos extends CI_Controller {
 	
@@ -42,7 +43,7 @@ class Candidatos extends CI_Controller {
 				"apellido_paterno_candidato" => $this->Sanitize->clean_string($_POST["apellido_paterno_candidato"]),
 				"apellido_materno_candidato" => $this->Sanitize->clean_string($_POST["apellido_materno_candidato"]),
 				"nombre_preferido_candidato" => $this->Sanitize->clean_string($_POST["nombre_preferido_candidato"]),
-				"fecha_nacimiento_candidato" => $this->Sanitize->clean_string($_POST["fecha_nacimiento_candidato"]),
+				"fecha_nacimiento_candidato" => $_POST["fecha_nacimiento_candidato"],
 				"pais_nacimiento_candidato" => $this->Sanitize->clean_string($_POST["pais_nacimiento_candidato"]),
 				"estado_nacimiento_candidato" => $this->Sanitize->clean_string($_POST["estado_nacimiento_candidato"]),	
 			);
@@ -339,11 +340,335 @@ class Candidatos extends CI_Controller {
 					$error_campos[] = "dependientes_economicos";
 					$error_campos["campos_vacios"] = $camposVacios; 
 				else:
+					$hashValidacion = md5( uniqid(microtime()));
+					$fechaRegistro = date('Y-m-d H:i:s');
+					//insertar candidato primero
+					$sqlInsertCandidato = 'INSERT INTO CandidatoFDP (
+												nombre, 
+												apeliidoPaterno, 
+												apellidoMaterno, 
+												fechaNacimiento, 
+												paisNacimiento, 
+												estadoNacimiento, 
+												genero, 
+												nivelEducativo, 
+												estadoCivil, 
+												rfcCandidato, 
+												curpCandidato, 
+												numeroSeguroSocial,
+												fechaRegistro,
+												hashValidacion,
+												estaValidado,
+												correoElectronico
+											) VALUES ( 
+												\''.$resultado["nombre_candidato"].'\',
+												\''.$resultado["apellido_paterno_candidato"].'\',
+												\''.$resultado["apellido_materno_candidato"].'\',
+												\''.$resultado["fecha_nacimiento_candidato"].'\',
+												\''.$resultado["pais_nacimiento_candidato"].'\',
+												\''.$resultado["estado_nacimiento_candidato"].'\',
+												\''.$resultado["genero_candidato"].'\',
+												\''.$resultado["nivel_educativo_candidato"].'\',
+												\''.$resultado["estado_civil_candidato"].'\',
+												\''.$resultado["rfc_candidato"].'\',
+												\''.$resultado["curp_candidato"].'\',
+												\''.$resultado["numero_segurosocial_candidato"].'\',
+												\''.$fechaRegistro.'\',
+												\''.$hashValidacion.'\',
+												0,
+												\''.$resultado["correo_electronico_candidato"].'\'
+											);';
+					$insertCandidao = $this->db->query($sqlInsertCandidato);
+					$candidatoInsertID = $this->db->insert_id();
 					
-					//guardar
+					
+					
+					if( file_exists(FCPATH.'tempFDP/files/'.$resultado["file_1"]) ):
+						if( rename( FCPATH.'tempFDP/files/'.$resultado["file_1"] , FCPATH.'candidatosFDP/'.$resultado["file_1"])):
+							$sqlInsertArchivo = 'INSERT INTO ArchivosFDP (idCandidatoFDP , nombreArchivo , prefijoArchivo) VALUES( '.$candidatoInsertID.' , \''.$resultado["file_1"].'\' , \'file_1\');';
+							$this->db->query( $sqlInsertArchivo );
+							unlink( FCPATH.'tempFDP/files/'.$resultado["file_1"] );
+							unlink( FCPATH.'tempFDP/files/thumbnail/'.$resultado["file_1"] );
+						endif;
+					endif;
+					
+					if( file_exists(FCPATH.'tempFDP/files/'.$resultado["file_2"]) ):
+						if( rename( FCPATH.'tempFDP/files/'.$resultado["file_2"] , FCPATH.'candidatosFDP/'.$resultado["file_2"])):
+							$sqlInsertArchivo = 'INSERT INTO ArchivosFDP (idCandidatoFDP , nombreArchivo , prefijoArchivo) VALUES( '.$candidatoInsertID.' , \''.$resultado["file_2"].'\' , \'file_2\');';
+							$this->db->query( $sqlInsertArchivo );
+							unlink( FCPATH.'tempFDP/files/'.$resultado["file_2"] );
+							unlink( FCPATH.'tempFDP/files/thumbnail/'.$resultado["file_2"] );
+						endif;
+					endif;
+					
+					if( file_exists(FCPATH.'tempFDP/files/'.$resultado["file_3"]) ):
+						if( rename( FCPATH.'tempFDP/files/'.$resultado["file_3"] , FCPATH.'candidatosFDP/'.$resultado["file_3"])):
+							$sqlInsertArchivo = 'INSERT INTO ArchivosFDP (idCandidatoFDP , nombreArchivo , prefijoArchivo) VALUES( '.$candidatoInsertID.' , \''.$resultado["file_3"].'\' , \'file_3\');';
+							$this->db->query( $sqlInsertArchivo );
+							unlink( FCPATH.'tempFDP/files/'.$resultado["file_3"] );
+							unlink( FCPATH.'tempFDP/files/thumbnail/'.$resultado["file_3"] );
+						endif;
+					endif;
+					
+					if( file_exists(FCPATH.'tempFDP/files/'.$resultado["file_4"]) ):
+						if( rename( FCPATH.'tempFDP/files/'.$resultado["file_4"] , FCPATH.'candidatosFDP/'.$resultado["file_4"])):
+							$sqlInsertArchivo = 'INSERT INTO ArchivosFDP (idCandidatoFDP , nombreArchivo , prefijoArchivo) VALUES( '.$candidatoInsertID.' , \''.$resultado["file_4"].'\' , \'file_4\');';
+							$this->db->query( $sqlInsertArchivo );
+							unlink( FCPATH.'tempFDP/files/'.$resultado["file_4"] );
+							unlink( FCPATH.'tempFDP/files/thumbnail/'.$resultado["file_4"] );
+						endif;
+					endif;
+					
+					if( file_exists(FCPATH.'tempFDP/files/'.$resultado["file_5"]) ):
+						if( rename( FCPATH.'tempFDP/files/'.$resultado["file_5"] , FCPATH.'candidatosFDP/'.$resultado["file_5"])):
+							$sqlInsertArchivo = 'INSERT INTO ArchivosFDP (idCandidatoFDP , nombreArchivo , prefijoArchivo) VALUES( '.$candidatoInsertID.' , \''.$resultado["file_5"].'\' , \'file_5\');';
+							$this->db->query( $sqlInsertArchivo );
+							unlink( FCPATH.'tempFDP/files/'.$resultado["file_5"] );
+							unlink( FCPATH.'tempFDP/files/thumbnail/'.$resultado["file_5"] );
+						endif;
+					endif;
+						
+					
+					
+					
+					
+					
+					if( !empty( $resultado["file_6"] ) ):
+						foreach($resultado["file_6"] as $file6):
+							if( $file6 != "" ):
+								if( file_exists(FCPATH.'tempFDP/files/'.$file6) ):
+									if( rename( FCPATH.'tempFDP/files/'.$file6 , FCPATH.'candidatosFDP/'.$file6)):
+										
+										$sqlInsertArchivo = 'INSERT INTO ArchivosFDP (idCandidatoFDP , nombreArchivo , prefijoArchivo) VALUES( '.$candidatoInsertID.' , \''.$file6.'\' , \'file_6\');';
+										$this->db->query( $sqlInsertArchivo );
+										unlink( FCPATH.'tempFDP/files/'.$file6 );
+										unlink( FCPATH.'tempFDP/files/thumbnail/'.$file6 );
+									endif;		
+								endif;			
+							endif;
+						endforeach;
+					endif;
+					
+					$insertArchivos = $this->db->query( $sqlInsertArchivo );
+					
+					
+					$metasCandidato = $resultado;
+					unset( $metasCandidato["nombre_candidato"] );
+					unset( $metasCandidato["apellido_paterno_candidato"] );
+					unset( $metasCandidato["apellido_materno_candidato"] );
+					unset( $metasCandidato["fecha_nacimiento_candidato"] );
+					unset( $metasCandidato["pais_nacimiento_candidato"] );
+					unset( $metasCandidato["estado_nacimiento_candidato"] );
+					unset( $metasCandidato["genero_candidato"] );
+					unset( $metasCandidato["nivel_educativo_candidato"] );
+					unset( $metasCandidato["estado_civil_candidato"] );
+					unset( $metasCandidato["rfc_candidato"] );
+					unset( $metasCandidato["curp_candidato"] );
+					unset( $metasCandidato["numero_segurosocial_candidato"] );
+					unset( $metasCandidato["file_1"] );
+					unset( $metasCandidato["file_2"] );
+					unset( $metasCandidato["file_3"] );
+					unset( $metasCandidato["file_4"] );
+					unset( $metasCandidato["file_5"] );
+					unset( $metasCandidato["file_6"] );
+					unset( $metasCandidato["step_current"] );
+					unset( $metasCandidato["btn_fire"] );
+					unset( $metasCandidato["nombre_dependiente_economico_candidato"] );
+					unset( $metasCandidato["genero_dependiente_economico_candidato"] );
+					unset( $metasCandidato["fecha_nacimiento_dependiente_economico_candidato"] );
+					unset( $metasCandidato["parentesco_dependiente_economico_candidato"] );
+					unset( $metasCandidato["correo_electronico_candidato"] );
+					
+					/*AMAI*/
+					$NoBanos = $resultado["no_banios_candidato"];
+					$dataScoring = array();
+					if( $NoBanos == 0 ):
+						$dataScoring["amai_banos"] = array("scoring" => 0 , "respuesta" => "No tener" );	
+					elseif( $NoBanos == 1 ):
+						$dataScoring["amai_banos"] = array("scoring" => 13 , "respuesta" => "1" );
+					elseif ( $NoBanos == 2 ):
+						$dataScoring["amai_banos"] = array("scoring" => 13 , "respuesta" => "2" );
+					elseif ( $NoBanos == 3 ):
+						$dataScoring["amai_banos"] = array("scoring" => 31 , "respuesta" => "3" );
+					elseif ( $NoBanos == 4 ):
+						$dataScoring["amai_banos"] = array("scoring" => 48 , "respuesta" => "4" );
+					endif;
+					
+					$NoAutomoviles = $resultado["automovil_candidato"];
+					if( $NoAutomoviles == 0 ):
+						$dataScoring["amai_automoviles"] = array("scoring" => 0 , "respuesta" => "No tener" );	
+					elseif( $NoAutomoviles == 1 ):
+						$dataScoring["amai_automoviles"] = array("scoring" => 22 , "respuesta" => "1" );
+					elseif ( $NoAutomoviles == 2 ):
+						$dataScoring["amai_automoviles"] = array("scoring" => 41 , "respuesta" => "2" );
+					elseif ( $NoAutomoviles == 3 ):
+						$dataScoring["amai_automoviles"] = array("scoring" => 58 , "respuesta" => "3" );
+					elseif ( $NoAutomoviles == 4 ):
+						$dataScoring["amai_automoviles"] = array("scoring" => 58 , "respuesta" => "4" );
+					endif;
+					
+					$TvColor = $resultado["tv_color_candidato"];
+					if( $TvColor == 0 ):
+						$dataScoring["amai_tv_color"] = array("scoring" => 0 , "respuesta" => "No tener" );	
+					elseif( $TvColor == 1 ):
+						$dataScoring["amai_tv_color"] = array("scoring" => 26 , "respuesta" => "1" );
+					elseif ( $TvColor == 2 ):
+						$dataScoring["amai_tv_color"] = array("scoring" => 44 , "respuesta" => "2" );
+					elseif ( $TvColor == 3 ):
+						$dataScoring["amai_tv_color"] = array("scoring" => 58 , "respuesta" => "3" );
+					elseif ( $TvColor == 4 ):
+						$dataScoring["amai_tv_color"] = array("scoring" => 58 , "respuesta" => "4" );
+					endif;
+					
+					$Computadoras = $resultado["computadora_candidato"];
+					if( $Computadoras == 0 ):
+						$dataScoring["amai_computadoras"] = array("scoring" => 0 , "respuesta" => "No tener" );	
+					elseif( $Computadoras == 1 ):
+						$dataScoring["amai_computadoras"] = array("scoring" => 17 , "respuesta" => "1" );
+					elseif ( $Computadoras == 2 ):
+						$dataScoring["amai_computadoras"] = array("scoring" => 29 , "respuesta" => "2" );
+					elseif ( $Computadoras == 3 ):
+						$dataScoring["amai_computadoras"] = array("scoring" => 29 , "respuesta" => "3" );
+					elseif ( $Computadoras == 4 ):
+						$dataScoring["amai_computadoras"] = array("scoring" => 29 , "respuesta" => "4" );
+					endif;
+					
+					$Cuartos = $resultado["cuartos_vivienda_candidato"];
+					if( $Cuartos == 0 ):
+						$dataScoring["amai_cuartos"] = array("scoring" => 0 , "respuesta" => "No tener" );	
+					elseif( $Cuartos == 1 ):
+						$dataScoring["amai_cuartos"] = array("scoring" => 0 , "respuesta" => "1" );
+					elseif ( $Cuartos == 2 ):
+						$dataScoring["amai_cuartos"] = array("scoring" => 0 , "respuesta" => "2" );
+					elseif ( $Cuartos == 3 ):
+						$dataScoring["amai_cuartos"] = array("scoring" => 0 , "respuesta" => "3" );
+					elseif ( $Cuartos == 4 ):
+						$dataScoring["amai_cuartos"] = array("scoring" => 0 , "respuesta" => "4" );
+				    elseif ( $Cuartos == 5 ):
+						$dataScoring["amai_cuartos"] = array("scoring" => 8 , "respuesta" => "5" );
+					elseif ( $Cuartos == 6 ):
+						$dataScoring["amai_cuartos"] = array("scoring" => 8 , "respuesta" => "6" );
+					elseif ( $Cuartos == 7 ):
+						$dataScoring["amai_cuartos"] = array("scoring" => 14 , "respuesta" => "7" );	
+						
+					endif;
+					
+					$EscolaridadJefeFamilia = $resultado["escolaridad_jefefamilia_candidato"];
+					$dataScoring["amai_escolaridad_jefe_familia"] = 0;
+					if( $EscolaridadJefeFamilia == "SinInstruccion" ||  $EscolaridadJefeFamilia == ""):
+						$dataScoring["amai_escolaridad_jefe_familia"] = array("scoring" => 0 , "respuesta" => "Sin instrucción" );	
+					elseif( $EscolaridadJefeFamilia == "primaria_secundaria" ):
+						$dataScoring["amai_escolaridad_jefe_familia"] = array("scoring" => 22 , "respuesta" => "1" );
+					elseif ( $EscolaridadJefeFamilia == "tecnico_preparatoria" ):
+						$dataScoring["amai_escolaridad_jefe_familia"] = array("scoring" => 38 , "respuesta" => "2" );
+					elseif ( $EscolaridadJefeFamilia == "licenciatura" ):
+						$dataScoring["amai_escolaridad_jefe_familia"] = array("scoring" => 52 , "respuesta" => "3" );
+					elseif ( $EscolaridadJefeFamilia == "posgrado" ):
+						$dataScoring["amai_escolaridad_jefe_familia"] = array("scoring" => 72 , "respuesta" => "4" );
+					endif;
+					
+					$Focos = $resutlado["focos_vivienda_candidato"];
+					
+					if( $Focos == "5menos" ):
+						$dataScoring["amai_no_focos"] = array("scoring" => 0 , "respuesta" => "Sin instrucción" );	
+					elseif( $Focos == "6-10" ):
+						$dataScoring["amai_no_focos"] = array("scoring" => 15 , "respuesta" => "1" );
+					elseif ( $Focos == "11-15" ):
+						$dataScoring["amai_no_focos"] = array("scoring" => 27 , "respuesta" => "2" );
+					elseif ( $Focos == "16-20" ):
+						$dataScoring["amai_no_focos"] = array("scoring" => 32 , "respuesta" => "3" );
+					elseif ( $Focos == "21+"):
+						$dataScoring["amai_no_focos"] = array("scoring" => 46 , "respuesta" => $Focos );
+					endif;
+					
+					$Piso = $resultado["piso_vivienda_candidato"];
+					if( $Piso == "setiene" ):
+						$dataScoring["amai_piso_distinto_tierra_cemento"] = array("scoring" => 11 , "respuesta" => "Tener" );	
+					elseif( $Piso == "nosetiene" ):
+						$dataScoring["amai_piso_distinto_tierra_cemento"] = array("scoring" => 0 , "respuesta" => "No tener" );
+					
+					endif;
+					
+					$Regadera = $resultado["regadera_vivienda_candidato"];
+					if( $Regadera == "setiene" ):
+						$dataScoring["amai_regadera"] = array("scoring" => 10 , "respuesta" => "Tener" );	
+					elseif( $Regadera == "nosetiene" ):
+						$dataScoring["amai_regadera"] = array("scoring" => 0 , "respuesta" => "No tener" );
+					
+					endif;
+					
+					$Estufa = $resultado["estufa_vivienda_candidato"];
+					if( $Estufa == "setiene" ):
+						$dataScoring["amai_estufa"] = array("scoring" => 20 , "respuesta" => "Tener" );	
+					elseif( $Estufa == "nosetiene" ):
+						$dataScoring["amai_estufa"] = array("scoring" => 0 , "respuesta" => "No tener" );
+					
+					endif;
+					
+					
+					foreach( $metasCandidato as $key => $res ):
+						
+						$sqlInsertMetaDatos = 'INSERT INTO MetaDatosCandidatoFDP ( prefijoMetaDatos , valorMetaDatos , idCandidatoFDP ) VALUES( \''.$key.'\' , \''.$res.'\' , '.$candidatoInsertID.' );';
+						$this->db->query( $sqlInsertMetaDatos );
+						
+					endforeach;
+					
+					$totalAmai = 0;
+					if( !empty( $dataScoring ) ):
+					
+						foreach( $dataScoring as $keys => $score ):
+							$totalAmai = $totalAmai + $score["scoring"];
+							$sqlInsertMetaDatos = 'INSERT INTO MetaDatosCandidatoFDP ( prefijoMetaDatos , valorMetaDatos , idCandidatoFDP ) VALUES( \''.$keys.'\' , \''.$score["scoring"].'\' , '.$candidatoInsertID.' );';
+						$this->db->query( $sqlInsertMetaDatos );
+						endforeach;
+					endif;
+					
+					$sqlInsertMetaDatos = 'INSERT INTO MetaDatosCandidatoFDP ( prefijoMetaDatos , valorMetaDatos , idCandidatoFDP ) VALUES( \'total_amai\' , \''.$totalAmai.'\' , '.$candidatoInsertID.' );';
+						$this->db->query( $sqlInsertMetaDatos );
 					
 					
 				endif;
+				
+				$mail             = new PHPMailer();
+				//$mail->IsSMTP(); // telling the class to use SMTP
+				$mail->Host       = "localhost"; // SMTP server
+				//$mail->SMTPDebug  = 1;                     // enables SMTP debug information (for testing)
+				$mail->CharSet = 'UTF-8';                                          // 1 = errors and messages
+				                                           // 2 = messages only
+				                                           
+				//Envío por SMTP
+				//$mail->AddBCC('rogelio.monte');
+				
+						 
+				$mail->AddReplyTo( SENDER_EMAIL_REPLY_TO ,SENDER_NAME_REPLY_TO );
+						 
+				
+				$mail->SetFrom( SENDER_EMAIL , SENDER_NAME);
+						 
+				$mail->Subject    = 'Confirmación de datos personales para candidatos.' ;
+				
+				//$mail->AltBody    = "Para ver este mensaje, necesitas un cliente de correo compatible con HTML."; // optional, comment out and test
+				
+				$messageHTML = '<p>Hola '.$resultado["nombre_candidato"].' '.$resultado["apellido_paterno_candidato"].' '.$resultado["apellido_materno_candidato"].'<br/>Para finalizar el proceso de registro como candidato confirma tu cuenta <a href="'.HOME_URL.'/candidatos/verificar/?token='.$hashValidacion.'" target="_blank">aquí</a><br/><br/>Atte. Staff ConectXXI</p>';		
+				 
+				$mail->MsgHTML($messageHTML);
+						 
+				$to   = trim( $resultado["correo_electronico_candidato"] );
+				$address = $to ;
+				$mail->AddAddress($address);
+				$mail->Send();
+				
+				unset($_COOKIE['formArray1']);
+				setcookie('formArray1', '', time() - 3600, '/');
+				
+				unset($_COOKIE['formArray2']);
+				setcookie('formArray2', '', time() - 3600, '/');
+				
+				unset($_COOKIE['formArray3']);
+				setcookie('formArray3', '', time() - 3600, '/');
+				
+				redirect('/candidatos/?registro=completo');
+				
 				
 			else:
 				redirect('/candidatos');	

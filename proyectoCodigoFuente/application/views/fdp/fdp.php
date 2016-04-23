@@ -17,12 +17,12 @@
 	      //$('.page').ScrollTo();
 	      //$(".step3").trigger("click");
 	      $(".step_current").val('tabs1-paso3');
-	       $(".btn_fire").val("continuar");
+	      $(".btn_fire").val("continuar");
 		  $("#form_fdp_conectxxi").submit();
       });
       
       $("#btnNextFDP3").click(function(){
-	      
+	     	
 	      $(".btn_fire").val("registrar");
 	      $("#form_fdp_conectxxi").submit();
 	  }); 
@@ -33,7 +33,7 @@
 	  });
       
       <?php 
-	      if( isset($formArray["step_current"])):
+	      if( isset($formArray["step_current"]) && !isset( $_REQUEST["registro"] )):
 	      	if( $formArray["step_current"] != "" ):
 	      		echo "$('.page').ScrollTo();";
 	      		if( $formArray["step_current"] == "tabs1-paso1" ):
@@ -51,11 +51,11 @@
     });
   </script>
   <?php
-	echo "<pre>";
+	/*echo "<pre>";
 	      	print_r($error_campos);
 	echo "</pre>";  
 	
-	echo count($error_campos);
+	echo count($error_campos);*/
   ?>
   <div class="formulario_fdp">
 		<div id="tab-container" class="tab-container">
@@ -85,6 +85,13 @@
 			  
 			  <!-- Paso 1 -->
 			  <div id="tabs1-paso1">
+				<?php
+					if( isset( $_REQUEST["registro"] ) ):
+				?>
+				<div style="font-weight: bold; text-align: center;font-size: 13pt; color: #00db05">Registro completado, por favor revisa tu correo electrónico para validar la cuenta de correo.</div>
+				<?php 
+					endif;
+				?>
 			    <h2><label>Nombre</label></h2>
 			    <p style="color:red;font-weight: bold;margin-bottom: 15px;"><?php echo ( count($error_campos) > 0 )?"Favor de revisar campos obligatorios marcados con rojo":""; ?></p>
 			    <table cellpadding="0" cellspacing="0" width="100%">
@@ -361,7 +368,10 @@
 							   <option value="1" <?php if( isset($formArray["cuartos_vivienda_candidato"]) && $formArray["cuartos_vivienda_candidato"] == "1" ): echo "selected='selected'"; endif;?>>1</option>
 							   <option value="2" <?php if( isset($formArray["cuartos_vivienda_candidato"]) && $formArray["cuartos_vivienda_candidato"] == "2" ): echo "selected='selected'"; endif;?>>2</option>
 							   <option value="3" <?php if( isset($formArray["cuartos_vivienda_candidato"]) && $formArray["cuartos_vivienda_candidato"] == "3" ): echo "selected='selected'"; endif;?>>3</option>
-							   <option value="4" <?php if( isset($formArray["cuartos_vivienda_candidato"]) && $formArray["cuartos_vivienda_candidato"] == "4" ): echo "selected='selected'"; endif;?>>4+</option>
+							   <option value="4" <?php if( isset($formArray["cuartos_vivienda_candidato"]) && $formArray["cuartos_vivienda_candidato"] == "4" ): echo "selected='selected'"; endif;?>>4</option>
+							   <option value="5" <?php if( isset($formArray["cuartos_vivienda_candidato"]) && $formArray["cuartos_vivienda_candidato"] == "5" ): echo "selected='selected'"; endif;?>>5</option>
+							   <option value="6" <?php if( isset($formArray["cuartos_vivienda_candidato"]) && $formArray["cuartos_vivienda_candidato"] == "6" ): echo "selected='selected'"; endif;?>>6</option>
+							    <option value="7" <?php if( isset($formArray["cuartos_vivienda_candidato"]) && $formArray["cuartos_vivienda_candidato"] == "7" ): echo "selected='selected'"; endif;?>>7 o más</option>
 						   </select>
 					    </td>
 					    
