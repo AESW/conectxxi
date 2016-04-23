@@ -288,7 +288,7 @@ class Candidatos extends CI_Controller {
 				if( $resultado["telefono_otro_candidato"] == "" ):
 					$error_campos[] = "telefono_otro_candidato";
 				endif;
-				if( $resultado["correo_electronico_candidato"] == "" ):
+				if( $resultado["correo_electronico_candidato"] == "" || !valid_email($resultado["correo_electronico_candidato"]) ):
 					$error_campos[] = "correo_electronico_candidato";
 				endif;
 				if( $resultado["nombre_completo_familiar_candidato"] == "" ):
@@ -667,7 +667,7 @@ class Candidatos extends CI_Controller {
 				unset($_COOKIE['formArray3']);
 				setcookie('formArray3', '', time() - 3600, '/');
 				
-				redirect('/candidatos/?registro=completo');
+				redirect('/candidatos/?registro=completo#tabs1-paso1');
 				
 				
 			else:
