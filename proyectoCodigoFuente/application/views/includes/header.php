@@ -15,7 +15,8 @@
 	<link href="<?php echo HOME_URL; ?>assets/style.css" rel="stylesheet">
 	<link rel="stylesheet" href="<?php echo HOME_URL; ?>assets/jquery.fileupload.css">
     <script src="<?php echo HOME_URL; ?>assets/js/jquery-1.9.1.min.js"></script>
-    
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 	<script src="<?php echo HOME_URL; ?>assets/js/jquery.easytabs.js" type="text/javascript"></script>
 	<script src="<?php echo HOME_URL; ?>assets/js/jquery-scrollto.js"></script>
     <script src="<?php echo HOME_URL; ?>assets/js/general.js"></script>
@@ -29,7 +30,11 @@
 			</div>
 			
 			<div class="bar_center_header">
-				
+				<?php 
+					if( $titulo != "" ):
+						echo $titulo;
+					endif;
+				?>
 			</div>
 		</div>
 		<!-- content -->

@@ -22,12 +22,17 @@
       });
       
       $("#btnNextFDP3").click(function(){
-	     	
-	      $(".btn_fire").val("registrar");
+	      $(".step_current").val('tabs1-paso4');	
+	      $(".btn_fire").val("continuar");
 	      $("#form_fdp_conectxxi").submit();
 	  }); 
 	  
 	  $("#btnNextFDP4").click(function(){
+	      $(".btn_fire").val("registrar");
+	      $("#form_fdp_conectxxi").submit();
+	  });
+	  
+	  $("#btnNextFDP5").click(function(){
 	      $(".btn_fire").val("continuar");
 	      $("#form_fdp_conectxxi").submit();
 	  });
@@ -42,6 +47,8 @@
 	      			echo '$(".step2").trigger("click");';
 	      		elseif($formArray["step_current"] == "tabs1-paso3"):
 	      			echo '$(".step3").trigger("click");';
+	      		elseif($formArray["step_current"] == "tabs1-paso4"):
+	      			echo '$(".step4").trigger("click");';
 	      		endif;
 	      	endif;
 	      endif;
@@ -63,17 +70,16 @@
 			    <li class='tab'><a href="#tabs1-paso1" class="step1">Paso 1</a></li>
 			    <li class='tab'><a href="#tabs1-paso2" class="step2">Paso 2</a></li>
 			    <li class='tab'><a href="#tabs1-paso3" class="step3">Paso 3</a></li>
+			    <li class='tab'><a href="#tabs1-paso4" class="step4">Paso 4</a></li>
 		  	</ul>
 		  	<div class='panel-container'>
 			  <form action="" method="post" name="form_fdp_conectxxi" class="form_fdp_conectxxi" id="form_fdp_conectxxi">
 			  <input type="hidden" name="step_current" class="step_current" id="step_current" value="<?php echo (isset($formArray["step_current"]))?$formArray["step_current"]:""; ?>" />
 			  <input type="hidden" name="btn_fire" class="btn_fire" id="btn_fire" value="<?php echo (isset($formArray["btn_fire"]))?$formArray["btn_fire"]:""; ?>"/>
 			  
-			  <input type="hidden" name="file_1" class="file_1" id="file_1" value="<?php echo (isset($formArray["file_1"]))?$formArray["file_1"]:""; ?>"/>
-			  <input type="hidden" name="file_2" class="file_2" id="file_2" value="<?php echo (isset($formArray["file_2"]))?$formArray["file_2"]:""; ?>"/>
-			  <input type="hidden" name="file_3" class="file_3" id="file_3" value="<?php echo (isset($formArray["file_3"]))?$formArray["file_3"]:""; ?>"/>
-			  <input type="hidden" name="file_4" class="file_4" id="file_4" value="<?php echo (isset($formArray["file_4"]))?$formArray["file_4"]:""; ?>"/>
-			  <input type="hidden" name="file_5" class="file_5" id="file_5" value="<?php echo (isset($formArray["file_5"]))?$formArray["file_5"]:""; ?>"/>
+			  <input type="hidden" name="carta_recomendacion_empleo1_candidato" class="carta_recomendacion_empleo1_candidato" id="carta_recomendacion_empleo1_candidato" value="<?php echo (isset($formArray["carta_recomendacion_empleo1_candidato"]))?$formArray["carta_recomendacion_empleo1_candidato"]:""; ?>"/>
+			  <input type="hidden" name="carta_recomendacion_empleo2_candidato" class="carta_recomendacion_empleo2_candidato" id="carta_recomendacion_empleo2_candidato" value="<?php echo (isset($formArray["carta_recomendacion_empleo2_candidato"]))?$formArray["carta_recomendacion_empleo2_candidato"]:""; ?>"/>
+			  <input type="hidden" name="carta_recomendacion_empleo3_candidato" class="carta_recomendacion_empleo3_candidato" id="carta_recomendacion_empleo3_candidato" value="<?php echo (isset($formArray["carta_recomendacion_empleo3_candidato"]))?$formArray["carta_recomendacion_empleo3_candidato"]:""; ?>"/>
 			  
 			  <?php
 				  if( !empty($formArray["file_6"]) ):
@@ -104,8 +110,8 @@
 				    <tr>
 					    <td>Apellido materno</td>
 					    <td><input type="text" name="apellido_materno_candidato" class="apellido_materno_candidato" id="apellido_materno_candidato" placeholder="Apellido" autocomplete="off" required value="<?php echo (isset($formArray["apellido_materno_candidato"]))?$formArray["apellido_materno_candidato"]:""; ?>" <?php echo ( in_array('apellido_materno_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
-					    <td>Nombre preferido</td>
-					    <td><input type="text" name="nombre_preferido_candidato" class="nombre_preferido_candidato" id="nombre_preferido_candidato" placeholder="Nombre preferido" autocomplete="off" required value="<?php echo (isset($formArray["nombre_preferido_candidato"]))?$formArray["nombre_preferido_candidato"]:""; ?>" <?php echo ( in_array('nombre_preferido_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    <td>&nbsp;</td>
+					    <td>&nbsp;</td>
 				    </tr>
 			    </table>
 			    
@@ -113,13 +119,12 @@
 			     <table cellpadding="0" cellspacing="0" width="100%">
 				     <tr>
 					     <td>Fecha de nacimiento</td>
-					     <td><input type="text" name="fecha_nacimiento_candidato" class="fecha_nacimiento_candidato" id="fecha_nacimiento_candidato" placeholder="dd/mm/YYYY" autocomplete="off" required value="<?php echo (isset($formArray["fecha_nacimiento_candidato"]))?$formArray["fecha_nacimiento_candidato"]:""; ?>" <?php echo ( in_array('fecha_nacimiento_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
-					     <td>País de nacimiento</td>
+					     <td><input type="text" onfocus="this.blur()" name="fecha_nacimiento_candidato" class="fecha_nacimiento_candidato" id="fecha_nacimiento_candidato" placeholder="dd/mm/YYYY" autocomplete="off" required value="<?php echo (isset($formArray["fecha_nacimiento_candidato"]))?$formArray["fecha_nacimiento_candidato"]:""; ?>" <?php echo ( in_array('fecha_nacimiento_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					     <td>Nacionalidad</td>
 					     <td>
 						     <select name="pais_nacimiento_candidato" class="pais_nacimiento_candidato" id="pais_nacimiento_candidato" <?php echo ( in_array('pais_nacimiento_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
 							     <option value="">Seleccionar país</option>
-							     <option value="USA" <?php if( isset($formArray["pais_nacimiento_candidato"]) && $formArray["pais_nacimiento_candidato"] == "USA" ): echo "selected='selected'"; endif;?>>Estados Unidos de América</option>
-							     <option <?php if( isset($formArray["pais_nacimiento_candidato"]) && $formArray["pais_nacimiento_candidato"] == "Mexico" ): echo "selected='selected'";endif; ?>value="Mexico">México</option>
+							     <option <?php if( isset($formArray["pais_nacimiento_candidato"]) && $formArray["pais_nacimiento_candidato"] == "Mexicana" ): echo "selected='selected'";endif; ?>value="Mexicana">Mexicana</option>
 							     <option <?php if( isset($formArray["pais_nacimiento_candidato"]) && $formArray["pais_nacimiento_candidato"] == "Otro" ): echo "selected='selected'";endif; ?> value="Otro">Otro</option>
 						     </select>
 					     </td>
@@ -200,13 +205,37 @@
 			     <table cellpadding="0" cellspacing="0" width="100%">
 				     <tr>
 					    <td>R.F.C.</td>
-					    <td><input type="text" name="rfc_candidato" class="rfc_candidato" id="rfc_candidato" placeholder="R.F.C." autocomplete="off" required value="<?php echo (isset($formArray["rfc_candidato"]))?$formArray["rfc_candidato"]:""; ?>" <?php echo ( in_array('rfc_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    <td><input type="text" name="rfc_candidato" class="rfc_candidato" id="rfc_candidato" placeholder="R.F.C." autocomplete="off" required value="<?php echo (isset($formArray["rfc_candidato"]))?$formArray["rfc_candidato"]:""; ?>" <?php echo ( in_array('rfc_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+					    <?php 
+						if( in_array('rfc_candidato' , $error_campos) ):
+						?>
+					    	<p style="color: red;font-weight: bold;margin-top: 5px;margin-bottom: 5px;">Favor de ingresar el R.F.C. válido.</p>
+					    <?php 
+					    endif;
+					    ?>	
+					    </td>
 					    <td>CURP</td>
-					    <td><input type="text" name="curp_candidato" class="curp_candidato" id="curp_candidato" placeholder="C.U.R.P." autocomplete="off" required value="<?php echo (isset($formArray["curp_candidato"]))?$formArray["curp_candidato"]:""; ?>" <?php echo ( in_array('curp_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    <td><input type="text" name="curp_candidato" class="curp_candidato" id="curp_candidato" placeholder="C.U.R.P." autocomplete="off" required value="<?php echo (isset($formArray["curp_candidato"]))?$formArray["curp_candidato"]:""; ?>" <?php echo ( in_array('curp_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+					    <?php 
+						if( in_array('curp_candidato' , $error_campos) ):
+						?>
+					    	<p style="color: red;font-weight: bold;margin-top: 5px;margin-bottom: 5px;">Favor de ingresar el CURP válido.</p>
+					    <?php 
+						endif;   
+					    ?>	
+					    </td>
 				    </tr>
 				    <tr>
 					    <td>Número de seguro social</td>
-					    <td><input type="text" name="numero_segurosocial_candidato" class="numero_segurosocial_candidato" id="numero_segurosocial_candidato" placeholder="NSS" autocomplete="off" required value="<?php echo (isset($formArray["numero_segurosocial_candidato"]))?$formArray["numero_segurosocial_candidato"]:""; ?>" <?php echo ( in_array('numero_segurosocial_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    <td><input type="text" name="numero_segurosocial_candidato" class="numero_segurosocial_candidato" id="numero_segurosocial_candidato" placeholder="NSS" autocomplete="off" required value="<?php echo (isset($formArray["numero_segurosocial_candidato"]))?$formArray["numero_segurosocial_candidato"]:""; ?>" <?php echo ( in_array('numero_segurosocial_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+					    <?php 
+						if( in_array('numero_segurosocial_candidato' , $error_campos) ):
+						?>
+					    	<p style="color: red;font-weight: bold;margin-top: 5px;margin-bottom: 5px;">Favor de ingresar el NSS válido.</p>
+					    <?php 
+						endif;    
+					    ?>
+					    </td>
 					    
 				    </tr>
 			     </table>    
@@ -250,6 +279,30 @@
 				    </tr>
 			     </table>
 			     
+			     <h2><label>Datos de contacto del candidato</label></h2>
+			    <table cellpadding="0" cellspacing="0" width="100%">
+				    <tr>
+					    <td>Número de teléfono de casa</td>
+					    <td><input maxlength="12" type="text" name="telefono_casa_candidato" class="telefono_casa_candidato allownumericwithoutdecimal" id="telefono_casa_candidato" placeholder="Tel. casa" autocomplete="off" required value="<?php echo (isset($formArray["telefono_casa_candidato"]))?$formArray["telefono_casa_candidato"]:""; ?>" <?php echo ( in_array('telefono_casa_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>> <p style="color:#aba5a5;font-size: 10pt;">10 dígitos. Ejemplo: 0155xxxxxxx</p></td>
+					    <td>Número de teléfono móvil</td>
+					    <td><input type="text" maxlength="10" name="telefono_movil_candidato" class="telefono_movil_candidato allownumericwithoutdecimal" id="telefono_movil_candidato" placeholder="Tel. móvil" autocomplete="off" required value="<?php echo (isset($formArray["telefono_movil_candidato"]))?$formArray["telefono_movil_candidato"]:""; ?>" <?php echo ( in_array('telefono_movil_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>><p style="color:#aba5a5;font-size: 10pt;">8 dígitos. Ejemplo: 55xxxxxxxx</p></td>
+				    </tr>
+				    <tr>
+					    <td>Otro número de teléfono</td>
+					    <td><input type="text" maxlength="12" name="telefono_otro_candidato" class="telefono_otro_candidato allownumericwithoutdecimal" id="telefono_otro_candidato" placeholder="Otro teléfono" autocomplete="off" required value="<?php echo (isset($formArray["telefono_otro_candidato"]))?$formArray["telefono_otro_candidato"]:""; ?>" <?php echo ( in_array('telefono_otro_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    <td>Correo electrónico personal</td>
+					    <td><input type="text" name="correo_electronico_candidato" class="correo_electronico_candidato" id="correo_electronico_candidato" placeholder="Correo electrónico" autocomplete="off" required value="<?php echo (isset($formArray["correo_electronico_candidato"]))?$formArray["correo_electronico_candidato"]:""; ?>" <?php echo ( in_array('correo_electronico_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+					    <?php 
+						if( in_array('correo_electronico_candidato' , $error_campos) ):
+						?>
+					    	<p style="color: red;font-weight: bold;margin-top: 5px;margin-bottom: 5px;">Favor de ingresar un correo electrónico.</p>
+					    <?php 
+						endif;    
+					    ?>
+					    </td>
+				    </tr>
+			    </table>
+			     
 			     <a class="btnNextFDP" id="btnNextFDP1">Continuar</a>
 			     <div style="clear: both;"></div>
 			    <!-- content -->
@@ -257,7 +310,7 @@
 			  <!-- End Paso 1 -->
 			  
 			  <!-- Paso 2 -->
-			  <div id="tabs1-paso2">
+			  <div id="tabs1-paso2">	
 			    <h2><label>Datos de la vivienda</label></h2>
 			    <p style="color:red;font-weight: bold;margin-bottom: 15px;"><?php echo (count($error_campos) > 0)?"Favor de revisar campos obligatorios marcados con rojo":""; ?></p>
 			    <table cellpadding="0" cellspacing="0" width="100%">
@@ -386,7 +439,77 @@
 				    </tr>
 			    </table>
 			    
+			    <h2><label>Ingresos de la familia</label></h2>
+			    <table cellpadding="0" cellspacing="0" width="100%">
+				    <tr>
+					    <td>
+						    Ingresos de la familia
+					    </td>
+					    <td><input type="text" name="ingresos_familia_candidato" class="ingresos_familia_candidato allownumericwithdecimal" id="ingresos_familia_candidato" placeholder="Ingresos familia" autocomplete="off" required value="<?php echo (isset($formArray["ingresos_familia_candidato"]))?$formArray["ingresos_familia_candidato"]:""; ?>" <?php echo ( in_array('ingresos_familia_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					</tr>
+				</table>
+				
+				<h2><label>Egresos de la familia</label></h2>
+			    <table cellpadding="0" cellspacing="0" width="100%">
+				    <tr>
+					    <td>
+						    Vivienda
+					    </td>
+					    <td><input type="text" name="egresos_vivienda_candidato" class="egresos_vivienda_candidato allownumericwithdecimal" id="egresos_vivienda_candidato" placeholder="Egresos vivienda" autocomplete="off" required value="<?php echo (isset($formArray["egresos_vivienda_candidato"]))?$formArray["egresos_vivienda_candidato"]:""; ?>" <?php echo ( in_array('egresos_vivienda_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					</tr>
+					
+					<tr>
+					    <td>
+						    Educación
+					    </td>
+					    <td><input type="text" name="egresos_educacion_candidato" class="egresos_educacion_candidato allownumericwithdecimal" id="egresos_educacion_candidato" placeholder="Egresos educación" autocomplete="off" required value="<?php echo (isset($formArray["egresos_educacion_candidato"]))?$formArray["egresos_educacion_candidato"]:""; ?>" <?php echo ( in_array('egresos_educacion_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					</tr>
+					
+					<tr>
+					    <td>
+						    Alimentación
+					    </td>
+					    <td><input type="text" name="egresos_alimentacion_candidato" class="egresos_alimentacion_candidato allownumericwithdecimal" id="egresos_alimentacion_candidato" placeholder="Egresos alimentación" autocomplete="off" required value="<?php echo (isset($formArray["egresos_alimentacion_candidato"]))?$formArray["egresos_alimentacion_candidato"]:""; ?>" <?php echo ( in_array('egresos_alimentacion_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					</tr>
+					
+					<tr>
+					    <td>
+						    Recreación
+					    </td>
+					    <td><input type="text" name="egresos_recreacion_candidato" class="egresos_recreacion_candidato allownumericwithdecimal" id="egresos_recreacion_candidato" placeholder="Egresos recreación" autocomplete="off" required value="<?php echo (isset($formArray["egresos_recreacion_candidato"]))?$formArray["egresos_recreacion_candidato"]:""; ?>" <?php echo ( in_array('egresos_recreacion_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					</tr>
+					
+					<tr>
+					    <td>
+						    Servicios
+					    </td>
+					    <td><input type="text" name="egresos_servicios_candidato" class="egresos_servicios_candidato allownumericwithdecimal" id="egresos_servicios_candidato" placeholder="Egresos recreación" autocomplete="off" required value="<?php echo (isset($formArray["egresos_servicios_candidato"]))?$formArray["egresos_servicios_candidato"]:""; ?>" <?php echo ( in_array('egresos_servicios_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					</tr>
+					
+					<tr>
+					    <td>
+						    Préstamos o adeudos
+					    </td>
+					    <td><input type="text" name="egresos_adeudos_candidato" class="egresos_adeudos_candidato allownumericwithdecimal" id="egresos_adeudos_candidato" placeholder="Egresos adeudos" autocomplete="off" required value="<?php echo (isset($formArray["egresos_adeudos_candidato"]))?$formArray["egresos_adeudos_candidato"]:""; ?>" <?php echo ( in_array('egresos_adeudos_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					</tr>
+					
+					<tr>
+					    <td>
+						    Otros
+					    </td>
+					    <td><input type="text" name="egresos_otros_candidato" class="egresos_otros_candidato allownumericwithdecimal" id="egresos_otros_candidato" placeholder="Egresos otros" autocomplete="off" required value="<?php echo (isset($formArray["egresos_otros_candidato"]))?$formArray["egresos_otros_candidato"]:""; ?>" <?php echo ( in_array('egresos_otros_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					</tr>
+				</table>
+				
+				<a class="btnNextFDP" id="btnNextFDP2">Continuar</a>
+			    <div style="clear: both;"></div>
+			  </div>	 	   
+			  <!-- End Paso 2 -->
+			  
+			  <!-- Paso 3 -->
+			  <div id="tabs1-paso3">
 			    <h2><label>Experiencia Laboral</label></h2>
+			    <p style="color:red;font-weight: bold;margin-bottom: 15px;"><?php echo (count($error_campos) > 0)?"Favor de revisar campos obligatorios marcados con rojo":""; ?></p>
 			    <table cellpadding="0" cellspacing="0" width="100%">
 				    <tr>
 					    <td>Empleo anterior</td>
@@ -405,6 +528,38 @@
 				    <tr>
 					    <td>Contacto</td>
 					    <td><input type="text" name="contacto_empleo1_candidato" class="contacto_empleo1_candidato" id="contacto_empleo1_candidato" placeholder="Contacto empleo anterior" autocomplete="off" required value="<?php echo (isset($formArray["contacto_empleo1_candidato"]))?$formArray["contacto_empleo1_candidato"]:""; ?>" <?php echo ( in_array('contacto_empleo1_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+				    </tr>
+				    <tr>
+					    <td>Inicio de relación laboral</td>
+					    <td><input type="text" name="inicio_relacion_empleo1_candidato" onfocus="this.blur()" class="inicio_relacion_empleo1_candidato" id="inicio_relacion_empleo1_candidato" placeholder="Inicio de relación laboral" autocomplete="off" required value="<?php echo (isset($formArray["inicio_relacion_empleo1_candidato"]))?$formArray["inicio_relacion_empleo1_candidato"]:""; ?>" <?php echo ( in_array('inicio_relacion_empleo1_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+				    </tr>
+				    <tr>
+					    <td>Fin de relación laboral</td>
+					    <td><input type="text" name="fin_relacion_empleo1_candidato" onfocus="this.blur()" class="fin_relacion_empleo1_candidato" id="fin_relacion_empleo1_candidato" placeholder="Fin de relación laboral" autocomplete="off" required value="<?php echo (isset($formArray["fin_relacion_empleo1_candidato"]))?$formArray["fin_relacion_empleo1_candidato"]:""; ?>" <?php echo ( in_array('fin_relacion_empleo1_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+				    </tr>
+				    <tr>
+					    <td>Carta de recomendación</td>
+					    <td <?php echo ( in_array('carta_recomendacion_empleo1_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+						    <span class="btn btn-success fileinput-button">
+						        <i class="glyphicon glyphicon-plus"></i>
+						        <span>Cargar...</span>
+						        <!-- The file input field used as target for the file upload widget -->
+						        <input id="carta_recomendacion_empleo1_candidato_upload" type="file" name="files[]" multiple>
+						    </span>
+						    <!-- The global progress bar -->
+						    <div id="carta_recomendacion_empleo1_candidato_progress" class="progress">
+						        <div class="progress-bar progress-bar-success"></div>
+						    </div>
+						    <!-- The container for the uploaded files -->
+						    <div id="files_carta_1" class="files">
+							    <?php 
+								    if( isset($formArray["carta_recomendacion_empleo1_candidato"]) && $formArray["carta_recomendacion_empleo1_candidato"] != ""):
+								    	echo '<a href="'.HOME_URL."tempFDP/files/".$formArray["carta_recomendacion_empleo1_candidato"].'" target="_blank">'.$formArray["carta_recomendacion_empleo1_candidato"].'</a>';
+								    	
+								    endif;
+							    ?>
+						    </div>
+					    </td>
 				    </tr>
 				    <tr>
 					    <td colspan="4">
@@ -430,6 +585,38 @@
 					    <td><input type="text" name="contacto_empleo2_candidato" class="contacto_empleo2_candidato" id="contacto_empleo2_candidato" placeholder="Contacto empleo anterior" autocomplete="off" required value="<?php echo (isset($formArray["contacto_empleo2_candidato"]))?$formArray["contacto_empleo2_candidato"]:""; ?>" <?php echo ( in_array('contacto_empleo2_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
 				    </tr>
 				    <tr>
+					    <td>Inicio de relación laboral</td>
+					    <td><input type="text" name="inicio_relacion_empleo2_candidato" onfocus="this.blur()" class="inicio_relacion_empleo2_candidato" id="inicio_relacion_empleo2_candidato" placeholder="Inicio de relación laboral" autocomplete="off" required value="<?php echo (isset($formArray["inicio_relacion_empleo2_candidato"]))?$formArray["inicio_relacion_empleo2_candidato"]:""; ?>" <?php echo ( in_array('inicio_relacion_empleo2_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+				    </tr>
+				    <tr>
+					    <td>Fin de relación laboral</td>
+					    <td><input type="text" name="fin_relacion_empleo2_candidato" onfocus="this.blur()" class="fin_relacion_empleo2_candidato" id="fin_relacion_empleo2_candidato" placeholder="Fin de relación laboral" autocomplete="off" required value="<?php echo (isset($formArray["fin_relacion_empleo2_candidato"]))?$formArray["fin_relacion_empleo2_candidato"]:""; ?>" <?php echo ( in_array('fin_relacion_empleo2_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+				    </tr>
+				    <tr>
+					    <td>Carta de recomendación</td>
+					    <td <?php echo ( in_array('carta_recomendacion_empleo2_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+						    <span class="btn btn-success fileinput-button">
+						        <i class="glyphicon glyphicon-plus"></i>
+						        <span>Cargar...</span>
+						        <!-- The file input field used as target for the file upload widget -->
+						        <input id="carta_recomendacion_empleo2_candidato_upload" type="file" name="files[]" multiple>
+						    </span>
+						    <!-- The global progress bar -->
+						    <div id="carta_recomendacion_empleo2_candidato_progress" class="progress">
+						        <div class="progress-bar progress-bar-success"></div>
+						    </div>
+						    <!-- The container for the uploaded files -->
+						    <div id="files_carta_2" class="files">
+							    <?php 
+								    if( isset($formArray["carta_recomendacion_empleo2_candidato"]) && $formArray["carta_recomendacion_empleo2_candidato"] != ""):
+								    	echo '<a href="'.HOME_URL."tempFDP/files/".$formArray["carta_recomendacion_empleo2_candidato"].'" target="_blank">'.$formArray["carta_recomendacion_empleo2_candidato"].'</a>';
+								    	
+								    endif;
+							    ?>
+						    </div>
+					    </td>
+				    </tr>
+				    <tr>
 					    <td colspan="4">
 						    <hr>
 					    </td>
@@ -452,32 +639,48 @@
 					    <td>Contacto</td>
 					    <td><input type="text" name="contacto_empleo3_candidato" class="contacto_empleo3_candidato" id="contacto_empleo3_candidato" placeholder="Contacto empleo anterior" autocomplete="off" required value="<?php echo (isset($formArray["contacto_empleo3_candidato"]))?$formArray["contacto_empleo3_candidato"]:""; ?>" <?php echo ( in_array('contacto_empleo3_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
 				    </tr>
-			    </table>
-			    
-			    <h2><label>Datos de contacto del candidato</label></h2>
-			    <table cellpadding="0" cellspacing="0" width="100%">
 				    <tr>
-					    <td>Número de teléfono de casa</td>
-					    <td><input type="text" name="telefono_casa_candidato" class="telefono_casa_candidato" id="telefono_casa_candidato" placeholder="Tel. casa" autocomplete="off" required value="<?php echo (isset($formArray["telefono_casa_candidato"]))?$formArray["telefono_casa_candidato"]:""; ?>" <?php echo ( in_array('telefono_casa_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
-					    <td>Número de teléfono móvil</td>
-					    <td><input type="text" name="telefono_movil_candidato" class="telefono_movil_candidato" id="telefono_movil_candidato" placeholder="Tel. móvil" autocomplete="off" required value="<?php echo (isset($formArray["telefono_movil_candidato"]))?$formArray["telefono_movil_candidato"]:""; ?>" <?php echo ( in_array('telefono_movil_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    <td>Inicio de relación laboral</td>
+					    <td><input type="text" name="inicio_relacion_empleo3_candidato" onfocus="this.blur()" class="inicio_relacion_empleo3_candidato" id="inicio_relacion_empleo3_candidato" placeholder="Inicio de relación laboral" autocomplete="off" required value="<?php echo (isset($formArray["inicio_relacion_empleo3_candidato"]))?$formArray["inicio_relacion_empleo3_candidato"]:""; ?>" <?php echo ( in_array('inicio_relacion_empleo3_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
 				    </tr>
 				    <tr>
-					    <td>Otro número de teléfono</td>
-					    <td><input type="text" name="telefono_otro_candidato" class="telefono_otro_candidato" id="telefono_otro_candidato" placeholder="Otro teléfono" autocomplete="off" required value="<?php echo (isset($formArray["telefono_otro_candidato"]))?$formArray["telefono_otro_candidato"]:""; ?>" <?php echo ( in_array('telefono_otro_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
-					    <td>Correo electrónico personal</td>
-					    <td><input type="text" name="correo_electronico_candidato" class="correo_electronico_candidato" id="correo_electronico_candidato" placeholder="Correo electrónico" autocomplete="off" required value="<?php echo (isset($formArray["correo_electronico_candidato"]))?$formArray["correo_electronico_candidato"]:""; ?>" <?php echo ( in_array('correo_electronico_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    <td>Fin de relación laboral</td>
+					    <td><input type="text" name="fin_relacion_empleo3_candidato" onfocus="this.blur()" class="fin_relacion_empleo3_candidato" id="fin_relacion_empleo3_candidato" placeholder="Fin de relación laboral" autocomplete="off" required value="<?php echo (isset($formArray["fin_relacion_empleo3_candidato"]))?$formArray["fin_relacion_empleo3_candidato"]:""; ?>" <?php echo ( in_array('fin_relacion_empleo3_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+				    </tr>
+				    <tr>
+					    <td>Carta de recomendación</td>
+					    <td <?php echo ( in_array('carta_recomendacion_empleo3_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+						    <span class="btn btn-success fileinput-button">
+						        <i class="glyphicon glyphicon-plus"></i>
+						        <span>Cargar...</span>
+						        <!-- The file input field used as target for the file upload widget -->
+						        <input id="carta_recomendacion_empleo3_candidato_upload" type="file" name="files[]" multiple>
+						    </span>
+						    <!-- The global progress bar -->
+						    <div id="carta_recomendacion_empleo3_candidato_progress" class="progress">
+						        <div class="progress-bar progress-bar-success"></div>
+						    </div>
+						    <!-- The container for the uploaded files -->
+						    <div id="files_carta_3" class="files">
+							    <?php 
+								    if( isset($formArray["carta_recomendacion_empleo3_candidato"]) && $formArray["carta_recomendacion_empleo3_candidato"] != ""):
+								    	echo '<a href="'.HOME_URL."tempFDP/files/".$formArray["carta_recomendacion_empleo3_candidato"].'" target="_blank">'.$formArray["carta_recomendacion_empleo3_candidato"].'</a>';
+								    	
+								    endif;
+							    ?>
+						    </div>
+					    </td>
 				    </tr>
 			    </table>
-			    
-			    <a class="btnNextFDP" id="btnNextFDP2">Continuar</a>
+				
+			    <a class="btnNextFDP" id="btnNextFDP3">Continuar</a>
 			    <div style="clear: both;"></div>
 			    <!-- content -->
 			  </div>
-			  <!-- End Paso 2 -->
+			  <!-- End Paso 3 -->
 			  
-			  <!-- Paso 3 -->
-			  <div id="tabs1-paso3">
+			  <!-- Paso 4 -->
+			  <div id="tabs1-paso4">
 			    <h2><label>Familiares y/ conocidos en la empresa</label></h2>
 			    <p style="color:red;font-weight: bold;margin-bottom: 15px;"><?php echo (count($error_campos) > 0)?"Favor de revisar campos obligatorios marcados con rojo":""; ?></p>
 			    <table cellpadding="0" cellspacing="0" width="100%">
@@ -485,7 +688,7 @@
 					    <td>Nombre completo</td>
 					    <td><input type="text" name="nombre_completo_familiar_candidato" class="nombre_completo_familiar_candidato" id="nombre_completo_familiar_candidato" placeholder="Nombre completo de familiar" autocomplete="off" required value="<?php echo (isset($formArray["nombre_completo_familiar_candidato"]))?$formArray["nombre_completo_familiar_candidato"]:""; ?>" <?php echo ( in_array('nombre_completo_familiar_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
 					    
-					   <td>Parentesco</td>
+					   <td>Relación con el empleado</td>
 					   <td>
 						    <select name="parentesco_familiar_candidato" class="parentesco_familiar_candidato" id="parentesco_familiar_candidato" <?php echo ( in_array('parentesco_familiar_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
 							   <option value="">Seleccionar opción</option> 
@@ -505,154 +708,6 @@
 					
 			    </table>   
 			    
-			    <h2><label>Documentación requerida</label></h2> 
-			    <table cellpadding="0" cellspacing="0" width="100%">
-				    <tr>
-					    <td>Currículo Vitae</td>
-					    <td <?php echo ( in_array('file_1' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
-						    <span class="btn btn-success fileinput-button">
-						        <i class="glyphicon glyphicon-plus"></i>
-						        <span>Cargar...</span>
-						        <!-- The file input field used as target for the file upload widget -->
-						        <input id="fileupload1" type="file" name="files[]" multiple>
-						    </span>
-						    <!-- The global progress bar -->
-						    <div id="progress1" class="progress">
-						        <div class="progress-bar progress-bar-success"></div>
-						    </div>
-						    <!-- The container for the uploaded files -->
-						    <div id="files1" class="files">
-							    <?php 
-								    if( isset($formArray["file_1"]) && $formArray["file_1"] != ""):
-								    	echo '<a href="'.HOME_URL."tempFDP/files/".$formArray["file_1"].'" target="_blank">'.$formArray["file_1"].'</a>';
-								    	
-								    endif;
-							    ?>
-						    </div>
-					    </td>
-					    
-					    <td>Identificación oficial</td>
-					    <td <?php echo ( in_array('file_2' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
-						    <span class="btn btn-success fileinput-button">
-						        <i class="glyphicon glyphicon-plus"></i>
-						        <span>Cargar...</span>
-						        <!-- The file input field used as target for the file upload widget -->
-						        <input id="fileupload2" type="file" name="files[]" multiple>
-						    </span>
-						    <!-- The global progress bar -->
-						    <div id="progress2" class="progress">
-						        <div class="progress-bar progress-bar-success"></div>
-						    </div>
-						    <!-- The container for the uploaded files -->
-						    <div id="files2" class="files">
-							    <?php 
-								    if( isset($formArray["file_2"]) && $formArray["file_2"] != ""):
-								    	echo '<a href="'.HOME_URL."tempFDP/files/".$formArray["file_2"].'" target="_blank">'.$formArray["file_2"].'</a>';
-								    	
-								    endif;
-							    ?>
-						    </div>
-					    </td>
-				    </tr>
-				    
-				    <tr>
-					    <td>Comprobante de domicilio</td>
-					    <td <?php echo ( in_array('file_3' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
-						    <span class="btn btn-success fileinput-button">
-						        <i class="glyphicon glyphicon-plus"></i>
-						        <span>Cargar...</span>
-						        <!-- The file input field used as target for the file upload widget -->
-						        <input id="fileupload3" type="file" name="files[]" multiple>
-						    </span>
-						    <!-- The global progress bar -->
-						    <div id="progress3" class="progress">
-						        <div class="progress-bar progress-bar-success"></div>
-						    </div>
-						    <!-- The container for the uploaded files -->
-						    <div id="files3" class="files">
-							    <?php 
-								    if( isset($formArray["file_3"]) && $formArray["file_3"] != ""):
-								    	echo '<a href="'.HOME_URL."tempFDP/files/".$formArray["file_3"].'" target="_blank">'.$formArray["file_3"].'</a>';
-								    	
-								    endif;
-							    ?>
-						    </div>
-					    </td>
-					    
-					    <td>Acta de nacimiento</td>
-					    <td <?php echo ( in_array('file_4' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
-						    <span class="btn btn-success fileinput-button">
-						        <i class="glyphicon glyphicon-plus"></i>
-						        <span>Cargar...</span>
-						        <!-- The file input field used as target for the file upload widget -->
-						        <input id="fileupload4" type="file" name="files[]" multiple>
-						    </span>
-						    <!-- The global progress bar -->
-						    <div id="progress4" class="progress">
-						        <div class="progress-bar progress-bar-success"></div>
-						    </div>
-						    <!-- The container for the uploaded files -->
-						    <div id="files4" class="files">
-							    <?php 
-								    if( isset($formArray["file_4"]) && $formArray["file_4"] != ""):
-								    	echo '<a href="'.HOME_URL."tempFDP/files/".$formArray["file_4"].'" target="_blank">'.$formArray["file_4"].'</a>';
-								    	
-								    endif;
-							    ?>
-						    </div>
-					    </td>
-				    </tr>
-				    
-				    <tr>
-					    <td>Comprobante de estudios</td>
-					    <td <?php echo ( in_array('file_5' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
-						    <span class="btn btn-success fileinput-button">
-						        <i class="glyphicon glyphicon-plus"></i>
-						        <span>Cargar...</span>
-						        <!-- The file input field used as target for the file upload widget -->
-						        <input id="fileupload5" type="file" name="files[]" multiple>
-						    </span>
-						    <!-- The global progress bar -->
-						    <div id="progress5" class="progress">
-						        <div class="progress-bar progress-bar-success"></div>
-						    </div>
-						    <!-- The container for the uploaded files -->
-						    <div id="files5" class="files">
-							    <?php 
-								    if( isset($formArray["file_5"]) && $formArray["file_5"] != ""):
-								    	echo '<a href="'.HOME_URL."tempFDP/files/".$formArray["file_5"].'" target="_blank">'.$formArray["file_5"].'</a>';
-								    	
-								    endif;
-							    ?>
-						    </div>
-					    </td>
-					    
-					    <td>3 cartas de recomendación laborales y/o personales</td>
-					    <td <?php echo ( in_array('file_6' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
-						    <span class="btn btn-success fileinput-button">
-						        <i class="glyphicon glyphicon-plus"></i>
-						        <span>Cargar...</span>
-						        <!-- The file input field used as target for the file upload widget -->
-						        <input id="fileupload6" type="file" name="files[]" multiple>
-						    </span>
-						    <!-- The global progress bar -->
-						    <div id="progress6" class="progress">
-						        <div class="progress-bar progress-bar-success"></div>
-						    </div>
-						    <!-- The container for the uploaded files -->
-						    <div id="files6" class="files">
-							    <?php 
-								    if( isset($formArray["file_6"]) && !empty( $formArray["file_5"] )):
-								    	foreach($formArray["file_6"] as $file):
-								    		echo '<p><a href="'.HOME_URL."tempFDP/files/".$file.'" target="_blank">'.$file.'</a></p>';
-								    	endforeach;
-								    endif;
-							    ?>
-						    </div>
-					    </td>
-				    </tr>
-			    </table>
-			    
 			    <h2><label>Dependientes económicos</label></h2>
 			    <div class="dependientes_economicos_button">
 				    <input type="button" value="Agregar dependiente" class="agregar_dependiente" id="agregar_dependiente"/>
@@ -661,7 +716,7 @@
 			    
 			    <div class="dependientes_economicos_block" <?php echo ( in_array('dependientes_economicos' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
 				    <?php 
-					    $nombre_dependiente_economico_candidato = $formArray["nombre_dependiente_economico_candidato"];
+					    $nombre_dependiente_economico_candidato = $formArray["parentesco_dependiente_economico_candidato"];
 					    $numDependientes = count($nombre_dependiente_economico_candidato);
 						
 					    if($numDependientes >= 1 ):
@@ -669,21 +724,9 @@
 					    	for( $x = 0; $x < $numDependientes; $x++ ):
 						?>
 							<table cellpadding="0" cellspacing="0" width="100%" class="dep_table" dependiente="1">
+							    
 							    <tr>
-								    <td>Nombre del dependiente económico</td>
-								    <td><input type="text" name="nombre_dependiente_economico_candidato[]" class="nombre_dependiente_economico_candidato" id="nombre_dependiente_economico_candidato1" placeholder="Nombre" autocomplete="off" required value="<?php echo (isset( $formArray["nombre_dependiente_economico_candidato"][$x] ))?$formArray["nombre_dependiente_economico_candidato"][$x]:""; ?>"></td>
-								    <td>Género</td>
-								    <td>
-									    <select name="genero_dependiente_economico_candidato[]" class="genero_dependiente_economico_candidato" id="genero_dependiente_economico_candidato">
-										      <option value="">Seleccionar género</option>
-										      <option value="Mujer" <?php if( isset($formArray["genero_dependiente_economico_candidato"][$x]) && $formArray["genero_dependiente_economico_candidato"][$x] == "Mujer"): echo "selected"; endif; ?>>Mujer</option>
-										      <option value="Hombre" <?php if( isset($formArray["genero_dependiente_economico_candidato"][$x]) && $formArray["genero_dependiente_economico_candidato"][$x] == "Hombre"): echo "selected"; endif; ?>>Hombre</option>
-									    </select>
-								    </td>
-							    </tr>
-							    <tr>
-								    <td>Fecha de nacimiento</td>
-								    <td><input type="text" name="fecha_nacimiento_dependiente_economico_candidato[]" class="fecha_nacimiento_dependiente_economico_candidato" id="fecha_nacimiento_dependiente_economico_candidato" placeholder="dd/mm/YYYY" autocomplete="off" required value="<?php echo (isset( $formArray["fecha_nacimiento_dependiente_economico_candidato"][$x] ))?$formArray["fecha_nacimiento_dependiente_economico_candidato"][$x]:""; ?>"></td>
+								    
 								    <td>Parentesco</td>
 								    <td>
 									   <select name="parentesco_dependiente_economico_candidato[]" class="parentesco_dependiente_economico_candidato" id="parentesco_dependiente_economico_candidato">
@@ -767,11 +810,11 @@
 				    </tr>
 			    </table>
 			    
-			    <a class="btnNextFDP" id="btnNextFDP3">Registrar</a>
-			    <a class="btnNextFDP" id="btnNextFDP4">Guardar</a>
+			    <a class="btnNextFDP" id="btnNextFDP4">Registrar</a>
+			    <a class="btnNextFDP" id="btnNextFDP5">Guardar</a>
 			    <div style="clear: both;"></div>
 			  </div>
-			  <!-- End Paso 3 -->
+			  <!-- End Paso 4 -->
 			  
 			  
 			  </form>
@@ -793,196 +836,7 @@
 	    // Change this to the location of your server-side upload handler:
 	    var url = window.location.hostname === 'blueimp.github.io' ?
 	                '//jquery-file-upload.appspot.com/' : '<?php echo HOME_URL; ?>/candidatos/server/';
-	    
-	    $('#fileupload1').fileupload({
-	        url: url,
-	        dataType: 'json',
-	        change : function (e, data) {
-		        if(data.files.length>=2){
-		            alert("1 archivo permitido por selección")
-		            return false;
-		        }
-		    },
-	        done: function (e, data) {
-	            $.each(data.result.files, function (index, file) {
-		            $(".file_1").val(file.name);
-	                $('#files1').html( '<a target="_blank" href="'+'<?php echo HOME_URL; ?>tempFDP/files/'+file.name+'">'+ file.name + "</a>");
-	            });
-	             
-	        },
-	        progressall: function (e, data) {
-	            var progress = parseInt(data.loaded / data.total * 100, 10);
-	            $('#progress1 .progress-bar').css(
-	                'width',
-	                progress + '%'
-	            );
-	            setInterval(function(){ 
-		            $('#progress1 .progress-bar').css(
-		                'width',
-		                0 + '%'
-		            );
-	            }, 2000);
-	        }
-	    }).prop('disabled', !$.support.fileInput)
-	        .parent().addClass($.support.fileInput ? undefined : 'disabled');
-	        
-	    $('#fileupload2').fileupload({
-	        url: url,
-	        dataType: 'json',
-	        change : function (e, data) {
-		        if(data.files.length>=2){
-		            alert("1 archivo permitido por selección")
-		            return false;
-		        }
-		    },
-	        done: function (e, data) {
-	            $.each(data.result.files, function (index, file) {
-		            $(".file_2").val(file.name);
-	                $('#files2').html( '<a target="_blank" href="'+'<?php echo HOME_URL; ?>tempFDP/files/'+file.name+'">'+ file.name + "</a>");
-	            });
-	        },
-	        progressall: function (e, data) {
-	            var progress = parseInt(data.loaded / data.total * 100, 10);
-	            $('#progress2 .progress-bar').css(
-	                'width',
-	                progress + '%'
-	            );
-	            setInterval(function(){ 
-		            $('#progress2 .progress-bar').css(
-		                'width',
-		                0 + '%'
-		            );
-	            }, 2000);
-	        }
-	    }).prop('disabled', !$.support.fileInput)
-	        .parent().addClass($.support.fileInput ? undefined : 'disabled');
-	        
-	    $('#fileupload3').fileupload({
-	        url: url,
-	        dataType: 'json',
-	        change : function (e, data) {
-		        if(data.files.length>=2){
-		            alert("1 archivo permitido por selección")
-		            return false;
-		        }
-		    },
-	        done: function (e, data) {
-	            $.each(data.result.files, function (index, file) {
-		            $(".file_3").val(file.name);
-	                $('#files3').html( '<a target="_blank" href="'+'<?php echo HOME_URL; ?>tempFDP/files/'+file.name+'">'+ file.name + "</a>");
-	            });
-	        },
-	        progressall: function (e, data) {
-	            var progress = parseInt(data.loaded / data.total * 100, 10);
-	            $('#progress3 .progress-bar').css(
-	                'width',
-	                progress + '%'
-	            );
-	            setInterval(function(){ 
-		            $('#progress3 .progress-bar').css(
-		                'width',
-		                0 + '%'
-		            );
-	            }, 2000);
-	        }
-	    }).prop('disabled', !$.support.fileInput)
-	        .parent().addClass($.support.fileInput ? undefined : 'disabled');
-	        
-	        
-	    $('#fileupload4').fileupload({
-	        url: url,
-	        dataType: 'json',
-	        change : function (e, data) {
-		        if(data.files.length>=2){
-		            alert("1 archivo permitido por selección")
-		            return false;
-		        }
-		    },
-	        done: function (e, data) {
-	            $.each(data.result.files, function (index, file) {
-		            $(".file_4").val(file.name);
-	                $('#files4').html( '<a target="_blank" href="'+'<?php echo HOME_URL; ?>tempFDP/files/'+file.name+'">'+ file.name + "</a>");
-	            });
-	        },
-	        progressall: function (e, data) {
-	            var progress = parseInt(data.loaded / data.total * 100, 10);
-	            $('#progress4 .progress-bar').css(
-	                'width',
-	                progress + '%'
-	            );
-	            setInterval(function(){ 
-		            $('#progress4 .progress-bar').css(
-		                'width',
-		                0 + '%'
-		            );
-	            }, 2000);
-	        }
-	    }).prop('disabled', !$.support.fileInput)
-	        .parent().addClass($.support.fileInput ? undefined : 'disabled');    
-	    
-	    $('#fileupload5').fileupload({
-	        url: url,
-	        dataType: 'json',
-	        change : function (e, data) {
-		        if(data.files.length>=2){
-		            alert("1 archivo permitido por selección")
-		            return false;
-		        }
-		    },
-	        done: function (e, data) {
-	            $.each(data.result.files, function (index, file) {
-		            $(".file_5").val(file.name);
-	                $('#files5').html( '<a target="_blank" href="'+'<?php echo HOME_URL; ?>tempFDP/files/'+file.name+'">'+ file.name + "</a>");
-	            });
-	        },
-	        progressall: function (e, data) {
-	            var progress = parseInt(data.loaded / data.total * 100, 10);
-	            $('#progress5 .progress-bar').css(
-	                'width',
-	                progress + '%'
-	            );
-	            setInterval(function(){ 
-		            $('#progress5 .progress-bar').css(
-		                'width',
-		                0 + '%'
-		            );
-	            }, 2000);
-	        }
-	    }).prop('disabled', !$.support.fileInput)
-	        .parent().addClass($.support.fileInput ? undefined : 'disabled'); 
-	        
-	    $('#fileupload6').fileupload({
-	        url: url,
-	        dataType: 'json',
-	        change : function (e, data) {
-		        if(data.files.length>=4){
-		            alert("1 archivo permitido por selección")
-		            return false;
-		        }
-		        
-		    },
-	        done: function (e, data) {
-	            $.each(data.result.files, function (index, file) {
-		            $(".form_fdp_conectxxi").append('<input type="hidden" name="file_6[]" class="file_6" value="'+file.name+'"/>');
-	                $('<p/>').html('<a target="_blank" href="'+'<?php echo HOME_URL; ?>tempFDP/files/'+file.name+'">'+ file.name + "</a>").appendTo('#files6');
-	            });
-	        },
-	        progressall: function (e, data) {
-	            var progress = parseInt(data.loaded / data.total * 100, 10);
-	            $('#progress6 .progress-bar').css(
-	                'width',
-	                progress + '%'
-	            );
-	            setInterval(function(){ 
-		            $('#progress6 .progress-bar').css(
-		                'width',
-		                0 + '%'
-		            );
-	            }, 2000);
-	        }
-	    }).prop('disabled', !$.support.fileInput)
-	        .parent().addClass($.support.fileInput ? undefined : 'disabled'); 
-	        
+	    	        
 	        
 	    $("#cp_candidato").keyup(function() {
 			var valor = $('#cp_candidato').val();
@@ -1002,7 +856,11 @@
 				$.post("<?php echo site_url()?>/candidatos/municipio", {
 					cp: valor
 				}, function(municipio) {
+					
 					$('#delegacion_domicilio_candidato').html(municipio);
+					
+					$("#ciudad_domicilio_candidato").val($("#delegacion_domicilio_candidato").val());
+					
 					var mensaje = municipio;
 					if ($.trim(mensaje) == 'error') {
 						$("#resultado").html("Código Postal no encontrado...");
@@ -1039,7 +897,9 @@
 				$.post("<?php echo site_url()?>/candidatos/municipio", {
 					cp: valorCPCandidato
 				}, function(municipio) {
+					
 					$('#delegacion_domicilio_candidato').html(municipio);
+					$("#ciudad_domicilio_candidato").val($("#delegacion_domicilio_candidato").val());
 					var mensaje = municipio;
 					if ($.trim(mensaje) == 'error') {
 						$("#resultado").html("Código Postal no encontrado...");
@@ -1060,5 +920,137 @@
 			
 			//console.log( tablas.length );
 		});
+		
+		$(".allownumericwithdecimal").on("keypress keyup blur",function (event) {
+            //this.value = this.value.replace(/[^0-9\.]/g,'');
+			$(this).val($(this).val().replace(/[^0-9\.]/g,''));
+            if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+                if( event.which != 43 && event.which != 8 &&  event.which != 46){
+		            event.preventDefault();
+	            }
+            }
+        });
+        
+        $(".allownumericwithoutdecimal").on("keypress keyup blur",function (event) {    
+           $(this).val($(this).val().replace(/[^\d].+/, ""));
+           console.log(event.which);
+            if ((event.which < 48 || event.which > 57)) {
+	            if( event.which != 43 && event.which != 8 &&  event.which != 46){
+		            event.preventDefault();
+	            }
+                
+            }
+        });
+        
+        $( "#fecha_nacimiento_candidato" ).datepicker({
+	        dateFormat: "yy-mm-dd",
+	        yearRange: "-100:+0",
+	        changeYear:true,
+        });
+        
+        $( "#inicio_relacion_empleo1_candidato , #fin_relacion_empleo1_candidato , #inicio_relacion_empleo2_candidato , #fin_relacion_empleo2_candidato , #inicio_relacion_empleo3_candidato , #fin_relacion_empleo3_candidato" ).datepicker({
+	        dateFormat: "yy-mm-dd",
+	        yearRange: "-100:+0",
+	        changeYear:true,
+        });
+        
+        $('#carta_recomendacion_empleo1_candidato_upload').fileupload({
+	        url: url,
+	        dataType: 'json',
+	        change : function (e, data) {
+		        if(data.files.length>=4){
+		            alert("1 archivo permitido por selección")
+		            return false;
+		        }
+		        
+		    },
+	        done: function (e, data) {
+	            $.each(data.result.files, function (index, file) {
+		            $(".carta_recomendacion_empleo1_candidato").val(file.name);
+		            
+	                $('<p/>').html('<a target="_blank" href="'+'<?php echo HOME_URL; ?>tempFDP/files/'+file.name+'">'+ file.name + "</a>").appendTo('#files_carta_1');
+	            });
+	        },
+	        progressall: function (e, data) {
+	            var progress = parseInt(data.loaded / data.total * 100, 10);
+	            $('#carta_recomendacion_empleo1_candidato_progress .progress-bar').css(
+	                'width',
+	                progress + '%'
+	            );
+	            setInterval(function(){ 
+		            $('#carta_recomendacion_empleo1_candidato_progress .progress-bar').css(
+		                'width',
+		                0 + '%'
+		            );
+	            }, 2000);
+	        }
+	    }).prop('disabled', !$.support.fileInput)
+	        .parent().addClass($.support.fileInput ? undefined : 'disabled');
+	        
+	    $('#carta_recomendacion_empleo2_candidato_upload').fileupload({
+	        url: url,
+	        dataType: 'json',
+	        change : function (e, data) {
+		        if(data.files.length>=4){
+		            alert("1 archivo permitido por selección")
+		            return false;
+		        }
+		        
+		    },
+	        done: function (e, data) {
+	            $.each(data.result.files, function (index, file) {
+		            $(".carta_recomendacion_empleo2_candidato").val(file.name);
+		            
+	                $('<p/>').html('<a target="_blank" href="'+'<?php echo HOME_URL; ?>tempFDP/files/'+file.name+'">'+ file.name + "</a>").appendTo('#files_carta_2');
+	            });
+	        },
+	        progressall: function (e, data) {
+	            var progress = parseInt(data.loaded / data.total * 100, 10);
+	            $('#carta_recomendacion_empleo2_candidato_progress .progress-bar').css(
+	                'width',
+	                progress + '%'
+	            );
+	            setInterval(function(){ 
+		            $('#carta_recomendacion_empleo2_candidato_progress .progress-bar').css(
+		                'width',
+		                0 + '%'
+		            );
+	            }, 2000);
+	        }
+	    }).prop('disabled', !$.support.fileInput)
+	        .parent().addClass($.support.fileInput ? undefined : 'disabled');
+	        
+		$('#carta_recomendacion_empleo3_candidato_upload').fileupload({
+	        url: url,
+	        dataType: 'json',
+	        change : function (e, data) {
+		        if(data.files.length>=4){
+		            alert("1 archivo permitido por selección")
+		            return false;
+		        }
+		        
+		    },
+	        done: function (e, data) {
+	            $.each(data.result.files, function (index, file) {
+		            $(".carta_recomendacion_empleo3_candidato").val(file.name);
+		            
+	                $('<p/>').html('<a target="_blank" href="'+'<?php echo HOME_URL; ?>tempFDP/files/'+file.name+'">'+ file.name + "</a>").appendTo('#files_carta_3');
+	            });
+	        },
+	        progressall: function (e, data) {
+	            var progress = parseInt(data.loaded / data.total * 100, 10);
+	            $('#carta_recomendacion_empleo3_candidato_progress .progress-bar').css(
+	                'width',
+	                progress + '%'
+	            );
+	            setInterval(function(){ 
+		            $('#carta_recomendacion_empleo3_candidato_progress .progress-bar').css(
+		                'width',
+		                0 + '%'
+		            );
+	            }, 2000);
+	        }
+	    }).prop('disabled', !$.support.fileInput)
+	        .parent().addClass($.support.fileInput ? undefined : 'disabled');
 	});
 	</script>
