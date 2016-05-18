@@ -26,7 +26,13 @@
 	<div class="page">
 		<div class="header">
 			<div class="banner_header" onclick="location.href='<?php echo HOME_URL; ?>'" style="cursor:pointer;">
-				
+				<h1>
+					<?php 
+					if( $titulo != "" ):
+						echo $titulo;
+					endif;
+				?>
+				</h1>
 			</div>
 			
 			<div class="bar_center_header">

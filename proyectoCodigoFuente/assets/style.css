@@ -44,6 +44,17 @@ footer, header, hgroup, menu, nav, section {
 	background-image: url(images/header.jpg);
 	background-position: left center;
 	background-repeat: no-repeat;
+	position: relative;
+}
+.banner_header h1{
+	position: absolute;
+	bottom: -15px;
+	right: 100px;
+	color: #fff;
+	font-family: "Times New Roman", Georgia, Serif;
+	text-transform: uppercase;
+	font-size: 50pt;
+	opacity: 0.8;
 }
 .bar_center_header{
 	height: 30px;
@@ -452,6 +463,16 @@ footer, header, hgroup, menu, nav, section {
 		top: 26%;
 		left: 65%;
 	}
+	.banner_header h1{
+		position: absolute;
+		bottom: -15px;
+		right: 0px;
+		color: #fff;
+		font-family: "Times New Roman", Georgia, Serif;
+		text-transform: uppercase;
+		font-size: 40pt;
+		opacity: 0.8;
+	}
 }
 
 @media screen and (min-width: 320px) and (max-width: 630px) {
@@ -489,6 +510,16 @@ footer, header, hgroup, menu, nav, section {
 		left: 64%;
 		top: 31%;
 		width: 50px;
+	}
+	.banner_header h1{
+		position: absolute;
+		bottom: 0px;
+		right: 0px;
+		color: #fff;
+		font-family: "Times New Roman", Georgia, Serif;
+		text-transform: uppercase;
+		font-size: 17pt;
+		opacity: 0.8;
 	}
 }
 
