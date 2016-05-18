@@ -54,6 +54,7 @@ footer, header, hgroup, menu, nav, section {
 	padding-left: 10px;
 	text-transform: uppercase;
 	color: #1391c4;
+	font-family: "Times New Roman", Georgia, Serif;
 }
 .content{
 	min-height: 620px;
