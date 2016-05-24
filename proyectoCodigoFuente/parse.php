@@ -306,10 +306,10 @@
 			
 			
 			if( $usuarios["reportaA"] == "" && $usuarios["idPuesto"] == 1):
-				echo "INSERT INTO TaxPuestoUsuario( idPuestos , fechaMovimiento , idUsuarios , idUsuariosAdministra ,  profundidad ) VALUES(1 , now() , ".$usuarios["idEmpleado"]." , 878 , 1);<br/>";
+				echo "INSERT INTO TaxPuestoUsuario( idPuestos , fechaMovimiento , idUsuarios , idUsuariosAdministra ,  profundidad ) VALUES(1 , now() , ".$usuarios["idEmpleado"]." , 1 , 1);<br/>";
 				
 			elseif($usuarios["reportaA"] == "" && $usuarios["idPuesto"] != 1):	
-				echo "INSERT INTO TaxPuestoUsuario( idPuestos , fechaMovimiento , idUsuarios , idUsuariosAdministra ,  profundidad ) VALUES(".$usuarios["idPuesto"]." , now() , ".$usuarios["idEmpleado"]." , 878 , 0);<br/>";
+				echo "INSERT INTO TaxPuestoUsuario( idPuestos , fechaMovimiento , idUsuarios , idUsuariosAdministra ,  profundidad ) VALUES(".$usuarios["idPuesto"]." , now() , ".$usuarios["idEmpleado"]." , 1 , 0);<br/>";
 			else:
 				$usuarioReportaA = array_search( $usuarios["reportaA"] , array_column($array_usuarios, 'nombreEmpleado'));
 				
@@ -320,7 +320,7 @@
 				//echo $usuarios["idPuesto"] . " - " . $array_usuarios[$usuarioReportaA]["idPuesto"]."--".$array_usuarios[$usuarioReportaA]["idReportaA"]."<br/>";
 				
 				$depth = $array_puestos[$clave2]["idPuesto"] + 1;
-				echo "INSERT INTO TaxPuestoUsuario( idPuestos , fechaMovimiento , idUsuarios , idUsuariosAdministra , idUsuariosPadre , profundidad ) VALUES(".$usuarios["idPuesto"]." , now() , ".$usuarios["idEmpleado"]." , 878 , ".$array_usuarios[$usuarioReportaA]["idEmpleado"]." , ".$depth.");";
+				echo "INSERT INTO TaxPuestoUsuario( idPuestos , fechaMovimiento , idUsuarios , idUsuariosAdministra , idUsuariosPadre , profundidad ) VALUES(".$usuarios["idPuesto"]." , now() , ".$usuarios["idEmpleado"]." , 1 , ".$array_usuarios[$usuarioReportaA]["idEmpleado"]." , ".$depth.");";
 			endif;	
 		endif;
 		
