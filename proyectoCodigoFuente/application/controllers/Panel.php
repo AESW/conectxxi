@@ -25,6 +25,8 @@ class Panel extends CI_Controller {
 		$dataHeader = array(
 			"titulo" => "Panel de usuario"
 		);
+		
+			
 		$dataContent = array();
 		$this->load->view('includes/header' , $dataHeader);
 		$this->load->view('panel/panel' , $dataContent);
@@ -32,4 +34,5 @@ class Panel extends CI_Controller {
 		
 	}
 	
+		
 }

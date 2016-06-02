@@ -74,7 +74,7 @@ class Catalogos
     
     public function rhPrefijosEntrevistaComunicacionVerbal(){
 	    $list = array(
-		    "fluidezverbal" => "Flidéz verbal",
+		    "fluidezverbal" => "Fluidéz verbal",
 			"precisioncomunidacion" => "Precisión de la comunicación",
 			"riquezavocabulario" => "Riqueza de vocabulario",
 			"capacidadexpresarsentimientos" => "Capacidad para expresar sentimientos",

@@ -51,14 +51,12 @@ class Home extends CI_Controller {
 			
 			$result = $this->User->login($data);
 			if ($result == TRUE) {
-
+				
 				$username = $this->input->post('username');
 				$result = $this->User->read_user_information($username);
+				
 				if ($result != false) {
-					$session_data = array(
-						'username' => $result[0]->RFC,
-						'email' => $result[0]->correoUsuario,
-					);
+					$session_data = $result;
 					// Add user data in session
 					$this->session->set_userdata('logged_in', $session_data);
 					redirect('panel');

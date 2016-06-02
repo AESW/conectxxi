@@ -62,6 +62,7 @@ footer, header, hgroup, menu, nav, section {
 	height: 30px;
 	border-left: 3px solid #357db8;
 	border-right: 3px solid #357db8;
+		
 	font-weight: bold;
 	line-height: 2em;
 	padding-left: 10px;
@@ -201,6 +202,18 @@ footer, header, hgroup, menu, nav, section {
 }
 .fpm_option:hover{
 	background-image: url(images/fpm_gray.png);
+}
+.btnTokenFDP{
+	padding: 10px;
+	
+	background-color: #1391c4; /* Green */
+    border: none;
+    color: white;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin-right: 10px;
 }
 .btnNextFDP{
 	padding: 10px;
@@ -430,6 +443,84 @@ footer, header, hgroup, menu, nav, section {
 	top: 49%;
 	left: 33%;
 }
+
+.etabs { margin: 0; padding: 0; }
+.tab { display: inline-block; zoom:1; *display:inline; background: #eee; border: solid 1px #999; border-bottom: none; -moz-border-radius: 4px 4px 0 0; -webkit-border-radius: 4px 4px 0 0; }
+.tab a { font-size: 14px; line-height: 2em; display: block; padding: 0 10px; outline: none; }
+.tab a:hover { text-decoration: underline; }
+.tab.active { background: #fff; padding-top: 6px; position: relative; top: 1px; border-color: #666; }
+.tab a.active { font-weight: bold; }
+.tab-container .panel-container { background: #fff; border: solid #666 1px; padding: 10px; -moz-border-radius: 0 4px 4px 4px; -webkit-border-radius: 0 4px 4px 4px; }
+.panel-container{
+	min-height: 563px;
+}
+.panel-container h2{
+	font-size: 10pt;
+	width: 100%;
+	background-color: #1391c4;
+	color: #fff;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.panel-container h2 label{
+	padding: 5px;
+}
+.formulario_fdp table tr td{
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+.formulario_fdp table tr td textarea{
+	width: 80%;
+	min-height: 150px;
+	margin: 0 auto;
+}
+.formulario_fdp table tr td input[type="text"]{
+	padding: 5px;
+}
+
+.content_generic{
+	min-height: 630px;
+	background: #fff;
+}
+.block_box_gen_rh{
+	float: left;
+	min-height: 300px;
+	width: 23.7% !important;
+	margin-left: 0.65%;
+	margin-right: 0.65%;
+	border: 1px solid #357db8;
+}
+.block_box_gen{
+	float: left;
+	min-height: 300px;
+	width: 32%;
+	margin-left: 0.65%;
+	margin-right: 0.65%;
+	border: 1px solid #357db8;
+}
+.block_box_gen h2{
+	width: 100%;
+	text-align: center;
+	color: #fff;
+	background-color: #357db8;
+	padding: 5px;
+}
+.block_box_gen ul{
+	list-style: none;
+	margin: 0;
+	padding: 10px;
+}
+.block_box_gen ul li{
+	padding-left: 10px;
+	background-image: url(images/bullet_blue.gif);
+	background-repeat: no-repeat;
+	background-position: left center;
+	background-size: 6px;
+	margin-bottom: 5px;
+	color: #357db8;
+}
 @media only screen and (min-width : 1024px) {
 	
 }
@@ -475,6 +566,16 @@ footer, header, hgroup, menu, nav, section {
 		font-size: 40pt;
 		opacity: 0.8;
 	}
+	.block_box_gen_rh{
+		
+		min-height: 300px;
+		width: 48.7% !important;
+		margin-left: 0.65%;
+		margin-right: 0.65%;
+		margin-bottom: 10px;
+		border: 1px solid #357db8;
+	}
+	
 }
 
 @media screen and (min-width: 320px) and (max-width: 630px) {
@@ -523,40 +624,19 @@ footer, header, hgroup, menu, nav, section {
 		font-size: 17pt;
 		opacity: 0.8;
 	}
-}
-
-.etabs { margin: 0; padding: 0; }
-.tab { display: inline-block; zoom:1; *display:inline; background: #eee; border: solid 1px #999; border-bottom: none; -moz-border-radius: 4px 4px 0 0; -webkit-border-radius: 4px 4px 0 0; }
-.tab a { font-size: 14px; line-height: 2em; display: block; padding: 0 10px; outline: none; }
-.tab a:hover { text-decoration: underline; }
-.tab.active { background: #fff; padding-top: 6px; position: relative; top: 1px; border-color: #666; }
-.tab a.active { font-weight: bold; }
-.tab-container .panel-container { background: #fff; border: solid #666 1px; padding: 10px; -moz-border-radius: 0 4px 4px 4px; -webkit-border-radius: 0 4px 4px 4px; }
-.panel-container{
-	min-height: 563px;
-}
-.panel-container h2{
-	font-size: 10pt;
-	width: 100%;
-	background-color: #1391c4;
-	color: #fff;
-	padding-top: 5px;
-	padding-bottom: 5px;
-	margin-top: 10px;
-	margin-bottom: 10px;
-}
-.panel-container h2 label{
-	padding: 5px;
-}
-.formulario_fdp table tr td{
-	padding-top: 5px;
-	padding-bottom: 5px;
-}
-.formulario_fdp table tr td textarea{
-	width: 80%;
-	min-height: 150px;
-	margin: 0 auto;
-}
-.formulario_fdp table tr td input[type="text"]{
-	padding: 5px;
+	.block_box_gen{
+		float: none;
+		min-height: 300px;
+		width: 90%;
+		margin: 10px auto !important;
+		border: 1px solid #357db8;
+		
+	}
+	.block_box_gen_rh{
+		float: none !important;
+		min-height: 300px;
+		width: 90% !important;
+		margin: 10px auto !important;
+		border: 1px solid #357db8;
+	}
 }

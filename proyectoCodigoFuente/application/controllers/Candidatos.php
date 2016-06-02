@@ -27,13 +27,16 @@ class Candidatos extends CI_Controller {
 		$this->SessionL->validarSesionHome();
 		
 		$error_campos = array();
+		
+		
+		
 		$_SESSION["error_campos"] = array();
 				
-				$resultado = array_merge( unserialize( $_COOKIE["formArray1"] ) , unserialize( $_COOKIE["formArray2"] ) , unserialize( $_COOKIE["formArray3"] ) , unserialize( $_COOKIE["formArray4"] ));
+		$resultado = array_merge( unserialize( $_COOKIE["formArray1"] ) , unserialize( $_COOKIE["formArray2"] ) , unserialize( $_COOKIE["formArray3"] ) , unserialize( $_COOKIE["formArray4"] ));
 				
-			$numeroDependientes = count( $resultado["parentesco_dependiente_economico_candidato"] );
+		$numeroDependientes = count( $resultado["parentesco_dependiente_economico_candidato"] );
 				
-			$camposVacios = array();
+		$camposVacios = array();
 				
 				for( $x = 0; $x < $numeroDependientes; $x++):
 					$items = array();
@@ -283,6 +286,7 @@ class Candidatos extends CI_Controller {
 					$error_campos[] = "dependientes_economicos";
 					$error_campos["campos_vacios"] = $camposVacios; 
 			endif;
+			
 		$_SESSION["error_campos"] = $error_campos;
 			
 		if( isset($_POST["nombre_candidato"]) ):
@@ -420,7 +424,8 @@ class Candidatos extends CI_Controller {
 												fechaRegistro,
 												hashValidacion,
 												estaValidado,
-												correoElectronico
+												correoElectronico,
+												tokenFDPVacantesPendientes
 											) VALUES ( 
 												\''.$resultado["nombre_candidato"].'\',
 												\''.$resultado["apellido_paterno_candidato"].'\',
@@ -437,7 +442,8 @@ class Candidatos extends CI_Controller {
 												\''.$fechaRegistro.'\',
 												\''.$hashValidacion.'\',
 												0,
-												\''.$resultado["correo_electronico_candidato"].'\'
+												\''.$resultado["correo_electronico_candidato"].'\',
+												\''.$_SESSION["tokenFDPVacantesPendientes"].'\'
 											);';
 					$insertCandidao = $this->db->query($sqlInsertCandidato);
 					$candidatoInsertID = $this->db->insert_id();
@@ -644,8 +650,8 @@ class Candidatos extends CI_Controller {
 						$this->db->query( $sqlInsertMetaDatos );
 					
 					
-					if( count( $metasCandidato["nombre_dependiente_economico_candidato"] ) > 0 ):
-						for( $d = 0; $d < count( $metasCandidato["nombre_dependiente_economico_candidato"] ) ; $d++):
+					if( count( $metasCandidato["parentesco_dependiente_economico_candidato"] ) > 0 ):
+						for( $d = 0; $d < count( $metasCandidato["parentesco_dependiente_economico_candidato"] ) ; $d++):
 							$insertDependiente = 'INSERT INTO DependientesEconomicos ( nombre , genero , fechaNacimiento , parentesco , idCandidatoFDP ) VALUES ( \'\' , \'\' , \'\' , \''.$resultado["parentesco_dependiente_economico_candidato"][$d].'\' , '.$candidatoInsertID.' )';
 							$this->db->query( $insertDependiente );
 							
@@ -705,6 +711,22 @@ class Candidatos extends CI_Controller {
 			redirect('/candidatos');	
 		endif;
 		
+		$isInValidTokenFDPPost = 0;
+		if( isset($_POST["codigo_fdp"]) ):
+			
+			$sqlValidTokenFDP = 'SELECT * FROM VacantesPeticiones WHERE VacantesPeticiones.estatusAprobacion = \'aprobado\' AND VacantesPeticiones.tokenFDPVacantesPendientes = \''.$_POST["codigo_fdp"].'\'
+					AND (SELECT count(idCandidatoFDP) FROM CandidatoFDP WHERE tokenFDPVacantesPendientes = VacantesPeticiones.tokenFDPVacantesPendientes ) <= 0
+				';
+				
+			$queryValidTokenFDP = $this->db->query($sqlValidTokenFDP);
+				
+			if($queryValidTokenFDP->num_rows() > 0):
+				$_SESSION["tokenFDPVacantesPendientes"] = $_POST["codigo_fdp"];
+				redirect("candidatos");
+			else:
+				$isInValidTokenFDPPost = 1;	
+			endif;
+		endif;
 		
 		$dataHeader = array(
 			"titulo" => "Formato de datos personales"
@@ -717,9 +739,36 @@ class Candidatos extends CI_Controller {
 		$dataContent["formArray"] = (!empty($resultado))?($resultado):"";
 		$dataContent["error_campos"] = $_SESSION["error_campos"];
 		
+		$isValidTokenFDP = 0;
+		
+		if( isset($_SESSION["tokenFDPVacantesPendientes"]) ):
+			if( $_SESSION["tokenFDPVacantesPendientes"] != "" ):
+				$sqlValidTokenFDP = 'SELECT * FROM VacantesPeticiones WHERE VacantesPeticiones.estatusAprobacion = \'aprobado\' AND VacantesPeticiones.tokenFDPVacantesPendientes = \''.$_SESSION["tokenFDPVacantesPendientes"].'\'
+					AND (SELECT count(idCandidatoFDP) FROM CandidatoFDP WHERE tokenFDPVacantesPendientes = VacantesPeticiones.tokenFDPVacantesPendientes ) <= 0
+				';
+				
+				$queryValidTokenFDP = $this->db->query($sqlValidTokenFDP);
+				
+				if($queryValidTokenFDP->num_rows() > 0):
+					
+					$isValidTokenFDP = 1;
+					
+				endif;
+			endif;	
+		endif;
+		
 		
 		$this->load->view('includes/header' , $dataHeader);
-		$this->load->view('fdp/fdp' , $dataContent);
+		if( $isValidTokenFDP == 1 && $isInValidTokenFDPPost == 0):
+			$this->load->view('fdp/fdp' , $dataContent);
+		else:
+			if( $isInValidTokenFDPPost == 1 ):
+				$dataContent["isInValidTokenFDPPost"] = 1;
+			else:
+				$dataContent["isInValidTokenFDPPost"] = 0;
+			endif;	
+			$this->load->view('fdp/token' , $dataContent);
+		endif;	
 		$this->load->view('includes/footer');
 		
 		

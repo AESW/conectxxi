@@ -13,6 +13,7 @@ class SessionL extends CI_Model {
 	}
 	
 	function validarSesionHome(){
+		
 		if (isset($this->session->userdata['logged_in'])):
 			redirect('panel');
 		endif;
@@ -20,14 +21,11 @@ class SessionL extends CI_Model {
 	
 	function cerrarSesion(){
 		$sess_array = array(
-			'username' => '',
-			'email' => ''
+			
 		);
 		$this->session->unset_userdata('logged_in', $sess_array);
 		redirect('/');
 	}
-	
-	
 	
 	
 }

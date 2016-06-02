@@ -32,6 +32,7 @@
 						echo $titulo;
 					endif;
 				?>
+				
 				</h1>
 			</div>
 			
@@ -41,6 +42,7 @@
 						echo $titulo;
 					endif;
 				?>
+				<a href="<?php echo HOME_URL."home/logout/";?>" style="float: right;font-size: 9pt; text-decoration: none;">Cerrar sesión</a>
 			</div>
 		</div>
 		<!-- content -->

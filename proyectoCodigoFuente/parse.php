@@ -271,7 +271,7 @@
 	
 	
 	foreach($array_puestos as $puestos):
-		echo "INSERT INTO Puestos (idPuestos , nombrePuesto , numeroPuestosHijos , estatusPuesto , idEmpresas, idRoles , empleadoGenerico) VALUES(".$puestos["idPuesto"]." , '".$puestos["nombrePuesto"]."' , 0 , 'activo' , 1 , 9 , 'false');<br/>";
+		echo "INSERT INTO Puestos (idPuestos , nombrePuesto , numeroPuestosHijos , estatusPuesto , idEmpresas , empleadoGenerico) VALUES(".$puestos["idPuesto"]." , '".$puestos["nombrePuesto"]."' , 0 , 'activo' , 1 , 'false');<br/>";
 	endforeach;
 	
 	
@@ -306,10 +306,10 @@
 			
 			
 			if( $usuarios["reportaA"] == "" && $usuarios["idPuesto"] == 1):
-				echo "INSERT INTO TaxPuestoUsuario( idPuestos , fechaMovimiento , idUsuarios , idUsuariosAdministra ,  profundidad ) VALUES(1 , now() , ".$usuarios["idEmpleado"]." , 1 , 1);<br/>";
+				echo "INSERT INTO TaxPuestoUsuario( idPuestos , fechaMovimiento , idUsuarios , idUsuariosAdministra ,  profundidad , idRoles ) VALUES(1 , now() , ".$usuarios["idEmpleado"]." , 1 , 1 , 10);<br/>";
 				
 			elseif($usuarios["reportaA"] == "" && $usuarios["idPuesto"] != 1):	
-				echo "INSERT INTO TaxPuestoUsuario( idPuestos , fechaMovimiento , idUsuarios , idUsuariosAdministra ,  profundidad ) VALUES(".$usuarios["idPuesto"]." , now() , ".$usuarios["idEmpleado"]." , 1 , 0);<br/>";
+				echo "INSERT INTO TaxPuestoUsuario( idPuestos , fechaMovimiento , idUsuarios , idUsuariosAdministra ,  profundidad , idRoles ) VALUES(".$usuarios["idPuesto"]." , now() , ".$usuarios["idEmpleado"]." , 1 , 0 , 10);<br/>";
 			else:
 				$usuarioReportaA = array_search( $usuarios["reportaA"] , array_column($array_usuarios, 'nombreEmpleado'));
 				
@@ -320,7 +320,7 @@
 				//echo $usuarios["idPuesto"] . " - " . $array_usuarios[$usuarioReportaA]["idPuesto"]."--".$array_usuarios[$usuarioReportaA]["idReportaA"]."<br/>";
 				
 				$depth = $array_puestos[$clave2]["idPuesto"] + 1;
-				echo "INSERT INTO TaxPuestoUsuario( idPuestos , fechaMovimiento , idUsuarios , idUsuariosAdministra , idUsuariosPadre , profundidad ) VALUES(".$usuarios["idPuesto"]." , now() , ".$usuarios["idEmpleado"]." , 1 , ".$array_usuarios[$usuarioReportaA]["idEmpleado"]." , ".$depth.");";
+				echo "INSERT INTO TaxPuestoUsuario( idPuestos , fechaMovimiento , idUsuarios , idUsuariosAdministra , idUsuariosPadre , profundidad , idRoles ) VALUES(".$usuarios["idPuesto"]." , now() , ".$usuarios["idEmpleado"]." , 1 , ".$array_usuarios[$usuarioReportaA]["idEmpleado"]." , ".$depth." , 10);";
 			endif;	
 		endif;
 		
