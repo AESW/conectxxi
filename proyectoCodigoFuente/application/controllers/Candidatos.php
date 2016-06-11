@@ -428,8 +428,8 @@ class Candidatos extends CI_Controller {
 												fechaRegistro,
 												hashValidacion,
 												estaValidado,
-												correoElectronico,
-												tokenFDPVacantesPendientes
+												correoElectronico
+												
 											) VALUES ( 
 												\''.$resultado["nombre_candidato"].'\',
 												\''.$resultado["apellido_paterno_candidato"].'\',
@@ -446,8 +446,8 @@ class Candidatos extends CI_Controller {
 												\''.$fechaRegistro.'\',
 												\''.$hashValidacion.'\',
 												0,
-												\''.$resultado["correo_electronico_candidato"].'\',
-												\''.$_SESSION["tokenFDPVacantesPendientes"].'\'
+												\''.$resultado["correo_electronico_candidato"].'\'
+												
 											);';
 					$insertCandidao = $this->db->query($sqlInsertCandidato);
 					$candidatoInsertID = $this->db->insert_id();
