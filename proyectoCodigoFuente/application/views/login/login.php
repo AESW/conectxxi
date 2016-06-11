@@ -1,6 +1,6 @@
 	<div class="login_page">
 		<a href="" title="EAF" class="eaf_option"></a>
-		<a href="" title="FPM" class="fpm_option"></a>
+		<a href="<?php echo HOME_URL."planMaestro/"; ?>" title="FPM" class="fpm_option"></a>
 		<a href="<?php echo HOME_URL."candidatos/"; ?>" title="FDP" class="fdp_option"></a>
 	</div>
 	

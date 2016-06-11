@@ -759,8 +759,9 @@ class Candidatos extends CI_Controller {
 		
 		
 		$this->load->view('includes/header' , $dataHeader);
-		if( $isValidTokenFDP == 1 && $isInValidTokenFDPPost == 0):
-			$this->load->view('fdp/fdp' , $dataContent);
+		$this->load->view('fdp/fdp' , $dataContent);
+		/*if( $isValidTokenFDP == 1 && $isInValidTokenFDPPost == 0):
+			
 		else:
 			if( $isInValidTokenFDPPost == 1 ):
 				$dataContent["isInValidTokenFDPPost"] = 1;
@@ -768,7 +769,7 @@ class Candidatos extends CI_Controller {
 				$dataContent["isInValidTokenFDPPost"] = 0;
 			endif;	
 			$this->load->view('fdp/token' , $dataContent);
-		endif;	
+		endif;*/	
 		$this->load->view('includes/footer');
 		
 		
