@@ -170,9 +170,9 @@ class Candidatos extends CI_Controller {
 				if( $resultado["contacto_empleo2_candidato"] == "" ):
 					$error_campos[] = "contacto_empleo2_candidato";
 				endif;
-				if( $resultado["cuenta_con_cuenta_bancaria"] == "" ):
+				/*if( $resultado["cuenta_con_cuenta_bancaria"] == "" ):
 					$error_campos[] = "cuenta_con_cuenta_bancaria";
-				endif;
+				endif;*/
 				if( $resultado["empleo_anterior3_candidato"] == "" ):
 					$error_campos[] = "empleo_anterior3_candidato";
 				endif;
@@ -217,15 +217,15 @@ class Candidatos extends CI_Controller {
 				if( $resultado["telefono_movil_emergencia_candidato"] == "" ):
 					$error_campos[] = "telefono_movil_emergencia_candidato";
 				endif;
-				if( $resultado["numero_cuenta_candidato"] == "" ):
+				/*if( $resultado["numero_cuenta_candidato"] == "" ):
 					$error_campos[] = "numero_cuenta_candidato";
-				endif;
-				if( $resultado["clabe_interbancaria_candidato"] == "" ):
+				endif;*/
+				/*if( $resultado["clabe_interbancaria_candidato"] == "" ):
 					$error_campos[] = "clabe_interbancaria_candidato";
-				endif;
-				if( $resultado["banco_candidato"] == "" ):
+				endif;*/
+				/*if( $resultado["banco_candidato"] == "" ):
 					$error_campos[] = "banco_candidato";
-				endif;
+				endif;*/
 				if( $resultado["ingresos_familia_candidato"] == ""):
 					$error_campos[] = "ingresos_familia_candidato";
 				endif;
@@ -353,7 +353,7 @@ class Candidatos extends CI_Controller {
 				"descripcion_empleo2_candidato" => $this->Sanitize->clean_string($_POST["descripcion_empleo2_candidato"]),
 				"telefono_empleo2_candidato" => $this->Sanitize->clean_string($_POST["telefono_empleo2_candidato"]),
 				"contacto_empleo2_candidato" => $this->Sanitize->clean_string($_POST["contacto_empleo2_candidato"]),
-				"cuenta_con_cuenta_bancaria" => $this->Sanitize->clean_string($_POST["cuenta_con_cuenta_bancaria"]),
+				//"cuenta_con_cuenta_bancaria" => $this->Sanitize->clean_string($_POST["cuenta_con_cuenta_bancaria"]),
 				"inicio_relacion_empleo1_candidato" => $_POST["inicio_relacion_empleo1_candidato"],
 				"fin_relacion_empleo1_candidato" => $_POST["fin_relacion_empleo1_candidato"],
 				"inicio_relacion_empleo2_candidato" => $_POST["inicio_relacion_empleo2_candidato"],
@@ -379,9 +379,9 @@ class Candidatos extends CI_Controller {
 				"parentesco_contacto_emergencia_candidato" => $this->Sanitize->clean_string($_POST["parentesco_contacto_emergencia_candidato"]),
 				"telefono_casa_emergencia_candidato" => $this->Sanitize->clean_string($_POST["telefono_casa_emergencia_candidato"]),
 				"telefono_movil_emergencia_candidato" => $this->Sanitize->clean_string($_POST["telefono_movil_emergencia_candidato"]),
-				"numero_cuenta_candidato" => $this->Sanitize->clean_string($_POST["numero_cuenta_candidato"]),
-				"clabe_interbancaria_candidato" => $this->Sanitize->clean_string($_POST["clabe_interbancaria_candidato"]),
-				"banco_candidato" => $this->Sanitize->clean_string($_POST["banco_candidato"]),
+				//"numero_cuenta_candidato" => $this->Sanitize->clean_string($_POST["numero_cuenta_candidato"]),
+				//"clabe_interbancaria_candidato" => $this->Sanitize->clean_string($_POST["clabe_interbancaria_candidato"]),
+				//"banco_candidato" => $this->Sanitize->clean_string($_POST["banco_candidato"]),
 			);
 			
 			
