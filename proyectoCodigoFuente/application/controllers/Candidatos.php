@@ -181,10 +181,10 @@ class Candidatos extends CI_Controller {
 				endif;
 				if( $resultado["telefono_empleo3_candidato"] == "" ):
 					$error_campos[] = "telefono_empleo3_candidato";
-				endif;*/
+				endif;
 				if( $resultado["contacto_empleo3_candidato"] == "" ):
 					$error_campos[] = "contacto_empleo3_candidato";
-				endif;
+				endif;*/
 				/*if( $resultado["cuenta_con_cuenta_bancaria"] == "" ):
 					$error_campos[] = "cuenta_con_cuenta_bancaria";
 				endif;*/
@@ -251,7 +251,7 @@ class Candidatos extends CI_Controller {
 					$error_campos[] = "egresos_otros_candidato";
 				endif;
 				
-				if( $resultado["inicio_relacion_empleo1_candidato"] == "" ):
+				/*if( $resultado["inicio_relacion_empleo1_candidato"] == "" ):
 					
 					$error_campos[] = "inicio_relacion_empleo1_candidato";
 				endif;
@@ -279,7 +279,7 @@ class Candidatos extends CI_Controller {
 				endif;
 				if( $resultado["carta_recomendacion_empleo3_candidato"] == "" ):
 					$error_campos[] = "carta_recomendacion_empleo3_candidato";
-				endif;
+				endif;*/
 				if(  $resultado["aviso_privacidad_fdp"] == 0):
 					$error_campos[] = "aviso_privacidad_fdp";
 				endif;
