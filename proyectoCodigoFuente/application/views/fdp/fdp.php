@@ -282,14 +282,23 @@
 			     <h2><label>Datos de contacto del candidato</label></h2>
 			    <table cellpadding="0" cellspacing="0" width="100%">
 				    <tr>
+					    <td colspan="4" style="text-align: center;">
+						    <?php 
+							    if( in_array('telefono_casa_candidato' , $error_campos) ):
+							    	echo "<p style='font-weight:bold; color: red;'>Favor de seleccionar al menos Teléfono de casa o Teléfono móvil</p>";
+							    endif;	
+						    ?>
+					    </td>
+				    </tr>
+				    <tr>
 					    <td>Número de teléfono de casa</td>
 					    <td><input maxlength="12" type="text" name="telefono_casa_candidato" class="telefono_casa_candidato allownumericwithoutdecimal" id="telefono_casa_candidato" placeholder="Tel. casa" autocomplete="off" required value="<?php echo (isset($formArray["telefono_casa_candidato"]))?$formArray["telefono_casa_candidato"]:""; ?>" <?php echo ( in_array('telefono_casa_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>> <p style="color:#aba5a5;font-size: 10pt;">10 dígitos. Ejemplo: 0155xxxxxxx</p></td>
 					    <td>Número de teléfono móvil</td>
-					    <td><input type="text" maxlength="10" name="telefono_movil_candidato" class="telefono_movil_candidato allownumericwithoutdecimal" id="telefono_movil_candidato" placeholder="Tel. móvil" autocomplete="off" required value="<?php echo (isset($formArray["telefono_movil_candidato"]))?$formArray["telefono_movil_candidato"]:""; ?>" <?php echo ( in_array('telefono_movil_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>><p style="color:#aba5a5;font-size: 10pt;">8 dígitos. Ejemplo: 55xxxxxxxx</p></td>
+					    <td><input type="text" maxlength="10" name="telefono_movil_candidato" class="telefono_movil_candidato allownumericwithoutdecimal" id="telefono_movil_candidato" placeholder="Tel. móvil" autocomplete="off" required value="<?php echo (isset($formArray["telefono_movil_candidato"]))?$formArray["telefono_movil_candidato"]:""; ?>" <?php echo ( in_array('telefono_casa_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>><p style="color:#aba5a5;font-size: 10pt;">8 dígitos. Ejemplo: 55xxxxxxxx</p></td>
 				    </tr>
 				    <tr>
 					    <td>Otro número de teléfono</td>
-					    <td><input type="text" maxlength="12" name="telefono_otro_candidato" class="telefono_otro_candidato allownumericwithoutdecimal" id="telefono_otro_candidato" placeholder="Otro teléfono" autocomplete="off" required value="<?php echo (isset($formArray["telefono_otro_candidato"]))?$formArray["telefono_otro_candidato"]:""; ?>" <?php echo ( in_array('telefono_otro_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    <td><input type="text" maxlength="12" name="telefono_otro_candidato" class="telefono_otro_candidato allownumericwithoutdecimal" id="telefono_otro_candidato" placeholder="Otro teléfono" autocomplete="off" value="<?php echo (isset($formArray["telefono_otro_candidato"]))?$formArray["telefono_otro_candidato"]:""; ?>"></td>
 					    <td>Correo electrónico personal</td>
 					    <td><input type="text" name="correo_electronico_candidato" class="correo_electronico_candidato" id="correo_electronico_candidato" placeholder="Correo electrónico" autocomplete="off" required value="<?php echo (isset($formArray["correo_electronico_candidato"]))?$formArray["correo_electronico_candidato"]:""; ?>" <?php echo ( in_array('correo_electronico_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
 					    <?php 
@@ -454,50 +463,72 @@
 				    <tr>
 					    <td>
 						    Vivienda
+						    <?php 
+							    $formArray["egresos_vivienda_candidato"] = ($formArray["egresos_vivienda_candidato"] == "")?0:$formArray["egresos_vivienda_candidato"];
+						    ?>
 					    </td>
-					    <td><input type="text" name="egresos_vivienda_candidato" class="egresos_vivienda_candidato allownumericwithdecimal" id="egresos_vivienda_candidato" placeholder="Egresos vivienda" autocomplete="off" required value="<?php echo (isset($formArray["egresos_vivienda_candidato"]))?$formArray["egresos_vivienda_candidato"]:""; ?>" <?php echo ( in_array('egresos_vivienda_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    <td><input type="text" name="egresos_vivienda_candidato" class="egresos_vivienda_candidato allownumericwithdecimal" id="egresos_vivienda_candidato" placeholder="Egresos vivienda" autocomplete="off" required value="<?php echo (isset($formArray["egresos_vivienda_candidato"]))?$formArray["egresos_vivienda_candidato"]:"0"; ?>" <?php echo ( in_array('egresos_vivienda_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
 					</tr>
 					
 					<tr>
 					    <td>
 						    Educación
+						    <?php 
+							    $formArray["egresos_educacion_candidato"] = ($formArray["egresos_educacion_candidato"] == "")?0:$formArray["egresos_educacion_candidato"];
+						    ?>
 					    </td>
-					    <td><input type="text" name="egresos_educacion_candidato" class="egresos_educacion_candidato allownumericwithdecimal" id="egresos_educacion_candidato" placeholder="Egresos educación" autocomplete="off" required value="<?php echo (isset($formArray["egresos_educacion_candidato"]))?$formArray["egresos_educacion_candidato"]:""; ?>" <?php echo ( in_array('egresos_educacion_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    <td><input type="text" name="egresos_educacion_candidato" class="egresos_educacion_candidato allownumericwithdecimal" id="egresos_educacion_candidato" placeholder="Egresos educación" autocomplete="off" required value="<?php echo (isset($formArray["egresos_educacion_candidato"]))?$formArray["egresos_educacion_candidato"]:"0"; ?>" <?php echo ( in_array('egresos_educacion_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
 					</tr>
 					
 					<tr>
 					    <td>
 						    Alimentación
+						    <?php 
+							    $formArray["egresos_alimentacion_candidato"] = ($formArray["egresos_alimentacion_candidato"] == "")?0:$formArray["egresos_alimentacion_candidato"];
+						    ?>
 					    </td>
-					    <td><input type="text" name="egresos_alimentacion_candidato" class="egresos_alimentacion_candidato allownumericwithdecimal" id="egresos_alimentacion_candidato" placeholder="Egresos alimentación" autocomplete="off" required value="<?php echo (isset($formArray["egresos_alimentacion_candidato"]))?$formArray["egresos_alimentacion_candidato"]:""; ?>" <?php echo ( in_array('egresos_alimentacion_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    <td><input type="text" name="egresos_alimentacion_candidato" class="egresos_alimentacion_candidato allownumericwithdecimal" id="egresos_alimentacion_candidato" placeholder="Egresos alimentación" autocomplete="off" required value="<?php echo (isset($formArray["egresos_alimentacion_candidato"]))?$formArray["egresos_alimentacion_candidato"]:"0"; ?>" <?php echo ( in_array('egresos_alimentacion_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
 					</tr>
 					
 					<tr>
 					    <td>
 						    Recreación
+						    <?php 
+							    $formArray["egresos_recreacion_candidato"] = ($formArray["egresos_recreacion_candidato"] == "")?0:$formArray["egresos_recreacion_candidato"];
+						    ?>
 					    </td>
-					    <td><input type="text" name="egresos_recreacion_candidato" class="egresos_recreacion_candidato allownumericwithdecimal" id="egresos_recreacion_candidato" placeholder="Egresos recreación" autocomplete="off" required value="<?php echo (isset($formArray["egresos_recreacion_candidato"]))?$formArray["egresos_recreacion_candidato"]:""; ?>" <?php echo ( in_array('egresos_recreacion_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    <td><input type="text" name="egresos_recreacion_candidato" class="egresos_recreacion_candidato allownumericwithdecimal" id="egresos_recreacion_candidato" placeholder="Egresos recreación" autocomplete="off" required value="<?php echo (isset($formArray["egresos_recreacion_candidato"]))?$formArray["egresos_recreacion_candidato"]:"0"; ?>" <?php echo ( in_array('egresos_recreacion_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
 					</tr>
 					
 					<tr>
 					    <td>
 						    Servicios
+						    <?php 
+							    $formArray["egresos_servicios_candidato"] = ($formArray["egresos_servicios_candidato"] == "")?0:$formArray["egresos_servicios_candidato"];
+						    ?>
 					    </td>
-					    <td><input type="text" name="egresos_servicios_candidato" class="egresos_servicios_candidato allownumericwithdecimal" id="egresos_servicios_candidato" placeholder="Egresos recreación" autocomplete="off" required value="<?php echo (isset($formArray["egresos_servicios_candidato"]))?$formArray["egresos_servicios_candidato"]:""; ?>" <?php echo ( in_array('egresos_servicios_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    <td><input type="text" name="egresos_servicios_candidato" class="egresos_servicios_candidato allownumericwithdecimal" id="egresos_servicios_candidato" placeholder="Egresos recreación" autocomplete="off" required value="<?php echo (isset($formArray["egresos_servicios_candidato"]))?$formArray["egresos_servicios_candidato"]:"0"; ?>" <?php echo ( in_array('egresos_servicios_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
 					</tr>
 					
 					<tr>
 					    <td>
 						    Préstamos o adeudos
+						    <?php 
+							    $formArray["egresos_adeudos_candidato"] = ($formArray["egresos_adeudos_candidato"] == "")?0:$formArray["egresos_adeudos_candidato"];
+						    ?>
 					    </td>
-					    <td><input type="text" name="egresos_adeudos_candidato" class="egresos_adeudos_candidato allownumericwithdecimal" id="egresos_adeudos_candidato" placeholder="Egresos adeudos" autocomplete="off" required value="<?php echo (isset($formArray["egresos_adeudos_candidato"]))?$formArray["egresos_adeudos_candidato"]:""; ?>" <?php echo ( in_array('egresos_adeudos_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    <td><input type="text" name="egresos_adeudos_candidato" class="egresos_adeudos_candidato allownumericwithdecimal" id="egresos_adeudos_candidato" placeholder="Egresos adeudos" autocomplete="off" required value="<?php echo (isset($formArray["egresos_adeudos_candidato"]))?$formArray["egresos_adeudos_candidato"]:"0"; ?>" <?php echo ( in_array('egresos_adeudos_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
 					</tr>
 					
 					<tr>
 					    <td>
 						    Otros
+						    <?php 
+							    $formArray["egresos_otros_candidato"] = ($formArray["egresos_otros_candidato"] == "")?0:$formArray["egresos_otros_candidato"];
+								
+						    ?>
 					    </td>
-					    <td><input type="text" name="egresos_otros_candidato" class="egresos_otros_candidato allownumericwithdecimal" id="egresos_otros_candidato" placeholder="Egresos otros" autocomplete="off" required value="<?php echo (isset($formArray["egresos_otros_candidato"]))?$formArray["egresos_otros_candidato"]:""; ?>" <?php echo ( in_array('egresos_otros_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    <td><input type="text" name="egresos_otros_candidato" class="egresos_otros_candidato allownumericwithdecimal" id="egresos_otros_candidato" placeholder="Egresos otros" autocomplete="off" required value="<?php echo (isset($formArray["egresos_otros_candidato"]))?$formArray["egresos_otros_candidato"]:"0"; ?>" <?php echo ( in_array('egresos_otros_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
 					</tr>
 				</table>
 				
@@ -513,33 +544,33 @@
 			    <table cellpadding="0" cellspacing="0" width="100%">
 				    <tr>
 					    <td>Empleo anterior</td>
-					    <td><input type="text" name="empleo_anterior1_candidato" class="empleo_anterior1_candidato" id="empleo_anterior1_candidato" placeholder="Empleo anterior" autocomplete="off" required value="<?php echo (isset($formArray["empleo_anterior1_candidato"]))?$formArray["empleo_anterior1_candidato"]:""; ?>" <?php echo ( in_array('empleo_anterior1_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    <td><input type="text" name="empleo_anterior1_candidato" class="empleo_anterior1_candidato" id="empleo_anterior1_candidato" placeholder="Empleo anterior" autocomplete="off" required value="<?php echo (isset($formArray["empleo_anterior1_candidato"]))?$formArray["empleo_anterior1_candidato"]:""; ?>"></td>
 					    <td colspan="2">
 						    Descripción de Actividades
 						    <br/>
-						    <textarea name="descripcion_empleo1_candidato" class="descripcion_empleo1_candidato" id="descripcion_empleo1_candidato" placeholder="Ingresa tus actividades aquí" required <?php echo ( in_array('descripcion_empleo1_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>><?php echo (isset($formArray["descripcion_empleo1_candidato"]))?$formArray["descripcion_empleo1_candidato"]:""; ?></textarea>
+						    <textarea name="descripcion_empleo1_candidato" class="descripcion_empleo1_candidato" id="descripcion_empleo1_candidato" placeholder="Ingresa tus actividades aquí" required><?php echo (isset($formArray["descripcion_empleo1_candidato"]))?$formArray["descripcion_empleo1_candidato"]:""; ?></textarea>
 					    </td>
 					    
 				    </tr>
 				    <tr>
 					    <td>Teléfono</td>
-					    <td><input type="text" name="telefono_empleo1_candidato" class="empleo_anterior1_candidato" id="empleo_anterior1_candidato" placeholder="Teléfono empleo anterior" autocomplete="off" required value="<?php echo (isset($formArray["telefono_empleo1_candidato"]))?$formArray["telefono_empleo1_candidato"]:""; ?>" <?php echo ( in_array('telefono_empleo1_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    <td><input type="text" name="telefono_empleo1_candidato" class="empleo_anterior1_candidato" id="empleo_anterior1_candidato" placeholder="Teléfono empleo anterior" autocomplete="off" required value="<?php echo (isset($formArray["telefono_empleo1_candidato"]))?$formArray["telefono_empleo1_candidato"]:""; ?>"></td>
 				    </tr>
 				    <tr>
 					    <td>Contacto</td>
-					    <td><input type="text" name="contacto_empleo1_candidato" class="contacto_empleo1_candidato" id="contacto_empleo1_candidato" placeholder="Contacto empleo anterior" autocomplete="off" required value="<?php echo (isset($formArray["contacto_empleo1_candidato"]))?$formArray["contacto_empleo1_candidato"]:""; ?>" <?php echo ( in_array('contacto_empleo1_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    <td><input type="text" name="contacto_empleo1_candidato" class="contacto_empleo1_candidato" id="contacto_empleo1_candidato" placeholder="Contacto empleo anterior" autocomplete="off" required value="<?php echo (isset($formArray["contacto_empleo1_candidato"]))?$formArray["contacto_empleo1_candidato"]:""; ?>"></td>
 				    </tr>
 				    <tr>
 					    <td>Inicio de relación laboral</td>
-					    <td><input type="text" name="inicio_relacion_empleo1_candidato" onfocus="this.blur()" class="inicio_relacion_empleo1_candidato" id="inicio_relacion_empleo1_candidato" placeholder="Inicio de relación laboral" autocomplete="off" required value="<?php echo (isset($formArray["inicio_relacion_empleo1_candidato"]))?$formArray["inicio_relacion_empleo1_candidato"]:""; ?>" <?php echo ( in_array('inicio_relacion_empleo1_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    <td><input type="text" name="inicio_relacion_empleo1_candidato" onfocus="this.blur()" class="inicio_relacion_empleo1_candidato" id="inicio_relacion_empleo1_candidato" placeholder="Inicio de relación laboral" autocomplete="off" required value="<?php echo (isset($formArray["inicio_relacion_empleo1_candidato"]))?$formArray["inicio_relacion_empleo1_candidato"]:""; ?>"></td>
 				    </tr>
 				    <tr>
 					    <td>Fin de relación laboral</td>
-					    <td><input type="text" name="fin_relacion_empleo1_candidato" onfocus="this.blur()" class="fin_relacion_empleo1_candidato" id="fin_relacion_empleo1_candidato" placeholder="Fin de relación laboral" autocomplete="off" required value="<?php echo (isset($formArray["fin_relacion_empleo1_candidato"]))?$formArray["fin_relacion_empleo1_candidato"]:""; ?>" <?php echo ( in_array('fin_relacion_empleo1_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    <td><input type="text" name="fin_relacion_empleo1_candidato" onfocus="this.blur()" class="fin_relacion_empleo1_candidato" id="fin_relacion_empleo1_candidato" placeholder="Fin de relación laboral" autocomplete="off" required value="<?php echo (isset($formArray["fin_relacion_empleo1_candidato"]))?$formArray["fin_relacion_empleo1_candidato"]:""; ?>"></td>
 				    </tr>
 				    <tr>
 					    <td>Carta de recomendación</td>
-					    <td <?php echo ( in_array('carta_recomendacion_empleo1_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+					    <td>
 						    <span class="btn btn-success fileinput-button">
 						        <i class="glyphicon glyphicon-plus"></i>
 						        <span>Cargar...</span>
@@ -568,33 +599,33 @@
 				    </tr>
 				    <tr>
 					    <td>Empleo anterior</td>
-					    <td><input type="text" name="empleo_anterior2_candidato" class="empleo_anterior2_candidato" id="empleo_anterior2_candidato" placeholder="Empleo anterior" autocomplete="off" required value="<?php echo (isset($formArray["empleo_anterior2_candidato"]))?$formArray["empleo_anterior2_candidato"]:""; ?>" <?php echo ( in_array('empleo_anterior2_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    <td><input type="text" name="empleo_anterior2_candidato" class="empleo_anterior2_candidato" id="empleo_anterior2_candidato" placeholder="Empleo anterior" autocomplete="off" required value="<?php echo (isset($formArray["empleo_anterior2_candidato"]))?$formArray["empleo_anterior2_candidato"]:""; ?>"></td>
 					    <td colspan="2">
 						    Descripción de Actividades
 						    <br/>
-						    <textarea name="descripcion_empleo2_candidato" class="descripcion_empleo2_candidato" id="descripcion_empleo2_candidato" placeholder="Ingresa tus actividades aquí" required <?php echo ( in_array('descripcion_empleo2_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>><?php echo (isset($formArray["descripcion_empleo2_candidato"]))?$formArray["descripcion_empleo2_candidato"]:""; ?></textarea>
+						    <textarea name="descripcion_empleo2_candidato" class="descripcion_empleo2_candidato" id="descripcion_empleo2_candidato" placeholder="Ingresa tus actividades aquí" required><?php echo (isset($formArray["descripcion_empleo2_candidato"]))?$formArray["descripcion_empleo2_candidato"]:""; ?></textarea>
 					    </td>
 					    
 				    </tr>
 				    <tr>
 					    <td>Teléfono</td>
-					    <td><input type="text" name="telefono_empleo2_candidato" class="empleo_anterior2_candidato" id="empleo_anterior2_candidato" placeholder="Teléfono empleo anterior" autocomplete="off" required value="<?php echo (isset($formArray["telefono_empleo2_candidato"]))?$formArray["telefono_empleo2_candidato"]:""; ?>" <?php echo ( in_array('telefono_empleo2_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    <td><input type="text" name="telefono_empleo2_candidato" class="empleo_anterior2_candidato" id="empleo_anterior2_candidato" placeholder="Teléfono empleo anterior" autocomplete="off" required value="<?php echo (isset($formArray["telefono_empleo2_candidato"]))?$formArray["telefono_empleo2_candidato"]:""; ?>"></td>
 				    </tr>
 				    <tr>
 					    <td>Contacto</td>
-					    <td><input type="text" name="contacto_empleo2_candidato" class="contacto_empleo2_candidato" id="contacto_empleo2_candidato" placeholder="Contacto empleo anterior" autocomplete="off" required value="<?php echo (isset($formArray["contacto_empleo2_candidato"]))?$formArray["contacto_empleo2_candidato"]:""; ?>" <?php echo ( in_array('contacto_empleo2_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    <td><input type="text" name="contacto_empleo2_candidato" class="contacto_empleo2_candidato" id="contacto_empleo2_candidato" placeholder="Contacto empleo anterior" autocomplete="off" required value="<?php echo (isset($formArray["contacto_empleo2_candidato"]))?$formArray["contacto_empleo2_candidato"]:""; ?>"></td>
 				    </tr>
 				    <tr>
 					    <td>Inicio de relación laboral</td>
-					    <td><input type="text" name="inicio_relacion_empleo2_candidato" onfocus="this.blur()" class="inicio_relacion_empleo2_candidato" id="inicio_relacion_empleo2_candidato" placeholder="Inicio de relación laboral" autocomplete="off" required value="<?php echo (isset($formArray["inicio_relacion_empleo2_candidato"]))?$formArray["inicio_relacion_empleo2_candidato"]:""; ?>" <?php echo ( in_array('inicio_relacion_empleo2_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    <td><input type="text" name="inicio_relacion_empleo2_candidato" onfocus="this.blur()" class="inicio_relacion_empleo2_candidato" id="inicio_relacion_empleo2_candidato" placeholder="Inicio de relación laboral" autocomplete="off" required value="<?php echo (isset($formArray["inicio_relacion_empleo2_candidato"]))?$formArray["inicio_relacion_empleo2_candidato"]:""; ?>"></td>
 				    </tr>
 				    <tr>
 					    <td>Fin de relación laboral</td>
-					    <td><input type="text" name="fin_relacion_empleo2_candidato" onfocus="this.blur()" class="fin_relacion_empleo2_candidato" id="fin_relacion_empleo2_candidato" placeholder="Fin de relación laboral" autocomplete="off" required value="<?php echo (isset($formArray["fin_relacion_empleo2_candidato"]))?$formArray["fin_relacion_empleo2_candidato"]:""; ?>" <?php echo ( in_array('fin_relacion_empleo2_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    <td><input type="text" name="fin_relacion_empleo2_candidato" onfocus="this.blur()" class="fin_relacion_empleo2_candidato" id="fin_relacion_empleo2_candidato" placeholder="Fin de relación laboral" autocomplete="off" required value="<?php echo (isset($formArray["fin_relacion_empleo2_candidato"]))?$formArray["fin_relacion_empleo2_candidato"]:""; ?>"></td>
 				    </tr>
 				    <tr>
 					    <td>Carta de recomendación</td>
-					    <td <?php echo ( in_array('carta_recomendacion_empleo2_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+					    <td>
 						    <span class="btn btn-success fileinput-button">
 						        <i class="glyphicon glyphicon-plus"></i>
 						        <span>Cargar...</span>
@@ -623,33 +654,33 @@
 				    </tr>
 				     <tr>
 					    <td>Empleo anterior</td>
-					    <td><input type="text" name="empleo_anterior3_candidato" class="empleo_anterior3_candidato" id="empleo_anterior3_candidato" placeholder="Empleo anterior" autocomplete="off" required value="<?php echo (isset($formArray["empleo_anterior3_candidato"]))?$formArray["empleo_anterior3_candidato"]:""; ?>" <?php echo ( in_array('empleo_anterior3_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    <td><input type="text" name="empleo_anterior3_candidato" class="empleo_anterior3_candidato" id="empleo_anterior3_candidato" placeholder="Empleo anterior" autocomplete="off" required value="<?php echo (isset($formArray["empleo_anterior3_candidato"]))?$formArray["empleo_anterior3_candidato"]:""; ?>"></td>
 					    <td colspan="2">
 						    Descripción de Actividades
 						    <br/>
-						    <textarea name="descripcion_empleo3_candidato" class="descripcion_empleo3_candidato" id="descripcion_empleo3_candidato" placeholder="Ingresa tus actividades aquí" required <?php echo ( in_array('descripcion_empleo3_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>><?php echo (isset($formArray["descripcion_empleo3_candidato"]))?$formArray["descripcion_empleo3_candidato"]:""; ?></textarea>
+						    <textarea name="descripcion_empleo3_candidato" class="descripcion_empleo3_candidato" id="descripcion_empleo3_candidato" placeholder="Ingresa tus actividades aquí" required><?php echo (isset($formArray["descripcion_empleo3_candidato"]))?$formArray["descripcion_empleo3_candidato"]:""; ?></textarea>
 					    </td>
 					    
 				    </tr>
 				    <tr>
 					    <td>Teléfono</td>
-					    <td><input type="text" name="telefono_empleo3_candidato" class="empleo_anterior3_candidato" id="empleo_anterior3_candidato" placeholder="Teléfono empleo anterior" autocomplete="off" required value="<?php echo (isset($formArray["telefono_empleo3_candidato"]))?$formArray["telefono_empleo3_candidato"]:""; ?>" <?php echo ( in_array('telefono_empleo3_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    <td><input type="text" name="telefono_empleo3_candidato" class="empleo_anterior3_candidato" id="empleo_anterior3_candidato" placeholder="Teléfono empleo anterior" autocomplete="off" required value="<?php echo (isset($formArray["telefono_empleo3_candidato"]))?$formArray["telefono_empleo3_candidato"]:""; ?>"></td>
 				    </tr>
 				    <tr>
 					    <td>Contacto</td>
-					    <td><input type="text" name="contacto_empleo3_candidato" class="contacto_empleo3_candidato" id="contacto_empleo3_candidato" placeholder="Contacto empleo anterior" autocomplete="off" required value="<?php echo (isset($formArray["contacto_empleo3_candidato"]))?$formArray["contacto_empleo3_candidato"]:""; ?>" <?php echo ( in_array('contacto_empleo3_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    <td><input type="text" name="contacto_empleo3_candidato" class="contacto_empleo3_candidato" id="contacto_empleo3_candidato" placeholder="Contacto empleo anterior" autocomplete="off" required value="<?php echo (isset($formArray["contacto_empleo3_candidato"]))?$formArray["contacto_empleo3_candidato"]:""; ?>"></td>
 				    </tr>
 				    <tr>
 					    <td>Inicio de relación laboral</td>
-					    <td><input type="text" name="inicio_relacion_empleo3_candidato" onfocus="this.blur()" class="inicio_relacion_empleo3_candidato" id="inicio_relacion_empleo3_candidato" placeholder="Inicio de relación laboral" autocomplete="off" required value="<?php echo (isset($formArray["inicio_relacion_empleo3_candidato"]))?$formArray["inicio_relacion_empleo3_candidato"]:""; ?>" <?php echo ( in_array('inicio_relacion_empleo3_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    <td><input type="text" name="inicio_relacion_empleo3_candidato" onfocus="this.blur()" class="inicio_relacion_empleo3_candidato" id="inicio_relacion_empleo3_candidato" placeholder="Inicio de relación laboral" autocomplete="off" required value="<?php echo (isset($formArray["inicio_relacion_empleo3_candidato"]))?$formArray["inicio_relacion_empleo3_candidato"]:""; ?>"></td>
 				    </tr>
 				    <tr>
 					    <td>Fin de relación laboral</td>
-					    <td><input type="text" name="fin_relacion_empleo3_candidato" onfocus="this.blur()" class="fin_relacion_empleo3_candidato" id="fin_relacion_empleo3_candidato" placeholder="Fin de relación laboral" autocomplete="off" required value="<?php echo (isset($formArray["fin_relacion_empleo3_candidato"]))?$formArray["fin_relacion_empleo3_candidato"]:""; ?>" <?php echo ( in_array('fin_relacion_empleo3_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    <td><input type="text" name="fin_relacion_empleo3_candidato" onfocus="this.blur()" class="fin_relacion_empleo3_candidato" id="fin_relacion_empleo3_candidato" placeholder="Fin de relación laboral" autocomplete="off" required value="<?php echo (isset($formArray["fin_relacion_empleo3_candidato"]))?$formArray["fin_relacion_empleo3_candidato"]:""; ?>"></td>
 				    </tr>
 				    <tr>
 					    <td>Carta de recomendación</td>
-					    <td <?php echo ( in_array('carta_recomendacion_empleo3_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+					    <td>
 						    <span class="btn btn-success fileinput-button">
 						        <i class="glyphicon glyphicon-plus"></i>
 						        <span>Cargar...</span>
@@ -686,11 +717,11 @@
 			    <table cellpadding="0" cellspacing="0" width="100%">
 				    <tr>
 					    <td>Nombre completo</td>
-					    <td><input type="text" name="nombre_completo_familiar_candidato" class="nombre_completo_familiar_candidato" id="nombre_completo_familiar_candidato" placeholder="Nombre completo de familiar" autocomplete="off" required value="<?php echo (isset($formArray["nombre_completo_familiar_candidato"]))?$formArray["nombre_completo_familiar_candidato"]:""; ?>" <?php echo ( in_array('nombre_completo_familiar_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    <td><input type="text" name="nombre_completo_familiar_candidato" class="nombre_completo_familiar_candidato" id="nombre_completo_familiar_candidato" placeholder="Nombre completo de familiar" autocomplete="off" required value="<?php echo (isset($formArray["nombre_completo_familiar_candidato"]))?$formArray["nombre_completo_familiar_candidato"]:""; ?>"></td>
 					    
 					   <td>Relación con el empleado</td>
 					   <td>
-						    <select name="parentesco_familiar_candidato" class="parentesco_familiar_candidato" id="parentesco_familiar_candidato" <?php echo ( in_array('parentesco_familiar_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+						    <select name="parentesco_familiar_candidato" class="parentesco_familiar_candidato" id="parentesco_familiar_candidato" >
 							   <option value="">Seleccionar opción</option> 
 							   <option value="amigo" <?php if( isset($formArray["parentesco_familiar_candidato"]) && $formArray["parentesco_familiar_candidato"] == "amigo" ): echo "selected='selected'"; endif;?>>Amigo</option>
 							   <option value="conocido" <?php if( isset($formArray["parentesco_familiar_candidato"]) && $formArray["parentesco_familiar_candidato"] == "conocido" ): echo "selected='selected'"; endif;?>>Conocido</option>
@@ -731,16 +762,14 @@
 								    <td>
 									   <select name="parentesco_dependiente_economico_candidato[]" class="parentesco_dependiente_economico_candidato" id="parentesco_dependiente_economico_candidato">
 										   <option value="">Seleccionar opción</option> 
-										   <option value="amigo" <?php if( isset($formArray["parentesco_dependiente_economico_candidato"][$x]) && $formArray["parentesco_dependiente_economico_candidato"][$x] == "amigo"): echo "selected"; endif; ?>>Amigo</option>
-										   <option value="conocido" <?php if( isset($formArray["parentesco_dependiente_economico_candidato"][$x]) && $formArray["parentesco_dependiente_economico_candidato"][$x] == "conocido"): echo "selected"; endif; ?>>Conocido</option>
+										   
 										   <option value="esposo" <?php if( isset($formArray["parentesco_dependiente_economico_candidato"][$x]) && $formArray["parentesco_dependiente_economico_candidato"][$x] == "esposo"): echo "selected"; endif; ?>>Esposo</option>
 										   <option value="esposa" <?php if( isset($formArray["parentesco_dependiente_economico_candidato"][$x]) && $formArray["parentesco_dependiente_economico_candidato"][$x] == "esposa"): echo "selected"; endif; ?>>Esposa</option>
 										   <option value="hija" <?php if( isset($formArray["parentesco_dependiente_economico_candidato"][$x]) && $formArray["parentesco_dependiente_economico_candidato"][$x] == "hija"): echo "selected"; endif; ?>>Hija</option>
 										   <option value="hijo" <?php if( isset($formArray["parentesco_dependiente_economico_candidato"][$x]) && $formArray["parentesco_dependiente_economico_candidato"][$x] == "hijo"): echo "selected"; endif; ?>>Hijo</option>
 										   <option value="madre" <?php if( isset($formArray["parentesco_dependiente_economico_candidato"][$x]) && $formArray["parentesco_dependiente_economico_candidato"][$x] == "madre"): echo "selected"; endif; ?>>Madre</option>
 										   <option value="padre" <?php if( isset($formArray["parentesco_dependiente_economico_candidato"][$x]) && $formArray["parentesco_dependiente_economico_candidato"][$x] == "padre"): echo "selected"; endif; ?>>Padre</option>
-										   <option value="novio" <?php if( isset($formArray["parentesco_dependiente_economico_candidato"][$x]) && $formArray["parentesco_dependiente_economico_candidato"][$x] == "novio"): echo "selected"; endif; ?>>Novio</option>
-										   <option value="novia" <?php if( isset($formArray["parentesco_dependiente_economico_candidato"][$x]) && $formArray["parentesco_dependiente_economico_candidato"][$x] == "novia"): echo "selected"; endif; ?>>Novia</option>
+										   
 									   </select>
 								    </td>
 							    </tr>    
@@ -774,14 +803,34 @@
 							   <option value="novia" <?php if( isset($formArray["parentesco_contacto_emergencia_candidato"]) && $formArray["parentesco_contacto_emergencia_candidato"] == "novia" ): echo "selected='selected'"; endif;?>>Novia</option>
 						   </select>
 					   </td>
+				   </tr>
+				   <tr>
+					   <td colspan="4" style="text-align: center;">
+						   <?php 
+							   if( in_array('telefono_casa_emergencia_candidato' , $error_campos) ):
+						  			echo '<p style="font-weight:bold; color:red;">Debes seleccionar al menos teléfono de casa o teléfono móvil</p>';	   	
+							   endif;
+						   ?>
+					   </td>
 				   </tr> 
 				   <tr>
 					   <td>Número teléfono de casa</td>
 					   <td><input type="text" name="telefono_casa_emergencia_candidato" class="telefono_casa_emergencia_candidato" id="telefono_casa_emergencia_candidato" placeholder="Teléfono casa" autocomplete="off" required value="<?php echo (isset($formArray["telefono_casa_emergencia_candidato"]))?$formArray["telefono_casa_emergencia_candidato"]:""; ?>" <?php echo ( in_array('telefono_casa_emergencia_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
 					   <td>Número teléfono móvil</td>
 					   <td>
-						   <input type="text" name="telefono_movil_emergencia_candidato" class="telefono_movil_emergencia_candidato" id="telefono_movil_emergencia_candidato" placeholder="Teléfono móvil" autocomplete="off" required value="<?php echo (isset($formArray["telefono_movil_emergencia_candidato"]))?$formArray["telefono_movil_emergencia_candidato"]:""; ?>" <?php echo ( in_array('telefono_movil_emergencia_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+						   <input type="text" name="telefono_movil_emergencia_candidato" class="telefono_movil_emergencia_candidato" id="telefono_movil_emergencia_candidato" placeholder="Teléfono móvil" autocomplete="off" required value="<?php echo (isset($formArray["telefono_movil_emergencia_candidato"]))?$formArray["telefono_movil_emergencia_candidato"]:""; ?>" <?php echo ( in_array('telefono_casa_emergencia_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
 					   </td>
+				   </tr>
+				   
+				   <tr>
+					   <td colspan="4" style="text-align: center;">
+						   <?php 
+							   if( $formArray["aviso_privacidad_fdp"] == 0 ):
+							   	echo "<p style='color: red; font-weight: bold;'>Para registrar necesitas aceptar Aviso de privacidad</p>";
+							   endif;
+						   ?>
+						   <a href="<?php echo HOME_URL; ?>/home/avisoprivacidad/" target="_blank">Leer Aviso Privacidad</a><br/>
+						   <input type="checkbox" name="aviso_privacidad_fdp" class="aviso_privacidad_fdp" id="aviso_privacidad_fdp" /> Acepto Aviso de Privacidad</td>
 				   </tr>
 			    </table>  
 			    

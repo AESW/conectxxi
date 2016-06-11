@@ -50,6 +50,8 @@ class Candidatos extends CI_Controller {
 					endif;	
 				endfor;
 				
+				
+				
 				if( $resultado["nombre_candidato"] == "" ):
 					$error_campos[] = "nombre_candidato";
 				endif;
@@ -146,7 +148,7 @@ class Candidatos extends CI_Controller {
 				if( $resultado["estufa_vivienda_candidato"] == "" ):
 					$error_campos[] = "estufa_vivienda_candidato";
 				endif;
-				if( $resultado["empleo_anterior1_candidato"] == "" ):
+				/*if( $resultado["empleo_anterior1_candidato"] == "" ):
 					$error_campos[] = "empleo_anterior1_candidato";
 				endif;
 				if( $resultado["descripcion_empleo1_candidato"] == "" ):
@@ -170,9 +172,7 @@ class Candidatos extends CI_Controller {
 				if( $resultado["contacto_empleo2_candidato"] == "" ):
 					$error_campos[] = "contacto_empleo2_candidato";
 				endif;
-				/*if( $resultado["cuenta_con_cuenta_bancaria"] == "" ):
-					$error_campos[] = "cuenta_con_cuenta_bancaria";
-				endif;*/
+				
 				if( $resultado["empleo_anterior3_candidato"] == "" ):
 					$error_campos[] = "empleo_anterior3_candidato";
 				endif;
@@ -181,42 +181,41 @@ class Candidatos extends CI_Controller {
 				endif;
 				if( $resultado["telefono_empleo3_candidato"] == "" ):
 					$error_campos[] = "telefono_empleo3_candidato";
-				endif;
+				endif;*/
 				if( $resultado["contacto_empleo3_candidato"] == "" ):
 					$error_campos[] = "contacto_empleo3_candidato";
 				endif;
-				
-				if( $resultado["telefono_casa_candidato"] == "" ):
+				/*if( $resultado["cuenta_con_cuenta_bancaria"] == "" ):
+					$error_campos[] = "cuenta_con_cuenta_bancaria";
+				endif;*/
+				if( $resultado["telefono_casa_candidato"] == "" && $resultado["telefono_movil_candidato"] == ""):
 					$error_campos[] = "telefono_casa_candidato";
 				endif;
 				
-				if( $resultado["telefono_movil_candidato"] == "" ):
-					$error_campos[] = "telefono_movil_candidato";
-				endif;
-				if( $resultado["telefono_otro_candidato"] == "" ):
+				
+				/*if( $resultado["telefono_otro_candidato"] == "" ):
 					$error_campos[] = "telefono_otro_candidato";
-				endif;
+				endif;*/
 				if( $resultado["correo_electronico_candidato"] == "" || !$this->VerificarrDireccionCorreo($resultado["correo_electronico_candidato"]) ):
 					$error_campos[] = "correo_electronico_candidato";
 				endif;
-				if( $resultado["nombre_completo_familiar_candidato"] == "" ):
+				/*if( $resultado["nombre_completo_familiar_candidato"] == "" ):
 					$error_campos[] = "nombre_completo_familiar_candidato";
-				endif;
-				if( $resultado["parentesco_familiar_candidato"] == "" ):
+				endif;*/
+				/*if( $resultado["parentesco_familiar_candidato"] == "" ):
 					$error_campos[] = "parentesco_familiar_candidato";
-				endif;
+				endif;*/
 				if( $resultado["nombre_contacto_emergencia_candidato"] == "" ):
 					$error_campos[] = "nombre_contacto_emergencia_candidato";
 				endif;
 				if( $resultado["parentesco_contacto_emergencia_candidato"] == "" ):
 					$error_campos[] = "parentesco_contacto_emergencia_candidato";
 				endif;
-				if( $resultado["telefono_casa_emergencia_candidato"] == "" ):
+				
+				if( $resultado["telefono_casa_emergencia_candidato"] == "" && $resultado["telefono_movil_emergencia_candidato"] == ""):
 					$error_campos[] = "telefono_casa_emergencia_candidato";
 				endif;
-				if( $resultado["telefono_movil_emergencia_candidato"] == "" ):
-					$error_campos[] = "telefono_movil_emergencia_candidato";
-				endif;
+				
 				/*if( $resultado["numero_cuenta_candidato"] == "" ):
 					$error_campos[] = "numero_cuenta_candidato";
 				endif;*/
@@ -281,6 +280,10 @@ class Candidatos extends CI_Controller {
 				if( $resultado["carta_recomendacion_empleo3_candidato"] == "" ):
 					$error_campos[] = "carta_recomendacion_empleo3_candidato";
 				endif;
+				if(  $resultado["aviso_privacidad_fdp"] == 0):
+					$error_campos[] = "aviso_privacidad_fdp";
+				endif;
+				
 				
 			if( !empty($camposVacios) ):
 					$error_campos[] = "dependientes_economicos";
@@ -309,6 +312,7 @@ class Candidatos extends CI_Controller {
 				"fecha_nacimiento_candidato" => $_POST["fecha_nacimiento_candidato"],
 				"pais_nacimiento_candidato" => $this->Sanitize->clean_string($_POST["pais_nacimiento_candidato"]),
 				"estado_nacimiento_candidato" => $this->Sanitize->clean_string($_POST["estado_nacimiento_candidato"]),	
+				"aviso_privacidad_fdp" => ( isset( $_POST["aviso_privacidad_fdp"] ) )?1:0
 			);
 			
 			$arrayFormPart2 = array(
@@ -328,13 +332,13 @@ class Candidatos extends CI_Controller {
 				"escolaridad_jefefamilia_candidato" => $this->Sanitize->clean_string($_POST["escolaridad_jefefamilia_candidato"]),
 				"automovil_candidato" => $this->Sanitize->clean_string($_POST["automovil_candidato"]),
 				"ingresos_familia_candidato" => $_POST["ingresos_familia_candidato"],
-				"egresos_vivienda_candidato" => $_POST["egresos_vivienda_candidato"],
-				"egresos_educacion_candidato" => $_POST["egresos_educacion_candidato"],
-				"egresos_alimentacion_candidato" => $_POST["egresos_alimentacion_candidato"],
-				"egresos_recreacion_candidato" => $_POST["egresos_recreacion_candidato"],
-				"egresos_servicios_candidato" => $_POST["egresos_servicios_candidato"],
-				"egresos_adeudos_candidato" => $_POST["egresos_adeudos_candidato"],
-				"egresos_otros_candidato" => $_POST["egresos_otros_candidato"],
+				"egresos_vivienda_candidato" => ($_POST["egresos_vivienda_candidato"] != "")?$_POST["egresos_vivienda_candidato"]:0,
+				"egresos_educacion_candidato" => ( $_POST["egresos_educacion_candidato"] != "")?$_POST["egresos_educacion_candidato"]:0,
+				"egresos_alimentacion_candidato" => ( $_POST["egresos_alimentacion_candidato"] != "")?$_POST["egresos_alimentacion_candidato"]:0,
+				"egresos_recreacion_candidato" => ( $_POST["egresos_recreacion_candidato"] != "")?$_POST["egresos_recreacion_candidato"]:0,
+				"egresos_servicios_candidato" => ($_POST["egresos_servicios_candidato"] != "")?$_POST["egresos_servicios_candidato"]:0,
+				"egresos_adeudos_candidato" => ( $_POST["egresos_adeudos_candidato"] != "")?$_POST["egresos_adeudos_candidato"]:0,
+				"egresos_otros_candidato" => ( $_POST["egresos_otros_candidato"] != "")?$_POST["egresos_otros_candidato"]:0,
 			);
 			
 			$arrayFormPart3 = array(

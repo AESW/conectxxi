@@ -78,4 +78,14 @@ class Home extends CI_Controller {
 		 $this->SessionL->cerrarSesion();
 	}
 	
+	public function avisoprivacidad(){
+		
+		$dataHeader = array(
+			"titulo" => "Aviso de privacidad"
+		);
+		$this->load->view('includes/header' , $dataHeader);
+		$this->load->view('home/avisoprivacidad');
+		$this->load->view('includes/footer');
+		
+	}
 }
