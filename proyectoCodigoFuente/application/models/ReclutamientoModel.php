@@ -78,8 +78,10 @@ class ReclutamientoModel extends CI_Model {
 			(SELECT count(idCandidatoFDP) FROM CandidatoFDP WHERE tokenFDPVacantesPendientes = VacantesPeticiones.tokenFDPVacantesPendientes ) as totalToken
 			
 			FROM VacantesPeticiones WHERE VacantesPeticiones.estatusAprobacion = \'aprobado\' 
-				 AND (SELECT count(idCandidatoFDP) FROM CandidatoFDP WHERE tokenFDPVacantesPendientes = VacantesPeticiones.tokenFDPVacantesPendientes ) <= 0
-		';
+			AND ( SELECT count( idUsuarios ) FROM UsuariosMetaDatos WHERE valorMetaDatos = VacantesPeticiones.tokenFDPVacantesPendientes) > 0
+			
+				 
+		';//Agregar AND ReclutacionFDP aprobado, RecursosHumanosFDP aprobado
 		
 		$queryPeticionesVacantes = $this->db->query( $sqlPeticionesVacantes );
 		

@@ -764,32 +764,7 @@
 					   </td>
 				   </tr>
 			    </table>  
-			    
-			    <h2><label>Cuenta bancaria</label></h2>  
-			    <!-- content -->
-			    <table cellpadding="0" cellspacing="0" width="100%">
-				    <tr>
-					    <td <?php echo ( in_array('cuenta_con_cuenta_bancaria' , $error_campos) )?"style='border:2px solid red;'":""; ?>>¿Cuenta con cuenta bancaria? <?php echo $formArray["cuenta_con_cuenta_bancaria"]; ?>
-						    <br/><input type="radio" name="cuenta_con_cuenta_bancaria" class="cuenta_con_cuenta_bancaria" value="si" <?php if( isset($formArray["cuenta_con_cuenta_bancaria"]) && $formArray["cuenta_con_cuenta_bancaria"] == "si" ): echo "checked"; endif; ?> />Si <br/>
-						    	<input type="radio" name="cuenta_con_cuenta_bancaria" class="cuenta_con_cuenta_bancaria" value="no" <?php if( isset($formArray["cuenta_con_cuenta_bancaria"]) && $formArray["cuenta_con_cuenta_bancaria"] == "no" ): echo "checked"; endif; ?>/>No
-					    </td>
-				    </tr>
-				    <tr>
-					    <td>Número de cuenta</td>
-					    <td>
-						    <input type="text" name="numero_cuenta_candidato" class="numero_cuenta_candidato" id="numero_cuenta_candidato" placeholder="No. de cuenta" autocomplete="off" required value="<?php echo (isset($formArray["numero_cuenta_candidato"]))?$formArray["numero_cuenta_candidato"]:""; ?>" <?php echo ( in_array('numero_cuenta_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
-					    </td>
-					    <td>CLABE Interbancaria</td>
-					    <td>
-						    <input type="text" name="clabe_interbancaria_candidato" class="clabe_interbancaria_candidato" id="clabe_interbancaria_candidato" placeholder="CLABE Interbancaria" autocomplete="off" required value="<?php echo (isset($formArray["clabe_interbancaria_candidato"]))?$formArray["clabe_interbancaria_candidato"]:""; ?>" <?php echo ( in_array('clabe_interbancaria_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
-					    </td>
-				    </tr>
-				    <tr>
-					    <td>Banco</td>
-					    <td><input type="text" name="banco_candidato" class="banco_candidato" id="banco_candidato" placeholder="Nombre del banco" autocomplete="off" required value="<?php echo (isset($formArray["banco_candidato"]))?$formArray["banco_candidato"]:""; ?>" <?php echo ( in_array('banco_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
-				    </tr>
-			    </table>
-			    
+				
 			    <div style="clear: both;"></div>
 			  </div>
 			  <!-- End Paso 4 -->
@@ -829,6 +804,23 @@
 				  <h2><label>Perfil del candidato</label></h2>  
 				  
 				  <table cellpadding="0" cellspacing="0" width="100%">
+					  <tr>
+						  <td>Vacante a participar</td>
+						  <td>
+							  <select name="vacante_participar" class="vacante_participar" id="vacante_participar">
+								  <option value="">Seleccionar vacante</option>
+								  <?php 
+									  if( !empty($peticionesVacantes) ):
+									  	
+									  	foreach( $peticionesVacantes as $vacante ):
+									  		$selectVacante = ( isset($reclutamientoFDP["idVacantesPeticiones"]) && $reclutamientoFDP["idVacantesPeticiones"] == $vacante["idVacantesPeticiones"] )?" selected ":"";
+									  		echo "<option ".$selectVacante." value='".$vacante["idVacantesPeticiones"]."'>".$vacante["nombrePuesto"]."</option>";
+									  	endforeach;
+									  endif;
+								  ?>
+							  </select>
+						  </td>
+					  </tr>
 					  <tr>
 						  <td>Perfil</td>
 						  <td>
@@ -969,6 +961,15 @@
 	        changeYear:true,
         });
         
+        $("#btnAprobarCandidato").click(function(){
+	       if( $(".vacante_participar").val() == "" ){
+		       $(".vacante_participar").focus();
+		       alert("Favor de seleccionar la vacante");
+		       return false;
+	       }else{
+		       return true;
+	       }
+        });
         
 	});
 	</script>

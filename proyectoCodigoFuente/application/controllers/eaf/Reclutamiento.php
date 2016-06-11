@@ -99,13 +99,16 @@ class Reclutamiento extends CI_Controller {
 		else:
 			redirect("panel");
 		endif;
+		
+		$peticionesVacantes = $this->ReclutamientoModel->obtenerPeticionesVacantes();
+		
 		/*Obtener datos de usuario, roles, modulos , permisos*/
 		$candidatoFDP = $this->ReclutamientoModel->obtenerCandidatoFDP($idCandidatoFDP);
 		
 		$reclutamientoFDP = $this->ReclutamientoModel->obtenerPrimerEntrevista($idCandidatoFDP);
 		
 		/*Validar que sea valido el candidato*/
-		if( empty( $candidatoFDP ) || $candidatoFDP["idVacantesPeticiones"] == 0 ):
+		if( empty( $candidatoFDP ) ):
 			redirect("panel");
 		endif;
 		/*Validar que sea valido el candidato*/
@@ -121,6 +124,8 @@ class Reclutamiento extends CI_Controller {
     			$escalaValoresEvaluacionRazonamiento = $this->Sanitize->clean_string($_POST["escala_evaluacion_candidato_reclutamiento"]);
     			$comentariosReclutador = $this->Sanitize->clean_string($_POST["comentarios_candidato_reclutamiento"]);
     			$estatusReclutamientoFDP = $this->Sanitize->clean_string($_POST["aprobar_rechazar"]);
+    			$idVacantesPeticiones = $_POST["idVacantesPeticiones"];
+    			
     			$idUsuarioCrea = $sessionUser["usuario"]["idUsuarios"];
     			$fechaEntrevista = $_POST["fecha_entrevista_candidato_reclutamiento"];
     			
@@ -136,7 +141,7 @@ class Reclutamiento extends CI_Controller {
     									 ->setIdUsuarioCrea($idUsuarioCrea)
     									 ->setEstatusReclutamientoFDP($estatusAprobacion)
     									 ->setFechaEntrevista($fechaEntrevista)
-    									 ->setIdVacantesPeticiones($candidatoFDP["idVacantesPeticiones"]);
+    									 ->setIdVacantesPeticiones($idVacantesPeticiones);
 				
 				
 				$sql = $this->ReclutamientoModel->guardarPrimerEntrevistaCandidatoFDP();
@@ -154,6 +159,8 @@ class Reclutamiento extends CI_Controller {
 		$dataContent["formArray"] = $candidatoFDP;
 		$dataContent["catalogos"] = new Catalogos();
 		$dataContent["reclutamientoFDP"] = $reclutamientoFDP;
+		$dataContent["peticionesVacantes"] = $peticionesVacantes;
+		
 		/*Obtener datos de usuario, roles, modulos , permisos*/
 		
 		$this->load->view('includes/header' , $dataHeader);
