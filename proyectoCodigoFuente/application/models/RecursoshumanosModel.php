@@ -125,4 +125,180 @@ class RecursoshumanosModel extends CI_Model {
 			
 		return $arrayFields;
 	}
+	
+	public function obtenerCandidatoFDP( $idCandidadtoFDP = 0 ){
+	
+		if( !is_numeric( $idCandidadtoFDP ) || $idCandidadtoFDP == 0 ):
+		return 22;
+		endif;
+	
+		$sqlCandidatoFDP = 'SELECT * FROM CandidatoFDP WHERE idCandidatoFDP = '.$idCandidadtoFDP." LIMIT 1";
+	
+		$queryCandidatoFDP = $this->db->query( $sqlCandidatoFDP );
+	
+		if( $queryCandidatoFDP->num_rows() > 0 ):
+		$resultadoCandidatoFDP = $queryCandidatoFDP->result();
+		$arrayCandidato = array();
+		foreach($resultadoCandidatoFDP as $campos):
+		$arrayCandidato["nombre_candidato"] = $campos->nombre;
+		$arrayCandidato["apellido_paterno_candidato"] = $campos->apeliidoPaterno;
+		$arrayCandidato["apellido_materno_candidato"] = $campos->apellidoMaterno;
+		$arrayCandidato["fecha_nacimiento_candidato"] = $campos->fechaNacimiento;
+		$arrayCandidato["pais_nacimiento_candidato"] = $campos->paisNacimiento;
+		$arrayCandidato["estado_nacimiento_candidato"] = $campos->estadoNacimiento;
+		$arrayCandidato["genero_candidato"] = $campos->genero;
+		$arrayCandidato["nivel_educativo_candidato"] = $campos->nivelEducativo;
+		$arrayCandidato["estado_civil_candidato"] = $campos->estadoCivil;
+		$arrayCandidato["rfc_candidato"] = $campos->rfcCandidato;
+		$arrayCandidato["curp_candidato"] = $campos->curpCandidato;
+		$arrayCandidato["numero_segurosocial_candidato"] = $campos->numeroSeguroSocial;
+		$arrayCandidato["correo_electronico_candidato"] = $campos->correoElectronico;
+		$arrayCandidato["tokenFDPVacantesPendientes"] = $campos->tokenFDPVacantesPendientes;
+	
+	
+		endforeach;
+			
+			
+		$sqlMetaDatosCandidatoFDP = 'SELECT * FROM MetaDatosCandidatoFDP WHERE idCandidatoFDP = '.$idCandidadtoFDP;
+			
+		$queryMetaDatosCandidatoFDP = $this->db->query( $sqlMetaDatosCandidatoFDP );
+			
+		if( $queryMetaDatosCandidatoFDP->num_rows() > 0 ):
+		$resultadoMetaDatosCandidatoFDP = $queryMetaDatosCandidatoFDP->result();
+	
+		foreach( $resultadoMetaDatosCandidatoFDP as $meta ):
+		$arrayCandidato[$meta->prefijoMetaDatos] = $meta->valorMetaDatos;
+		endforeach;
+	
+		endif;
+			
+			
+		$sqlArchivosCandidatoFDP = 'SELECT * FROM ArchivosFDP WHERE idCandidatoFDP = '.$idCandidadtoFDP;
+		$queryArchivosCandidatoFDP = $this->db->query($sqlArchivosCandidatoFDP);
+			
+		if( $queryArchivosCandidatoFDP->num_rows() > 0 ):
+		$resultadoArchivosCandidatoFDP = $queryArchivosCandidatoFDP->result();
+	
+		foreach( $resultadoArchivosCandidatoFDP as $archivos ):
+		$arrayCandidato[$archivos->prefijoArchivo] = $archivos->nombreArchivo;
+		endforeach;
+	
+		endif;
+			
+		$sqlDependientesCandidatoFDP = 'SELECT * FROM DependientesEconomicos WHERE idCandidatoFDP = '.$idCandidadtoFDP;
+		$queryDependientesCandidatoFDP = $this->db->query( $sqlDependientesCandidatoFDP );
+		$itemsDependientes = array();
+		if( $queryDependientesCandidatoFDP->num_rows() > 0 ):
+		$resultadoDependientesCandidatoFDP = $queryDependientesCandidatoFDP->result();
+	
+		foreach( $resultadoDependientesCandidatoFDP as $dependientes ):
+		$itemsDependientes[] = $dependientes->parentesco;
+		endforeach;
+		endif;
+			
+		$arrayCandidato["parentesco_dependiente_economico_candidato"] = $itemsDependientes;
+			
+			
+		$sqlVacantesPeticiones = 'SELECT *,(SELECT nombrePuesto FROM Puestos WHERE idPuestos = VacantesPeticiones.idPuesto ) as nombrePuesto FROM VacantesPeticiones WHERE tokenFDPVacantesPendientes = \''.$arrayCandidato["tokenFDPVacantesPendientes"].'\' LIMIT 1';
+		$queryVacantesPeticiones = $this->db->query( $sqlVacantesPeticiones );
+			
+		if( $queryVacantesPeticiones->num_rows() > 0 ):
+		$resultadoVacantesPeticiones = $queryVacantesPeticiones->result();
+		$arrayCandidato["idVacantesPeticiones"] = $resultadoVacantesPeticiones[0]->idVacantesPeticiones;
+		$arrayCandidato["idUsuariosPeticion"] = $resultadoVacantesPeticiones[0]->idUsuariosPeticion;
+		$arrayCandidato["Puesto"] = $resultadoVacantesPeticiones[0]->nombrePuesto;
+		else:
+		$arrayCandidato["idVacantesPeticiones"] = 0;
+		endif;
+			
+			
+		$sqlReclutamientoFDP = "SELECT * FROM ReclutamientoFDP WHERE idCandidatoFDP = ".$idCandidadtoFDP."  and estatusReclutamientoFDP ='aprobado' LIMIT 1";
+		$queryReclutamientoFDP = $this->db->query( $sqlReclutamientoFDP );
+			
+		if( $queryReclutamientoFDP->num_rows() > 0 ):
+		$resultadoReclutamientoFDP = $queryReclutamientoFDP->result();
+		$arrayCandidato["idReclutamientoFDP"] = $resultadoReclutamientoFDP[0]->idReclutamientoFDP;
+		
+		////////RecursosHumanosFDP
+		
+		$sqlRecursosHumanosFDP = "SELECT (select nombreUsuario from Usuarios where idUsuarios=RecursosHumanosFDP.idUsuariosAprobacionGerente) as nombreGerente ,RecursosHumanosFDP.* FROM RecursosHumanosFDP WHERE idCandidatoFDP = ".$idCandidadtoFDP."  and estatusRecursosHumanosFDP is not null and estatusGerenteFDP ='aprobado'  LIMIT 1";
+		$queryRecursosHumanosFDP = $this->db->query( $sqlRecursosHumanosFDP );
+		
+		if( $queryRecursosHumanosFDP->num_rows() > 0 ):
+		
+		$resultadoRecursosHumanosFDP = $queryRecursosHumanosFDP->result();
+		$arrayCandidato["idUsuariosAprobacionGerente"] = $resultadoRecursosHumanosFDP[0]->idUsuariosAprobacionGerente;
+		$arrayCandidato["idNombreAprobacionGerente"] = $resultadoRecursosHumanosFDP[0]->nombreGerente;
+		
+		
+		
+		else:
+		
+		$arrayCandidato["idRecursosHumanosFDP"] = 0;
+		endif;
+		
+		
+		/////////////////////
+		
+		
+		else:
+		$arrayCandidato["idReclutamientoFDP"] = 0;
+		endif;
+			
+		return $arrayCandidato;
+		else:
+		return array();
+		endif;
+	
+	}
+	
+	public function obtenerEmpresas(){
+		
+		
+		$sqlObtenerEmpresas = 'SELECT * FROM empresas' ;
+			
+		$resultObtenerEmpresas = array();
+			
+		$queryObtenerEmpresas = $this->db->query($sqlObtenerEmpresas);
+			
+		if( $queryObtenerEmpresas->num_rows() > 0 ):
+		$resultObtenerEmpresas = $queryObtenerEmpresas->result();
+		
+		
+		endif;
+			
+		
+		return $resultObtenerEmpresas;
+		
+	
+	}
+	
+	
+
+	public function insertarUsuario($nombre_candidato,$apellido_paterno_candidato,$apellido_materno_candidato,$email,$rfc){
+	
+	
+			$sqlInsert = "INSERT INTO usuarios ( nombreUsuario, correoUsuario, contraseniaUsuario, estatusUsuario,fechaRegistro, RFC ) VALUES( concat('$apellido_paterno_candidato','$apellido_materno_candidato','$nombre_candidato'),'$email',md5('2016'),'activo',now(),'$rfc')";
+		
+	$queryInsert = $this->db->query($sqlInsert);
+	
+	if ($queryInsert)
+	{
+	
+		
+		
+		return true;
+	}
+	else{
+		return false;
+	}
+	
+	
+	}
+	
+
+	
+	
+	
+	
 }

@@ -139,5 +139,50 @@ class Catalogos
 	    
 	    return $list;
     }
+	
+	 public function rhUbicacion(){
+	    $list = array(
+		    "Puebla" => "Puebla",
+		    "Tlalnepantla" => "Tlalnepantla",
+		    "Tlalpan" => "Tlalpan",
+			"Veracruz" => "Veracruz"
+	    );
+	    
+	    return $list;
+    }
+    
+    public function rhHorario(){
+    	$list = array(
+    			"Matutino" => "Matutino",
+    			"Mixto" => "Mixto",
+    			"Vespertino" => "Vespertino"
+    	);
+    	 
+    	return $list;
+    }
+    
+    public function rhDiaDescanso(){
+    	$list = array(
+    			"lunes" => "lunes",
+    			"Martes" => "Martes",
+    			"Miércoles" => "Miércoles",
+    			"Jueves" => "Jueves",
+    			"Viernes" => "Viernes",
+    			"Sábado" => "Sábado",
+    			"Domingo" => "Domingo"
+    	);
+    
+    	return $list;
+    }
+    
+    public function rhDuracionContrato(){
+    	$list = array(
+    			"28 Días" => "28 Días",
+    			"Indefinido" => "Indefinido"
+    			
+    	);
+    
+    	return $list;
+    }
     
 }

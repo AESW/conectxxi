@@ -2,6 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 require_once(APPPATH.'libraries/Sanitize.php');
+require(APPPATH.'libraries/UploadHandlerRH.php');
 
 
 class Recursoshumanos extends CI_Controller {
@@ -315,10 +316,76 @@ class Recursoshumanos extends CI_Controller {
 		
 		/*Obtener datos de usuario, roles, modulos , permisos*/
 		
+	
+		
 		$this->load->view('includes/header' , $dataHeader);
 		$this->load->view('eaf/recursoshumanos/fdp_rh' , $dataContent);
 		$this->load->view('includes/footer');
 		
+	}
+	
+	
+	public function altausuario(){
+		
+		$dataHeader = array(
+				"titulo" => "Alta de Usuario"
+		);
+		
+		
+		$idCandidatoFDP=$this->input->get('idCandidatoFDP');
+		$catEmpresas=$this->RecursoshumanosModel->obtenerEmpresas();
+		$candidatoFDP = $this->RecursoshumanosModel->obtenerCandidatoFDP($idCandidatoFDP);
+		
+		if( empty( $candidatoFDP ) || $candidatoFDP["idVacantesPeticiones"] == 0 ||  $candidatoFDP["idReclutamientoFDP"] == 0 ||  $candidatoFDP["idUsuariosAprobacionGerente"] == 0):
+		redirect("panel");
+		endif;
+		
+		$dataContent["formArray"] = $candidatoFDP;
+		$dataContent["catalogos"] = new Catalogos();
+		$dataContent["Empresas"] = $catEmpresas;
+		
+		//echo "<pre>";print_r($dataContent);
+		
+		$this->load->view('includes/header' , $dataHeader);
+		$this->load->view('eaf/recursoshumanos/alta_usuario',$dataContent );
+		$this->load->view('includes/footer');
+		
+	}
+	
+	
+	public function server(){
+		error_reporting(E_ALL | E_STRICT);
+	
+		$upload_handler = new UploadHandler(array(
+				'accept_file_types' => '/\.(gif|jpe?g|png|pdf|doc|docx)$/i'
+		)
+		);
+	}
+	
+	
+	public function GuardaAltaUsuario(){
+	
+		
+		$email = $this->Sanitize->clean_string($_POST["email"]);
+		$rfc = $this->Sanitize->clean_string($_POST["rfc"]);
+		
+		$nombre_candidato = $this->Sanitize->clean_string($_POST["nombre_candidato"]);
+		$apellido_paterno_candidato = $this->Sanitize->clean_string($_POST["apellido_paterno_candidato"]);
+		$apellido_materno_candidato = $this->Sanitize->clean_string($_POST["apellido_materno_candidato"]);
+		
+		
+		$altaUsuario= $this->RecursoshumanosModel->insertarUsuario($nombre_candidato,$apellido_paterno_candidato,$apellido_materno_candidato,$email,$rfc);
+		
+		
+	
+$resultado = array(
+					"codigo" => 200,
+					"unique" => true,
+					"mensaje" => "Actualizado correctamente."
+			);
+	
+echo json_encode($resultado);
+
 	}
 		
 }
