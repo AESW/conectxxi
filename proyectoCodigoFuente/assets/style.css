@@ -187,6 +187,21 @@ footer, header, hgroup, menu, nav, section {
 .fdp_option:hover{
 	background-image: url(images/fdp_gray.png);
 }
+.fdpi_option{
+	position: absolute;
+	display: block;
+	width: 84px;
+	height: 84px;
+	background-image: url(images/LOGO-FDP.gif);
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 100%;
+	top: 23%;
+	left: 15%;
+}
+.fdpi_option:hover{
+	background-image: url(images/LOGO-FDP.gif);
+}
 
 .fpm_option{
 	position: absolute;
@@ -267,26 +282,41 @@ footer, header, hgroup, menu, nav, section {
 	background-repeat: no-repeat;
 	background-size: 100%;
 	position: absolute;
-	top: 20%;
-	left: 20%;
+	top: 5%;
+	left: 15.9%;
 }
 .eaf_reclutamiento_option:hover{
 	background-image: url(images/1_reclutamiento_hover.png);
 }
 .eaf_capacitacion_option{
 	display: block;
-	width: 29%;
-	height: 29%;
+	width: 33%;
+	height: 33%;
 	background-image: url(images/2_capacitacion.png);
 	background-position: center center;
 	background-repeat: no-repeat;
 	background-size: 100%;
 	position: absolute;
-	top: 10%;
-	left: 34.8%;
+	top: 18%;
+	left: 47%;
 }
 .eaf_capacitacion_option:hover{
 	background-image: url(images/2_capacitacion_hover.png);
+}
+.eaf_recursos_humanos{
+	display: block;
+	width: 29%;
+	height: 29%;
+	background-image: url(images/RECURSOSH.png);
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 100%;
+	position: absolute;
+	top: 22%;
+	left: 20.8%;
+}
+.eaf_recursos_humanos:hover{
+	background-image: url(images/RECURSOSHE.png);
 }
 .eaf_descuentos_option{
 	display: block;
@@ -306,15 +336,15 @@ footer, header, hgroup, menu, nav, section {
 }
 .eaf_altas_option{
 	display: block;
-	width: 29%;
-	height: 29%;
+	width: 22%;
+	height: 22%;
 	background-image: url(images/4_alta.png);
 	background-position: center center;
 	background-repeat: no-repeat;
 	background-size: 100%;
 	position: absolute;
-	top: 21%;
-	left: 52%;
+	top: 7%;
+	left: 36%;
 }
 .eaf_altas_option:hover{
 	background-image: url(images/4_alta_hover.png);
@@ -553,6 +583,10 @@ footer, header, hgroup, menu, nav, section {
 		top: 36%;
 		left: 25%;
 	}
+	.fdpi_option{
+		top: 36%;
+		left: 25%;
+	}
 	.fpm_option{
 		top: 26%;
 		left: 65%;
@@ -604,6 +638,12 @@ footer, header, hgroup, menu, nav, section {
 		left: 41%;
 	}
 	.fdp_option{
+		height: 65px;
+		left: 22%;
+		top: 38%;
+		width: 65px;
+	}
+	.fdpi_option{
 		height: 65px;
 		left: 22%;
 		top: 38%;
