@@ -236,12 +236,6 @@ class Recursoshumanos extends CI_Controller {
 		$catEmpresas=$this->RecursoshumanosModel->obtenerEmpresas();
 		$candidatoFDP = $this->RecursoshumanosModel->obtenerCandidatoFDP($idCandidatoFDP);
 		
-		echo $candidatoFDP."<br/>";
-		echo $candidatoFDP["idVacantesPeticiones"]."<br/>";
-		echo $candidatoFDP["idReclutamientoFDP"]."<br/>";
-		echo $candidatoFDP["idUsuariosAprobacionGerente"]."<br/>";
-		
-		die;
 		
 		if( empty( $candidatoFDP ) || $candidatoFDP["idVacantesPeticiones"] == 0 ||  $candidatoFDP["idReclutamientoFDP"] == 0 ||  $candidatoFDP["idUsuariosAprobacionGerente"] == 0):
 		redirect("panel");

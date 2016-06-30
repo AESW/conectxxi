@@ -235,28 +235,29 @@ class RecursoshumanosModel extends CI_Model {
 		endif;
 
 		$arrayCandidato["parentesco_dependiente_economico_candidato"] = $itemsDependientes;
-
-
-		$sqlVacantesPeticiones = 'SELECT *, (SELECT nombrePuesto FROM Puestos WHERE idPuestos = VacantesPeticiones.idPuesto ) as nombrePuesto FROM VacantesPeticiones WHERE tokenFDPVacantesPendientes = \''.$arrayCandidato["tokenFDPVacantesPendientes"].'\' LIMIT 1';
-		$queryVacantesPeticiones = $this->db->query( $sqlVacantesPeticiones );
-
-		if( $queryVacantesPeticiones->num_rows() > 0 ):
-			$resultadoVacantesPeticiones = $queryVacantesPeticiones->result();
-		$arrayCandidato["idVacantesPeticiones"] = $resultadoVacantesPeticiones[0]->idVacantesPeticiones;
-		$arrayCandidato["idUsuariosPeticion"] = $resultadoVacantesPeticiones[0]->idUsuariosPeticion;
-		$arrayCandidato["Puesto"] = $resultadoVacantesPeticiones[0]->nombrePuesto;
-		else:
-			$arrayCandidato["idVacantesPeticiones"] = 0;
-		endif;
-
+		
+		
 
 		$sqlReclutamientoFDP = "SELECT * FROM ReclutamientoFDP WHERE idCandidatoFDP = ".$idCandidadtoFDP."  and estatusReclutamientoFDP ='aprobado' LIMIT 1";
 		$queryReclutamientoFDP = $this->db->query( $sqlReclutamientoFDP );
 
 		if( $queryReclutamientoFDP->num_rows() > 0 ):
 			$resultadoReclutamientoFDP = $queryReclutamientoFDP->result();
-		$arrayCandidato["idReclutamientoFDP"] = $resultadoReclutamientoFDP[0]->idReclutamientoFDP;
-
+			$arrayCandidato["idReclutamientoFDP"] = $resultadoReclutamientoFDP[0]->idReclutamientoFDP;
+			$sqlVacantesPeticiones = 'SELECT *, (SELECT nombrePuesto FROM Puestos WHERE idPuestos = VacantesPeticiones.idPuesto ) as nombrePuesto FROM VacantesPeticiones WHERE idVacantesPeticiones = \''.$resultadoReclutamientoFDP[0]->idVacantesPeticiones.'\' LIMIT 1';
+			
+			$queryVacantesPeticiones = $this->db->query( $sqlVacantesPeticiones );
+	
+			if( $queryVacantesPeticiones->num_rows() > 0 ):
+				
+				$resultadoVacantesPeticiones = $queryVacantesPeticiones->result();
+				$arrayCandidato["idVacantesPeticiones"] = $resultadoVacantesPeticiones[0]->idVacantesPeticiones;
+				$arrayCandidato["idUsuariosPeticion"] = $resultadoVacantesPeticiones[0]->idUsuariosPeticion;
+				$arrayCandidato["Puesto"] = $resultadoVacantesPeticiones[0]->nombrePuesto;
+				$arrayCandidato["tokenFDPVacantesPendientes"] = $resultadoVacantesPeticiones[0]->tokenFDPVacantesPendientes;
+			else:
+				$arrayCandidato["idVacantesPeticiones"] = 0;
+			endif;
 		////////RecursosHumanosFDP
 
 		$sqlRecursosHumanosFDP = "SELECT (select nombreUsuario from Usuarios where idUsuarios=RecursosHumanosFDP.idUsuariosAprobacionGerente) as nombreGerente ,RecursosHumanosFDP.* FROM RecursosHumanosFDP WHERE idCandidatoFDP = ".$idCandidadtoFDP."  and estatusRecursosHumanosFDP is not null and estatusGerenteFDP ='aprobado'  LIMIT 1";
@@ -273,7 +274,8 @@ class RecursoshumanosModel extends CI_Model {
 
 			$arrayCandidato["idRecursosHumanosFDP"] = 0;
 		endif;
-
+		
+		
 
 		/////////////////////
 
