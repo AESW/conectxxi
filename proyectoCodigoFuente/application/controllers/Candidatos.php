@@ -500,11 +500,15 @@ class Candidatos extends CI_Controller {
 					unset( $metasCandidato["step_current"] );
 					unset( $metasCandidato["btn_fire"] );
 					
+					$dependientesEconomicos = $metasCandidato["parentesco_dependiente_economico_candidato"];
+					
 					//unset( $metasCandidato["nombre_dependiente_economico_candidato"] );
 					unset( $metasCandidato["parentesco_dependiente_economico_candidato"] );
 					//unset( $metasCandidato["fecha_nacimiento_dependiente_economico_candidato"] );
 					//unset( $metasCandidato["parentesco_dependiente_economico_candidato"] );
 					//unset( $metasCandidato["correo_electronico_candidato"] );
+					
+					
 					
 					/*AMAI*/
 					$NoBanos = $resultado["no_banios_candidato"];
@@ -654,8 +658,9 @@ class Candidatos extends CI_Controller {
 						$this->db->query( $sqlInsertMetaDatos );
 					
 					
-					if( count( $metasCandidato["parentesco_dependiente_economico_candidato"] ) > 0 ):
-						for( $d = 0; $d < count( $metasCandidato["parentesco_dependiente_economico_candidato"] ) ; $d++):
+					if( count( $dependientesEconomicos ) > 0 ):
+						
+						for( $d = 0; $d < count( $dependientesEconomicos ) ; $d++):
 							$insertDependiente = 'INSERT INTO DependientesEconomicos ( nombre , genero , fechaNacimiento , parentesco , idCandidatoFDP ) VALUES ( \'\' , \'\' , \'\' , \''.$resultado["parentesco_dependiente_economico_candidato"][$d].'\' , '.$candidatoInsertID.' )';
 							$this->db->query( $insertDependiente );
 							
