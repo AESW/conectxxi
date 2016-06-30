@@ -42,7 +42,14 @@
 						echo $titulo;
 					endif;
 				?>
-				<a href="<?php echo HOME_URL."home/logout/";?>" style="float: right;font-size: 9pt; text-decoration: none;">Cerrar sesión</a>
+				<?php 
+					if (isset($this->session->userdata['logged_in'])):
+				?>
+					<a href="<?php echo HOME_URL."home/logout/";?>" style="float: right;font-size: 9pt; text-decoration: none;">Cerrar sesión</a>
+					
+				<?php 
+					endif;
+				?>	
 			</div>
 		</div>
 		<!-- content -->

@@ -594,7 +594,7 @@ class Candidatos extends CI_Controller {
 						$dataScoring["amai_escolaridad_jefe_familia"] = array("scoring" => 72 , "respuesta" => "4" );
 					endif;
 					
-					$Focos = $resutlado["focos_vivienda_candidato"];
+					$Focos = $resultado["focos_vivienda_candidato"];
 					
 					if( $Focos == "5menos" ):
 						$dataScoring["amai_no_focos"] = array("scoring" => 0 , "respuesta" => "Sin instrucción" );	

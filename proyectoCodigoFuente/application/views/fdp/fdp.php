@@ -778,7 +778,30 @@
 						    <hr/>
 						<?php
 					    	endfor;
-					    		
+					    else:
+					    ?>
+					  	<table cellpadding="0" cellspacing="0" width="100%" class="dep_table" dependiente="1">
+							    
+							    <tr>
+								    
+								    <td>Parentesco</td>
+								    <td>
+									   <select name="parentesco_dependiente_economico_candidato[]" class="parentesco_dependiente_economico_candidato" id="parentesco_dependiente_economico_candidato">
+										   <option value="">Seleccionar opción</option> 
+										   
+										   <option value="esposo" <?php if( isset($formArray["parentesco_dependiente_economico_candidato"][$x]) && $formArray["parentesco_dependiente_economico_candidato"][$x] == "esposo"): echo "selected"; endif; ?>>Esposo</option>
+										   <option value="esposa" <?php if( isset($formArray["parentesco_dependiente_economico_candidato"][$x]) && $formArray["parentesco_dependiente_economico_candidato"][$x] == "esposa"): echo "selected"; endif; ?>>Esposa</option>
+										   <option value="hija" <?php if( isset($formArray["parentesco_dependiente_economico_candidato"][$x]) && $formArray["parentesco_dependiente_economico_candidato"][$x] == "hija"): echo "selected"; endif; ?>>Hija</option>
+										   <option value="hijo" <?php if( isset($formArray["parentesco_dependiente_economico_candidato"][$x]) && $formArray["parentesco_dependiente_economico_candidato"][$x] == "hijo"): echo "selected"; endif; ?>>Hijo</option>
+										   <option value="madre" <?php if( isset($formArray["parentesco_dependiente_economico_candidato"][$x]) && $formArray["parentesco_dependiente_economico_candidato"][$x] == "madre"): echo "selected"; endif; ?>>Madre</option>
+										   <option value="padre" <?php if( isset($formArray["parentesco_dependiente_economico_candidato"][$x]) && $formArray["parentesco_dependiente_economico_candidato"][$x] == "padre"): echo "selected"; endif; ?>>Padre</option>
+										   
+									   </select>
+								    </td>
+							    </tr>    
+						    </table>
+						    <hr/>
+					  	<?php	
 					    endif;	
 				    ?>
 			    </div>    
@@ -945,7 +968,7 @@
 			
 			$(".dependientes_economicos_block").append( '<hr><table class="dep_table" width="100%" cellspacing="0" cellpadding="0" dependiente="'+(numeroTablas + 1 )+'">'+$(".dep_table").html()+"</table>" );
 			
-			//console.log( tablas.length );
+			console.log( tablas.length );
 		});
 		
 		$(".allownumericwithdecimal").on("keypress keyup blur",function (event) {
