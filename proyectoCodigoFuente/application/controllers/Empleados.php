@@ -51,6 +51,24 @@ class Empleados extends CI_Controller {
 				endfor;
 				
 				
+				$numeroDependientesNombre = count( $resultado["nombre_parentesco"] );
+				
+				$camposVaciosNombre = array();
+				
+				for( $x = 0; $x < $numeroDependientesNombre; $x++):
+				$items = array();
+				
+				if($resultado["nombre_parentesco"][$x] == ""):
+				$items[] = "nombre_parentesco";
+				endif;
+					
+				if( count($items) > 0 ):
+				$camposVaciosNombre[] = $items;
+				endif;
+				endfor;
+				
+				
+				
 				
 				if( $resultado["nombre_candidato"] == "" ):
 					$error_campos[] = "nombre_candidato";
@@ -290,6 +308,12 @@ class Empleados extends CI_Controller {
 					$error_campos["campos_vacios"] = $camposVacios; 
 			endif;
 			
+			
+			if( !empty($camposVaciosNombre) ):
+			$error_campos[] = "dependientes_economicos";
+			$error_campos["campos_vacios"] = $camposVaciosNombre;
+			endif;
+			
 		$_SESSION["error_campos"] = $error_campos;
 			
 		if( isset($_POST["nombre_candidato"]) ):
@@ -357,10 +381,10 @@ class Empleados extends CI_Controller {
 			);
 			
 			$arrayFormPart4 = array(
-				"empleo_anterior3_candidato" => $this->Sanitize->clean_string($_POST["empleo_anterior3_candidato"]),
-				"descripcion_empleo3_candidato" => $this->Sanitize->clean_string($_POST["descripcion_empleo3_candidato"]),
-				"telefono_empleo3_candidato" => $this->Sanitize->clean_string($_POST["telefono_empleo3_candidato"]),
-				"contacto_empleo3_candidato" => $this->Sanitize->clean_string($_POST["contacto_empleo3_candidato"]),
+				//"empleo_anterior3_candidato" => $this->Sanitize->clean_string($_POST["empleo_anterior3_candidato"]),
+				//"descripcion_empleo3_candidato" => $this->Sanitize->clean_string($_POST["descripcion_empleo3_candidato"]),
+				//"telefono_empleo3_candidato" => $this->Sanitize->clean_string($_POST["telefono_empleo3_candidato"]),
+				//"contacto_empleo3_candidato" => $this->Sanitize->clean_string($_POST["contacto_empleo3_candidato"]),
 				"telefono_casa_candidato" => $this->Sanitize->clean_string($_POST["telefono_casa_candidato"]),
 				"telefono_movil_candidato" => $this->Sanitize->clean_string($_POST["telefono_movil_candidato"]),
 				"telefono_otro_candidato" => $this->Sanitize->clean_string($_POST["telefono_otro_candidato"]),
@@ -368,6 +392,7 @@ class Empleados extends CI_Controller {
 				"nombre_completo_familiar_candidato" => $this->Sanitize->clean_string($_POST["nombre_completo_familiar_candidato"]),
 				"parentesco_familiar_candidato" => $this->Sanitize->clean_string($_POST["parentesco_familiar_candidato"]),
 				"parentesco_dependiente_economico_candidato" => $_POST["parentesco_dependiente_economico_candidato"],
+				"nombre_parentesco" => $_POST["nombre_parentesco"],
 				"nombre_contacto_emergencia_candidato" => $this->Sanitize->clean_string($_POST["nombre_contacto_emergencia_candidato"]),
 				"parentesco_contacto_emergencia_candidato" => $this->Sanitize->clean_string($_POST["parentesco_contacto_emergencia_candidato"]),
 				"telefono_casa_emergencia_candidato" => $this->Sanitize->clean_string($_POST["telefono_casa_emergencia_candidato"]),
@@ -495,8 +520,7 @@ class Empleados extends CI_Controller {
 					unset( $metasCandidato["btn_fire"] );
 					
 					//unset( $metasCandidato["nombre_dependiente_economico_candidato"] );
-					unset( $metasCandidato["parentesco_dependiente_economico_candidato"] );
-					//unset( $metasCandidato["fecha_nacimiento_dependiente_economico_candidato"] );
+					
 					//unset( $metasCandidato["parentesco_dependiente_economico_candidato"] );
 					//unset( $metasCandidato["correo_electronico_candidato"] );
 					
@@ -627,6 +651,20 @@ class Empleados extends CI_Controller {
 					endif;
 					
 					
+					
+					if( count( $metasCandidato["parentesco_dependiente_economico_candidato"] ) > 0 ):
+					for( $d = 0; $d < count( $metasCandidato["parentesco_dependiente_economico_candidato"] ) ; $d++):
+					$insertDependiente = "INSERT INTO DependientesEconomicos ( nombre , parentesco  , idCandidatoFDP ) VALUES ( '".$resultado["nombre_parentesco"][$d]."'  , '".$resultado["parentesco_dependiente_economico_candidato"][$d]."' , ".$candidatoInsertID." );";
+					$this->db->query( $insertDependiente );
+						
+					endfor;
+					
+					endif;
+					
+					unset( $metasCandidato["parentesco_dependiente_economico_candidato"] );
+					unset( $metasCandidato["nombre_parentesco"] );
+					
+					
 					foreach( $metasCandidato as $key => $res ):
 						
 						$sqlInsertMetaDatos = 'INSERT INTO MetaDatosCandidatoFDP ( prefijoMetaDatos , valorMetaDatos , idCandidatoFDP ) VALUES( \''.$key.'\' , \''.$res.'\' , '.$candidatoInsertID.' );';
@@ -648,14 +686,7 @@ class Empleados extends CI_Controller {
 						$this->db->query( $sqlInsertMetaDatos );
 					
 					
-					if( count( $metasCandidato["parentesco_dependiente_economico_candidato"] ) > 0 ):
-						for( $d = 0; $d < count( $metasCandidato["parentesco_dependiente_economico_candidato"] ) ; $d++):
-							$insertDependiente = 'INSERT INTO DependientesEconomicos ( nombre , genero , fechaNacimiento , parentesco , idCandidatoFDP ) VALUES ( \'\' , \'\' , \'\' , \''.$resultado["parentesco_dependiente_economico_candidato"][$d].'\' , '.$candidatoInsertID.' )';
-							$this->db->query( $insertDependiente );
-							
-						endfor;
-						
-					endif;
+					
 					
 					
 					$mail             = new PHPMailer();
@@ -756,7 +787,7 @@ class Empleados extends CI_Controller {
 		endif;
 		
 		
-	//	echo "<pre>";print_r($dataContent);
+		//echo "<pre>";print_r($dataContent);
 	
 		
 		$dataContent["catalogos"] = new Catalogos();

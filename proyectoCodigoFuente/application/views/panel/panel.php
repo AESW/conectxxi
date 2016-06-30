@@ -1,6 +1,7 @@
 <div class="panel_eaf">
 	<div class="block_1_eaf">
 		<a href="<?php echo HOME_URL."eaf/reclutamiento/"; ?>" class="eaf_reclutamiento_option"></a>
+		<a href="#" class="eaf_recursos_humanos"></a>
 		<a href="#" class="eaf_capacitacion_option"></a>
 		<a href="#" class="eaf_descuentos_option"></a>
 		<a href="#" class="eaf_altas_option"></a>
