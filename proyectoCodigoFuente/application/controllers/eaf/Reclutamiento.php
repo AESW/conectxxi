@@ -61,7 +61,8 @@ class Reclutamiento extends CI_Controller {
 		$entrevistasRealizar = $this->ReclutamientoModel->obtenerEntrevistasRealizarPrimeraParte();
 		/*Entrevistas por realizar*/
 		
-		
+		$candidatosRechazadosReclutador = $this->ReclutamientoModel->candidatosRechazadosReclutador();
+		$candidatosAceptadosReclutador = $this->ReclutamientoModel->candidatosAceptadosReclutador();
 		
 		$dataContent = array(
 			"isReclutamiento" => $isReclutamiento,
@@ -69,6 +70,9 @@ class Reclutamiento extends CI_Controller {
 			"peticionesVacantes" => $peticionesVacantes,
 			"entrevistasRealizar" => $entrevistasRealizar
 		);
+		$dataContent["candidatosRechazadosReclutador"] = $candidatosRechazadosReclutador;
+		$dataContent["candidatosAceptadosReclutador"] = $candidatosAceptadosReclutador;
+		
 		$this->load->view('includes/header' , $dataHeader);
 		$this->load->view('eaf/reclutamiento/index' , $dataContent);
 		$this->load->view('includes/footer');
@@ -124,7 +128,7 @@ class Reclutamiento extends CI_Controller {
     			$escalaValoresEvaluacionRazonamiento = $this->Sanitize->clean_string($_POST["escala_evaluacion_candidato_reclutamiento"]);
     			$comentariosReclutador = $this->Sanitize->clean_string($_POST["comentarios_candidato_reclutamiento"]);
     			$estatusReclutamientoFDP = $this->Sanitize->clean_string($_POST["aprobar_rechazar"]);
-    			$idVacantesPeticiones = $_POST["idVacantesPeticiones"];
+    			$idVacantesPeticiones = $_POST["vacante_participar"];
     			
     			$idUsuarioCrea = $sessionUser["usuario"]["idUsuarios"];
     			$fechaEntrevista = $_POST["fecha_entrevista_candidato_reclutamiento"];
@@ -145,6 +149,7 @@ class Reclutamiento extends CI_Controller {
 				
 				
 				$sql = $this->ReclutamientoModel->guardarPrimerEntrevistaCandidatoFDP();
+				
 				if( $sql == "insertado" ):
 					redirect("eaf/reclutamiento/candidato/?idCandidatoFDP=".$idCandidatoFDP."&reclutamiento=true");
 				else:
@@ -160,6 +165,7 @@ class Reclutamiento extends CI_Controller {
 		$dataContent["catalogos"] = new Catalogos();
 		$dataContent["reclutamientoFDP"] = $reclutamientoFDP;
 		$dataContent["peticionesVacantes"] = $peticionesVacantes;
+		
 		
 		/*Obtener datos de usuario, roles, modulos , permisos*/
 		

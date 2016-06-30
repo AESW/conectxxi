@@ -31,8 +31,7 @@ class Recursoshumanos extends CI_Controller {
 		);
 		/*Obtener datos de usuario, roles, modulos , permisos*/
 		$sessionUser = $this->session->userdata('logged_in');
-		//echo "<pre>";
-		//print_r( $sessionUser );die;
+		
 		
 		$isRRHH = 0;
 		$accionesRRHH = array();
@@ -58,12 +57,16 @@ class Recursoshumanos extends CI_Controller {
 		/*Segundas entrevistas*/
 		$entrevistasRealizarSegundaParte = $this->ReclutamientoModel->obtenerEntrevistasRealizarSegundaParte();
 		/*Segundas entrevistas*/
-		print_r( $entrevistasRealizarSegundaParte );
+		
+		
+		$movimientosCandidatosRH = $this->RecursoshumanosModel->obtenerMovimientosCandidatos();
+		
 		$dataContent = array(
 			"isRRHH" => $isRRHH,
 			"accionesRRHH" => $accionesRRHH,
 			"entrevistasRealizar" => $entrevistasRealizar,
-			"entrevistasRealizarSegundaParte" => $entrevistasRealizarSegundaParte
+			"entrevistasRealizarSegundaParte" => $entrevistasRealizarSegundaParte,
+			"movimientos" => $movimientosCandidatosRH
 		);
 		
 		$this->load->view('includes/header' , $dataHeader);
@@ -72,96 +75,6 @@ class Recursoshumanos extends CI_Controller {
 		
 	}
 	
-	public function candidato(){
-		$dataHeader = array(
-			"titulo" => "FDP Candidato"
-		);
-		$idCandidatoFDP = $this->Sanitize->clean_string($_REQUEST["idCandidatoFDP"]);
-		
-		if( $idCandidatoFDP == "" ):
-			redirect("panel");
-		endif;
-		
-		/*Obtener datos de usuario, roles, modulos , permisos*/
-		$sessionUser = $this->session->userdata('logged_in');
-		$isRRHH = 0;
-		$accionesRRHH = array();
-		if( isset( $sessionUser["puesto"]["permisos"] ) ):
-			foreach( $sessionUser["puesto"]["permisos"] as $permisos ):
-				if( $permisos["prefijoModulos"] == "recursos_humanos"):
-					$isRRHH = 1;
-					$accionesRRHH[] = $permisos["accionPermisos"];
-				endif;
-			endforeach;
-		else:
-			redirect("panel");
-		endif;
-		 
-		if( $isRRHH == 0 ):
-			redirect("panel");
-		endif;
-		/*Obtener datos de usuario, roles, modulos , permisos*/
-		$candidatoFDP = $this->ReclutamientoModel->obtenerCandidatoFDP($idCandidatoFDP);
-		
-		$reclutamientoFDP = $this->ReclutamientoModel->obtenerPrimerEntrevista($idCandidatoFDP);
-		
-		/*Validar que sea valido el candidato*/
-		if( empty( $candidatoFDP ) || $candidatoFDP["idVacantesPeticiones"] == 0 ):
-			redirect("panel");
-		endif;
-		/*Validar que sea valido el candidato*/
-		
-		/*POST*/
-			//perfil_candidato_reclutamiento
-			
-			if( isset($_POST["perfil_candidato_reclutamiento"]) ):
-				
-    			$perfilCandidato = $this->Sanitize->clean_string($_POST["perfil_candidato_reclutamiento"]);
-    			$evaluacionRazonamiento = $this->Sanitize->clean_string($_POST["evaluacion_candidato_reclutamiento"]);
-    			$puntajeEvaluacionRazonamiento = $this->Sanitize->clean_string($_POST["valores_evaluacion_candidato_reclutamiento"]);
-    			$escalaValoresEvaluacionRazonamiento = $this->Sanitize->clean_string($_POST["escala_evaluacion_candidato_reclutamiento"]);
-    			$comentariosReclutador = $this->Sanitize->clean_string($_POST["comentarios_candidato_reclutamiento"]);
-    			$estatusReclutamientoFDP = $this->Sanitize->clean_string($_POST["aprobar_rechazar"]);
-    			$idUsuarioCrea = $sessionUser["usuario"]["idUsuarios"];
-    			$fechaEntrevista = $_POST["fecha_entrevista_candidato_reclutamiento"];
-    			
-				
-				$estatusAprobacion = ( $estatusReclutamientoFDP == "aprobar" )?"aprobado":"rechazado";
-				
-    			$this->ReclutamientoModel->setIdCandidatoFDP($idCandidatoFDP)
-    									 ->setPerfilCandidato($perfilCandidato)
-    									 ->setEvaluacionRazonamiento($evaluacionRazonamiento)
-    									 ->setPuntajeEvaluacionRazonamiento($puntajeEvaluacionRazonamiento)
-    									 ->setEscalaValoresEvaluacionRazonamiento($escalaValoresEvaluacionRazonamiento)
-    									 ->setComentariosReclutador($comentariosReclutador)
-    									 ->setIdUsuarioCrea($idUsuarioCrea)
-    									 ->setEstatusReclutamientoFDP($estatusAprobacion)
-    									 ->setFechaEntrevista($fechaEntrevista)
-    									 ->setIdVacantesPeticiones($candidatoFDP["idVacantesPeticiones"]);
-				
-				
-				$sql = $this->ReclutamientoModel->guardarPrimerEntrevistaCandidatoFDP();
-				if( $sql == "insertado" ):
-					redirect("eaf/reclutamiento/candidato/?idCandidatoFDP=".$idCandidatoFDP."&reclutamiento=true");
-				else:
-					$dataContent["error_reclutamiento"] = "Por favor de llenar los campos vacíos.";
-				endif;
-    			//echo "<pre>";print_r($candidatoFDP);
-    			
-			endif;
-		/*POST*/
-		
-		
-		$dataContent["formArray"] = $candidatoFDP;
-		$dataContent["catalogos"] = new Catalogos();
-		$dataContent["reclutamientoFDP"] = $reclutamientoFDP;
-		/*Obtener datos de usuario, roles, modulos , permisos*/
-		
-		$this->load->view('includes/header' , $dataHeader);
-		$this->load->view('eaf/reclutamiento/fdp' , $dataContent);
-		$this->load->view('includes/footer');
-		
-	}
 	
 	public function candidato_rh(){
 		$dataHeader = array(
@@ -202,6 +115,9 @@ class Recursoshumanos extends CI_Controller {
 		
 		
 		$nombreGerente = ( isset( $candidatoFDP["idUsuariosPeticion"] ) )?$this->ReclutamientoModel->obtenerNombrePorIdUsuarios($candidatoFDP["idUsuariosPeticion"]):"Desconocido";
+		
+		$peticionesVacantes = $this->ReclutamientoModel->obtenerPeticionesVacantes();
+		
 		/*Validar que sea valido el candidato*/
 		if( empty( $candidatoFDP ) || $candidatoFDP["idVacantesPeticiones"] == 0 ):
 			redirect("panel");
@@ -214,6 +130,7 @@ class Recursoshumanos extends CI_Controller {
 		$obtenerMetaRH = $this->RecursoshumanosModel->obtenerMetaRH($idCandidatoFDP , $idReclutamientoFDP);
 		
 		
+		$obtenerGerentes = $this->ReclutamientoModel->obtenerGerentes();
 		
 		$arrayFields = $obtenerMetaRH;
 		$arrayErrorFields = array();
@@ -221,10 +138,8 @@ class Recursoshumanos extends CI_Controller {
 		
 		
 		if( isset($_POST["aprobar_rechazar_rh"]) ):
-			if( $sessionUser["puesto"]["accionRol"] == "gerente" || $sessionUser["puesto"]["accionRol"] == "recursos_humanos" ):
+			if( $sessionUser["puesto"]["accionRol"] == "recursos_humanos" ):
 				//Solo estos dos Roles pueden aprobar el candidato para el siguiente paso de alta.
-				
-				
 				
 				$arrayFields = array(
 					"imagen_fisica_rh_candidato" => $_POST["imagen_fisica_rh_candidato"],
@@ -248,7 +163,8 @@ class Recursoshumanos extends CI_Controller {
 					"trabajo_equipo_rh_candidato" => $_POST["trabajo_equipo_rh_candidato"],
 					"cierre_acuerdos_rh_candidato" => $_POST["cierre_acuerdos_rh_candidato"],
 					"aprobar_rechazar_rh" => $_POST["aprobar_rechazar_rh"],
-					"fecha_entrevista_rh_fdp" => $_POST["fecha_entrevista_rh_fdp"]
+					"fecha_entrevista_rh_fdp" => $_POST["fecha_entrevista_rh_fdp"],
+					"aprobacion_gerente_rh_fdp" => $_POST["aprobacion_gerente_rh_fdp"]
 				);
 				
 				
@@ -276,23 +192,6 @@ class Recursoshumanos extends CI_Controller {
 					endif;
 				endif;
 				
-				if( $sessionUser["puesto"]["accionRol"] == "gerente"):
-					
-					if( !empty($obtenerAprobacionRH) ):
-						$aprobarGerente = $this->RecursoshumanosModel->insertarEvaluacionGerenteFDP($arrayFields , $sessionUser["usuario"]["idUsuarios"] , $idCandidatoFDP , $idReclutamientoFDP);
-						
-						if( $aprobarGerente ):
-							redirect("eaf/recursoshumanos/candidato_rh/?idCandidatoFDP=".$idCandidatoFDP."&registroRH=1");
-						else:
-							$errorMensajes[] = "No fue posible guardar la información. Contacte con el administrador.";
-						endif;
-						
-					else:
-						$errorMensajes[] = "No es posible aprobar o rechazar hasta que Recursos Humanos seleccione la evaluación.";
-					endif;
-					
-				endif;
-				
 			else:
 				
 			endif;
@@ -313,7 +212,8 @@ class Recursoshumanos extends CI_Controller {
 		$dataContent["arrayFields"] = $arrayFields;
 		$dataContent["errorMensajes"] = $errorMensajes;
 		$dataContent["arrayErrorFields"] = $arrayErrorFields;
-		
+		$dataContent["peticionesVacantes"] = $peticionesVacantes;
+		$dataContent["gerentesSegundaEntrevista"] = $obtenerGerentes;
 		/*Obtener datos de usuario, roles, modulos , permisos*/
 		
 	
@@ -335,6 +235,13 @@ class Recursoshumanos extends CI_Controller {
 		$idCandidatoFDP=$this->input->get('idCandidatoFDP');
 		$catEmpresas=$this->RecursoshumanosModel->obtenerEmpresas();
 		$candidatoFDP = $this->RecursoshumanosModel->obtenerCandidatoFDP($idCandidatoFDP);
+		
+		echo $candidatoFDP."<br/>";
+		echo $candidatoFDP["idVacantesPeticiones"]."<br/>";
+		echo $candidatoFDP["idReclutamientoFDP"]."<br/>";
+		echo $candidatoFDP["idUsuariosAprobacionGerente"]."<br/>";
+		
+		die;
 		
 		if( empty( $candidatoFDP ) || $candidatoFDP["idVacantesPeticiones"] == 0 ||  $candidatoFDP["idReclutamientoFDP"] == 0 ||  $candidatoFDP["idUsuariosAprobacionGerente"] == 0):
 		redirect("panel");

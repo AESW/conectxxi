@@ -55,4 +55,38 @@
 		?>
 		</ul>
 	</div>
+	
+	<div class="block_box_gen">
+		<h2>Candidatos rechazados (Reclutador)</h2>
+		
+		<ul>
+		<?php 
+			if( !empty($candidatosRechazadosReclutador)):
+				foreach( $candidatosRechazadosReclutador as $candidato):
+					
+		?>
+					<li><a href="<?php echo HOME_URL; ?>/eaf/reclutamiento/candidato/?idCandidatoFDP=<?php echo $candidato["idCandidatoFDP"]; ?>"><?php echo $candidato["nombre"]." ".$candidato["apellidoPaterno"]." ".$candidato["apellidoMaterno"]; ?></a></li>
+		<?php			
+				endforeach;
+			endif;
+		?>
+		</ul>
+	</div>	
+	
+	<div class="block_box_gen">
+		<h2>Candidatos aprobados (Reclutador)</h2>
+		
+		<ul>
+		<?php 
+			if( !empty($candidatosAceptadosReclutador)):
+				foreach( $candidatosAceptadosReclutador as $candidato):
+					
+		?>
+					<li><a href="<?php echo HOME_URL; ?>/eaf/reclutamiento/candidato/?idCandidatoFDP=<?php echo $candidato["idCandidatoFDP"]; ?>"><?php echo $candidato["nombre"]." ".$candidato["apellidoPaterno"]." ".$candidato["apellidoMaterno"]; ?></a></li>
+		<?php			
+				endforeach;
+			endif;
+		?>
+		</ul>
+	</div>
 </div>

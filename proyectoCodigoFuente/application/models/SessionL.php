@@ -23,7 +23,10 @@ class SessionL extends CI_Model {
 		$sess_array = array(
 			
 		);
+		
 		$this->session->unset_userdata('logged_in', $sess_array);
+		
+		
 		redirect('/');
 	}
 	

@@ -814,7 +814,7 @@
 									  	
 									  	foreach( $peticionesVacantes as $vacante ):
 									  		$selectVacante = ( isset($reclutamientoFDP["idVacantesPeticiones"]) && $reclutamientoFDP["idVacantesPeticiones"] == $vacante["idVacantesPeticiones"] )?" selected ":"";
-									  		echo "<option ".$selectVacante." value='".$vacante["idVacantesPeticiones"]."'>".$vacante["nombrePuesto"]."</option>";
+									  		echo "<option ".$selectVacante." value='".$vacante["idVacantesPeticiones"]."'>".$vacante["nombrePuesto"]." - ".$vacante["tokenFDPVacantesPendientes"]."</option>";
 									  	endforeach;
 									  endif;
 								  ?>

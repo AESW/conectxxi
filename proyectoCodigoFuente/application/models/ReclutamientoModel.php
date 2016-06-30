@@ -78,9 +78,7 @@ class ReclutamientoModel extends CI_Model {
 			(SELECT count(idCandidatoFDP) FROM CandidatoFDP WHERE tokenFDPVacantesPendientes = VacantesPeticiones.tokenFDPVacantesPendientes ) as totalToken
 			
 			FROM VacantesPeticiones WHERE VacantesPeticiones.estatusAprobacion = \'aprobado\' 
-			AND ( SELECT count( idUsuarios ) FROM UsuariosMetaDatos WHERE valorMetaDatos = VacantesPeticiones.tokenFDPVacantesPendientes) > 0
-			
-				 
+			AND ( SELECT count( idUsuarios ) FROM UsuariosMetaDatos WHERE valorMetaDatos = VacantesPeticiones.tokenFDPVacantesPendientes ) >= 0	 
 		';//Agregar AND ReclutacionFDP aprobado, RecursosHumanosFDP aprobado
 		
 		$queryPeticionesVacantes = $this->db->query( $sqlPeticionesVacantes );
@@ -115,8 +113,9 @@ class ReclutamientoModel extends CI_Model {
 										 FROM CandidatoFDP WHERE
 										( SELECT count( idReclutamientoFDP ) FROM ReclutamientoFDP WHERE idCandidatoFDP = CandidatoFDP.idCandidatoFDP ) <= 0
 										
+										
 		';
-		
+		//
 		$queryEntrevistasPrimeraParte = $this->db->query($sqlEntrevistasPrimeraParte);
 		
 		if( $queryEntrevistasPrimeraParte->num_rows() > 0 ):
@@ -144,7 +143,8 @@ class ReclutamientoModel extends CI_Model {
 	public function obtenerEntrevistasRealizarSegundaParte(){
 		$sqlEntrevistasPrimeraParte = 'SELECT *,
 										(SELECT idPuesto FROM VacantesPeticiones WHERE tokenFDPVacantesPendientes = CandidatoFDP.tokenFDPVacantesPendientes) as idPuesto,
-										( SELECT nombrePuesto FROM Puestos WHERE idPuestos = (SELECT idPuesto FROM VacantesPeticiones WHERE tokenFDPVacantesPendientes = CandidatoFDP.tokenFDPVacantesPendientes) ) as nombrePuesto
+										( SELECT nombrePuesto FROM Puestos WHERE idPuestos = (SELECT idPuesto FROM VacantesPeticiones WHERE tokenFDPVacantesPendientes = CandidatoFDP.tokenFDPVacantesPendientes) ) as nombrePuesto,
+										( SELECT estatusReclutamientoFDP FROM ReclutamientoFDP WHERE idCandidatoFDP = CandidatoFDP.idCandidatoFDP ) as estatus
 										 FROM CandidatoFDP WHERE
 										( SELECT count( idReclutamientoFDP ) FROM ReclutamientoFDP WHERE idCandidatoFDP = CandidatoFDP.idCandidatoFDP ) >= 0
 										
@@ -153,6 +153,7 @@ class ReclutamientoModel extends CI_Model {
 										       ( SELECT idUsuariosAprobacionGerente FROM RecursosHumanosFDP WHERE idCandidatoFDP = CandidatoFDP.idCandidatoFDP LIMIT 1) IS NULL 	
 										     	  
 										    )   
+										AND ( SELECT estatusReclutamientoFDP FROM ReclutamientoFDP WHERE idCandidatoFDP = CandidatoFDP.idCandidatoFDP ) = \'aprobado\'    
 										
 		';
 		
@@ -251,27 +252,30 @@ class ReclutamientoModel extends CI_Model {
 			
 			$arrayCandidato["parentesco_dependiente_economico_candidato"] = $itemsDependientes;
 			
-			
-			$sqlVacantesPeticiones = 'SELECT * FROM VacantesPeticiones WHERE tokenFDPVacantesPendientes = \''.$arrayCandidato["tokenFDPVacantesPendientes"].'\' LIMIT 1';
-			$queryVacantesPeticiones = $this->db->query( $sqlVacantesPeticiones );
-			
-			if( $queryVacantesPeticiones->num_rows() > 0 ):
-				$resultadoVacantesPeticiones = $queryVacantesPeticiones->result();
-				$arrayCandidato["idVacantesPeticiones"] = $resultadoVacantesPeticiones[0]->idVacantesPeticiones;
-				$arrayCandidato["idUsuariosPeticion"] = $resultadoVacantesPeticiones[0]->idUsuariosPeticion;
-			else:
-				$arrayCandidato["idVacantesPeticiones"] = 0;	
-			endif;
-			
-			
 			$sqlReclutamientoFDP = 'SELECT * FROM ReclutamientoFDP WHERE idCandidatoFDP = '.$idCandidadtoFDP.' LIMIT 1';
 			$queryReclutamientoFDP = $this->db->query( $sqlReclutamientoFDP );
 			
 			if( $queryReclutamientoFDP->num_rows() > 0 ):
 				$resultadoReclutamientoFDP = $queryReclutamientoFDP->result();
 				$arrayCandidato["idReclutamientoFDP"] = $resultadoReclutamientoFDP[0]->idReclutamientoFDP;
+				$arrayCandidato["idVacantesPeticiones"] = $resultadoReclutamientoFDP[0]->idVacantesPeticiones;
 			else:
 				$arrayCandidato["idReclutamientoFDP"] = 0;
+				$arrayCandidato["idVacantesPeticiones"] = 0;
+			endif;
+			
+			
+			$sqlVacantesPeticiones = 'SELECT * FROM VacantesPeticiones WHERE idVacantesPeticiones = '.$arrayCandidato["idVacantesPeticiones"].' LIMIT 1';
+			
+			
+			$queryVacantesPeticiones = $this->db->query( $sqlVacantesPeticiones );
+			
+			if( $queryVacantesPeticiones->num_rows() > 0 ):
+				$resultadoVacantesPeticiones = $queryVacantesPeticiones->result();
+				
+				$arrayCandidato["idUsuariosPeticion"] = $resultadoVacantesPeticiones[0]->idUsuariosPeticion;
+			else:
+				$arrayCandidato["idVacantesPeticiones"] = 0;	
 			endif;
 			
 			return $arrayCandidato;
@@ -300,6 +304,7 @@ class ReclutamientoModel extends CI_Model {
 		):
 			return "camposVacios";
 		endif;
+		
 		
 		$sqlExistePrimerEntrevista = 'SELECT * FROM ReclutamientoFDP WHERE idCandidatoFDP = '.$this->idCandidatoFDP." LIMIT 1";
 		$querySqlExistePrimerEntrevista = $this->db->query( $sqlExistePrimerEntrevista );
@@ -421,4 +426,78 @@ class ReclutamientoModel extends CI_Model {
 		endif;
 	}
 	
+	public function candidatosRechazadosReclutador(){
+		
+		
+		$sqlCandidatosRechazados = 'SELECT * FROM CandidatoFDP , ReclutamientoFDP WHERE CandidatoFDP.idCandidatoFDP = ReclutamientoFDP.idCandidatoFDP AND ReclutamientoFDP.estatusReclutamientoFDP = \'rechazado\' ';
+		
+		$queryCandidatosRechazados = $this->db->query( $sqlCandidatosRechazados );
+		
+		if($queryCandidatosRechazados->num_rows() > 0):
+			$resultadoCandidatosRechazados = $queryCandidatosRechazados->result();
+			$arrayCandidatos = array();
+			foreach( $resultadoCandidatosRechazados as $candidato ):
+				$arrayCandidatos[] = array(
+					"idCandidatoFDP" => $candidato->idCandidatoFDP,
+					"nombre" => $candidato->nombre,
+					"apellidoPaterno" => $candidato->apeliidoPaterno,
+					"apellidoMaterno" => $candidato->apellidoMaterno,
+					
+				);
+			endforeach;
+			return $arrayCandidatos;
+		else:
+			return array();
+		endif;
+	}
+	
+	public function candidatosAceptadosReclutador(){
+		
+		$sqlCandidatosRechazados = 'SELECT * FROM CandidatoFDP , ReclutamientoFDP WHERE CandidatoFDP.idCandidatoFDP = ReclutamientoFDP.idCandidatoFDP AND ReclutamientoFDP.estatusReclutamientoFDP = \'aprobado\' ';
+		
+		$queryCandidatosRechazados = $this->db->query( $sqlCandidatosRechazados );
+		
+		if($queryCandidatosRechazados->num_rows() > 0):
+			$resultadoCandidatosRechazados = $queryCandidatosRechazados->result();
+			$arrayCandidatos = array();
+			foreach( $resultadoCandidatosRechazados as $candidato ):
+				$arrayCandidatos[] = array(
+					"idCandidatoFDP" => $candidato->idCandidatoFDP,
+					"nombre" => $candidato->nombre,
+					"apellidoPaterno" => $candidato->apeliidoPaterno,
+					"apellidoMaterno" => $candidato->apellidoMaterno,
+					
+				);
+			endforeach;
+			
+			return $arrayCandidatos;
+		else:
+			return array();
+		endif;
+	}
+	
+	public function obtenerGerentes(){
+		
+		$sqlGerentes = 'SELECT 	*,
+							 	( SELECT nombreUsuario FROM Usuarios WHERE idUsuarios = TaxPuestoUsuario.idUsuarios LIMIT 1) as nombreGerente
+		        				FROM TaxPuestoUsuario 
+		        				WHERE idRoles = 1';
+		        				
+		$queryGerentes = $this->db->query( $sqlGerentes );   
+		
+		if( $queryGerentes->num_rows() > 0 ):
+			$resultadoGerentes = $queryGerentes->result();
+			$arrayGerentes = array();
+			foreach($resultadoGerentes as $gerentes):
+				$arrayGerentes[] = array( 
+										"nombreGerente" => $gerentes->nombreGerente,
+										"idUsuarios" => $gerentes->idUsuarios
+				 				   );
+			endforeach;
+			
+			return $arrayGerentes;
+		else:
+			return array();
+		endif;     				
+	}
 }

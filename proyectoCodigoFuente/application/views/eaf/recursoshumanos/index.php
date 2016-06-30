@@ -42,6 +42,16 @@
 	
 	<div class="block_box_gen block_box_gen_rh">
 		<h2>Movimientos</h2>
-		
+		<ul>
+		<?php 
+			if( !empty($movimientos) ):
+				foreach( $movimientos as $mo ):
+					$accion = ( $mo["estatusCandidato"] == "aprobado" )?"Aprobado":"Rechazado";
+					
+					echo '<li><a href="'.HOME_URL.'/eaf/recursoshumanos/altausuario/?idCandidatoFDP='.$mo["idCandidatoFDP"].'">'.$mo["nombreCandidato"]." , ".$accion.'</a></li>';
+				endforeach;
+			endif;
+		?>
+		</ul>
 	</div>
 </div>
