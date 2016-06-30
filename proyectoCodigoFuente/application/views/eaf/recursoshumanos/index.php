@@ -47,8 +47,12 @@
 			if( !empty($movimientos) ):
 				foreach( $movimientos as $mo ):
 					$accion = ( $mo["estatusCandidato"] == "aprobado" )?"Aprobado":"Rechazado";
+					if( $accion == "Aprobado" ):
 					
-					echo '<li><a href="'.HOME_URL.'/eaf/recursoshumanos/altausuario/?idCandidatoFDP='.$mo["idCandidatoFDP"].'">'.$mo["nombreCandidato"]." , ".$accion.'</a></li>';
+						echo '<li><a href="'.HOME_URL.'/eaf/recursoshumanos/altausuario/?idCandidatoFDP='.$mo["idCandidatoFDP"].'">'.$mo["nombreCandidato"]." , ".$accion.'</a></li>';
+					else:
+						echo '<li>'.$mo["nombreCandidato"]." , ".$accion.'</li>';
+					endif;
 				endforeach;
 			endif;
 		?>
