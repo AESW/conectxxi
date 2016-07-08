@@ -25,159 +25,119 @@
       });
       
      
+      $("#btnNextFDP5").click(function(){
 
+    		error_campos = [];
+    		if( $("#nombre_candidato").val() == "" ) {
+        		error_campos.push(  "nombre_candidato");
+    		}
+        		 
+    		if( $("#apellido_paterno_candidato").val() == "" ) {
+        		error_campos.push( "apellido_paterno_candidato");
+        		}
+
+
+    		if( $("#apellido_materno_candidato").val() == "" ) {
+    		error_campos.push(  "apellido_materno_candidato");
+    		}
+    		if( $("#gerente_autoriza").val() == "" ) {
+    		error_campos.push(  "gerente_autoriza");
+    		}
+    		if( $("#empresa_contrata").val() == "" ) {
+    		error_campos.push( "empresa_contrata");
+    		}
+    		if( $("#corporativo").val() == "" ) {
+    		error_campos.push(  "corporativo");
+    		}
+
+    		if( $("#oficina").val() == "" ) {
+    		error_campos.push(  "oficina");
+    		}
+    		if( $("#plaza").val() == "" ) {
+    		error_campos.push( "plaza");
+    		}
+    		if( $("#fechaIngreso").val() == "" ) {
+    		error_campos.push(  "fechaIngreso");
+    		}
+
+
+    		if( $("#sueldoNOI").val() == "" ) {
+    		error_campos.push(  "sueldoNOI");
+    		}
+    		if( $("#puesto").val() == "" ) {
+    		error_campos.push(  "puesto");
+    		}
+
+    		if( $("#descripcionDepartamento").val() == "" ) {
+    		error_campos.push(  "descripcionDepartamento");
+    		} 
+
+    		if( $("#turno").val() == "" ) {
+    		error_campos.push( "turno");
+    		}
+
+    		if( $("#descanso").val() == "" ) {
+    		error_campos.push(  "descanso");
+    		}
+
+    		
+    		if( error_campos.length  == 0 )
+    		{
+
+
+    			if( $("#cuentaNomina").val() == ""  && $("#clabeInterbancaria").val() == "") {
+    			
+    				 var id =  $('#id').val();
+       	    	  $.post("<?php echo HOME_URL; ?>eaf/recursoshumanos/ValidarCuentaBancaria",{
+       	         	 id:id
+       	          },function(data) {
+
+
+       	        	  var mensaje=data;
+       	              
+                         
+                         if ($.trim(mensaje)=='-error')
+                         {
+                             
+                      	   $("#resultado").html("El Usuario no tiene ninguna cuenta bancaria capturada, capture la cuenta o realice una solicitud de cuenta");
+                      	  
+                         }
+                         else
+                         {
+                       	  $("#form_fdp_conectxxi").submit();
+                         }
+
+       	      });
+    			
+    			}
+    	    	  else
+    	    	  {
+    	    		  $("#form_fdp_conectxxi").submit();
+    	    	  }
+    		}
+    		else
+    		{	
+    			$(".step1").trigger("click");
+    		}
+
+
+    		
+	  });
 
   
       
-      $("#btnNextFDP5").click(function(){
-	      $(".aprobar_rechazar_rh").val( "aprobar" );
-	      if( $(".nombre_candidato").val() == ""){
-	    	  $('<p/>').html('<p style="color:red;font-weight: bold;margin-bottom: 15px;">Favor de revisar campos obligatorios marcados con rojo</p>').appendTo('#paso1');
-	    	  //$('<p/>').html('<p style="color:red;font-weight: bold;margin-bottom: 15px;">Favor de revisar campos obligatorios marcados con rojo</p>').appendTo('#paso2');
-	    	  //$('<p/>').html('<p style="color:red;font-weight: bold;margin-bottom: 15px;">Favor de revisar campos obligatorios marcados con rojo</p>').appendTo('#paso3');
-	    	   $('.page').ScrollTo();
-	 	      $(".step1").trigger("click");
-	    	  $(".nombre_candidato").css({ "border" : "2px solid red"  });
-	      }else if( $(".apellido_paterno_candidato").val() == "" ){
-	    	  $('<p/>').html('<p style="color:red;font-weight: bold;margin-bottom: 15px;">Favor de revisar campos obligatorios marcados con rojo</p>').appendTo('#paso1');
-	    	//$('<p/>').html('<p style="color:red;font-weight: bold;margin-bottom: 15px;">Favor de revisar campos obligatorios marcados con rojo</p>').appendTo('#paso2');
-	    	  //$('<p/>').html('<p style="color:red;font-weight: bold;margin-bottom: 15px;">Favor de revisar campos obligatorios marcados con rojo</p>').appendTo('#paso3');
-	    	   $('.page').ScrollTo();
-	 	      $(".step1").trigger("click");
-		      $(".apellido_paterno_candidato").css({ "border" : "2px solid red"  });
-		      
-	      }else if( $(".apellido_materno_candidato").val() == "" ){
-	    	  $('<p/>').html('<p style="color:red;font-weight: bold;margin-bottom: 15px;">Favor de revisar campos obligatorios marcados con rojo</p>').appendTo('#paso1');
-	    	//$('<p/>').html('<p style="color:red;font-weight: bold;margin-bottom: 15px;">Favor de revisar campos obligatorios marcados con rojo</p>').appendTo('#paso2');
-	    	  //$('<p/>').html('<p style="color:red;font-weight: bold;margin-bottom: 15px;">Favor de revisar campos obligatorios marcados con rojo</p>').appendTo('#paso3');
-	    	   $('.page').ScrollTo();
-	 	      $(".step1").trigger("click");
-		      $(".apellido_materno_candidato").css({ "border" : "2px solid red"  });
-		      
-	      }else if( $(".gerente_autoriza").val() == "" ){
-	    	  $('<p/>').html('<p style="color:red;font-weight: bold;margin-bottom: 15px;">Favor de revisar campos obligatorios marcados con rojo</p>').appendTo('#paso1');
-	    	//$('<p/>').html('<p style="color:red;font-weight: bold;margin-bottom: 15px;">Favor de revisar campos obligatorios marcados con rojo</p>').appendTo('#paso2');
-	    	  //$('<p/>').html('<p style="color:red;font-weight: bold;margin-bottom: 15px;">Favor de revisar campos obligatorios marcados con rojo</p>').appendTo('#paso3');
-	    	   $('.page').ScrollTo();
-	 	      $(".step1").trigger("click");
-		      $(".gerente_autoriza").css({ "border" : "2px solid red"  });
-		      
-	      }else if( $(".empresa_contrata").val() == "" ){
-	    	  $('<p/>').html('<p style="color:red;font-weight: bold;margin-bottom: 15px;">Favor de revisar campos obligatorios marcados con rojo</p>').appendTo('#paso1');
-	    	//$('<p/>').html('<p style="color:red;font-weight: bold;margin-bottom: 15px;">Favor de revisar campos obligatorios marcados con rojo</p>').appendTo('#paso2');
-	    	  //$('<p/>').html('<p style="color:red;font-weight: bold;margin-bottom: 15px;">Favor de revisar campos obligatorios marcados con rojo</p>').appendTo('#paso3');
-	    	   $('.page').ScrollTo();
-	 	      $(".step1").trigger("click");
-		      $(".empresa_contrata").css({ "border" : "2px solid red"  });
-		      
-	      }else if( $(".ubicacion").val() == "" ){
-	    	  $('<p/>').html('<p style="color:red;font-weight: bold;margin-bottom: 15px;">Favor de revisar campos obligatorios marcados con rojo</p>').appendTo('#paso1');
-	    	//$('<p/>').html('<p style="color:red;font-weight: bold;margin-bottom: 15px;">Favor de revisar campos obligatorios marcados con rojo</p>').appendTo('#paso2');
-	    	  //$('<p/>').html('<p style="color:red;font-weight: bold;margin-bottom: 15px;">Favor de revisar campos obligatorios marcados con rojo</p>').appendTo('#paso3');
-	    	   $('.page').ScrollTo();
-	 	      $(".step1").trigger("click");
-		      $(".ubicacion").css({ "border" : "2px solid red"  });
-		      
-	      }else if( $(".sueldo").val() == "" ){
-	    	  $('<p/>').html('<p style="color:red;font-weight: bold;margin-bottom: 15px;">Favor de revisar campos obligatorios marcados con rojo</p>').appendTo('#paso1');
-	    	//$('<p/>').html('<p style="color:red;font-weight: bold;margin-bottom: 15px;">Favor de revisar campos obligatorios marcados con rojo</p>').appendTo('#paso2');
-	    	  //$('<p/>').html('<p style="color:red;font-weight: bold;margin-bottom: 15px;">Favor de revisar campos obligatorios marcados con rojo</p>').appendTo('#paso3');
-	    	   $('.page').ScrollTo();
-	 	      $(".step1").trigger("click");
-		      $(".sueldo").css({ "border" : "2px solid red"  });
-		      
-	      }else if( $(".puesto").val() == "" ){
-	    	  $('<p/>').html('<p style="color:red;font-weight: bold;margin-bottom: 15px;">Favor de revisar campos obligatorios marcados con rojo</p>').appendTo('#paso1');
-	    	//$('<p/>').html('<p style="color:red;font-weight: bold;margin-bottom: 15px;">Favor de revisar campos obligatorios marcados con rojo</p>').appendTo('#paso2');
-	    	  //$('<p/>').html('<p style="color:red;font-weight: bold;margin-bottom: 15px;">Favor de revisar campos obligatorios marcados con rojo</p>').appendTo('#paso3');
-	    	   $('.page').ScrollTo();
-	 	      $(".step1").trigger("click");
-		      $(".puesto").css({ "border" : "2px solid red"  });
-		      
-	      }else if( $(".diadescanso").val() == "" ){
-	    	  $('<p/>').html('<p style="color:red;font-weight: bold;margin-bottom: 15px;">Favor de revisar campos obligatorios marcados con rojo</p>').appendTo('#paso1');
-	    	//$('<p/>').html('<p style="color:red;font-weight: bold;margin-bottom: 15px;">Favor de revisar campos obligatorios marcados con rojo</p>').appendTo('#paso2');
-	    	  //$('<p/>').html('<p style="color:red;font-weight: bold;margin-bottom: 15px;">Favor de revisar campos obligatorios marcados con rojo</p>').appendTo('#paso3');
-	    	   $('.page').ScrollTo();
-	 	      $(".step1").trigger("click");
-		      $(".diadescanso").css({ "border" : "2px solid red"  });
-		      
-	      }else if( $(".horario").val() == "" ){
-	    	  $('<p/>').html('<p style="color:red;font-weight: bold;margin-bottom: 15px;">Favor de revisar campos obligatorios marcados con rojo</p>').appendTo('#paso1');
-	    	//$('<p/>').html('<p style="color:red;font-weight: bold;margin-bottom: 15px;">Favor de revisar campos obligatorios marcados con rojo</p>').appendTo('#paso2');
-	    	  //$('<p/>').html('<p style="color:red;font-weight: bold;margin-bottom: 15px;">Favor de revisar campos obligatorios marcados con rojo</p>').appendTo('#paso3');
-	    	   $('.page').ScrollTo();
-	 	      $(".step1").trigger("click");
-		      $(".horario").css({ "border" : "2px solid red"  });
-		      
-	      }else if( $(".duracionContrato").val() == "" ){
-	    	  $('<p/>').html('<p style="color:red;font-weight: bold;margin-bottom: 15px;">Favor de revisar campos obligatorios marcados con rojo</p>').appendTo('#paso1');
-	    	//$('<p/>').html('<p style="color:red;font-weight: bold;margin-bottom: 15px;">Favor de revisar campos obligatorios marcados con rojo</p>').appendTo('#paso2');
-	    	  //$('<p/>').html('<p style="color:red;font-weight: bold;margin-bottom: 15px;">Favor de revisar campos obligatorios marcados con rojo</p>').appendTo('#paso3');
-	    	   $('.page').ScrollTo();
-	 	      $(".step1").trigger("click");
-		      $(".duracionContrato").css({ "border" : "2px solid red"  });
-		      
-	      
-		  }else{
-
-			  $.ajax({
-                  url: '<?php echo HOME_URL; ?>eaf/recursoshumanos/GuardaAltaUsuario',
-                  type: 'POST',
-                  dataType: 'json',
-                  data: $('#form_fdp_conectxxi').serialize(),
-                  cache: false,
-                  async: true,
-                  success: function(data) {
-                	  if (data.codigo != 200) {
-                         alert("paso");
-                      } else {
-                          alert("error");
-                          
-                      }
-                  },
-                  error: function(jqXHR, textStatus, errorThrown) {
-                      alert(jqXHR.responseText);
-                     
-                  }
-              }); 
-
-
-			     
-	      }
-	      
-      });
+     
 
 
 
       $("#btnSolicitudCuenta").click(function(){
 
-
-			  $.ajax({
-                  url: '<?php echo HOME_URL; ?>eaf/recursoshumanos/SolicitarCuentaBancaria',
-                  type: 'POST',
-                  dataType: 'json',
-                  data: $('#form_fdp_conectxxi').serialize(),
-                  cache: false,
-                  async: true,
-                  success: function(data) {
-                	  if (data.codigo != 200) {
-                         alert("paso");
-                      } else {
-                          alert("error");
-                          
-                      }
-                  },
-                  error: function(jqXHR, textStatus, errorThrown) {
-                      alert(jqXHR.responseText);
-                     
-                  }
-              }); 
-
-
-			     
-	     
-	      
+    	  var id =  $('#id').val();
+    	  $.post("<?php echo HOME_URL; ?>eaf/recursoshumanos/SolicitarCuentaBancaria",{
+         	 id:id
+          },function(data) {
+     			 $('#resultado').html(data);
+      });
       });
      
       
@@ -203,11 +163,26 @@
 		  	</ul>
 		  	<div class='panel-container'>
 		  	
-		  	 <form action="" method="post" name="form_fdp_conectxxi" class="form_fdp_conectxxi" id="form_fdp_conectxxi">
+		  	 <form action="<?php echo HOME_URL; ?>eaf/recursoshumanos/GuardarUsuario" method="post" name="form_fdp_conectxxi" class="form_fdp_conectxxi" id="form_fdp_conectxxi">
 		  	 <input type="hidden" name="step_current" class="step_current" id="step_current" value="<?php echo (isset($formArray["step_current"]))?$formArray["step_current"]:""; ?>" />
 		  	 <input type="hidden" name="btn_fire" class="btn_fire" id="btn_fire" value="<?php echo (isset($formArray["btn_fire"]))?$formArray["btn_fire"]:""; ?>"/>
-		  	 <input type="hidden" name="email" class="email" id="email" value="<?php echo (isset($formArray["correo_electronico_candidato"]))?$formArray["correo_electronico_candidato"]:""; ?>"/>
-			 <input type="hidden" name="rfc" class="rfc" id="rfc" value="<?php echo (isset($formArray["rfc_candidato"]))?$formArray["rfc_candidato"]:""; ?>"/> 
+		  	 <input type="hidden" name="email" class="email" id="email" value="<?php echo (isset($formArrayCandidato["correo_electronico_candidato"]))?$formArrayCandidato["correo_electronico_candidato"]:""; ?>"/>
+			 <input type="hidden" name="rfc" class="rfc" id="rfc" value="<?php echo (isset($formArrayCandidato["rfc_candidato"]))?$formArrayCandidato["rfc_candidato"]:""; ?>"/>
+			  <input type="hidden" name="curp" class="curp" id="curp" value="<?php echo (isset($formArrayCandidato["curp_candidato"]))?$formArrayCandidato["curp_candidato"]:""; ?>"/>  
+			  <input type="hidden" name="token" class="token" id="token" value="<?php echo (isset($formArrayCandidato["tokenFDPVacantesPendientes"]))?$formArrayCandidato["tokenFDPVacantesPendientes"]:""; ?>"/>  
+		  	   <input type="hidden" name="id" class="id" id="id" value="<?php echo (isset($formArrayCandidato["idVacantesPeticiones"]))?$formArrayCandidato["idVacantesPeticiones"]:""; ?>"/>  
+		  	 	<input type="hidden" name="idPadre" class="idPadre" id="idPadre" value="<?php echo (isset($formArrayCandidato["idUsuariosPeticion"]))?$formArrayCandidato["idUsuariosPeticion"]:""; ?>"/>  
+		  			
+		  		
+		  		<input type="hidden" name="carta_curp" class="carta_curp" id="carta_curp" value="Desert.jpg"/>
+		  		<input type="hidden" name="actanacimiento" class="actanacimiento" id="actanacimiento" value="<?php echo (isset($formArray["actanacimiento"]))?$formArray["actanacimiento"]:""; ?>"/>
+		  		<input type="hidden" name="comprobantedomicilio" class="comprobantedomicilio" id="comprobantedomicilio" value="<?php echo (isset($formArray["comprobantedomicilio"]))?$formArray["comprobantedomicilio"]:""; ?>"/>
+		  		<input type="hidden" name="carta_rfc" class="carta_rfc" id="carta_rfc" value="<?php echo (isset($formArray["carta_rfc"]))?$formArray["carta_rfc"]:""; ?>"/>
+		  		<input type="hidden" name="imss" class="imss" id="imss" value="<?php echo (isset($formArray["imss"]))?$formArray["imss"]:""; ?>"/>
+		  		<input type="hidden" name="antecedentespenales" class="antecedentespenales" id="antecedentespenales" value="<?php echo (isset($formArray["antecedentespenales"]))?$formArray["antecedentespenales"]:""; ?>"/>
+		  		<input type="hidden" name="burocredito" class="burocredito" id="burocredito" value="<?php echo (isset($formArray["burocredito"]))?$formArray["burocredito"]:""; ?>"/>
+		  		<input type="hidden" name="identificacionoficial" class="identificacionoficial" id="identificacionoficial" value="<?php echo (isset($formArray["identificacionoficial"]))?$formArray["identificacionoficial"]:""; ?>"/>
+		  		<input type="hidden" name="comprobanteEstudios" class="comprobanteEstudios" id="comprobanteEstudios" value="<?php echo (isset($formArray["comprobanteEstudios"]))?$formArray["comprobanteEstudios"]:""; ?>"/>
 		  		
 			 
 			  <?php
@@ -221,37 +196,45 @@
 			  <!-- Paso 1 -->
 			  <div id="tabs1-paso1">
 				<?php
-					if( isset( $_REQUEST["registro"] ) ):
+					if(  $registro =="registro"  ):
 				?>
-				<div style="font-weight: bold; text-align: center;font-size: 13pt; color: #00db05">Registro completado, por favor revisa tu correo electrónico para validar la cuenta de correo.</div>
+				<div style="font-weight: bold; text-align: center;font-size: 13pt; color: #00db05">Registro completado correctamente.</div>
 				<?php 
+				else:
+				if(  $registro =="yaregistrado"  ):
+				?>
+								<div style="font-weight: bold; text-align: center;font-size: 13pt; color: red">La Vacante ya fue cubierta, favor de verificarlo.</div>
+								<?php 
+				
+				endif;
 					endif;
 				?>
 			    <h2><label>Alta de personal</label></h2>
+			     <p style="color:red;font-weight: bold;margin-bottom: 15px;"><?php echo ( count($error_campos) > 0 )?"Favor de revisar campos obligatorios marcados con rojo":""; ?></p>
 			    <div id="paso1"></div>
 			    <table cellpadding="0" cellspacing="0" width="100%">
 				    <tr>
 					    <td>Nombre (s)</td>
-					    <td><input type="text" name="nombre_candidato" class="nombre_candidato" id="nombre_candidato" placeholder="Nombre (s)" autocomplete="off" required value="<?php echo (isset($formArray["nombre_candidato"]))?$formArray["nombre_candidato"]:""; ?>" ></td>
+					    <td><input type="text" name="nombre_candidato" class="nombre_candidato" id="nombre_candidato" placeholder="Nombre (s)" autocomplete="off" required value="<?php echo (isset($formArrayCandidato["nombre_candidato"]))?$formArrayCandidato["nombre_candidato"]:""; ?>"<?php echo ( in_array ('nombre_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?> ></td>
 					    <td>Apellido paterno</td>
-					    <td><input type="text" name="apellido_paterno_candidato" class="apellido_paterno_candidato" id="apellido_paterno_candidato" placeholder="Apellido" autocomplete="off" required value="<?php echo (isset($formArray["apellido_paterno_candidato"]))?$formArray["apellido_paterno_candidato"]:""; ?>" ></td>
+					    <td><input type="text" name="apellido_paterno_candidato" class="apellido_paterno_candidato" id="apellido_paterno_candidato" placeholder="Apellido" autocomplete="off" required value="<?php echo (isset($formArrayCandidato["apellido_paterno_candidato"]))?$formArrayCandidato["apellido_paterno_candidato"]:""; ?>"<?php echo ( in_array ('apellido_paterno_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?> ></td>
 				    </tr>
 				    <tr>
 					    <td>Apellido materno</td>
-					    <td><input type="text" name="apellido_materno_candidato" class="apellido_materno_candidato" id="apellido_materno_candidato" placeholder="Apellido" autocomplete="off" required value="<?php echo (isset($formArray["apellido_materno_candidato"]))?$formArray["apellido_materno_candidato"]:""; ?>" ></td>
+					    <td><input type="text" name="apellido_materno_candidato" class="apellido_materno_candidato" id="apellido_materno_candidato" placeholder="Apellido" autocomplete="off" required value="<?php echo (isset($formArrayCandidato["apellido_materno_candidato"]))?$formArrayCandidato["apellido_materno_candidato"]:""; ?>"<?php echo ( in_array ('apellido_materno_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?> ></td>
 					    <td>&nbsp;</td>
 					    <td>&nbsp;</td>
 				    </tr>
 				      <tr>
 					    <td>Gerente que Autoriza</td>
-					    <td><input type="text" name="gerente_autoriza" class="gerente_autoriza" id="gerente_autoriza" placeholder="Gerente" autocomplete="off" required value="<?php echo (isset($formArray["idNombreAprobacionGerente"]))?$formArray["idNombreAprobacionGerente"]:""; ?>" ></td>
+					    <td><input type="text" name="gerente_autoriza" class="gerente_autoriza" id="gerente_autoriza" placeholder="Gerente" autocomplete="off" required value="<?php echo (isset($formArray["gerente_autoriza"]))?$formArray["gerente_autoriza"]:""; ?>"<?php echo ( in_array ('gerente_autoriza' , $error_campos) )?"style='border:2px solid red;'":""; ?> ></td>
 					    <td>&nbsp;</td>
 					    <td>&nbsp;</td>
 				    </tr>
 				    <tr>
 				     <td>Empresa que contrata</td>
 					      <td>
-						      <select name="empresa_contrata" class="empresa_contrata" id="empresa_contrata" >
+						      <select name="empresa_contrata" class="empresa_contrata" id="empresa_contrata" <?php echo ( in_array('empresa_contrata' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
 							   
 							   <option value="">Selecciona Empresa</option>
 								  <?php
@@ -260,10 +243,10 @@
 								  if( !empty($Empresas) ):
 								  foreach($Empresas as  $t){
 								  ?>
-								  		<option value="<?php echo $t->nombreEmpresas?>">
-								  			
-								  			<?php echo $t->nombreEmpresas; ?>
-								  		</option>
+								  		
+								  		
+								  		 <option value="<?php echo $t->nombreEmpresas; ?>" <?php if( isset($formArray["empresa_contrata"]) && $formArray["empresa_contrata"] ==  $t->nombreEmpresas ): echo "selected='selected'"; endif;?>><?php echo $t->nombreEmpresas; ?></option>
+								  		
 								  <?php	  
 									  }
 									  endif;
@@ -272,21 +255,45 @@
 						      </select>
 					      </td>
 				    </tr>
-				    <tr>
-				     <td>Ubicación</td>
+				        <tr>
+				     <td>Corporativo</td>
 					      <td>
-						      <select name="ubicacion" class="ubicacion" id="genero_candidato" >
+						   <select name="corporativo" class="corporativo" id="corporativo" <?php echo ( in_array('corporativo' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+							   <option value="">Seleccione Corporativo</option> 
+							   <option value="Si" <?php if( isset($formArray["corporativo"]) && $formArray["corporativo"] == "Si" ): echo "selected='selected'"; endif;?>>Si</option>
+							   <option value="No" <?php if( isset($formArray["corporativo"]) && $formArray["corporativo"] == "No" ): echo "selected='selected'"; endif;?>>No</option>
+						   </select>
+					      </td>
+				    </tr>
+				    
+				       <tr>
+				     <td>Pago Externo</td>
+					      <td>
+						     <input type="text" name="pagoExterno" class="pagoExterno allownumericwithdecimal" id="pagoExterno" placeholder="Pago externo" autocomplete="off" required value="<?php echo (isset($formArray["pagoExterno"]))?$formArray["pagoExterno"]:""; ?>">
+					      </td>
+					       <td>&nbsp;</td>
+					    <td>&nbsp;</td>
+				    </tr>
+				    
+				    <tr>
+				     <td>Oficina</td>
+					      <td>
+						         <select name="oficina" class="oficina" id="oficina" <?php echo ( in_array('oficina' , $error_campos) )?"style='border:2px solid red;'":""; ?> >
 							     
-							     <option value="">Selecciona Ubicación</option>
+							     <option value="">Selecciona Oficina</option>
 								  <?php
-									  $perfiles = $catalogos->rhUbicacion();
+									  $perfiles = $catalogos->fdpOficina();
 									  
 									  foreach( $perfiles as $key => $per ):
 								  ?>
-								  		<option >
+								  		
+								  		
+								  		
+								  		  <option value="<?php echo $per; ?>" <?php if( isset($formArray["oficina"]) && $formArray["oficina"] == $per ): echo "selected='selected'"; endif;?>><?php echo $per; ?></option>
+							  
 								  			
-								  			<?php echo $per; ?>
-								  		</option>
+								  			
+								  		
 								  <?php	  
 									  endforeach;
 								  ?>
@@ -295,37 +302,97 @@
 						      </select>
 					      </td>
 				    </tr>
+				    
+				    <tr>
+					    <td>Plaza</td>
+					    <td> 
+						   
+						   
+						    <select name="plaza" class="plaza" id="plaza" <?php echo ( in_array('plaza' , $error_campos) )?"style='border:2px solid red;'":""; ?> >
+							     
+							     <option value="">Selecciona Plaza</option>
+								  <?php
+									  $perfiles = $catalogos->fdpPlaza();
+									  
+									  foreach( $perfiles as $key => $per ):
+								  ?>
+								  		
+								  		
+								  		
+								  		  <option value="<?php echo $per; ?>" <?php if( isset($formArray["plaza"]) && $formArray["plaza"] == $per ): echo "selected='selected'"; endif;?>><?php echo $per; ?></option>
+							  
+								  			
+								  			
+								  		
+								  <?php	  
+									  endforeach;
+								  ?>
+							     
+							     
+						      </select>
+						   
+						   
+						   
+						   
+						   
+						   </td>
+				    </tr>
+				    
+				    
 				     <tr>
 					     <td>Fecha de Ingreso</td>
 					    
-					    <td><input type="text" onfocus="this.blur();" name="fecha_entrevista_rh_fdp" class="fecha_entrevista_rh_fdp" id="fecha_entrevista_rh_fdp" placeholder="Fecha de ingreso" /></td> 
+					    <td><input type="text" onfocus="this.blur();" name="fechaIngreso" class="fechaIngreso" id="fechaIngreso" placeholder="Fecha de ingreso" required value="<?php echo (isset($formArray["fechaIngreso"]))?$formArray["fechaIngreso"]:""; ?>"<?php echo ( in_array ('fechaIngreso' , $error_campos) )?"style='border:2px solid red;'":""; ?>/></td> 
 				     </tr>
 				     <tr>
 					    <td>Sueldo</td>
-					    <td><input type="text" name="sueldo" class="sueldo allownumericwithdecimal" id="sueldo" placeholder="Sueldo" autocomplete="off" required ></td>
+					    <td><input type="text" name="sueldoNOI" class="sueldoNOI allownumericwithdecimal" id="sueldoNOI" placeholder="Sueldo" autocomplete="off" required value="<?php echo (isset($formArray["sueldoNOI"]))?$formArray["sueldoNOI"]:""; ?>"<?php echo ( in_array ('sueldoNOI' , $error_campos) )?"style='border:2px solid red;'":""; ?> ></td>
 					    <td>&nbsp;</td>
 					    <td>&nbsp;</td>
 				    </tr>
 				    <tr>
 				     <td>Puesto</td>
-					      <td><input type="text" name="puesto" class="puesto" id="puesto" placeholder="Sueldo" autocomplete="off" required value="<?php echo (isset($formArray["Puesto"]))?$formArray["Puesto"]:""; ?>" ></td>
+					      <td><input type="text" name="puesto" class="puesto" id="puesto" placeholder="puesto" autocomplete="off" required value="<?php echo (isset($formArrayCandidato["Puesto"]))?$formArrayCandidato["Puesto"]:""; ?>" <?php echo ( in_array ('puesto' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
 					    <td>&nbsp;</td>
 					    <td>&nbsp;</td>
 				    </tr>
-				    <tr>
-				     <td>Horario</td>
+				      <tr>
+				     <td>Departamento</td>
 					      <td>
-						      <select name="horario" class="horario" id="horario" >
-							      <option value="">Selecciona Horario</option>
+						         <select name="descripcionDepartamento" class="descripcionDepartamento" id="descripcionDepartamento" <?php echo ( in_array('descripcionDepartamento' , $error_campos) )?"style='border:2px solid red;'":""; ?> >
+							   
+							   <option value="">Seleccione Departamento</option>
+								  <?php
+									
+									  
+								  if( !empty($Departamentos) ):
+								  foreach($Departamentos as  $t){
+								  ?>
+								  		
+								  		
+								  		 <option value="<?php echo $t->nombreDepartamento; ?>" <?php if( isset($formArray["descripcionDepartamento"]) && $formArray["descripcionDepartamento"] ==  $t->nombreDepartamento ): echo "selected='selected'"; endif;?>><?php echo $t->nombreDepartamento; ?></option>
+								  		
+								  <?php	  
+									  }
+									  endif;
+								  ?>
+							   
+						      </select>
+					      </td>
+				    </tr>
+				    
+				    <tr>
+				     <td>Turno</td>
+					      <td>
+						      <select name="turno" class="turno" id="turno"  <?php echo ( in_array('turno' , $error_campos) )?"style='border:2px solid red;'":""; ?> >
+							      <option value="">Selecciona Turno</option>
 								  <?php
 									  $perfiles = $catalogos->rhHorario();
 									  
 									  foreach( $perfiles as $key => $per ):
 								  ?>
-								  		<option >
-								  			
-								  			<?php echo $per; ?>
-								  		</option>
+								  		  <option value="<?php echo $per; ?>" <?php if( isset($formArray["turno"]) && $formArray["turno"] == $per ): echo "selected='selected'"; endif;?>><?php echo $per; ?></option>
+							  
 								  <?php	  
 									  endforeach;
 								  ?>
@@ -336,7 +403,7 @@
 				    <tr>
 				     <td>Día de descanso</td>
 					      <td>
-						      <select name="diadescanso" class="diadescanso" id="diadescanso" >
+						      <select name="descanso" class="descanso" id="descanso"  <?php echo ( in_array('descanso' , $error_campos) )?"style='border:2px solid red;'":""; ?> >
 							      
 							       <option value="">Selecciona Día de descanso</option>
 								  <?php
@@ -344,36 +411,15 @@
 									  
 									  foreach( $perfiles as $key => $per ):
 								  ?>
-								  		<option >
-								  			
-								  			<?php echo $per; ?>
-								  		</option>
+								  		  <option value="<?php echo $per; ?>" <?php if( isset($formArray["descanso"]) && $formArray["descanso"] == $per ): echo "selected='selected'"; endif;?>><?php echo $per; ?></option>
+							  
 								  <?php	  
 									  endforeach;
 								  ?>
 						      </select>
 					      </td>
 				    </tr>
-				    <tr>
-				     <td>Duración de contrato</td>
-					      <td>
-						      <select name="duracionContrato" class="duracionContrato" id="duracionContrato" >
-							      <option value="">Selecciona Duración de contrato</option>
-								  <?php
-									  $perfiles = $catalogos->rhDuracionContrato();
-									  
-									  foreach( $perfiles as $key => $per ):
-								  ?>
-								  		<option >
-								  			
-								  			<?php echo $per; ?>
-								  		</option>
-								  <?php	  
-									  endforeach;
-								  ?>
-						      </select>
-					      </td>
-				    </tr>
+			
 			    </table>
 			    
 			       <a class="btnNextFDP" id="btnNextFDP1">Continuar</a>
@@ -397,15 +443,20 @@
 						        <i class="glyphicon glyphicon-plus"></i>
 						        <span>Cargar...</span>
 						        <!-- The file input field used as target for the file upload widget -->
-						        <input id="curp_upload" type="file" name="files[]" multiple>
+						        <input id="carta_curp_upload" type="file" name="files[]" multiple>
 						    </span>
 						    <!-- The global progress bar -->
-						    <div id="curp_progress" class="progress">
+						    <div id="carta_curp_progress" class="progress">
 						        <div class="progress-bar progress-bar-success"></div>
 						    </div>
 						    <!-- The container for the uploaded files -->
 						    <div id="files_curp" class="files">
-							   
+							   <?php 
+								    if( isset($formArray["carta_curp"]) && $formArray["carta_curp"] != ""):
+								    	echo '<a href="'.HOME_URL."tempFDP/files/".$formArray["carta_curp"].'" target="_blank">'.$formArray["carta_curp"].'</a>';
+								    	
+								    endif;
+							    ?>
 						    </div>
 					    </td>
 				    </tr>
@@ -424,6 +475,12 @@
 						    </div>
 						    <!-- The container for the uploaded files -->
 						    <div id="files_actanacimiento" class="files">
+						     <?php 
+								    if( isset($formArray["actanacimiento"]) && $formArray["actanacimiento"] != ""):
+								    	echo '<a href="'.HOME_URL."tempFDP/files/".$formArray["actanacimiento"].'" target="_blank">'.$formArray["actanacimiento"].'</a>';
+								    	
+								    endif;
+							    ?>
 							   
 						    </div>
 					    </td>
@@ -444,6 +501,12 @@
 						    </div>
 						    <!-- The container for the uploaded files -->
 						    <div id="files_comprobantedomicilio" class="files">
+						     <?php 
+								    if( isset($formArray["comprobantedomicilio"]) && $formArray["comprobantedomicilio"] != ""):
+								    	echo '<a href="'.HOME_URL."tempFDP/files/".$formArray["comprobantedomicilio"].'" target="_blank">'.$formArray["comprobantedomicilio"].'</a>';
+								    	
+								    endif;
+							    ?>
 							   
 						    </div>
 					    </td>
@@ -456,14 +519,20 @@
 						        <i class="glyphicon glyphicon-plus"></i>
 						        <span>Cargar...</span>
 						        <!-- The file input field used as target for the file upload widget -->
-						        <input id="rfc_upload" type="file" name="files[]" multiple>
+						        <input id="carta_rfc_upload" type="file" name="files[]" multiple>
 						    </span>
 						    <!-- The global progress bar -->
-						    <div id="rfc_progress" class="progress">
+						    <div id="carta_rfc_progress" class="progress">
 						        <div class="progress-bar progress-bar-success"></div>
 						    </div>
 						    <!-- The container for the uploaded files -->
 						    <div id="files_rfc" class="files">
+						     <?php 
+								    if( isset($formArray["carta_rfc"]) && $formArray["carta_rfc"] != ""):
+								    	echo '<a href="'.HOME_URL."tempFDP/files/".$formArray["carta_rfc"].'" target="_blank">'.$formArray["carta_rfc"].'</a>';
+								    	
+								    endif;
+							    ?>
 							   
 						    </div>
 					    </td>
@@ -483,6 +552,12 @@
 						    </div>
 						    <!-- The container for the uploaded files -->
 						    <div id="files_imss" class="files">
+						     <?php 
+								    if( isset($formArray["imss"]) && $formArray["imss"] != ""):
+								    	echo '<a href="'.HOME_URL."tempFDP/files/".$formArray["imss"].'" target="_blank">'.$formArray["imss"].'</a>';
+								    	
+								    endif;
+							    ?>
 							   
 						    </div>
 					    </td>
@@ -503,7 +578,12 @@
 						    </div>
 						    <!-- The container for the uploaded files -->
 						    <div id="files_antecedentespenales" class="files">
-							   
+							    <?php 
+								    if( isset($formArray["antecedentespenales"]) && $formArray["antecedentespenales"] != ""):
+								    	echo '<a href="'.HOME_URL."tempFDP/files/".$formArray["antecedentespenales"].'" target="_blank">'.$formArray["antecedentespenales"].'</a>';
+								    	
+								    endif;
+							    ?>
 						    </div>
 					    </td>
 				
@@ -523,6 +603,12 @@
 						    </div>
 						    <!-- The container for the uploaded files -->
 						    <div id="files_burocredito" class="files">
+						    <?php 
+								    if( isset($formArray["burocredito"]) && $formArray["burocredito"] != ""):
+								    	echo '<a href="'.HOME_URL."tempFDP/files/".$formArray["burocredito"].'" target="_blank">'.$formArray["burocredito"].'</a>';
+								    	
+								    endif;
+							    ?>
 							   
 						    </div>
 					    </td>
@@ -543,6 +629,12 @@
 						    </div>
 						    <!-- The container for the uploaded files -->
 						    <div id="files_identificacionoficial" class="files">
+						     <?php 
+								    if( isset($formArray["identificacionoficial"]) && $formArray["identificacionoficial"] != ""):
+								    	echo '<a href="'.HOME_URL."tempFDP/files/".$formArray["identificacionoficial"].'" target="_blank">'.$formArray["identificacionoficial"].'</a>';
+								    	
+								    endif;
+							    ?>
 							   
 						    </div>
 					    </td>
@@ -564,6 +656,12 @@
 						    </div>
 						    <!-- The container for the uploaded files -->
 						    <div id="files_comprobanteEstudios" class="files">
+						      <?php 
+								    if( isset($formArray["comprobanteEstudios"]) && $formArray["comprobanteEstudios"] != ""):
+								    	echo '<a href="'.HOME_URL."tempFDP/files/".$formArray["comprobanteEstudios"].'" target="_blank">'.$formArray["comprobanteEstudios"].'</a>';
+								    	
+								    endif;
+							    ?>
 							   
 						    </div>
 					    </td>
@@ -584,14 +682,15 @@
 			  <!-- Paso 3 -->
 			  <div id="tabs1-paso3">
 			    <h2><label>Alta de cuenta bancaria</label></h2>
+			       <span id="resultado" style="color:red"></span>
 			     <div id="paso3"></div>
 			    
 			    <table cellpadding="0" cellspacing="0" width="100%">
 				    <tr>
 					    <td>Número de cuenta</td>
-					    <td><input type="text" name="numerocuenta" class="numerocuenta allownumericwithoutdecimal" id="numerocuenta" placeholder="Número de cuenta" autocomplete="off" required ></td>
+					    <td><input type="text" name="cuentaNomina" class="cuentaNomina allownumericwithoutdecimal" id="cuentaNomina" placeholder="Número de cuenta" autocomplete="off" required value="<?php echo (isset($formArray["cuentaNomina"]))?$formArray["cuentaNomina"]:""; ?>" ></td>
 					   <td>Cuenta Clabe</td>
-					    <td><input type="text" name="cuentaclabe" class="cuentaclabe allownumericwithoutdecimal" id="cuentaclabe" placeholder="Cuenta Clabe" autocomplete="off" required ></td>
+					    <td><input type="text" name="clabeInterbancaria" class="clabeInterbancaria allownumericwithoutdecimal" id="clabeInterbancaria" placeholder="Cuenta Clabe" autocomplete="off" required value="<?php echo (isset($formArray["clabeInterbancaria"]))?$formArray["clabeInterbancaria"]:""; ?>"  ></td>
 					    </td>
 					    
 				    </tr>
@@ -633,7 +732,7 @@
                 '//jquery-file-upload.appspot.com/' : '<?php echo HOME_URL; ?>eaf/RecursosHumanos/server/';
 	     
 	
-        $( "#fecha_entrevista_rh_fdp" ).datepicker({
+        $( "#fechaIngreso" ).datepicker({
 	        dateFormat: "yy-mm-dd",
 	        yearRange: "-100:+0",
 	        changeYear:true,
@@ -641,7 +740,7 @@
 
 
 
-        $('#curp_upload').fileupload({
+        $('#carta_curp_upload').fileupload({
 	        url: url,
 	        dataType: 'json',
 	        change : function (e, data) {
@@ -653,19 +752,18 @@
 		    },
 	        done: function (e, data) {
 	            $.each(data.result.files, function (index, file) {
-		           // $(".carta_recomendacion_empleo1_candidato").val(file.name);
-		            
-	                $('<p/>').html('<a target="_blank" href="'+'<?php echo HOME_URL; ?>documentosUsuarios/files/'+file.name+'">'+ file.name + "</a>").appendTo('#files_curp');
+		            $(".carta_curp").val("ferdsfs");
+		            $('<p/>').html('<a target="_blank" href="'+'<?php echo HOME_URL; ?>tempFDP/files/'+file.name+'">'+ file.name + "</a>").appendTo('#files_curp');
 	            });
 	        },
 	        progressall: function (e, data) {
 	            var progress = parseInt(data.loaded / data.total * 100, 10);
-	            $('#curp_progress .progress-bar').css(
+	            $('#carta_curp_progress .progress-bar').css(
 	                'width',
 	                progress + '%'
 	            );
 	            setInterval(function(){ 
-		            $('#curp_progress .progress-bar').css(
+		            $('#carta_curp_progress .progress-bar').css(
 		                'width',
 		                0 + '%'
 		            );
@@ -687,9 +785,9 @@
 		    },
 	        done: function (e, data) {
 	            $.each(data.result.files, function (index, file) {
-		           // $(".carta_recomendacion_empleo1_candidato").val(file.name);
+		            $(".actanacimiento").val(file.name);
 		            
-	                $('<p/>').html('<a target="_blank" href="'+'<?php echo HOME_URL; ?>documentosUsuarios/files/'+file.name+'">'+ file.name + "</a>").appendTo('#files_actanacimiento');
+	                $('<p/>').html('<a target="_blank" href="'+'<?php echo HOME_URL; ?>tempFDP/files/'+file.name+'">'+ file.name + "</a>").appendTo('#files_actanacimiento');
 	            });
 	        },
 	        progressall: function (e, data) {
@@ -720,9 +818,9 @@
 		    },
 	        done: function (e, data) {
 	            $.each(data.result.files, function (index, file) {
-		           // $(".carta_recomendacion_empleo1_candidato").val(file.name);
+		            $(".comprobantedomicilio").val(file.name);
 		            
-	                $('<p/>').html('<a target="_blank" href="'+'<?php echo HOME_URL; ?>documentosUsuarios/files/'+file.name+'">'+ file.name + "</a>").appendTo('#files_comprobantedomicilio');
+	                $('<p/>').html('<a target="_blank" href="'+'<?php echo HOME_URL; ?>tempFDP/files/'+file.name+'">'+ file.name + "</a>").appendTo('#files_comprobantedomicilio');
 	            });
 	        },
 	        progressall: function (e, data) {
@@ -742,7 +840,7 @@
 	        .parent().addClass($.support.fileInput ? undefined : 'disabled');
 
 
-        $('#rfc_upload').fileupload({
+        $('#carta_rfc_upload').fileupload({
 	        url: url,
 	        dataType: 'json',
 	        change : function (e, data) {
@@ -754,19 +852,19 @@
 		    },
 	        done: function (e, data) {
 	            $.each(data.result.files, function (index, file) {
-		           // $(".carta_recomendacion_empleo1_candidato").val(file.name);
+		            $(".carta_rfc").val(file.name);
 		            
 	                $('<p/>').html('<a target="_blank" href="'+'<?php echo HOME_URL; ?>tempFDP/files/'+file.name+'">'+ file.name + "</a>").appendTo('#files_rfc');
 	            });
 	        },
 	        progressall: function (e, data) {
 	            var progress = parseInt(data.loaded / data.total * 100, 10);
-	            $('#rfc_progress .progress-bar').css(
+	            $('#carta_rfc_progress .progress-bar').css(
 	                'width',
 	                progress + '%'
 	            );
 	            setInterval(function(){ 
-		            $('#rfc_progress .progress-bar').css(
+		            $('#carta_rfc_progress .progress-bar').css(
 		                'width',
 		                0 + '%'
 		            );
@@ -788,7 +886,7 @@
 		    },
 	        done: function (e, data) {
 	            $.each(data.result.files, function (index, file) {
-		           // $(".carta_recomendacion_empleo1_candidato").val(file.name);
+		            $(".imss").val(file.name);
 		            
 	                $('<p/>').html('<a target="_blank" href="'+'<?php echo HOME_URL; ?>tempFDP/files/'+file.name+'">'+ file.name + "</a>").appendTo('#files_imss');
 	            });
@@ -821,7 +919,7 @@
 		    },
 	        done: function (e, data) {
 	            $.each(data.result.files, function (index, file) {
-		           // $(".carta_recomendacion_empleo1_candidato").val(file.name);
+		            $(".antecedentespenales").val(file.name);
 		            
 	                $('<p/>').html('<a target="_blank" href="'+'<?php echo HOME_URL; ?>tempFDP/files/'+file.name+'">'+ file.name + "</a>").appendTo('#files_antecedentespenales');
 	            });
@@ -855,7 +953,7 @@
 		    },
 	        done: function (e, data) {
 	            $.each(data.result.files, function (index, file) {
-		           // $(".carta_recomendacion_empleo1_candidato").val(file.name);
+		            $(".burocredito").val(file.name);
 		            
 	                $('<p/>').html('<a target="_blank" href="'+'<?php echo HOME_URL; ?>tempFDP/files/'+file.name+'">'+ file.name + "</a>").appendTo('#files_burocredito');
 	            });
@@ -889,7 +987,7 @@
 		    },
 	        done: function (e, data) {
 	            $.each(data.result.files, function (index, file) {
-		           // $(".carta_recomendacion_empleo1_candidato").val(file.name);
+		            $(".identificacionoficial").val(file.name);
 		            
 	                $('<p/>').html('<a target="_blank" href="'+'<?php echo HOME_URL; ?>tempFDP/files/'+file.name+'">'+ file.name + "</a>").appendTo('#files_identificacionoficial');
 	            });
@@ -923,7 +1021,7 @@
 		    },
 	        done: function (e, data) {
 	            $.each(data.result.files, function (index, file) {
-		           // $(".carta_recomendacion_empleo1_candidato").val(file.name);
+		            $(".comprobanteEstudios").val(file.name);
 		            
 	                $('<p/>').html('<a target="_blank" href="'+'<?php echo HOME_URL; ?>tempFDP/files/'+file.name+'">'+ file.name + "</a>").appendTo('#files_comprobanteEstudios');
 	            });
