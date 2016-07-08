@@ -181,11 +181,12 @@
 				     <tr>
 					     <td>Nivel educativo</td>
 					     <td>
+						     
 						      <select name="nivel_educativo_candidato" class="nivel_educativo_candidato" id="nivel_educativo_candidato" <?php echo ( in_array('nivel_educativo_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
 							      <option value="">Seleccionar nivel educativo</option>
 							      <option value="Licenciatura" <?php if( isset($formArray["nivel_educativo_candidato"]) && $formArray["nivel_educativo_candidato"] == "Licenciatura" ): echo "selected='selected'"; endif;?>>Licenciatura</option>
 							      <option value="Bachillerato" <?php if( isset($formArray["nivel_educativo_candidato"]) && $formArray["nivel_educativo_candidato"] == "Bachillerato" ): echo "selected='selected'"; endif;?>>Bachillerato</option>
-							      <option value="Tecnico" <?php if( isset($formArray["nivel_educativo_candidato"]) && $formArray["nivel_educativo_candidato"] == "Técnico" ): echo "selected='selected'"; endif;?>>Técnico</option>
+							      <option value="Tecnico" <?php if( isset($formArray["nivel_educativo_candidato"]) && $formArray["nivel_educativo_candidato"] == "Tecnico" ): echo "selected='selected'"; endif;?>>Técnico</option>
 							      <option value="Secundaria" <?php if( isset($formArray["nivel_educativo_candidato"]) && $formArray["nivel_educativo_candidato"] == "Secundaria" ): echo "selected='selected'"; endif;?>>Secundaria</option>
 							      <option value="Primaria" <?php if( isset($formArray["nivel_educativo_candidato"]) && $formArray["nivel_educativo_candidato"] == "Primaria" ): echo "selected='selected'"; endif;?>>Primaria</option>
 						      </select>
@@ -294,7 +295,7 @@
 					    <td>Número de teléfono de casa</td>
 					    <td><input maxlength="12" type="text" name="telefono_casa_candidato" class="telefono_casa_candidato allownumericwithoutdecimal" id="telefono_casa_candidato" placeholder="Tel. casa" autocomplete="off" required value="<?php echo (isset($formArray["telefono_casa_candidato"]))?$formArray["telefono_casa_candidato"]:""; ?>" <?php echo ( in_array('telefono_casa_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>> <p style="color:#aba5a5;font-size: 10pt;">10 dígitos. Ejemplo: 0155xxxxxxx</p></td>
 					    <td>Número de teléfono móvil</td>
-					    <td><input type="text" maxlength="10" name="telefono_movil_candidato" class="telefono_movil_candidato allownumericwithoutdecimal" id="telefono_movil_candidato" placeholder="Tel. móvil" autocomplete="off" required value="<?php echo (isset($formArray["telefono_movil_candidato"]))?$formArray["telefono_movil_candidato"]:""; ?>" <?php echo ( in_array('telefono_casa_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>><p style="color:#aba5a5;font-size: 10pt;">8 dígitos. Ejemplo: 55xxxxxxxx</p></td>
+					    <td><input type="text" maxlength="10" name="telefono_movil_candidato" class="telefono_movil_candidato allownumericwithoutdecimal" id="telefono_movil_candidato" placeholder="Tel. móvil" autocomplete="off" required value="<?php echo (isset($formArray["telefono_movil_candidato"]))?$formArray["telefono_movil_candidato"]:""; ?>" <?php echo ( in_array('telefono_casa_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>><p style="color:#aba5a5;font-size: 10pt;">10 dígitos. Ejemplo: 55xxxxxxxx</p></td>
 				    </tr>
 				    <tr>
 					    <td>Otro número de teléfono</td>
@@ -370,7 +371,7 @@
 							   <option value="6-10" <?php if( isset($formArray["focos_vivienda_candidato"]) && $formArray["focos_vivienda_candidato"] == "6-10" ): echo "selected='selected'"; endif;?>>6-10</option>
 							   <option value="11-15" <?php if( isset($formArray["focos_vivienda_candidato"]) && $formArray["focos_vivienda_candidato"] == "11-15" ): echo "selected='selected'"; endif;?>>11-15</option>
 							   <option value="16-20" <?php if( isset($formArray["focos_vivienda_candidato"]) && $formArray["focos_vivienda_candidato"] == "16-20" ): echo "selected='selected'"; endif;?>>16-20</option>
-							   <option value="21+" <?php if( isset($formArray["focos_vivienda_candidato"]) && $formArray["focos_vivienda_candidato"] == "21+" ): echo "selected='selected'"; endif;?>>21 o más</option>
+							   <option value="21mas" <?php if( isset($formArray["focos_vivienda_candidato"]) && $formArray["focos_vivienda_candidato"] == "21mas" ): echo "selected='selected'"; endif;?>>21 o más</option>
 						   </select>
 					    </td>
 				    </tr>   
@@ -777,7 +778,30 @@
 						    <hr/>
 						<?php
 					    	endfor;
-					    		
+					    else:
+					    ?>
+					  	<table cellpadding="0" cellspacing="0" width="100%" class="dep_table" dependiente="1">
+							    
+							    <tr>
+								    
+								    <td>Parentesco</td>
+								    <td>
+									   <select name="parentesco_dependiente_economico_candidato[]" class="parentesco_dependiente_economico_candidato" id="parentesco_dependiente_economico_candidato">
+										   <option value="">Seleccionar opción</option> 
+										   
+										   <option value="esposo" <?php if( isset($formArray["parentesco_dependiente_economico_candidato"][$x]) && $formArray["parentesco_dependiente_economico_candidato"][$x] == "esposo"): echo "selected"; endif; ?>>Esposo</option>
+										   <option value="esposa" <?php if( isset($formArray["parentesco_dependiente_economico_candidato"][$x]) && $formArray["parentesco_dependiente_economico_candidato"][$x] == "esposa"): echo "selected"; endif; ?>>Esposa</option>
+										   <option value="hija" <?php if( isset($formArray["parentesco_dependiente_economico_candidato"][$x]) && $formArray["parentesco_dependiente_economico_candidato"][$x] == "hija"): echo "selected"; endif; ?>>Hija</option>
+										   <option value="hijo" <?php if( isset($formArray["parentesco_dependiente_economico_candidato"][$x]) && $formArray["parentesco_dependiente_economico_candidato"][$x] == "hijo"): echo "selected"; endif; ?>>Hijo</option>
+										   <option value="madre" <?php if( isset($formArray["parentesco_dependiente_economico_candidato"][$x]) && $formArray["parentesco_dependiente_economico_candidato"][$x] == "madre"): echo "selected"; endif; ?>>Madre</option>
+										   <option value="padre" <?php if( isset($formArray["parentesco_dependiente_economico_candidato"][$x]) && $formArray["parentesco_dependiente_economico_candidato"][$x] == "padre"): echo "selected"; endif; ?>>Padre</option>
+										   
+									   </select>
+								    </td>
+							    </tr>    
+						    </table>
+						    <hr/>
+					  	<?php	
 					    endif;	
 				    ?>
 			    </div>    
@@ -944,7 +968,7 @@
 			
 			$(".dependientes_economicos_block").append( '<hr><table class="dep_table" width="100%" cellspacing="0" cellpadding="0" dependiente="'+(numeroTablas + 1 )+'">'+$(".dep_table").html()+"</table>" );
 			
-			//console.log( tablas.length );
+			console.log( tablas.length );
 		});
 		
 		$(".allownumericwithdecimal").on("keypress keyup blur",function (event) {
