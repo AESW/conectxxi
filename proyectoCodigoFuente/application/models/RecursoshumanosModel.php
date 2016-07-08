@@ -255,7 +255,7 @@ class RecursoshumanosModel extends CI_Model {
 	public function obtenerEmpresas(){
 		
 		
-		$sqlObtenerEmpresas = 'SELECT * FROM empresas' ;
+		$sqlObtenerEmpresas = 'SELECT * FROM Empresas' ;
 			
 		$resultObtenerEmpresas = array();
 			
