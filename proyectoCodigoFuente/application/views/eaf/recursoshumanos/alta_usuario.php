@@ -88,7 +88,7 @@
     			if( $("#cuentaNomina").val() == ""  && $("#clabeInterbancaria").val() == "") {
     			
     				 var id =  $('#id').val();
-       	    	  $.post("<?php echo HOME_URL; ?>eaf/recursoshumanos/ValidarCuentaBancaria",{
+       	    	  $.post("<?php echo HOME_URL; ?>eaf/RecursosHumanos/ValidarCuentaBancaria",{
        	         	 id:id
        	          },function(data) {
 
@@ -133,7 +133,7 @@
       $("#btnSolicitudCuenta").click(function(){
 
     	  var id =  $('#id').val();
-    	  $.post("<?php echo HOME_URL; ?>eaf/recursoshumanos/SolicitarCuentaBancaria",{
+    	  $.post("<?php echo HOME_URL; ?>eaf/RecursosHumanos/SolicitarCuentaBancaria",{
          	 id:id
           },function(data) {
      			 $('#resultado').html(data);
@@ -163,7 +163,7 @@
 		  	</ul>
 		  	<div class='panel-container'>
 		  	
-		  	 <form action="<?php echo HOME_URL; ?>eaf/recursoshumanos/GuardarUsuario" method="post" name="form_fdp_conectxxi" class="form_fdp_conectxxi" id="form_fdp_conectxxi">
+		  	 <form action="<?php echo HOME_URL; ?>eaf/RecursosHumanos/GuardarUsuario" method="post" name="form_fdp_conectxxi" class="form_fdp_conectxxi" id="form_fdp_conectxxi">
 		  	 <input type="hidden" name="step_current" class="step_current" id="step_current" value="<?php echo (isset($formArray["step_current"]))?$formArray["step_current"]:""; ?>" />
 		  	 <input type="hidden" name="btn_fire" class="btn_fire" id="btn_fire" value="<?php echo (isset($formArray["btn_fire"]))?$formArray["btn_fire"]:""; ?>"/>
 		  	 <input type="hidden" name="email" class="email" id="email" value="<?php echo (isset($formArrayCandidato["correo_electronico_candidato"]))?$formArrayCandidato["correo_electronico_candidato"]:""; ?>"/>
@@ -227,7 +227,7 @@
 				    </tr>
 				      <tr>
 					    <td>Gerente que Autoriza</td>
-					    <td><input type="text" name="gerente_autoriza" class="gerente_autoriza" id="gerente_autoriza" placeholder="Gerente" autocomplete="off" required value="<?php echo (isset($formArray["gerente_autoriza"]))?$formArray["gerente_autoriza"]:""; ?>"<?php echo ( in_array ('gerente_autoriza' , $error_campos) )?"style='border:2px solid red;'":""; ?> ></td>
+					    <td><input type="text" name="gerente_autoriza" class="gerente_autoriza" id="gerente_autoriza" placeholder="Gerente" autocomplete="off" required value="<?php echo (isset($formArrayCandidato["idNombreAprobacionGerente"]))?$formArrayCandidato["idNombreAprobacionGerente"]:""; ?>"<?php echo ( in_array ('gerente_autoriza' , $error_campos) )?"style='border:2px solid red;'":""; ?> ></td>
 					    <td>&nbsp;</td>
 					    <td>&nbsp;</td>
 				    </tr>

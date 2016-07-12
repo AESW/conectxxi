@@ -7,7 +7,7 @@
 		  return true;
 	  });
 	  $("#btnMenuPrincipal").click(function(){
-	      location.href="<?php echo HOME_URL; ?>/eaf/recursoshumanos/";
+	      location.href="<?php echo HOME_URL; ?>/eaf/RecursosHumanos/";
       });
       
       $("#btnAprobarCandidatoRH").click(function(){

@@ -17,7 +17,7 @@
 			if(!empty( $entrevistasRealizar ) ):
 				foreach($entrevistasRealizar as $entrevistas):
 		?>
-					<li><a href="<?php echo HOME_URL; ?>/eaf/recursoshumanos/candidato/?idCandidatoFDP=<?php echo $entrevistas["idCandidatoFDP"]; ?>"><?php echo $entrevistas["nombre"]." ".$entrevistas["apellidoPaterno"]." ".$entrevistas["apellidoMaterno"]; ?> , <?php echo $entrevistas["nombrePuesto"] ?></a></li>
+					<li><a href="<?php echo HOME_URL; ?>eaf/RecursosHumanos/candidato/?idCandidatoFDP=<?php echo $entrevistas["idCandidatoFDP"]; ?>"><?php echo $entrevistas["nombre"]." ".$entrevistas["apellidoPaterno"]." ".$entrevistas["apellidoMaterno"]; ?> , <?php echo $entrevistas["nombrePuesto"] ?></a></li>
 		<?php
 				endforeach;
 			endif;
@@ -32,7 +32,7 @@
 			if(!empty( $entrevistasRealizarSegundaParte ) ):
 				foreach($entrevistasRealizarSegundaParte as $entrevistas):
 		?>
-					<li><a href="<?php echo HOME_URL; ?>/eaf/recursoshumanos/candidato_rh/?idCandidatoFDP=<?php echo $entrevistas["idCandidatoFDP"]; ?>"><?php echo $entrevistas["nombre"]." ".$entrevistas["apellidoPaterno"]." ".$entrevistas["apellidoMaterno"]; ?> , <?php echo $entrevistas["nombrePuesto"] ?></a></li>
+					<li><a href="<?php echo HOME_URL; ?>eaf/RecursosHumanos/candidato_rh/?idCandidatoFDP=<?php echo $entrevistas["idCandidatoFDP"]; ?>"><?php echo $entrevistas["nombre"]." ".$entrevistas["apellidoPaterno"]." ".$entrevistas["apellidoMaterno"]; ?> , <?php echo $entrevistas["nombrePuesto"] ?></a></li>
 		<?php
 				endforeach;
 			endif;
@@ -48,10 +48,16 @@
 				foreach( $movimientos as $mo ):
 					$accion = ( $mo["estatusCandidato"] == "aprobado" )?"Aprobado":"Rechazado";
 					if( $accion == "Aprobado" ):
+					?>
 					
-						echo '<li><a href="'.HOME_URL.'/eaf/recursoshumanos/altausuario/?idCandidatoFDP='.$mo["idCandidatoFDP"].'">'.$mo["nombreCandidato"]." , ".$accion.'</a></li>';
+						<li><a href="<?php echo HOME_URL; ?>eaf/RecursosHumanos/altausuario/?idCandidatoFDP=<?php echo $mo["idCandidatoFDP"];?>"><?php echo $mo["nombreCandidato"]." , ".$accion;?></a></li>
+				
+				<?php 
 					else:
-						echo '<li>'.$mo["nombreCandidato"]." , ".$accion.'</li>';
+					?>
+						<li>'.$mo["nombreCandidato"]." , ".$accion.'</li>';
+					
+					<?php 
 					endif;
 				endforeach;
 			endif;

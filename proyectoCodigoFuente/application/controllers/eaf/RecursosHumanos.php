@@ -59,11 +59,16 @@ class Recursoshumanos extends CI_Controller {
 		$entrevistasRealizarSegundaParte = $this->ReclutamientoModel->obtenerEntrevistasRealizarSegundaParte();
 		/*Segundas entrevistas*/
 		print_r( $entrevistasRealizarSegundaParte );
+		
+		$movimientosCandidatosRH = $this->RecursoshumanosModel->obtenerMovimientosCandidatos();
+		
+		
 		$dataContent = array(
 				"isRRHH" => $isRRHH,
 				"accionesRRHH" => $accionesRRHH,
 				"entrevistasRealizar" => $entrevistasRealizar,
-				"entrevistasRealizarSegundaParte" => $entrevistasRealizarSegundaParte
+				"entrevistasRealizarSegundaParte" => $entrevistasRealizarSegundaParte,
+				"movimientos" => $movimientosCandidatosRH
 		);
 
 		$this->load->view('includes/header' , $dataHeader);
@@ -78,9 +83,9 @@ class Recursoshumanos extends CI_Controller {
 		);
 		$idCandidatoFDP = $this->Sanitize->clean_string($_REQUEST["idCandidatoFDP"]);
 
-		if( $idCandidatoFDP == "" ):
-		redirect("panel");
-		endif;
+		//if( $idCandidatoFDP == "" ):
+		//redirect("panel");
+		//endif;
 
 		/*Obtener datos de usuario, roles, modulos , permisos*/
 		$sessionUser = $this->session->userdata('logged_in');
@@ -202,6 +207,9 @@ class Recursoshumanos extends CI_Controller {
 
 
 		$nombreGerente = ( isset( $candidatoFDP["idUsuariosPeticion"] ) )?$this->ReclutamientoModel->obtenerNombrePorIdUsuarios($candidatoFDP["idUsuariosPeticion"]):"Desconocido";
+		
+		$peticionesVacantes = $this->ReclutamientoModel->obtenerPeticionesVacantes();
+		
 		/*Validar que sea valido el candidato*/
 		if( empty( $candidatoFDP ) || $candidatoFDP["idVacantesPeticiones"] == 0 ):
 		redirect("panel");
@@ -213,7 +221,7 @@ class Recursoshumanos extends CI_Controller {
 		$obtenerAprobacionDirector = $this->ReclutamientoModel->obtenerAprobacionDirector($idCandidatoFDP , $idReclutamientoFDP);
 		$obtenerMetaRH = $this->RecursoshumanosModel->obtenerMetaRH($idCandidatoFDP , $idReclutamientoFDP);
 
-
+		$obtenerGerentes = $this->ReclutamientoModel->obtenerGerentes();
 
 		$arrayFields = $obtenerMetaRH;
 		$arrayErrorFields = array();
@@ -221,7 +229,7 @@ class Recursoshumanos extends CI_Controller {
 
 
 		if( isset($_POST["aprobar_rechazar_rh"]) ):
-		if( $sessionUser["puesto"]["accionRol"] == "gerente" || $sessionUser["puesto"]["accionRol"] == "recursos_humanos" ):
+		if( $sessionUser["puesto"]["accionRol"] == "recursos_humanos" ):
 		//Solo estos dos Roles pueden aprobar el candidato para el siguiente paso de alta.
 
 
@@ -248,7 +256,8 @@ class Recursoshumanos extends CI_Controller {
 				"trabajo_equipo_rh_candidato" => $_POST["trabajo_equipo_rh_candidato"],
 				"cierre_acuerdos_rh_candidato" => $_POST["cierre_acuerdos_rh_candidato"],
 				"aprobar_rechazar_rh" => $_POST["aprobar_rechazar_rh"],
-				"fecha_entrevista_rh_fdp" => $_POST["fecha_entrevista_rh_fdp"]
+				"fecha_entrevista_rh_fdp" => $_POST["fecha_entrevista_rh_fdp"],
+				"aprobacion_gerente_rh_fdp" => $_POST["aprobacion_gerente_rh_fdp"]
 		);
 
 
@@ -265,7 +274,7 @@ class Recursoshumanos extends CI_Controller {
 		$aprobarRH = $this->RecursoshumanosModel->insertarEvaluacionRecursosHumanosFDP($arrayFields , $sessionUser["usuario"]["idUsuarios"] , $idCandidatoFDP , $idReclutamientoFDP);
 
 		if( $aprobarRH ):
-		redirect("eaf/recursoshumanos/candidato_rh/?idCandidatoFDP=".$idCandidatoFDP."&registroRH=1");
+		redirect("eaf/RecursosHumanos/candidato_rh/?idCandidatoFDP=".$idCandidatoFDP."&registroRH=1");
 		else:
 		$errorMensajes[] = "No fue posible guardar la información. Contacte con el administrador.";
 		endif;
@@ -276,22 +285,7 @@ class Recursoshumanos extends CI_Controller {
 		endif;
 		endif;
 
-		if( $sessionUser["puesto"]["accionRol"] == "gerente"):
-			
-		if( !empty($obtenerAprobacionRH) ):
-		$aprobarGerente = $this->RecursoshumanosModel->insertarEvaluacionGerenteFDP($arrayFields , $sessionUser["usuario"]["idUsuarios"] , $idCandidatoFDP , $idReclutamientoFDP);
-
-		if( $aprobarGerente ):
-		redirect("eaf/recursoshumanos/candidato_rh/?idCandidatoFDP=".$idCandidatoFDP."&registroRH=1");
-		else:
-		$errorMensajes[] = "No fue posible guardar la información. Contacte con el administrador.";
-		endif;
-
-		else:
-		$errorMensajes[] = "No es posible aprobar o rechazar hasta que Recursos Humanos seleccione la evaluación.";
-		endif;
-			
-		endif;
+	
 
 		else:
 
@@ -313,6 +307,9 @@ class Recursoshumanos extends CI_Controller {
 		$dataContent["arrayFields"] = $arrayFields;
 		$dataContent["errorMensajes"] = $errorMensajes;
 		$dataContent["arrayErrorFields"] = $arrayErrorFields;
+		
+		$dataContent["peticionesVacantes"] = $peticionesVacantes;
+		$dataContent["gerentesSegundaEntrevista"] = $obtenerGerentes;
 
 		/*Obtener datos de usuario, roles, modulos , permisos*/
 
@@ -513,7 +510,7 @@ else
 $fechaRegistro = date('Y-m-d H:i:s');
 $nombre=$resultado['apellido_paterno_candidato']." ".$resultado['apellido_materno_candidato']." ".$resultado['nombre_candidato'];
 
-$sqlInsertCandidato = "INSERT INTO usuarios (
+$sqlInsertCandidato = "INSERT INTO Usuarios (
 				nombreUsuario,
 				correoUsuario,
 				contraseniaUsuario,
@@ -544,7 +541,7 @@ $candidatoInsertID = $this->db->insert_id();
 
 if( file_exists(FCPATH.'tempFDP/files/'.$resultado["carta_curp"]) ):
 if( rename( FCPATH.'tempFDP/files/'.$resultado["carta_curp"] , FCPATH.'documentosUsuarios/'.$resultado["carta_curp"])):
-$sqlInsertArchivo = 'INSERT INTO documentosusuarios (idUsuarios , nombreDocumento , prefijoDocumento) VALUES( '.$candidatoInsertID.' , \''.$resultado["carta_curp"].'\' , \'carta_curp\');';
+$sqlInsertArchivo = 'INSERT INTO DocumentosUsuarios (idUsuarios , nombreDocumento , prefijoDocumento) VALUES( '.$candidatoInsertID.' , \''.$resultado["carta_curp"].'\' , \'carta_curp\');';
 $this->db->query( $sqlInsertArchivo );
 unlink( FCPATH.'tempFDP/files/'.$resultado["carta_curp"] );
 unlink( FCPATH.'tempFDP/files/thumbnail/'.$resultado["carta_curp"] );
@@ -553,7 +550,7 @@ endif;
 
 if( file_exists(FCPATH.'tempFDP/files/'.$resultado["actanacimiento"]) ):
 if( rename( FCPATH.'tempFDP/files/'.$resultado["actanacimiento"] , FCPATH.'documentosUsuarios/'.$resultado["actanacimiento"])):
-$sqlInsertArchivo = 'INSERT INTO documentosusuarios (idUsuarios , nombreDocumento , prefijoDocumento) VALUES( '.$candidatoInsertID.' , \''.$resultado["actanacimiento"].'\' , \'actanacimiento\');';
+$sqlInsertArchivo = 'INSERT INTO DocumentosUsuarios (idUsuarios , nombreDocumento , prefijoDocumento) VALUES( '.$candidatoInsertID.' , \''.$resultado["actanacimiento"].'\' , \'actanacimiento\');';
 $this->db->query( $sqlInsertArchivo );
 unlink( FCPATH.'tempFDP/files/'.$resultado["actanacimiento"] );
 unlink( FCPATH.'tempFDP/files/thumbnail/'.$resultado["actanacimiento"] );
@@ -562,7 +559,7 @@ endif;
 
 if( file_exists(FCPATH.'tempFDP/files/'.$resultado["comprobantedomicilio"]) ):
 if( rename( FCPATH.'tempFDP/files/'.$resultado["comprobantedomicilio"] , FCPATH.'documentosUsuarios/'.$resultado["comprobantedomicilio"])):
-$sqlInsertArchivo = 'INSERT INTO documentosusuarios (idUsuarios , nombreDocumento , prefijoDocumento) VALUES( '.$candidatoInsertID.' , \''.$resultado["comprobantedomicilio"].'\' , \'comprobantedomicilio\');';
+$sqlInsertArchivo = 'INSERT INTO DocumentosUsuarios (idUsuarios , nombreDocumento , prefijoDocumento) VALUES( '.$candidatoInsertID.' , \''.$resultado["comprobantedomicilio"].'\' , \'comprobantedomicilio\');';
 $this->db->query( $sqlInsertArchivo );
 unlink( FCPATH.'tempFDP/files/'.$resultado["comprobantedomicilio"] );
 unlink( FCPATH.'tempFDP/files/thumbnail/'.$resultado["comprobantedomicilio"] );
@@ -571,7 +568,7 @@ endif;
 
 if( file_exists(FCPATH.'tempFDP/files/'.$resultado["carta_rfc"]) ):
 if( rename( FCPATH.'tempFDP/files/'.$resultado["carta_rfc"] , FCPATH.'documentosUsuarios/'.$resultado["carta_rfc"])):
-$sqlInsertArchivo = 'INSERT INTO documentosusuarios (idUsuarios , nombreDocumento , prefijoDocumento) VALUES( '.$candidatoInsertID.' , \''.$resultado["carta_rfc"].'\' , \'carta_rfc\');';
+$sqlInsertArchivo = 'INSERT INTO DocumentosUsuarios (idUsuarios , nombreDocumento , prefijoDocumento) VALUES( '.$candidatoInsertID.' , \''.$resultado["carta_rfc"].'\' , \'carta_rfc\');';
 $this->db->query( $sqlInsertArchivo );
 unlink( FCPATH.'tempFDP/files/'.$resultado["carta_rfc"] );
 unlink( FCPATH.'tempFDP/files/thumbnail/'.$resultado["carta_rfc"] );
@@ -580,7 +577,7 @@ endif;
 
 if( file_exists(FCPATH.'tempFDP/files/'.$resultado["imss"]) ):
 if( rename( FCPATH.'tempFDP/files/'.$resultado["imss"] , FCPATH.'documentosUsuarios/'.$resultado["imss"])):
-$sqlInsertArchivo = 'INSERT INTO documentosusuarios (idUsuarios , nombreDocumento , prefijoDocumento) VALUES( '.$candidatoInsertID.' , \''.$resultado["imss"].'\' , \'imss\');';
+$sqlInsertArchivo = 'INSERT INTO DocumentosUsuarios (idUsuarios , nombreDocumento , prefijoDocumento) VALUES( '.$candidatoInsertID.' , \''.$resultado["imss"].'\' , \'imss\');';
 $this->db->query( $sqlInsertArchivo );
 unlink( FCPATH.'tempFDP/files/'.$resultado["imss"] );
 unlink( FCPATH.'tempFDP/files/thumbnail/'.$resultado["imss"] );
@@ -589,7 +586,7 @@ endif;
 
 if( file_exists(FCPATH.'tempFDP/files/'.$resultado["antecedentespenales"]) ):
 if( rename( FCPATH.'tempFDP/files/'.$resultado["antecedentespenales"] , FCPATH.'documentosUsuarios/'.$resultado["antecedentespenales"])):
-$sqlInsertArchivo = 'INSERT INTO documentosusuarios (idUsuarios , nombreDocumento , prefijoDocumento) VALUES( '.$candidatoInsertID.' , \''.$resultado["antecedentespenales"].'\' , \'antecedentespenales\');';
+$sqlInsertArchivo = 'INSERT INTO DocumentosUsuarios (idUsuarios , nombreDocumento , prefijoDocumento) VALUES( '.$candidatoInsertID.' , \''.$resultado["antecedentespenales"].'\' , \'antecedentespenales\');';
 $this->db->query( $sqlInsertArchivo );
 unlink( FCPATH.'tempFDP/files/'.$resultado["antecedentespenales"] );
 unlink( FCPATH.'tempFDP/files/thumbnail/'.$resultado["antecedentespenales"] );
@@ -598,7 +595,7 @@ endif;
 
 if( file_exists(FCPATH.'tempFDP/files/'.$resultado["burocredito"]) ):
 if( rename( FCPATH.'tempFDP/files/'.$resultado["burocredito"] , FCPATH.'documentosUsuarios/'.$resultado["burocredito"])):
-$sqlInsertArchivo = 'INSERT INTO documentosusuarios (idUsuarios , nombreDocumento , prefijoDocumento) VALUES( '.$candidatoInsertID.' , \''.$resultado["burocredito"].'\' , \'burocredito\');';
+$sqlInsertArchivo = 'INSERT INTO DocumentosUsuarios (idUsuarios , nombreDocumento , prefijoDocumento) VALUES( '.$candidatoInsertID.' , \''.$resultado["burocredito"].'\' , \'burocredito\');';
 $this->db->query( $sqlInsertArchivo );
 unlink( FCPATH.'tempFDP/files/'.$resultado["burocredito"] );
 unlink( FCPATH.'tempFDP/files/thumbnail/'.$resultado["burocredito"] );
@@ -607,7 +604,7 @@ endif;
 
 if( file_exists(FCPATH.'tempFDP/files/'.$resultado["identificacionoficial"]) ):
 if( rename( FCPATH.'tempFDP/files/'.$resultado["identificacionoficial"] , FCPATH.'documentosUsuarios/'.$resultado["identificacionoficial"])):
-$sqlInsertArchivo = 'INSERT INTO documentosusuarios (idUsuarios , nombreDocumento , prefijoDocumento) VALUES( '.$candidatoInsertID.' , \''.$resultado["identificacionoficial"].'\' , \'identificacionoficial\');';
+$sqlInsertArchivo = 'INSERT INTO DocumentosUsuarios (idUsuarios , nombreDocumento , prefijoDocumento) VALUES( '.$candidatoInsertID.' , \''.$resultado["identificacionoficial"].'\' , \'identificacionoficial\');';
 $this->db->query( $sqlInsertArchivo );
 unlink( FCPATH.'tempFDP/files/'.$resultado["identificacionoficial"] );
 unlink( FCPATH.'tempFDP/files/thumbnail/'.$resultado["identificacionoficial"] );
@@ -616,7 +613,7 @@ endif;
 
 if( file_exists(FCPATH.'tempFDP/files/'.$resultado["comprobanteEstudios"]) ):
 if( rename( FCPATH.'tempFDP/files/'.$resultado["comprobanteEstudios"] , FCPATH.'documentosUsuarios/'.$resultado["comprobanteEstudios"])):
-$sqlInsertArchivo = 'INSERT INTO documentosusuarios (idUsuarios , nombreDocumento , prefijoDocumento) VALUES( '.$candidatoInsertID.' , \''.$resultado["comprobanteEstudios"].'\' , \'comprobanteEstudios\');';
+$sqlInsertArchivo = 'INSERT INTO DocumentosUsuarios (idUsuarios , nombreDocumento , prefijoDocumento) VALUES( '.$candidatoInsertID.' , \''.$resultado["comprobanteEstudios"].'\' , \'comprobanteEstudios\');';
 $this->db->query( $sqlInsertArchivo );
 unlink( FCPATH.'tempFDP/files/'.$resultado["comprobanteEstudios"] );
 unlink( FCPATH.'tempFDP/files/thumbnail/'.$resultado["comprobanteEstudios"] );
@@ -656,7 +653,7 @@ $resultado["idDepartamento"]=0;
 endif;
 
 
-$sqlHash = "SELECT idPuestos FROM puestos where nombrePuesto='".$resultado["puesto"]."';";
+$sqlHash = "SELECT idPuestos FROM Puestos where nombrePuesto='".$resultado["puesto"]."';";
 $selectHash = $this->db->query( $sqlHash );
 	
 if( $selectHash->num_rows() > 0 ):
@@ -672,7 +669,7 @@ endif;
 
 
 
-$sqlHash = "SELECT max(valorMetaDatos) as noEmpleado FROM usuariosmetadatos where prefijoMetaDatos='noEmpleado';";
+$sqlHash = "SELECT max(valorMetaDatos) as noEmpleado FROM UsuariosMetaDatos where prefijoMetaDatos='noEmpleado';";
 $selectHash = $this->db->query( $sqlHash );
 	
 if( $selectHash->num_rows() > 0 ):
@@ -711,7 +708,7 @@ else
 }
 
 
-$sqlHash = "SELECT profundidad FROM taxpuestousuario where idUsuarios =" .$resultado['idPadre'].";";
+$sqlHash = "SELECT profundidad FROM TaxPuestoUsuario where idUsuarios =" .$resultado['idPadre'].";";
 $selectHash = $this->db->query( $sqlHash );
 
 if( $selectHash->num_rows() > 0 ):
@@ -733,7 +730,7 @@ $resultado["fechaAlta"] = date("Y-m-d");
 
 
 
-$sqlInsertCandidato = "INSERT INTO taxpuestousuario (
+$sqlInsertCandidato = "INSERT INTO TaxPuestoUsuario (
 				idPuestos,
 				fechaMovimiento,
 				idUsuarios,
@@ -758,7 +755,7 @@ $insertTaxtPuestos = $this->db->query($sqlInsertCandidato);
 
 foreach( $resultado as $key => $res ):
 
-$sqlInsertMetaDatos = 'INSERT INTO usuariosmetadatos ( prefijoMetaDatos , valorMetaDatos , idUsuarios ) VALUES( \''.$key.'\' , \''.$res.'\' , '.$candidatoInsertID.' );';
+$sqlInsertMetaDatos = 'INSERT INTO UsuariosMetaDatos ( prefijoMetaDatos , valorMetaDatos , idUsuarios ) VALUES( \''.$key.'\' , \''.$res.'\' , '.$candidatoInsertID.' );';
 $this->db->query( $sqlInsertMetaDatos );
 
 endforeach;

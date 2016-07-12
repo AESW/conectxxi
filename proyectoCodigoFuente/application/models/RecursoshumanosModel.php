@@ -29,47 +29,53 @@ class RecursoshumanosModel extends CI_Model {
 			
 			$resultadoAprobacionRH = $queryAprobacionRH->result();
 			
-			$sqlUpdate = 'UPDATE RecursosHumanosFDP SET fechaEntrevista = \''.$arregloEvaluacion["fecha_entrevista_rh_fdp"].'\' ,  estatusRecursosHumanosFDP = \''.$estatus.'\' , fechaAprobacionRecursosHumanos = now() WHERE idCandidatoFDP = '.$idCandidatoFDP.' AND idReclutamientoFDP = '.$idReclutamientoFDP  ;
+
+			$sqlUpdate = 'UPDATE RecursosHumanosFDP SET fechaEntrevista = \''.$arregloEvaluacion["fecha_entrevista_rh_fdp"].'\' ,  estatusRecursosHumanosFDP = \''.$estatus.'\' , fechaAprobacionRecursosHumanos = now() , estatusGerenteFDP = \''.$estatus.'\' , idUsuariosAprobacionGerente = '.$arregloEvaluacion["aprobacion_gerente_rh_fdp"].' , fechaAprobacionGerente = now() WHERE idCandidatoFDP = '.$idCandidatoFDP.' AND idReclutamientoFDP = '.$idReclutamientoFDP  ;
 			
-			$queryUpdate = $this->db->query( $sqlUpdate );	
+			$queryUpdate = $this->db->query( $sqlUpdate );
 			
 			
-			  $sqlDeleteMetaRH = 'DELETE FROM RecursosHumanosMetaDatosFDP WHERE idCandidatosFDP = '.$idCandidatoFDP.' AND idRecursosHumanosFDP = '.$resultadoAprobacionRH[0]->idRecursosHumanosFDP;
-			  
-			  
-			  $this->db->query($sqlDeleteMetaRH);
-			  
-			  if(!empty($arregloEvaluacion)):
-			  	foreach( $arregloEvaluacion as $key => $fields):
-			  		
-			  		$sqlInsertMetas = 'INSERT INTO RecursosHumanosMetaDatosFDP ( prefijoMetaDatos , valorMetaDatos , idCandidatosFDP , idRecursosHumanosFDP ) VALUES( \''.$key.'\' , \''.$fields.'\' , '.$idCandidatoFDP.' , '.$resultadoAprobacionRH[0]->idRecursosHumanosFDP.' ) ';
-			  		
-			  		$this->db->query($sqlInsertMetas);
-			  	endforeach;
-			  endif;
-			  
-			  return true;
+			$sqlDeleteMetaRH = 'DELETE FROM RecursosHumanosMetaDatosFDP WHERE idCandidatosFDP = '.$idCandidatoFDP.' AND idRecursosHumanosFDP = '.$resultadoAprobacionRH[0]->idRecursosHumanosFDP;
 			
-		else:	
+			
+			$this->db->query($sqlDeleteMetaRH);
+			
+			if(!empty($arregloEvaluacion)):
+			foreach( $arregloEvaluacion as $key => $fields):
+			
+			$sqlInsertMetas = 'INSERT INTO RecursosHumanosMetaDatosFDP ( prefijoMetaDatos , valorMetaDatos , idCandidatosFDP , idRecursosHumanosFDP ) VALUES( \''.$key.'\' , \''.$fields.'\' , '.$idCandidatoFDP.' , '.$resultadoAprobacionRH[0]->idRecursosHumanosFDP.' ) ';
+			
+			$this->db->query($sqlInsertMetas);
+			endforeach;
+			endif;
+			
+			return true;
+			
+			else:
 			//insert
 			
-			$sqlInsert = 'INSERT INTO RecursosHumanosFDP ( idCandidatoFDP , idReclutamientoFDP , fechaEntrevista , idUsuariosAprobacionRecursosHumanos , fechaAprobacionRecursosHumanos , estatusRecursosHumanosFDP ) VALUES( '.$idCandidatoFDP.' , '.$idReclutamientoFDP.' , \''.$arregloEvaluacion["fecha_entrevista_rh_fdp"].'\' , '.$idUsuario.' , now() , \''.$estatus.'\' )';
+			$sqlInsert = 'INSERT INTO RecursosHumanosFDP ( idCandidatoFDP , idReclutamientoFDP , fechaEntrevista , idUsuariosAprobacionRecursosHumanos , fechaAprobacionRecursosHumanos , estatusRecursosHumanosFDP , estatusGerenteFDP , idUsuariosAprobacionGerente , fechaAprobacionGerente ) VALUES( '.$idCandidatoFDP.' , '.$idReclutamientoFDP.' , \''.$arregloEvaluacion["fecha_entrevista_rh_fdp"].'\' , '.$idUsuario.' , now() , \''.$estatus.'\' , \''.$estatus.'\' , '.$arregloEvaluacion["aprobacion_gerente_rh_fdp"].' , now())';
 			
-			$queryInsert = $this->db->query($sqlInsert);
-			$idRecursosHumanosFDP = $this->db->insert_id();
+		$queryInsert = $this->db->query($sqlInsert);
+		$idRecursosHumanosFDP = $this->db->insert_id();
 			
-				if(!empty($arregloEvaluacion)):
-				  	foreach( $arregloEvaluacion as $key => $fields):
-				  		$sqlInsertMetas = 'INSERT INTO RecursosHumanosMetaDatosFDP ( prefijoMetaDatos , valorMetaDatos , idCandidatosFDP , idRecursosHumanosFDP ) VALUES( \''.$key.'\' , \''.$fields.'\' , '.$idCandidatoFDP.' , '.$idRecursosHumanosFDP.' ) ';
-				  		
-				  		$this->db->query($sqlInsertMetas);
-				  	endforeach;
-				endif;
-				return true;
+		if(!empty($arregloEvaluacion)):
+			foreach( $arregloEvaluacion as $key => $fields):
+				$sqlInsertMetas = 'INSERT INTO RecursosHumanosMetaDatosFDP ( prefijoMetaDatos , valorMetaDatos , idCandidatosFDP , idRecursosHumanosFDP  ) VALUES( \''.$key.'\' , \''.$fields.'\' , '.$idCandidatoFDP.' , '.$idRecursosHumanosFDP.' ) ';
+			
+			$this->db->query($sqlInsertMetas);
+			endforeach;
+			endif;
+			
+			
+			return true;
+			
 		endif;
 		
 		
 	}
+	
+	
 	
 	public function insertarEvaluacionGerenteFDP( $arregloEvaluacion , $idUsuario , $idCandidatoFDP , $idReclutamientoFDP){
 		if( empty($arregloEvaluacion) || 
@@ -86,8 +92,8 @@ class RecursoshumanosModel extends CI_Model {
 			
 			
 			$queryUpdate = $this->db->query( $sqlUpdate );
-			
-			return true;
+
+		return true;
 	}
 	
 	public function obtenerMetaRH( $idCandidatoFDP , $idReclutamientoFDP ){
@@ -113,17 +119,60 @@ class RecursoshumanosModel extends CI_Model {
 			$queryObtenerMetaRH = $this->db->query($sqlObtenerMetaRH);
 			
 			if( $queryObtenerMetaRH->num_rows() > 0 ):
-				$resultObtenerMetaRH = $queryObtenerMetaRH->result();
-				
-				foreach( $resultObtenerMetaRH as $meta ):
-					$arrayFields[$meta->prefijoMetaDatos] = $meta->valorMetaDatos;
-				endforeach;
+			$resultObtenerMetaRH = $queryObtenerMetaRH->result();
+			
+			foreach( $resultObtenerMetaRH as $meta ):
+			$arrayFields[$meta->prefijoMetaDatos] = $meta->valorMetaDatos;
+			endforeach;
 			endif;
 			
 			
 		endif;
 			
 		return $arrayFields;
+	}
+	
+	public function obtenerMovimientosCandidatos(){
+		$sqlCandidatosAprobados = 'SELECT *,
+										 ( SELECT CONCAT( nombre , " " , apeliidoPaterno , " " , apellidoMaterno ) FROM CandidatoFDP WHERE idCandidatoFDP = RecursosHumanosFDP.idCandidatoFDP ) as nombreCandidato
+										 FROM
+										 RecursosHumanosFDP WHERE estatusRecursosHumanosFDP = \'aprobado\'';
+	
+		$queryCandidatosAprobados = $this->db->query( $sqlCandidatosAprobados );
+		$arrayAprobados = array();
+		if(  $queryCandidatosAprobados->num_rows() > 0 ):
+		$resultadoCandidatosAprobados = $queryCandidatosAprobados->result();
+		foreach($resultadoCandidatosAprobados as $aprobados):
+		$arrayAprobados[] = array(
+				"idCandidatoFDP" => $aprobados->idCandidatoFDP,
+				"nombreCandidato" => $aprobados->nombreCandidato,
+				"estatusCandidato" => "aprobado"
+		);
+		endforeach;
+		endif;
+	
+	
+		$sqlCandidatosRechazados = 'SELECT *,
+										 ( SELECT CONCAT( nombre , " " , apeliidoPaterno , " " , apellidoMaterno ) FROM CandidatoFDP WHERE idCandidatoFDP = RecursosHumanosFDP.idCandidatoFDP ) as nombreCandidato
+										 FROM
+										 RecursosHumanosFDP WHERE estatusRecursosHumanosFDP = \'rechazado\'';
+	
+		$queryCandidatosRechazados = $this->db->query( $sqlCandidatosRechazados );
+		$arrayRechazados = array();
+		if(  $queryCandidatosRechazados->num_rows() > 0 ):
+		$resultadoCandidatosRechazados = $queryCandidatosRechazados->result();
+		foreach($resultadoCandidatosRechazados as $rechazados):
+		$arrayRechazados[] = array(
+				"idCandidatoFDP" => $rechazados->idCandidatoFDP,
+				"nombreCandidato" => $rechazados->nombreCandidato,
+				"estatusCandidato" => "rechazado"
+		);
+		endforeach;
+		endif;
+	
+		$resultadoMovimientos = array_merge($arrayAprobados, $arrayRechazados);
+	
+		return $resultadoMovimientos;
 	}
 	
 	public function obtenerCandidatoFDP( $idCandidadtoFDP = 0 ){
@@ -199,17 +248,7 @@ class RecursoshumanosModel extends CI_Model {
 		$arrayCandidato["parentesco_dependiente_economico_candidato"] = $itemsDependientes;
 			
 			
-		$sqlVacantesPeticiones = 'SELECT *,(SELECT nombrePuesto FROM Puestos WHERE idPuestos = VacantesPeticiones.idPuesto ) as nombrePuesto FROM VacantesPeticiones WHERE tokenFDPVacantesPendientes = \''.$arrayCandidato["tokenFDPVacantesPendientes"].'\' LIMIT 1';
-		$queryVacantesPeticiones = $this->db->query( $sqlVacantesPeticiones );
-			
-		if( $queryVacantesPeticiones->num_rows() > 0 ):
-		$resultadoVacantesPeticiones = $queryVacantesPeticiones->result();
-		$arrayCandidato["idVacantesPeticiones"] = $resultadoVacantesPeticiones[0]->idVacantesPeticiones;
-		$arrayCandidato["idUsuariosPeticion"] = $resultadoVacantesPeticiones[0]->idUsuariosPeticion;
-		$arrayCandidato["Puesto"] = $resultadoVacantesPeticiones[0]->nombrePuesto;
-		else:
-		$arrayCandidato["idVacantesPeticiones"] = 0;
-		endif;
+		
 			
 			
 		$sqlReclutamientoFDP = "SELECT * FROM ReclutamientoFDP WHERE idCandidatoFDP = ".$idCandidadtoFDP."  and estatusReclutamientoFDP ='aprobado' LIMIT 1";
@@ -217,7 +256,22 @@ class RecursoshumanosModel extends CI_Model {
 			
 		if( $queryReclutamientoFDP->num_rows() > 0 ):
 		$resultadoReclutamientoFDP = $queryReclutamientoFDP->result();
+		
 		$arrayCandidato["idReclutamientoFDP"] = $resultadoReclutamientoFDP[0]->idReclutamientoFDP;
+		$sqlVacantesPeticiones = 'SELECT *, (SELECT nombrePuesto FROM Puestos WHERE idPuestos = VacantesPeticiones.idPuesto ) as nombrePuesto FROM VacantesPeticiones WHERE idVacantesPeticiones = \''.$resultadoReclutamientoFDP[0]->idVacantesPeticiones.'\' LIMIT 1';
+			
+		$queryVacantesPeticiones = $this->db->query( $sqlVacantesPeticiones );
+		
+		if( $queryVacantesPeticiones->num_rows() > 0 ):
+		
+		$resultadoVacantesPeticiones = $queryVacantesPeticiones->result();
+		$arrayCandidato["idVacantesPeticiones"] = $resultadoVacantesPeticiones[0]->idVacantesPeticiones;
+		$arrayCandidato["idUsuariosPeticion"] = $resultadoVacantesPeticiones[0]->idUsuariosPeticion;
+		$arrayCandidato["Puesto"] = $resultadoVacantesPeticiones[0]->nombrePuesto;
+		$arrayCandidato["tokenFDPVacantesPendientes"] = $resultadoVacantesPeticiones[0]->tokenFDPVacantesPendientes;
+		else:
+		$arrayCandidato["idVacantesPeticiones"] = 0;
+		endif;
 		
 		////////RecursosHumanosFDP
 		
@@ -321,7 +375,7 @@ class RecursoshumanosModel extends CI_Model {
 	public function solicitarCuenta($id){
 	
 	
-		$sqlInsert = "INSERT INTO solicitudescuentasnominabancomer ( idUsuariosRecursosHumanos,idCandidatoFDP,fechaSolicitud ) VALUES(1,$id,now())";
+		$sqlInsert = "INSERT INTO SolicitudesCuentasNominaBancomer ( idUsuariosRecursosHumanos,idCandidatoFDP,fechaSolicitud ) VALUES(1,$id,now())";
 	
 		$queryInsert = $this->db->query($sqlInsert);
 		
@@ -340,7 +394,7 @@ class RecursoshumanosModel extends CI_Model {
 	public function validarCuenta($id){
 	
 	
-		$sqlObtenerValidar = "SELECT * FROM solicitudescuentasnominabancomer where idCandidatoFDP = $id" ;
+		$sqlObtenerValidar = "SELECT * FROM SolicitudesCuentasNominaBancomer where idCandidatoFDP = $id" ;
 			
 		$resultObtenerValidar = array();
 			
@@ -365,7 +419,7 @@ class RecursoshumanosModel extends CI_Model {
 	public function ValidarToken($token){
 	
 	
-		$sqlObtenerValidar = "SELECT valorMetaDatos FROM usuariosmetadatos WHERE prefijoMetaDatos = 'tokenVacante' and valorMetaDatos = '$token'" ;
+		$sqlObtenerValidar = "SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE prefijoMetaDatos = 'tokenVacante' and valorMetaDatos = '$token'" ;
 			
 		$resultObtenerValidar = array();
 			
