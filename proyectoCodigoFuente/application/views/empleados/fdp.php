@@ -36,6 +36,39 @@
 	      $(".btn_fire").val("continuar");
 	      $("#form_fdp_conectxxi").submit();
 	  });
+
+	  $("#btnNextFDP12").click(function(){
+
+		  var idRFC =  $('#rfc_candidato').val();
+
+
+		  $.post("<?php echo HOME_URL; ?>Empleados/ValidarRFC/",{
+			  idRFC:idRFC
+	          },function(data) {
+
+
+	        	  var mensaje=data;
+	              
+            
+            if ($.trim(mensaje)=='-error')
+            {
+                
+         	   $("#resultadoRFC").html("Capture un RFC valido");
+         	   $(".step1").trigger("click");
+         	  $(".rfc_candidato").val("");
+
+             	  
+            }
+            else
+            {
+          	  window.open('<?php echo HOME_URL; ?>Empleados/Aviso/'+idRFC,'_blank');  // changed here (cambiado aqu�)
+            }
+
+	      });
+	
+		    
+	  });
+	  
       
       <?php 
 	      if( isset($formArray["step_current"]) && !isset( $_REQUEST["registro"] )):
@@ -56,7 +89,15 @@
 	      
       ?>
     });
+
+
+  
+    
   </script>
+  
+ 
+  
+  
   <?php
 	/*echo "<pre>";
 	      	print_r($error_campos);
@@ -103,6 +144,7 @@
 				
 				
 			    <h2><label>Nombre</label></h2>
+			      <span id="resultadoRFC" style="color:red"></span>
 			    <p style="color:red;font-weight: bold;margin-bottom: 15px;"><?php echo ( count($error_campos) > 0 )?"Favor de revisar campos obligatorios marcados con rojo":""; ?></p>
 			    <table cellpadding="0" cellspacing="0" width="100%">
 				    <tr>
@@ -675,7 +717,22 @@
 			  <!-- Paso 4 -->
 			  <div id="tabs1-paso4">
 			    <h2><label>Familiares y/o conocidos en la empresa</label></h2>
-			    <p style="color:red;font-weight: bold;margin-bottom: 15px;"><?php echo (count($error_campos) > 0)?"Favor de revisar campos obligatorios marcados con rojo":"Información guardada correctamente, de click en registrar para finalizar."; ?></p>
+			    
+			    <?php if (count($error_campos) > 0):
+			    ?>
+			    <p style="color:red;font-weight: bold;margin-bottom: 15px;">Favor de revisar campos obligatorios marcados con rojo.</p>
+			    	<?php 
+			    	
+			  else:
+			  ?>
+			  			    
+			  <p style="font-weight: bold; text-align: center;font-size: 13pt; color: #00db05"> Información guardada correctamente, de click en registrar para finalizar.</p>
+			    
+			    <?php 
+			    endif;
+			    
+			    ?>
+			   
 			    <table cellpadding="0" cellspacing="0" width="100%">
 				    <tr>
 					    <td>Nombre completo</td>
@@ -793,7 +850,7 @@
 							   	echo "<p style='color: red; font-weight: bold;'>Para registrar necesitas aceptar Aviso de privacidad</p>";
 							   endif;
 						   ?>
-						   <a href="<?php echo HOME_URL; ?>/home/avisoprivacidad/" target="_blank">Leer Aviso Privacidad</a><br/>
+						    <a href="#"  id="btnNextFDP12">Leer Aviso Privacidad</a> <br/>
 						   <input type="checkbox" name="aviso_privacidad_fdp" class="aviso_privacidad_fdp" id="aviso_privacidad_fdp" /> Acepto Aviso de Privacidad</td>
 				   </tr>
 			    </table>  

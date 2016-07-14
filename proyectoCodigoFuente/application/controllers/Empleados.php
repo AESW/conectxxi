@@ -102,7 +102,25 @@ class Empleados extends CI_Controller {
 				if( $resultado["rfc_candidato"] == "" ):
 					$error_campos[] = "rfc_candidato";
 				endif;
-				if( !validarRFC( $resultado["rfc_candidato"] ) ):
+				
+				$idRFC = $resultado["rfc_candidato"];
+				
+				
+				$sqlHash = "SELECT * FROM emails where RFC = '$idRFC' ";
+				$selectHash = $this->db->query( $sqlHash );
+					
+				if( $selectHash->num_rows() > 0 ):
+				
+				$valRFC = true;
+				
+				else:
+				
+				$valRFC = False;
+				
+				endif;
+				
+				
+				if( !validarRFC( $resultado["rfc_candidato"] ) or !$valRFC ):
 					$error_campos[] = "rfc_candidato";
 				endif;
 				if( $resultado["curp_candidato"] == "" ):
@@ -922,4 +940,55 @@ class Empleados extends CI_Controller {
 		$this->load->view('fdp/confirmar' , $dataContent);
 		$this->load->view('includes/footer');
 	}
+	
+	public function ValidarRFC(){
+	
+		$id = $this->input->post('idRFC');
+
+
+		$sqlHash = "SELECT * FROM emails where RFC = '$id' ";
+		$selectHash = $this->db->query( $sqlHash );
+			
+		if( $selectHash->num_rows() > 0 ):
+		
+		echo "correcto";
+		
+		else:
+		
+		echo "error";
+		
+		endif;
+		
+		
+			
+	}
+	
+	
+	public function Aviso($id){
+
+
+
+
+$sqlHash = "SELECT * FROM emails where RFC = '$id' ";
+$selectHash = $this->db->query( $sqlHash );
+$resultHash = $selectHash->result();
+
+$dataContent = array();
+
+
+$dataContent["Empresa"] = $resultHash;
+
+//echo "<pre>";print_r($dataContent);
+
+
+$dataHeader = array(
+		"titulo" => "Aviso de Privacidad"
+);
+		
+	
+		$this->load->view('includes/header' , $dataHeader);
+		$this->load->view('empleados/avisoprivacidad',$dataContent );
+		$this->load->view('includes/footer');
+	}
+	
 }
