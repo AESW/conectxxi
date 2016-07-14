@@ -17,7 +17,7 @@
 			if(!empty( $entrevistasRealizar ) ):
 				foreach($entrevistasRealizar as $entrevistas):
 		?>
-					<li><a href="<?php echo HOME_URL; ?>eaf/RecursosHumanos/candidato/?idCandidatoFDP=<?php echo $entrevistas["idCandidatoFDP"]; ?>"><?php echo $entrevistas["nombre"]." ".$entrevistas["apellidoPaterno"]." ".$entrevistas["apellidoMaterno"]; ?> , <?php echo $entrevistas["nombrePuesto"] ?></a></li>
+					<li><a href="<?php echo HOME_URL; ?>eaf/Reclutamiento/candidato/?idCandidatoFDP=<?php echo $entrevistas["idCandidatoFDP"]; ?>"><?php echo $entrevistas["nombre"]." ".$entrevistas["apellidoPaterno"]." ".$entrevistas["apellidoMaterno"]; ?> , <?php echo $entrevistas["nombrePuesto"] ?></a></li>
 		<?php
 				endforeach;
 			endif;

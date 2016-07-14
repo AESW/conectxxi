@@ -192,7 +192,7 @@
 							      <option value="">Seleccionar nivel educativo</option>
 							      <option value="Licenciatura" <?php if( isset($formArray["nivel_educativo_candidato"]) && $formArray["nivel_educativo_candidato"] == "Licenciatura" ): echo "selected='selected'"; endif;?>>Licenciatura</option>
 							      <option value="Bachillerato" <?php if( isset($formArray["nivel_educativo_candidato"]) && $formArray["nivel_educativo_candidato"] == "Bachillerato" ): echo "selected='selected'"; endif;?>>Bachillerato</option>
-							      <option value="Tecnico" <?php if( isset($formArray["nivel_educativo_candidato"]) && $formArray["nivel_educativo_candidato"] == "Tecnico" ): echo "selected='selected'"; endif;?>>Técnico</option>
+							      <option value="Tecnico" <?php if( isset($formArray["nivel_educativo_candidato"]) && $formArray["nivel_educativo_candidato"] == "Técnico" ): echo "selected='selected'"; endif;?>>Técnico</option>
 							      <option value="Secundaria" <?php if( isset($formArray["nivel_educativo_candidato"]) && $formArray["nivel_educativo_candidato"] == "Secundaria" ): echo "selected='selected'"; endif;?>>Secundaria</option>
 							      <option value="Primaria" <?php if( isset($formArray["nivel_educativo_candidato"]) && $formArray["nivel_educativo_candidato"] == "Primaria" ): echo "selected='selected'"; endif;?>>Primaria</option>
 						      </select>
@@ -261,28 +261,21 @@
 				    </tr>
 				    <tr>
 					    <td>Estado</td>
-					    <td>
-						    <select name="estado_domicilio_candidato" class="estado_domicilio_candidato" id="estado_domicilio_candidato" <?php echo ( in_array('estado_domicilio_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
-							    <option value="">Seleccionar estado</option>
-							    
-						     </select>
-					    </td>
+					      <td><input type="text" name="estado_domicilio_candidato" class="estado_domicilio_candidato" id="estado_domicilio_candidato" placeholder="Estado" autocomplete="off" required value="<?php echo (isset($formArray["estado_domicilio_candidato"]))?$formArray["estado_domicilio_candidato"]:""; ?>" <?php echo ( in_array('estado_domicilio_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
 					    <td>Ciudad</td>
 					    <td><input type="text" name="ciudad_domicilio_candidato" class="ciudad_domicilio_candidato" id="ciudad_domicilio_candidato" placeholder="Ciudad" autocomplete="off" required value="<?php echo (isset($formArray["ciudad_domicilio_candidato"]))?$formArray["ciudad_domicilio_candidato"]:""; ?>" <?php echo ( in_array('ciudad_domicilio_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
 				    </tr>
 				    <tr>
 					    <td>Municipio o delegación</td>
-					    <td>
-						   <select name="delegacion_domicilio_candidato" class="delegacion_domicilio_candidato" id="delegacion_domicilio_candidato" <?php echo ( in_array('delegacion_domicilio_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
-							   <option value="">Seleccionar delegación o municipio</option> 
-						   </select>
-					    </td>
+					  
+					     <td><input type="text" name="delegacion_domicilio_candidato" class="delegacion_domicilio_candidato" id="delegacion_domicilio_candidato" placeholder="Deleg. o Municipio" autocomplete="off" required value="<?php echo (isset($formArray["delegacion_domicilio_candidato"]))?$formArray["delegacion_domicilio_candidato"]:""; ?>" <?php echo ( in_array('delegacion_domicilio_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    
 					    <td>Colonia</td>
-					    <td>
-						    <select name="colonia_domicilio_candidato" class="colonia_domicilio_candidato" id="colonia_domicilio_candidato" required <?php echo ( in_array('colonia_domicilio_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
-				              <option value="">Seleccionar colonia</option> 
-				            </select>
-						</td>
+					   
+						
+						 <td><input type="text" name="colonia_domicilio_candidato" class="colonia_domicilio_candidato" id="colonia_domicilio_candidato" placeholder="Colonia" autocomplete="off" required value="<?php echo (isset($formArray["colonia_domicilio_candidato"]))?$formArray["colonia_domicilio_candidato"]:""; ?>" <?php echo ( in_array('colonia_domicilio_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    
+						
 				    </tr>
 			     </table>
 			     
@@ -318,7 +311,7 @@
 			  
 			  <!-- Paso 2 -->
 			  <div id="tabs1-paso2">	
-			    <h2><label>Datos de la vivienda</label></h2>
+			  <h2><label>Datos de la vivienda</label> <p align=right >Resultado:<?php echo (isset($formArray["total_amai"]))?$formArray["total_amai"]  :""; ?>    .</p></h2>
 			    <p style="color:red;font-weight: bold;margin-bottom: 15px;"><?php echo (count($error_campos) > 0)?"Favor de revisar campos obligatorios marcados con rojo":""; ?></p>
 			    <table cellpadding="0" cellspacing="0" width="100%">
 				    <tr>
@@ -368,7 +361,7 @@
 							   <option value="6-10" <?php if( isset($formArray["focos_vivienda_candidato"]) && $formArray["focos_vivienda_candidato"] == "6-10" ): echo "selected='selected'"; endif;?>>6-10</option>
 							   <option value="11-15" <?php if( isset($formArray["focos_vivienda_candidato"]) && $formArray["focos_vivienda_candidato"] == "11-15" ): echo "selected='selected'"; endif;?>>11-15</option>
 							   <option value="16-20" <?php if( isset($formArray["focos_vivienda_candidato"]) && $formArray["focos_vivienda_candidato"] == "16-20" ): echo "selected='selected'"; endif;?>>16-20</option>
-							   <option value="21mas" <?php if( isset($formArray["focos_vivienda_candidato"]) && $formArray["focos_vivienda_candidato"] == "21mas" ): echo "selected='selected'"; endif;?>>21 o más</option>
+							   <option value="21+" <?php if( isset($formArray["focos_vivienda_candidato"]) && $formArray["focos_vivienda_candidato"] == "21+" ): echo "selected='selected'"; endif;?>>21 o más</option>
 						   </select>
 					    </td>
 				    </tr>   
@@ -552,7 +545,7 @@
 						    <div id="files_carta_1" class="files">
 							    <?php 
 								    if( isset($formArray["carta_recomendacion_empleo1_candidato"]) && $formArray["carta_recomendacion_empleo1_candidato"] != ""):
-								    	echo '<a href="'.HOME_URL."tempFDP/files/".$formArray["carta_recomendacion_empleo1_candidato"].'" target="_blank">'.$formArray["carta_recomendacion_empleo1_candidato"].'</a>';
+								    	echo '<a href="'.HOME_URL."candidatosFDP/".$formArray["carta_recomendacion_empleo1_candidato"].'" target="_blank">'.$formArray["carta_recomendacion_empleo1_candidato"].'</a>';
 								    	
 								    endif;
 							    ?>
@@ -598,7 +591,7 @@
 						    <div id="files_carta_2" class="files">
 							    <?php 
 								    if( isset($formArray["carta_recomendacion_empleo2_candidato"]) && $formArray["carta_recomendacion_empleo2_candidato"] != ""):
-								    	echo '<a href="'.HOME_URL."tempFDP/files/".$formArray["carta_recomendacion_empleo2_candidato"].'" target="_blank">'.$formArray["carta_recomendacion_empleo2_candidato"].'</a>';
+								    	echo '<a href="'.HOME_URL."candidatosFDP/".$formArray["carta_recomendacion_empleo2_candidato"].'" target="_blank">'.$formArray["carta_recomendacion_empleo2_candidato"].'</a>';
 								    	
 								    endif;
 							    ?>
@@ -644,7 +637,7 @@
 						    <div id="files_carta_3" class="files">
 							    <?php 
 								    if( isset($formArray["carta_recomendacion_empleo3_candidato"]) && $formArray["carta_recomendacion_empleo3_candidato"] != ""):
-								    	echo '<a href="'.HOME_URL."tempFDP/files/".$formArray["carta_recomendacion_empleo3_candidato"].'" target="_blank">'.$formArray["carta_recomendacion_empleo3_candidato"].'</a>';
+								    	echo '<a href="'.HOME_URL."candidatosFDP/".$formArray["carta_recomendacion_empleo3_candidato"].'" target="_blank">'.$formArray["carta_recomendacion_empleo3_candidato"].'</a>';
 								    	
 								    endif;
 							    ?>
@@ -814,7 +807,7 @@
 									  	
 									  	foreach( $peticionesVacantes as $vacante ):
 									  		$selectVacante = ( isset($reclutamientoFDP["idVacantesPeticiones"]) && $reclutamientoFDP["idVacantesPeticiones"] == $vacante["idVacantesPeticiones"] )?" selected ":"";
-									  		echo "<option ".$selectVacante." value='".$vacante["idVacantesPeticiones"]."'>".$vacante["nombrePuesto"]." - ".$vacante["tokenFDPVacantesPendientes"]."</option>";
+									  		echo "<option ".$selectVacante." value='".$vacante["idVacantesPeticiones"]."'>".$vacante["nombrePuesto"]."</option>";
 									  	endforeach;
 									  endif;
 								  ?>

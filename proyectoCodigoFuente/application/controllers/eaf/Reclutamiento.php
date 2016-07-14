@@ -167,6 +167,8 @@ class Reclutamiento extends CI_Controller {
 		$dataContent["peticionesVacantes"] = $peticionesVacantes;
 		
 		
+	//	echo "<pre>";print_r($dataContent);
+		
 		/*Obtener datos de usuario, roles, modulos , permisos*/
 		
 		$this->load->view('includes/header' , $dataHeader);

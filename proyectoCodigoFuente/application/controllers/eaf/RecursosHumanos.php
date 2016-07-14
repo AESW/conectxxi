@@ -58,7 +58,7 @@ class Recursoshumanos extends CI_Controller {
 		/*Segundas entrevistas*/
 		$entrevistasRealizarSegundaParte = $this->ReclutamientoModel->obtenerEntrevistasRealizarSegundaParte();
 		/*Segundas entrevistas*/
-		print_r( $entrevistasRealizarSegundaParte );
+		//print_r( $entrevistasRealizarSegundaParte );
 		
 		$movimientosCandidatosRH = $this->RecursoshumanosModel->obtenerMovimientosCandidatos();
 		
@@ -339,6 +339,11 @@ class Recursoshumanos extends CI_Controller {
 		//endif;
 
 
+		$idCandidato = array();
+		$idCandidato['idCandidatoFDP'] = $idCandidatoFDP;
+		
+		
+		
 		$this->SessionL->validarSesion();
 		
 		
@@ -365,7 +370,7 @@ class Recursoshumanos extends CI_Controller {
 		$dataContent["formArray"] = (!empty($resultado))?($resultado):"";
 
 		$dataContent["error_campos"] = $error_campos;
-
+		$dataContent["idCandidatoFDP"] = $idCandidato;
 		$dataContent["formArrayCandidato"] = $candidatoFDP;
 		$dataContent["catalogos"] = new Catalogos();
 		$dataContent["Empresas"] = $catEmpresas;
@@ -792,6 +797,8 @@ $this->load->view('includes/footer');
 	public function ValidarCuentaBancaria(){
 	
 		$id = $this->input->post('id');
+		
+		//$id = 6;
 	
 		$ValidarCuenta = $this->RecursoshumanosModel->validarCuenta($id);
 	
@@ -809,7 +816,99 @@ $this->load->view('includes/footer');
 			
 		}
 
+function correo()
+		{
+			 
+		
+			$config=array(
+		
+					'protocol' => 'smtp',
+					'smtp_host' => 'ssl://smtp.gmail.com',
+					'smtp_port' => 465,
+					'smtp_user' => 'salesfxxib01@gmail.com',
+					'smtp_pass' => 'SFORCEB01',
+					'smtp_timeout' => '60',
+					'charset'    => 'utf-8',
+					'newline'    => "\r\n",
+					'mailtype' => 'html', // or html
+					'validation' => TRUE, // bool whether to validate email or not
+		
+		
+			);
+			 
+				
+				
+		    $email="ferma_3@live.com.mx";
+		
+			$ci = get_instance();
+		
+		
+			$ci->load->library('email',$config);
+			$ci->email->initialize($config);
+		
+		
+			$ci->email->from('salesfxxib01@gmail.com','Prueba');
+			$ci->email->reply_to('salesfxxib01@gmail.com','Prueba');
+			$ci->email->subject('Prueba');
+		
+			 
+		
+			$ci->email->to($email);
+			$ci->email->message("<?xml version='1.0' encoding='iso-8859-1'?>
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN'
+   'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<title></title>
+</head>
+<body><table >
+		<tr>
+		<td>Si usted no visualiza bien este mensaje, haga:
+		
+		</tr>
+	</table>
+		
+	</body>
+</html>");
+		
+		
+		
+			$ci->email->send()
+		
+		
+			/* liberar el conjunto de resultados */
+		
+		
+			?>
+			    		    			<br>
+			    		    				<?php
+			    		
+			    		var_dump($ci->email->print_debugger());
+			    		
+			    		
+			    		    				
+			    		    		
+			    		    	}
 
+			    		    	function puerto()
+			    		    	{
+			    		    	
+			    		    		$dominio = "smtp.gmail.com"; // Dominio a comprobar
+			    		    		$puerto = 465; // Puerto a comprobar
+			    		    	
+			    		    	
+			    		    	
+			    		    		$fp = fsockopen($dominio, $puerto, $errno, $errstr);
+			    		    		if(!$fp)
+			    		    	
+			    		    			echo "Fallo, el puerto ",$puerto," no esta abierto<br />El error ha sido: ",$errno;
+			    		    		else {
+			    		    			echo "El puerto ",$puerto," esta abierto correctamente";
+			    		    			fclose($fp);
+			    		    		}
+			    		    	
+			    		    	
+			    		    	}
 
 
 }

@@ -87,7 +87,10 @@
 
     			if( $("#cuentaNomina").val() == ""  && $("#clabeInterbancaria").val() == "") {
     			
-    				 var id =  $('#id').val();
+    				 var id =  $('#idCandidato').val();
+
+
+    				 
        	    	  $.post("<?php echo HOME_URL; ?>eaf/RecursosHumanos/ValidarCuentaBancaria",{
        	         	 id:id
        	          },function(data) {
@@ -96,7 +99,7 @@
        	        	  var mensaje=data;
        	              
                          
-                         if ($.trim(mensaje)=='-error')
+                         if ($.trim(mensaje)=='error')
                          {
                              
                       	   $("#resultado").html("El Usuario no tiene ninguna cuenta bancaria capturada, capture la cuenta o realice una solicitud de cuenta");
@@ -132,7 +135,7 @@
 
       $("#btnSolicitudCuenta").click(function(){
 
-    	  var id =  $('#id').val();
+    	  var id =  $('#idCandidato').val();
     	  $.post("<?php echo HOME_URL; ?>eaf/RecursosHumanos/SolicitarCuentaBancaria",{
          	 id:id
           },function(data) {
@@ -172,9 +175,10 @@
 			  <input type="hidden" name="token" class="token" id="token" value="<?php echo (isset($formArrayCandidato["tokenFDPVacantesPendientes"]))?$formArrayCandidato["tokenFDPVacantesPendientes"]:""; ?>"/>  
 		  	   <input type="hidden" name="id" class="id" id="id" value="<?php echo (isset($formArrayCandidato["idVacantesPeticiones"]))?$formArrayCandidato["idVacantesPeticiones"]:""; ?>"/>  
 		  	 	<input type="hidden" name="idPadre" class="idPadre" id="idPadre" value="<?php echo (isset($formArrayCandidato["idUsuariosPeticion"]))?$formArrayCandidato["idUsuariosPeticion"]:""; ?>"/>  
+		  		<input type="hidden" name="idCandidato" class="idCandidato" id="idCandidato" value="<?php echo (isset($idCandidatoFDP["idCandidatoFDP"]))?$idCandidatoFDP["idCandidatoFDP"]:""; ?>"/>  
 		  			
 		  		
-		  		<input type="hidden" name="carta_curp" class="carta_curp" id="carta_curp" value="Desert.jpg"/>
+		  		<input type="hidden" name="carta_curp" class="carta_curp" id="carta_curp" value="<?php echo (isset($formArray["carta_curp"]))?$formArray["carta_curp"]:""; ?>"/>
 		  		<input type="hidden" name="actanacimiento" class="actanacimiento" id="actanacimiento" value="<?php echo (isset($formArray["actanacimiento"]))?$formArray["actanacimiento"]:""; ?>"/>
 		  		<input type="hidden" name="comprobantedomicilio" class="comprobantedomicilio" id="comprobantedomicilio" value="<?php echo (isset($formArray["comprobantedomicilio"]))?$formArray["comprobantedomicilio"]:""; ?>"/>
 		  		<input type="hidden" name="carta_rfc" class="carta_rfc" id="carta_rfc" value="<?php echo (isset($formArray["carta_rfc"]))?$formArray["carta_rfc"]:""; ?>"/>

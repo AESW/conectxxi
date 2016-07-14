@@ -389,29 +389,21 @@
 					    <td><input type="text" name="cp_candidato" class="cp_candidato" id="cp_candidato" placeholder="C.P." autocomplete="off" required value="<?php echo (isset($formArray["cp_candidato"]))?$formArray["cp_candidato"]:""; ?>" <?php echo ( in_array('cp_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
 				    </tr>
 				    <tr>
-					    <td>Estado</td>
-					    <td>
-						    <select name="estado_domicilio_candidato" class="estado_domicilio_candidato" id="estado_domicilio_candidato" <?php echo ( in_array('estado_domicilio_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
-							    <option value="">Seleccionar estado</option>
-							    
-						     </select>
-					    </td>
+					     <td>Estado</td>
+					      <td><input type="text" name="estado_domicilio_candidato" class="estado_domicilio_candidato" id="estado_domicilio_candidato" placeholder="Estado" autocomplete="off" required value="<?php echo (isset($formArray["estado_domicilio_candidato"]))?$formArray["estado_domicilio_candidato"]:""; ?>" <?php echo ( in_array('estado_domicilio_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
 					    <td>Ciudad</td>
 					    <td><input type="text" name="ciudad_domicilio_candidato" class="ciudad_domicilio_candidato" id="ciudad_domicilio_candidato" placeholder="Ciudad" autocomplete="off" required value="<?php echo (isset($formArray["ciudad_domicilio_candidato"]))?$formArray["ciudad_domicilio_candidato"]:""; ?>" <?php echo ( in_array('ciudad_domicilio_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
 				    </tr>
 				    <tr>
 					    <td>Municipio o delegación</td>
-					    <td>
-						   <select name="delegacion_domicilio_candidato" class="delegacion_domicilio_candidato" id="delegacion_domicilio_candidato" <?php echo ( in_array('delegacion_domicilio_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
-							   <option value="">Seleccionar delegación o municipio</option> 
-						   </select>
-					    </td>
+					  
+					     <td><input type="text" name="delegacion_domicilio_candidato" class="delegacion_domicilio_candidato" id="delegacion_domicilio_candidato" placeholder="Deleg. o Municipio" autocomplete="off" required value="<?php echo (isset($formArray["delegacion_domicilio_candidato"]))?$formArray["delegacion_domicilio_candidato"]:""; ?>" <?php echo ( in_array('delegacion_domicilio_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    
 					    <td>Colonia</td>
-					    <td>
-						    <select name="colonia_domicilio_candidato" class="colonia_domicilio_candidato" id="colonia_domicilio_candidato" required <?php echo ( in_array('colonia_domicilio_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
-				              <option value="">Seleccionar colonia</option> 
-				            </select>
-						</td>
+					   
+						
+						 <td><input type="text" name="colonia_domicilio_candidato" class="colonia_domicilio_candidato" id="colonia_domicilio_candidato" placeholder="Colonia" autocomplete="off" required value="<?php echo (isset($formArray["colonia_domicilio_candidato"]))?$formArray["colonia_domicilio_candidato"]:""; ?>" <?php echo ( in_array('colonia_domicilio_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    
 				    </tr>
 			     </table>
 			     
@@ -447,7 +439,7 @@
 			  
 			  <!-- Paso 2 -->
 			  <div id="tabs1-paso2">	
-			    <h2><label>Datos de la vivienda</label></h2>
+  <h2><label>Datos de la vivienda</label> <p align=right >Resultado:<?php echo (isset($formArray["total_amai"]))?$formArray["total_amai"]  :""; ?>    .</p></h2>
 			    <p style="color:red;font-weight: bold;margin-bottom: 15px;"><?php echo (count($error_campos) > 0)?"Favor de revisar campos obligatorios marcados con rojo":""; ?></p>
 			    <table cellpadding="0" cellspacing="0" width="100%">
 				    <tr>
@@ -681,7 +673,7 @@
 						    <div id="files_carta_1" class="files">
 							    <?php 
 								    if( isset($formArray["carta_recomendacion_empleo1_candidato"]) && $formArray["carta_recomendacion_empleo1_candidato"] != ""):
-								    	echo '<a href="'.HOME_URL."tempFDP/files/".$formArray["carta_recomendacion_empleo1_candidato"].'" target="_blank">'.$formArray["carta_recomendacion_empleo1_candidato"].'</a>';
+								    	echo '<a href="'.HOME_URL."candidatosFDP/".$formArray["carta_recomendacion_empleo1_candidato"].'" target="_blank">'.$formArray["carta_recomendacion_empleo1_candidato"].'</a>';
 								    	
 								    endif;
 							    ?>
@@ -727,7 +719,7 @@
 						    <div id="files_carta_2" class="files">
 							    <?php 
 								    if( isset($formArray["carta_recomendacion_empleo2_candidato"]) && $formArray["carta_recomendacion_empleo2_candidato"] != ""):
-								    	echo '<a href="'.HOME_URL."tempFDP/files/".$formArray["carta_recomendacion_empleo2_candidato"].'" target="_blank">'.$formArray["carta_recomendacion_empleo2_candidato"].'</a>';
+								    	echo '<a href="'.HOME_URL."candidatosFDP/".$formArray["carta_recomendacion_empleo2_candidato"].'" target="_blank">'.$formArray["carta_recomendacion_empleo2_candidato"].'</a>';
 								    	
 								    endif;
 							    ?>
@@ -773,7 +765,7 @@
 						    <div id="files_carta_3" class="files">
 							    <?php 
 								    if( isset($formArray["carta_recomendacion_empleo3_candidato"]) && $formArray["carta_recomendacion_empleo3_candidato"] != ""):
-								    	echo '<a href="'.HOME_URL."tempFDP/files/".$formArray["carta_recomendacion_empleo3_candidato"].'" target="_blank">'.$formArray["carta_recomendacion_empleo3_candidato"].'</a>';
+								    	echo '<a href="'.HOME_URL."candidatosFDP/".$formArray["carta_recomendacion_empleo3_candidato"].'" target="_blank">'.$formArray["carta_recomendacion_empleo3_candidato"].'</a>';
 								    	
 								    endif;
 							    ?>
@@ -1296,7 +1288,7 @@
 								  ?>
 							  </select>
 						  </td>
-						  <td>Gesticulación</td>
+						  <td>GesticulacioÌ�n</td>
 						  <td>
 							  <select name="gesticulacion_rh_candidato" class="gesticulacion_rh_candidato" id="gesticulacion_rh_candidato" <?php if( in_array("gesticulacion_rh_candidato", $$arrayErrorFields) ): echo 'style="border:2px solid red;"'; endif; ?>>
 								  <option value="">Selecciona calificación</option>
@@ -1362,7 +1354,7 @@
 						  </td>
 					  </tr>
 					  <tr>
-						  <td>Precisión de la comunicación</td>
+						  <td>PrecisioÌ�n de la comunicacioÌ�n</td>
 						  <td>
 							  <select name="precision_comunicacion_rh_candidato" class="precision_comunicacion_rh_candidato" id="precision_comunicacion_rh_candidato" <?php if( in_array("precision_comunicacion_rh_candidato", $$arrayErrorFields) ): echo 'style="border:2px solid red;"'; endif; ?>>
 								  <option value="">Selecciona calificación</option>
@@ -1396,7 +1388,7 @@
 				  <h2><label>Competencias generales del perfil del asesor telefónico</label></h2>
 				  <table cellpadding="0" cellspacing="0" width="100%">
 					  <tr>
-						  <td>Atención al cliente</td>
+						  <td>AtencioÌ�n al cliente</td>
 						  <td>
 							  <select name="atencion_cliente_rh_candidato" class="atencion_cliente_rh_candidato" id="atencion_cliente_rh_candidato" <?php if( in_array("atencion_cliente_rh_candidato", $$arrayErrorFields) ): echo 'style="border:2px solid red;"'; endif; ?>>
 								  <option value="">Selecciona calificación</option>
@@ -1410,7 +1402,7 @@
 								  ?>
 							  </select>
 						  </td>
-						  <td>Influencia y negociación</td>
+						  <td>Influencia y negociacioÌ�n</td>
 						  <td>
 							  <select name="influencia_negociacion_rh_candidato" class="influencia_negociacion_rh_candidato" id="influencia_negociacion_rh_candidato" <?php if( in_array("influencia_negociacion_rh_candidato", $$arrayErrorFields) ): echo 'style="border:2px solid red;"'; endif; ?>>
 								  <option value="">Selecciona calificación</option>
@@ -1440,7 +1432,7 @@
 								  ?>
 							  </select>
 						  </td>
-						  <td>Comunicación eficaz</td>
+						  <td>ComunicacioÌ�n eficaz</td>
 						  <td>
 							  <select name="comunicacion_eficaz_rh_candidato" class="comunicacion_eficaz_rh_candidato" id="comunicacion_eficaz_rh_candidato" <?php if( in_array("comunicacion_eficaz_rh_candidato", $$arrayErrorFields) ): echo 'style="border:2px solid red;"'; endif; ?>>
 								  <option value="">Selecciona calificación</option>
