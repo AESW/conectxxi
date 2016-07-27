@@ -311,7 +311,57 @@
 			  
 			  <!-- Paso 2 -->
 			  <div id="tabs1-paso2">	
-			  <h2><label>Datos de la vivienda</label> <p align=right >Resultado:<?php echo (isset($formArray["total_amai"]))?$formArray["total_amai"]  :""; ?>    .</p></h2>
+			  
+			  <?php 
+			  
+			  if(isset($formArray["total_amai"]))
+			  {
+			  	
+			  	if($formArray["total_amai"]<=60)
+			  	{
+			  		$resultadoAmai="E";
+			  		
+			  	}
+			  	
+			  	if($formArray["total_amai"]>=61 and $formArray["total_amai"]<=101) 
+			  	{
+			  		$resultadoAmai="D";
+			  		 
+			  	}
+			  	
+			  	if($formArray["total_amai"]>=102 and $formArray["total_amai"]<=156) 
+			  	{
+			  		$resultadoAmai="D+";
+			  		 
+			  	}
+			  	
+			  		if($formArray["total_amai"]>=157 and $formArray["total_amai"]<=191) 
+			  	{
+			  		$resultadoAmai="C";
+			  		 
+			  	}
+			  	
+			  	if($formArray["total_amai"]>=192 and $formArray["total_amai"]<=241) 
+			  	{
+			  		$resultadoAmai="C+";
+			  		 
+			  	}
+			  	
+			  	if($formArray["total_amai"]>=242)
+			  	{
+			  		$resultadoAmai="A/B";
+			  		 
+			  	}
+			  	
+			  	
+			  	
+			  	
+			  }
+			  
+			  
+			  ?>
+			  
+			  <h2><label>Datos de la vivienda</label> <p align=right >Resultado:<?php echo (isset($resultadoAmai))?$resultadoAmai  :""; ?>    .</p></h2>
 			    <p style="color:red;font-weight: bold;margin-bottom: 15px;"><?php echo (count($error_campos) > 0)?"Favor de revisar campos obligatorios marcados con rojo":""; ?></p>
 			    <table cellpadding="0" cellspacing="0" width="100%">
 				    <tr>

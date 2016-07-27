@@ -191,6 +191,9 @@ class Candidatos extends CI_Controller {
 				if( $resultado["telefono_casa_candidato"] == "" && $resultado["telefono_movil_candidato"] == ""):
 					$error_campos[] = "telefono_casa_candidato";
 				endif;
+				if( $resultado["puesto_solicitado"] == "" ):
+				$error_campos[] = "puesto_solicitado";
+				endif;
 				
 				
 				/*if( $resultado["telefono_otro_candidato"] == "" ):
@@ -368,6 +371,7 @@ class Candidatos extends CI_Controller {
 			);
 			
 			$arrayFormPart4 = array(
+				"puesto_solicitado" => $this->Sanitize->clean_string($_POST["puesto_solicitado"]),
 				"empleo_anterior3_candidato" => $this->Sanitize->clean_string($_POST["empleo_anterior3_candidato"]),
 				"descripcion_empleo3_candidato" => $this->Sanitize->clean_string($_POST["descripcion_empleo3_candidato"]),
 				"telefono_empleo3_candidato" => $this->Sanitize->clean_string($_POST["telefono_empleo3_candidato"]),
@@ -766,6 +770,15 @@ class Candidatos extends CI_Controller {
 			endif;	
 		endif;
 		
+		
+		$sqlCatPuestos = 'SELECT * from puestos order by nombrePuesto asc
+				';
+		
+		$queryCatPuestos = $this->db->query($sqlCatPuestos);
+		
+		$dataContent["CatPuestos"] = $queryCatPuestos->result();
+		
+		//print_r($dataContent);
 		
 		$this->load->view('includes/header' , $dataHeader);
 		$this->load->view('fdp/fdp' , $dataContent);

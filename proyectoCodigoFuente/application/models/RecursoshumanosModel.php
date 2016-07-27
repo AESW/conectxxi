@@ -134,9 +134,9 @@ class RecursoshumanosModel extends CI_Model {
 	
 	public function obtenerMovimientosCandidatos(){
 		$sqlCandidatosAprobados = 'SELECT *,
-										 ( SELECT CONCAT( nombre , " " , apeliidoPaterno , " " , apellidoMaterno ) FROM CandidatoFDP WHERE idCandidatoFDP = RecursosHumanosFDP.idCandidatoFDP ) as nombreCandidato
+										 ( SELECT CONCAT( apeliidoPaterno , " " , apellidoMaterno , " " , nombre ) FROM CandidatoFDP WHERE idCandidatoFDP = RecursosHumanosFDP.idCandidatoFDP ) as nombreCandidato
 										 FROM
-										 RecursosHumanosFDP WHERE estatusRecursosHumanosFDP = \'aprobado\'';
+										 RecursosHumanosFDP WHERE estatusRecursosHumanosFDP = \'aprobado\' ';
 	
 		$queryCandidatosAprobados = $this->db->query( $sqlCandidatosAprobados );
 		$arrayAprobados = array();

@@ -10,14 +10,28 @@
 		</ul>
 	</div>
 	
+	
+		<?php 
+			if( !empty($entrevistasRealizar)):
+				
+			
+				foreach( $entrevistasRealizar as $entrevistas):
+					$porEntrevistar = $entrevistas["porEntrevistar"];
+					
+				endforeach;
+				
+				
+			endif;
+		?>
+	
 	<div class="block_box_gen block_box_gen_rh">
-		<h2>Primera entrevista</h2>
+		<h2>Primera entrevista <?php echo $porEntrevistar; ?></h2>
 		<ul>
 		<?php 
 			if(!empty( $entrevistasRealizar ) ):
 				foreach($entrevistasRealizar as $entrevistas):
 		?>
-					<li><a href="<?php echo HOME_URL; ?>eaf/Reclutamiento/candidato/?idCandidatoFDP=<?php echo $entrevistas["idCandidatoFDP"]; ?>"><?php echo $entrevistas["nombre"]." ".$entrevistas["apellidoPaterno"]." ".$entrevistas["apellidoMaterno"]; ?> , <?php echo $entrevistas["nombrePuesto"] ?></a></li>
+					<li><a href="<?php echo HOME_URL; ?>eaf/Reclutamiento/candidato/?idCandidatoFDP=<?php echo $entrevistas["idCandidatoFDP"]; ?>"><?php echo $entrevistas["apellidoPaterno"]." ".$entrevistas["apellidoMaterno"]." ".$entrevistas["nombre"]; ?> - <?php echo $entrevistas["puesto_solicitado"] ?></a></li>
 		<?php
 				endforeach;
 			endif;
@@ -32,7 +46,7 @@
 			if(!empty( $entrevistasRealizarSegundaParte ) ):
 				foreach($entrevistasRealizarSegundaParte as $entrevistas):
 		?>
-					<li><a href="<?php echo HOME_URL; ?>eaf/RecursosHumanos/candidato_rh/?idCandidatoFDP=<?php echo $entrevistas["idCandidatoFDP"]; ?>"><?php echo $entrevistas["nombre"]." ".$entrevistas["apellidoPaterno"]." ".$entrevistas["apellidoMaterno"]; ?> , <?php echo $entrevistas["nombrePuesto"] ?></a></li>
+					<li><a href="<?php echo HOME_URL; ?>eaf/RecursosHumanos/candidato_rh/?idCandidatoFDP=<?php echo $entrevistas["idCandidatoFDP"]; ?>"><?php echo $entrevistas["apellidoPaterno"]." ".$entrevistas["apellidoMaterno"]." ".$entrevistas["nombre"]; ?> , <?php echo $entrevistas["nombrePuesto"] ?></a></li>
 		<?php
 				endforeach;
 			endif;

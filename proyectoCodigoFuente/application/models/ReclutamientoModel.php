@@ -75,6 +75,8 @@ class ReclutamientoModel extends CI_Model {
 			SELECT 
 			* ,
 			(SELECT nombrePuesto FROM Puestos WHERE idPuestos = VacantesPeticiones.idPuesto ) as nombrePuesto,
+				(SELECT nombreUsuario FROM usuarios WHERE idUsuarios = VacantesPeticiones.idUsuariosPeticion ) as nombreUsuario,
+				(SELECT sum(numeroVacantes)  FROM vacantespeticiones WHERE estatusAprobacion=\'aprobado\') as porCubrir,
 			(SELECT count(idCandidatoFDP) FROM CandidatoFDP WHERE tokenFDPVacantesPendientes = VacantesPeticiones.tokenFDPVacantesPendientes ) as totalToken
 			
 			FROM VacantesPeticiones WHERE VacantesPeticiones.estatusAprobacion = \'aprobado\' 
@@ -97,7 +99,10 @@ class ReclutamientoModel extends CI_Model {
 					"estatusAprobacion" => $pet->estatusAprobacion,
 					"tokenFDPVacantesPendientes" => $pet->tokenFDPVacantesPendientes,
 					"nombrePuesto" => $pet->nombrePuesto,
-					"totalToken" => $pet->totalToken
+					"totalToken" => $pet->totalToken,
+						"nombreUsuario" => $pet->nombreUsuario,
+						"numeroVacantes" => $pet->numeroVacantes,
+						"porCubrir" => $pet->porCubrir
 				);	
 			endforeach;
 			return $peticiones;
@@ -107,14 +112,16 @@ class ReclutamientoModel extends CI_Model {
 	}	
 	
 	public function obtenerEntrevistasRealizarPrimeraParte(){
-		$sqlEntrevistasPrimeraParte = 'SELECT *,
+		$sqlEntrevistasPrimeraParte = "SELECT *,
 										(SELECT idPuesto FROM VacantesPeticiones WHERE tokenFDPVacantesPendientes = CandidatoFDP.tokenFDPVacantesPendientes) as idPuesto,
-										( SELECT nombrePuesto FROM Puestos WHERE idPuestos = (SELECT idPuesto FROM VacantesPeticiones WHERE tokenFDPVacantesPendientes = CandidatoFDP.tokenFDPVacantesPendientes) ) as nombrePuesto
-										 FROM CandidatoFDP WHERE
-										( SELECT count( idReclutamientoFDP ) FROM ReclutamientoFDP WHERE idCandidatoFDP = CandidatoFDP.idCandidatoFDP ) <= 0
+				                        (SELECT valorMetaDatos FROM metadatoscandidatofdp WHERE idCandidatoFDP = candidatofdp.idCandidatoFDP and prefijoMetaDatos='puesto_solicitado') as puesto_solicitado,
+										( SELECT nombrePuesto FROM Puestos WHERE idPuestos = (SELECT idPuesto FROM VacantesPeticiones WHERE tokenFDPVacantesPendientes = CandidatoFDP.tokenFDPVacantesPendientes) ) as nombrePuesto,
+				(select count(*) from candidatofdp where idCandidatoFDP not in (select idCandidatoFDP from reclutamientofdp)) as porEntrevistar
+			FROM CandidatoFDP WHERE
+										( SELECT count( idReclutamientoFDP ) FROM ReclutamientoFDP WHERE idCandidatoFDP = CandidatoFDP.idCandidatoFDP ) <= 0 order by apeliidoPaterno asc 
 										
 										
-		';
+		";
 		//
 		$queryEntrevistasPrimeraParte = $this->db->query($sqlEntrevistasPrimeraParte);
 		
@@ -129,7 +136,9 @@ class ReclutamientoModel extends CI_Model {
 					"apellidoPaterno" => $entre->apeliidoPaterno,
 					"apellidoMaterno" => $entre->apellidoMaterno,
 					"nombrePuesto" => $entre->nombrePuesto,
-					"idPuesto" => $entre->idPuesto
+					"idPuesto" => $entre->idPuesto,
+						"puesto_solicitado" => $entre->puesto_solicitado,
+						"porEntrevistar" => $entre->porEntrevistar
 				);
 			endforeach;
 			
@@ -153,7 +162,7 @@ class ReclutamientoModel extends CI_Model {
 										       ( SELECT idUsuariosAprobacionGerente FROM RecursosHumanosFDP WHERE idCandidatoFDP = CandidatoFDP.idCandidatoFDP LIMIT 1) IS NULL 	
 										     	  
 										    )   
-										AND ( SELECT estatusReclutamientoFDP FROM ReclutamientoFDP WHERE idCandidatoFDP = CandidatoFDP.idCandidatoFDP ) = \'aprobado\'    
+										AND ( SELECT estatusReclutamientoFDP FROM ReclutamientoFDP WHERE idCandidatoFDP = CandidatoFDP.idCandidatoFDP ) = \'aprobado\'    order by apeliidoPaterno asc 
 										
 		';
 		

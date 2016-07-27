@@ -383,5 +383,15 @@ class Catalogos
 	    
 	    return $list;
     }
+	
+	  public function NuevoPersonalMotivo(){
+    	$list = array(
+    			
+    			"Baja de personal" => "Baja de personal",
+    			"Incremento de cartera" => "Incremento de cartera"
+    	);
+    
+    	return $list;
+    }
     
 }

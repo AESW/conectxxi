@@ -58,7 +58,7 @@ class Recursoshumanos extends CI_Controller {
 		/*Segundas entrevistas*/
 		$entrevistasRealizarSegundaParte = $this->ReclutamientoModel->obtenerEntrevistasRealizarSegundaParte();
 		/*Segundas entrevistas*/
-		//print_r( $entrevistasRealizarSegundaParte );
+	//	print_r( $sessionUser );
 		
 		$movimientosCandidatosRH = $this->RecursoshumanosModel->obtenerMovimientosCandidatos();
 		
@@ -71,6 +71,9 @@ class Recursoshumanos extends CI_Controller {
 				"movimientos" => $movimientosCandidatosRH
 		);
 
+		
+		//print_r($entrevistasRealizar);
+		
 		$this->load->view('includes/header' , $dataHeader);
 		$this->load->view('eaf/recursoshumanos/index' , $dataContent);
 		$this->load->view('includes/footer');

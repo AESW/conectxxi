@@ -328,12 +328,31 @@ footer, header, hgroup, menu, nav, section {
 	background-size: 100%;
 	position: absolute;
 	position: absolute;
-	top: 35%;
-	left: 37%;
+	top: 45%;
+	left: 57%;
 }
 .eaf_descuentos_option:hover{
 	background-image: url(images/6_descuentos_hover.png);
 }
+
+.eaf_gerente_option{
+	display: block;
+	width: 29%;
+	height: 29%;
+	background-image: url(images/6_descuentos.png);
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 100%;
+	position: absolute;
+	position: absolute;
+	top: 35%;
+	left: 37%;
+}
+.eaf_gerente_option:hover{
+	background-image: url(images/6_descuentos_hover.png);
+}
+
+
 .eaf_altas_option{
 	display: block;
 	width: 22%;
@@ -349,6 +368,23 @@ footer, header, hgroup, menu, nav, section {
 .eaf_altas_option:hover{
 	background-image: url(images/4_alta_hover.png);
 }
+
+.eaf_direccion_option{
+	display: block;
+	width: 22%;
+	height: 22%;
+	background-image: url(images/4_alta.png);
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 100%;
+	position: absolute;
+	top: 2%;
+	left: 55%;
+}
+.eaf_direccion_option:hover{
+	background-image: url(images/4_alta_hover.png);
+}
+
 .eaf_asistencia_option{
 	display: block;
 	width: 29%;
@@ -510,6 +546,16 @@ footer, header, hgroup, menu, nav, section {
 	padding: 5px;
 }
 
+.formulario_NEmpleado table tr td input[type="text"]{
+	padding: 5px;
+	width: 45%;
+}
+
+.formulario_NEmpleado table tr td select{
+	padding: 5px;
+	width: 45%;
+}
+
 .content_generic{
 	min-height: 630px;
 	background: #fff;
@@ -521,7 +567,38 @@ footer, header, hgroup, menu, nav, section {
 	margin-left: 0.65%;
 	margin-right: 0.65%;
 	border: 1px solid #357db8;
+	
 }
+
+.block_box_gen_ger{
+	float: left;
+	min-height: 300px;
+	height: 300px;
+	width: 32% !important;
+	margin-left: 0.65%;
+	margin-right: 0.65%;
+	border: 1px solid #357db8;
+	
+}	
+.block_box_gen_ger ul{
+	overflow-y: scroll;
+	overflow-x: hidden;
+	height: 270px;
+}
+
+.block_box_gen ul{
+	overflow-y: scroll;
+	overflow-x: hidden;
+	height: 270px;
+}	
+
+.block_box_gen_rh ul{
+	overflow-y: scroll;
+	overflow-x: hidden;
+	height: 270px;
+}
+	
+
 .block_box_gen{
 	float: left;
 	min-height: 300px;
@@ -530,6 +607,7 @@ footer, header, hgroup, menu, nav, section {
 	margin-right: 0.65%;
 	margin-bottom: 0.65%;
 	border: 1px solid #357db8;
+	
 }
 .block_box_gen h2{
 	width: 100%;

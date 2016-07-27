@@ -539,10 +539,38 @@
 			  <!-- End Paso 2 -->
 			  
 			  <!-- Paso 3 -->
-			  <div id="tabs1-paso3">
+			  <div  id="tabs1-paso3">
 			    <h2><label>Experiencia Laboral</label></h2>
 			    <p style="color:red;font-weight: bold;margin-bottom: 15px;"><?php echo (count($error_campos) > 0)?"Favor de revisar campos obligatorios marcados con rojo":""; ?></p>
-			    <table cellpadding="0" cellspacing="0" width="100%">
+			    <table  cellpadding="0" cellspacing="0" width="100%">
+				    <tr>
+					    <td>Puesto Solicitado</td>
+					    <td >
+					    <select name="puesto_solicitado" class="puesto_solicitado" id="puesto_solicitado" <?php echo ( in_array('puesto_solicitado' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+							   <option value="">Seleccione un puesto</option> 
+							   <?php
+									  foreach( $CatPuestos as  $per ):
+								  
+									  $puesto= $per->nombrePuesto;
+									  
+									  ?>
+								  
+								  
+								  
+								  		  <option value="<?php echo $puesto; ?>" <?php if( isset($formArray["puesto_solicitado"]) && $formArray["puesto_solicitado"] == $puesto ): echo "selected='selected'"; endif;?>><?php echo $puesto; ?></option>
+								  <?php	  
+									  endforeach;
+								  ?>
+							</select>
+							
+							  <a  target="_blank" class="btnNextFDP" id="btnPerfil"><i class="glyphicon glyphicon-search"></i> Ver Perfil del Puesto</a>
+							
+					    </td>
+					 
+					    
+				    </tr>
+				    
+				       
 				    <tr>
 					    <td>Empleo anterior</td>
 					    <td><input type="text" name="empleo_anterior1_candidato" class="empleo_anterior1_candidato" id="empleo_anterior1_candidato" placeholder="Empleo anterior" autocomplete="off" required value="<?php echo (isset($formArray["empleo_anterior1_candidato"]))?$formArray["empleo_anterior1_candidato"]:""; ?>"></td>
@@ -1104,3 +1132,19 @@
 	        .parent().addClass($.support.fileInput ? undefined : 'disabled');
 	});
 	</script>
+	
+	
+	<script type="text/javascript">
+var nextinput = 0;
+        $(document).ready(function() {
+            $("#puesto_solicitado").change(function() {
+            	 $("#puesto_solicitado option:selected").each(function() {
+                     puesto = $('#puesto_solicitado').val();
+
+
+                     document.getElementById('btnPerfil').href = "<?php echo site_url()?>PerfilesDoc/"+puesto+".pdf";
+      
+                 });
+            })
+        });
+    </script> 

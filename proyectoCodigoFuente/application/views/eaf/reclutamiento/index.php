@@ -13,14 +13,28 @@
 		</ul>
 	</div>
 	
+	<?php 
+			if( !empty($entrevistasRealizar)):
+				
+			
+				foreach( $entrevistasRealizar as $entrevistas):
+					$porEntrevistar = $entrevistas["porEntrevistar"];
+					
+				endforeach;
+				
+				
+			endif;
+		?>
+	
+	
 	<div class="block_box_gen">
-		<h2>Entrevistas por realizar</h2>
+		<h2>Entrevistas por realizar: <?php echo $porEntrevistar; ?></h2>
 		<ul>
 		<?php 
 			if(!empty( $entrevistasRealizar ) ):
 				foreach($entrevistasRealizar as $entrevistas):
 		?>
-					<li><a href="<?php echo HOME_URL; ?>/eaf/reclutamiento/candidato/?idCandidatoFDP=<?php echo $entrevistas["idCandidatoFDP"]; ?>"><?php echo $entrevistas["nombre"]." ".$entrevistas["apellidoPaterno"]." ".$entrevistas["apellidoMaterno"]; ?> , <?php echo $entrevistas["nombrePuesto"] ?></a></li>
+					<li><a href="<?php echo HOME_URL; ?>eaf/reclutamiento/candidato/?idCandidatoFDP=<?php echo $entrevistas["idCandidatoFDP"]; ?>"><?php echo $entrevistas["apellidoPaterno"]." ".$entrevistas["apellidoMaterno"]." ".$entrevistas["nombre"]; ?> , <?php echo $entrevistas["nombrePuesto"] ?> - <?php echo $entrevistas["puesto_solicitado"] ?></a></li>
 		<?php
 				endforeach;
 			endif;
@@ -28,8 +42,25 @@
 		</ul>
 	</div>
 	
+	
+	
+	<?php 
+			if( !empty($peticionesVacantes)):
+				
+			
+				foreach( $peticionesVacantes as $peticiones):
+					$porCubrir = $peticiones["porCubrir"];
+					
+				endforeach;
+				
+				
+			endif;
+		?>
+	
+	
+	
 	<div class="block_box_gen">
-		<h2>Vacantes que cubrir</h2>
+		<h2>Vacantes que cubrir: <?php echo $porCubrir; ?> </h2>
 		<ul>
 		<?php 
 			if( !empty($peticionesVacantes)):
@@ -39,7 +70,7 @@
 				foreach( $peticionesVacantes as $peticiones):
 					//$valoresUnicosPorPuesto[] = $peticiones["nombrePuesto"];
 		?>
-					<li><?php echo $peticiones["nombrePuesto"]." - Código FDP: <strong style='font-style:italic;'>".$peticiones["tokenFDPVacantesPendientes"]."</strong>"; ?></li>
+					<li><?php echo $peticiones["nombrePuesto"]; ?> - <?php echo $peticiones["nombreUsuario"]; ?> - No.de vacantes: <?php echo $peticiones["numeroVacantes"]; ?></li>
 		<?php			
 				endforeach;
 				
@@ -65,7 +96,7 @@
 				foreach( $candidatosRechazadosReclutador as $candidato):
 					
 		?>
-					<li><a href="<?php echo HOME_URL; ?>/eaf/reclutamiento/candidato/?idCandidatoFDP=<?php echo $candidato["idCandidatoFDP"]; ?>"><?php echo $candidato["nombre"]." ".$candidato["apellidoPaterno"]." ".$candidato["apellidoMaterno"]; ?></a></li>
+					<li><a href="<?php echo HOME_URL; ?>/eaf/reclutamiento/candidato/?idCandidatoFDP=<?php echo $candidato["idCandidatoFDP"]; ?>"><?php echo $candidato["apellidoPaterno"]." ".$candidato["apellidoMaterno"]." ".$candidato["nombre"]; ?></a></li>
 		<?php			
 				endforeach;
 			endif;
@@ -82,7 +113,7 @@
 				foreach( $candidatosAceptadosReclutador as $candidato):
 					
 		?>
-					<li><a href="<?php echo HOME_URL; ?>/eaf/reclutamiento/candidato/?idCandidatoFDP=<?php echo $candidato["idCandidatoFDP"]; ?>"><?php echo $candidato["nombre"]." ".$candidato["apellidoPaterno"]." ".$candidato["apellidoMaterno"]; ?></a></li>
+					<li><a href="<?php echo HOME_URL; ?>/eaf/reclutamiento/candidato/?idCandidatoFDP=<?php echo $candidato["idCandidatoFDP"]; ?>"><?php echo $candidato["apellidoPaterno"]." ".$candidato["apellidoMaterno"]." ".$candidato["nombre"]; ?></a></li>
 		<?php			
 				endforeach;
 			endif;
