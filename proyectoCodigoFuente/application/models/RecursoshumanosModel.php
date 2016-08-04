@@ -30,7 +30,7 @@ class RecursoshumanosModel extends CI_Model {
 			$resultadoAprobacionRH = $queryAprobacionRH->result();
 			
 
-			$sqlUpdate = 'UPDATE RecursosHumanosFDP SET fechaEntrevista = \''.$arregloEvaluacion["fecha_entrevista_rh_fdp"].'\' ,  estatusRecursosHumanosFDP = \''.$estatus.'\' , fechaAprobacionRecursosHumanos = now() , estatusGerenteFDP = \''.$estatus.'\' , idUsuariosAprobacionGerente = '.$arregloEvaluacion["aprobacion_gerente_rh_fdp"].' , fechaAprobacionGerente = now() WHERE idCandidatoFDP = '.$idCandidatoFDP.' AND idReclutamientoFDP = '.$idReclutamientoFDP  ;
+			$sqlUpdate = 'UPDATE RecursosHumanosFDP SET fechaEntrevista = \''.$arregloEvaluacion["fecha_entrevista_rh_fdp"].'\' ,  estatusRecursosHumanosFDP = \''.$estatus.'\' , fechaAprobacionRecursosHumanos = now() , estatusGerenteFDP = \''.$estatus.'\' , idUsuariosAprobacionGerente = '.$arregloEvaluacion["aprobacion_gerente_rh_fdp"].' , fechaAprobacionGerente = now(), altaUsuario=0, altaUsuarioNoi=0 WHERE idCandidatoFDP = '.$idCandidatoFDP.' AND idReclutamientoFDP = '.$idReclutamientoFDP  ;
 			
 			$queryUpdate = $this->db->query( $sqlUpdate );
 			
@@ -54,7 +54,7 @@ class RecursoshumanosModel extends CI_Model {
 			else:
 			//insert
 			
-			$sqlInsert = 'INSERT INTO RecursosHumanosFDP ( idCandidatoFDP , idReclutamientoFDP , fechaEntrevista , idUsuariosAprobacionRecursosHumanos , fechaAprobacionRecursosHumanos , estatusRecursosHumanosFDP , estatusGerenteFDP , idUsuariosAprobacionGerente , fechaAprobacionGerente ) VALUES( '.$idCandidatoFDP.' , '.$idReclutamientoFDP.' , \''.$arregloEvaluacion["fecha_entrevista_rh_fdp"].'\' , '.$idUsuario.' , now() , \''.$estatus.'\' , \''.$estatus.'\' , '.$arregloEvaluacion["aprobacion_gerente_rh_fdp"].' , now())';
+			$sqlInsert = 'INSERT INTO RecursosHumanosFDP ( idCandidatoFDP , idReclutamientoFDP , fechaEntrevista , idUsuariosAprobacionRecursosHumanos , fechaAprobacionRecursosHumanos , estatusRecursosHumanosFDP , estatusGerenteFDP , idUsuariosAprobacionGerente , fechaAprobacionGerente,altaUsuario,altaUsuarioNOI ) VALUES( '.$idCandidatoFDP.' , '.$idReclutamientoFDP.' , \''.$arregloEvaluacion["fecha_entrevista_rh_fdp"].'\' , '.$idUsuario.' , now() , \''.$estatus.'\' , \''.$estatus.'\' , '.$arregloEvaluacion["aprobacion_gerente_rh_fdp"].' , now(),0,0)';
 			
 		$queryInsert = $this->db->query($sqlInsert);
 		$idRecursosHumanosFDP = $this->db->insert_id();
@@ -88,7 +88,7 @@ class RecursoshumanosModel extends CI_Model {
 			return false;
 		endif;
 		$estatus = ( $arregloEvaluacion["aprobar_rechazar_rh"] == "aprobar" )?"aprobado":"rechazado";
-		$sqlUpdate = 'UPDATE RecursosHumanosFDP SET estatusGerenteFDP = \''.$estatus.'\' , fechaAprobacionGerente = now() ,  idUsuariosAprobacionGerente = '.$idUsuario.' WHERE idCandidatoFDP = '.$idCandidatoFDP.' AND idReclutamientoFDP = '.$idReclutamientoFDP  ;
+		$sqlUpdate = 'UPDATE RecursosHumanosFDP SET estatusGerenteFDP = \''.$estatus.'\' , fechaAprobacionGerente = now() ,  altaUsuario=0, altaUsuarioNoi=0 ,idUsuariosAprobacionGerente = '.$idUsuario.' WHERE idCandidatoFDP = '.$idCandidatoFDP.' AND idReclutamientoFDP = '.$idReclutamientoFDP  ;
 			
 			
 			$queryUpdate = $this->db->query( $sqlUpdate );
@@ -134,9 +134,10 @@ class RecursoshumanosModel extends CI_Model {
 	
 	public function obtenerMovimientosCandidatos(){
 		$sqlCandidatosAprobados = 'SELECT *,
-										 ( SELECT CONCAT( apeliidoPaterno , " " , apellidoMaterno , " " , nombre ) FROM CandidatoFDP WHERE idCandidatoFDP = RecursosHumanosFDP.idCandidatoFDP ) as nombreCandidato
+										 ( SELECT CONCAT( apeliidoPaterno , " " , apellidoMaterno , " " , nombre ) FROM CandidatoFDP WHERE idCandidatoFDP = RecursosHumanosFDP.idCandidatoFDP ) as nombreCandidato,
+				 ( SELECT valorMetaDatos FROM MetaDatosCandidatoFDP WHERE idCandidatoFDP = RecursosHumanosFDP.idCandidatoFDP and prefijoMetaDatos=\'puesto_solicitado\') as Puesto
 										 FROM
-										 RecursosHumanosFDP WHERE estatusRecursosHumanosFDP = \'aprobado\' ';
+										 RecursosHumanosFDP WHERE estatusRecursosHumanosFDP = \'aprobado\' and altaUsuarioNOI= 0 ';
 	
 		$queryCandidatosAprobados = $this->db->query( $sqlCandidatosAprobados );
 		$arrayAprobados = array();
@@ -146,7 +147,8 @@ class RecursoshumanosModel extends CI_Model {
 		$arrayAprobados[] = array(
 				"idCandidatoFDP" => $aprobados->idCandidatoFDP,
 				"nombreCandidato" => $aprobados->nombreCandidato,
-				"estatusCandidato" => "aprobado"
+				"estatusCandidato" => "aprobado",
+				"Puesto" => $aprobados->Puesto,
 		);
 		endforeach;
 		endif;
@@ -332,7 +334,7 @@ class RecursoshumanosModel extends CI_Model {
 	public function insertarUsuario($nombre_candidato,$apellido_paterno_candidato,$apellido_materno_candidato,$email,$rfc){
 	
 	
-			$sqlInsert = "INSERT INTO usuarios ( nombreUsuario, correoUsuario, contraseniaUsuario, estatusUsuario,fechaRegistro, RFC ) VALUES( concat('$apellido_paterno_candidato','$apellido_materno_candidato','$nombre_candidato'),'$email',md5('2016'),'activo',now(),'$rfc')";
+			$sqlInsert = "INSERT INTO Usuarios ( nombreUsuario, correoUsuario, contraseniaUsuario, estatusUsuario,fechaRegistro, RFC ) VALUES( concat('$apellido_paterno_candidato','$apellido_materno_candidato','$nombre_candidato'),'$email',md5('2016'),'activo',now(),'$rfc')";
 		
 	$queryInsert = $this->db->query($sqlInsert);
 	$idAltaUsuario = $this->db->insert_id();
@@ -440,5 +442,74 @@ class RecursoshumanosModel extends CI_Model {
 	
 	}
 	
+	public function obtenerPlazas(){
+	
+	
+		$sqlObtenerPlazas = 'SELECT Plazas.* FROM Plazas_has_Empresas left outer join Plazas
+on Plazas_has_Empresas.Plazas_idPlazas=Plazas.idPlazas
+WHERE Plazas_has_Empresas.estatusPlaza=1' ;
+			
+		$resultObtenerEmpresas = array();
+			
+		$queryObtenerPlazas = $this->db->query($sqlObtenerPlazas);
+			
+		if( $queryObtenerPlazas->num_rows() > 0 ):
+		$resultObtenerPlazas = $queryObtenerPlazas->result();
+	
+	
+		endif;
+			
+	
+		return $resultObtenerPlazas;
+	
+	
+	}
+	
+	
+	public function obtenerOficinas(){
+	
+	
+		$sqlObtenerOficinas = 'SELECT Oficinas.* FROM Oficinas_has_Empresas left outer join Oficinas
+on Oficinas_has_Empresas.Oficinas_idOficinas=Oficinas.idOficinas
+WHERE Oficinas_has_Empresas.estatusOficina=1' ;
+			
+		$resultObtenerOficinas = array();
+			
+		$queryObtenerOficinas = $this->db->query($sqlObtenerOficinas);
+			
+		if( $queryObtenerOficinas->num_rows() > 0 ):
+		$resultObtenerOficinas = $queryObtenerOficinas->result();
+	
+	
+		endif;
+			
+	
+		return $resultObtenerOficinas;
+	
+	
+	}
+	
+	public function obtenerSueldos(){
+	
+	
+		$sqlObtenerSueldos = 'SELECT Sueldos.* FROM Sueldos_has_Empresas left outer join Sueldos
+on Sueldos_has_Empresas.Sueldos_idSueldos = Sueldos.idSueldos
+WHERE Sueldos_has_Empresas.Estatus = 1' ;
+			
+		$resultObtenerSueldos = array();
+			
+		$queryObtenerSueldos = $this->db->query($sqlObtenerSueldos);
+			
+		if( $queryObtenerSueldos->num_rows() > 0 ):
+		$resultObtenerSueldos = $queryObtenerSueldos->result();
+	
+	
+		endif;
+			
+	
+		return $resultObtenerSueldos;
+	
+	
+	}
 	
 }
