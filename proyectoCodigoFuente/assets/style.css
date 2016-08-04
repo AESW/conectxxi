@@ -243,6 +243,25 @@ footer, header, hgroup, menu, nav, section {
     margin-right: 10px; 
 	
 }
+
+
+.btnPerfil{
+	padding: 8px;
+	float: left;
+	background-color: #1391c4; /* Green */
+    border: none;
+    color: white;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin-left: 0px; 
+	
+}
+
+
+
+
 .btnNextFDP:hover{
 	text-decoration: none;
 	color: #fff;
@@ -277,7 +296,7 @@ footer, header, hgroup, menu, nav, section {
 	display: block;
 	width: 25%;
 	height: 25%;
-	background-image: url(images/1_reclutamiento.png);
+	background-image: url(images/MiRol.png);
 	background-position: center center;
 	background-repeat: no-repeat;
 	background-size: 100%;
@@ -286,7 +305,7 @@ footer, header, hgroup, menu, nav, section {
 	left: 15.9%;
 }
 .eaf_reclutamiento_option:hover{
-	background-image: url(images/1_reclutamiento_hover.png);
+	background-image: url(images/MiRol_hover.png);
 }
 .eaf_capacitacion_option{
 	display: block;
@@ -328,8 +347,8 @@ footer, header, hgroup, menu, nav, section {
 	background-size: 100%;
 	position: absolute;
 	position: absolute;
-	top: 45%;
-	left: 57%;
+	top: 30%;
+	left:71%;
 }
 .eaf_descuentos_option:hover{
 	background-image: url(images/6_descuentos_hover.png);

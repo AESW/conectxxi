@@ -129,7 +129,107 @@
 
   
       
-     
+      $("#btnContrato").click(function(){
+
+  		error_campos = [];
+  		if( $("#nombre_candidato").val() == "" ) {
+      		error_campos.push(  "nombre_candidato");
+  		}
+      		 
+  		if( $("#apellido_paterno_candidato").val() == "" ) {
+      		error_campos.push( "apellido_paterno_candidato");
+      		}
+
+
+  		if( $("#apellido_materno_candidato").val() == "" ) {
+  		error_campos.push(  "apellido_materno_candidato");
+  		}
+  		if( $("#gerente_autoriza").val() == "" ) {
+  		error_campos.push(  "gerente_autoriza");
+  		}
+  		if( $("#empresa_contrata").val() == "" ) {
+  		error_campos.push( "empresa_contrata");
+  		}
+  		if( $("#corporativo").val() == "" ) {
+  		error_campos.push(  "corporativo");
+  		}
+
+  		if( $("#oficina").val() == "" ) {
+  		error_campos.push(  "oficina");
+  		}
+  		if( $("#plaza").val() == "" ) {
+  		error_campos.push( "plaza");
+  		}
+  		if( $("#fechaIngreso").val() == "" ) {
+  		error_campos.push(  "fechaIngreso");
+  		}
+
+
+  		if( $("#sueldoNOI").val() == "" ) {
+  		error_campos.push(  "sueldoNOI");
+  		}
+  		if( $("#puesto").val() == "" ) {
+  		error_campos.push(  "puesto");
+  		}
+
+  		if( $("#descripcionDepartamento").val() == "" ) {
+  		error_campos.push(  "descripcionDepartamento");
+  		} 
+
+  		if( $("#turno").val() == "" ) {
+  		error_campos.push( "turno");
+  		}
+
+  		if( $("#descanso").val() == "" ) {
+  		error_campos.push(  "descanso");
+  		}
+
+  		
+  		if( error_campos.length  == 0 )
+  		{
+
+
+  			if( $("#cuentaNomina").val() == ""  && $("#clabeInterbancaria").val() == "") {
+  			
+  				 var id =  $('#idCandidato').val();
+
+
+  				 
+     	    	  $.post("<?php echo HOME_URL; ?>eaf/RecursosHumanos/ValidarCuentaBancaria",{
+     	         	 id:id
+     	          },function(data) {
+
+
+     	        	  var mensaje=data;
+     	              
+                       
+                       if ($.trim(mensaje)=='error')
+                       {
+                           
+                    	   $("#resultado").html("El Usuario no tiene ninguna cuenta bancaria capturada, capture la cuenta o realice una solicitud de cuenta");
+                    	  
+                       }
+                       else
+                       {
+                     	  $("#form_fdp_conectxxi").submit();
+                       }
+
+     	      });
+  			
+  			}
+  	    	  else
+  	    	  {
+  	    		  $("#form_fdp_conectxxi").submit();
+  	    	  }
+  		}
+  		else
+  		{	
+  			$(".step1").trigger("click");
+  		}
+
+
+  		
+	  });
 
 
 
@@ -187,7 +287,7 @@
 		  		<input type="hidden" name="burocredito" class="burocredito" id="burocredito" value="<?php echo (isset($formArray["burocredito"]))?$formArray["burocredito"]:""; ?>"/>
 		  		<input type="hidden" name="identificacionoficial" class="identificacionoficial" id="identificacionoficial" value="<?php echo (isset($formArray["identificacionoficial"]))?$formArray["identificacionoficial"]:""; ?>"/>
 		  		<input type="hidden" name="comprobanteEstudios" class="comprobanteEstudios" id="comprobanteEstudios" value="<?php echo (isset($formArray["comprobanteEstudios"]))?$formArray["comprobanteEstudios"]:""; ?>"/>
-		  		
+		  		<input type="hidden" name="fotoCandidato" class="fotoCandidato" id="fotoCandidato" value="<?php echo (isset($formArray["fotoCandidato"]))?$formArray["fotoCandidato"]:""; ?>"/>
 			 
 			  <?php
 				  if( !empty($formArray["file_6"]) ):
@@ -220,6 +320,8 @@
 				    <tr>
 					    <td>Nombre (s)</td>
 					    <td><input type="text" name="nombre_candidato" class="nombre_candidato" id="nombre_candidato" placeholder="Nombre (s)" autocomplete="off" required value="<?php echo (isset($formArrayCandidato["nombre_candidato"]))?$formArrayCandidato["nombre_candidato"]:""; ?>"<?php echo ( in_array ('nombre_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?> ></td>
+					   </tr>
+					   <tr>
 					    <td>Apellido paterno</td>
 					    <td><input type="text" name="apellido_paterno_candidato" class="apellido_paterno_candidato" id="apellido_paterno_candidato" placeholder="Apellido" autocomplete="off" required value="<?php echo (isset($formArrayCandidato["apellido_paterno_candidato"]))?$formArrayCandidato["apellido_paterno_candidato"]:""; ?>"<?php echo ( in_array ('apellido_paterno_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?> ></td>
 				    </tr>
@@ -249,7 +351,7 @@
 								  ?>
 								  		
 								  		
-								  		 <option value="<?php echo $t->nombreEmpresas; ?>" <?php if( isset($formArray["empresa_contrata"]) && $formArray["empresa_contrata"] ==  $t->nombreEmpresas ): echo "selected='selected'"; endif;?>><?php echo $t->nombreEmpresas; ?></option>
+								  		 <option value="<?php echo $t->idEmpresas; ?>" <?php if( isset($formArray["empresa_contrata"]) && $formArray["empresa_contrata"] ==  $t->nombreEmpresas ): echo "selected='selected'"; endif;?>><?php echo $t->nombreEmpresas; ?></option>
 								  		
 								  <?php	  
 									  }
@@ -285,23 +387,20 @@
 						         <select name="oficina" class="oficina" id="oficina" <?php echo ( in_array('oficina' , $error_campos) )?"style='border:2px solid red;'":""; ?> >
 							     
 							     <option value="">Selecciona Oficina</option>
-								  <?php
-									  $perfiles = $catalogos->fdpOficina();
-									  
-									  foreach( $perfiles as $key => $per ):
-								  ?>
-								  		
-								  		
-								  		
-								  		  <option value="<?php echo $per; ?>" <?php if( isset($formArray["oficina"]) && $formArray["oficina"] == $per ): echo "selected='selected'"; endif;?>><?php echo $per; ?></option>
-							  
+								<?php 
+								
+								  if( !empty($Oficinas) ):
+								  foreach($Oficinas as  $t){
+								  	?>
+								  
 								  			
-								  			
+								  			 <option value="<?php echo $t->idOficinas; ?>" <?php if( isset($formArray["oficina"]) && $formArray["oficina"] ==  $t->nombreOficina ): echo "selected='selected'"; endif;?>><?php echo $t->nombreOficina; ?></option>
+								  		
 								  		
 								  <?php	  
-									  endforeach;
-								  ?>
-							     
+								  }
+									  endif;
+								  ?> 
 							     
 						      </select>
 					      </td>
@@ -316,20 +415,18 @@
 							     
 							     <option value="">Selecciona Plaza</option>
 								  <?php
-									  $perfiles = $catalogos->fdpPlaza();
-									  
-									  foreach( $perfiles as $key => $per ):
-								  ?>
-								  		
-								  		
-								  		
-								  		  <option value="<?php echo $per; ?>" <?php if( isset($formArray["plaza"]) && $formArray["plaza"] == $per ): echo "selected='selected'"; endif;?>><?php echo $per; ?></option>
-							  
+								
+								  if( !empty($Plazas) ):
+								  foreach($Plazas as  $t){
+								  	?>
+								  
 								  			
-								  			
+								  			 <option value="<?php echo $t->idPlazas; ?>" <?php if( isset($formArray["plaza"]) && $formArray["plaza"] ==  $t->nombrePlaza ): echo "selected='selected'"; endif;?>><?php echo $t->nombrePlaza; ?></option>
+								  		
 								  		
 								  <?php	  
-									  endforeach;
+								  }
+									  endif;
 								  ?>
 							     
 							     
@@ -350,9 +447,29 @@
 				     </tr>
 				     <tr>
 					    <td>Sueldo</td>
-					    <td><input type="text" name="sueldoNOI" class="sueldoNOI allownumericwithdecimal" id="sueldoNOI" placeholder="Sueldo" autocomplete="off" required value="<?php echo (isset($formArray["sueldoNOI"]))?$formArray["sueldoNOI"]:""; ?>"<?php echo ( in_array ('sueldoNOI' , $error_campos) )?"style='border:2px solid red;'":""; ?> ></td>
-					    <td>&nbsp;</td>
-					    <td>&nbsp;</td>
+					    <td>
+					    
+					      <select name="sueldoNOI" class="sueldoNOI" id="sueldoNOI" <?php echo ( in_array('oficina' , $error_campos) )?"style='border:2px solid red;'":""; ?> >
+							     
+							     <option value="">Selecciona Oficina</option>
+								<?php 
+								
+								  if( !empty($Sueldos) ):
+								  foreach($Sueldos as  $t){
+								  	?>
+								  
+								  			
+								  			 <option value="<?php echo $t->idSueldos; ?>" <?php if( isset($formArray["sueldoNOI"]) && $formArray["sueldoNOI"] ==  $t->sueldo ): echo "selected='selected'"; endif;?>><?php echo $t->sueldo; ?></option>
+								  		
+								  		
+								  <?php	  
+								  }
+									  endif;
+								  ?> 
+							     
+						      </select>
+					    
+					    
 				    </tr>
 				    <tr>
 				     <td>Puesto</td>
@@ -672,6 +789,35 @@
 					
 				    </tr>
 				    
+				     <tr>
+					    <td>Foto del Candidato</td>
+					    
+					      <td >
+						    <span class="btn btn-success fileinput-button">
+						        <i class="glyphicon glyphicon-plus"></i>
+						        <span>Cargar...</span>
+						        <!-- The file input field used as target for the file upload widget -->
+						        <input id="fotoCandidato_upload" type="file" name="files[]" multiple>
+						    </span>
+						    <!-- The global progress bar -->
+						    <div id="fotoCandidato_progress" class="progress">
+						        <div class="progress-bar progress-bar-success"></div>
+						    </div>
+						    <!-- The container for the uploaded files -->
+						    <div id="files_fotoCandidato" class="files">
+						      <?php 
+								    if( isset($formArray["fotoCandidato"]) && $formArray["fotoCandidato"] != ""):
+								    	echo '<a href="'.HOME_URL."tempFDP/files/".$formArray["fotoCandidato"].'" target="_blank">'.$formArray["fotoCandidato"].'</a>';
+								    	
+								    endif;
+							    ?>
+							   
+						    </div>
+					    </td>
+					
+				    </tr>
+				    
+				
 				
 				
 			    </table>
@@ -698,14 +844,31 @@
 					    </td>
 					    
 				    </tr>
+				    <tr>
+					    <td>Banco</td>
+					   <td>
+						      <select name="banco" class="banco" id="banco" <?php echo ( in_array('banco' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+							      <option value="">Seleccionar Banco</option>
+							      <option value="12" <?php if( isset($formArray["banco"]) && $formArray["banco"] == "BANCOMER" ): echo "selected='selected'"; endif;?>>BANCOMER</option>
+							      <option value="72" <?php if( isset($formArray["banco"]) && $formArray["banco"] == "BANORTE" ): echo "selected='selected'"; endif;?>>BANORTE</option>
+						      </select>
+					      </td>
+				    </tr>
 				    
 				
 			    </table>
 				<br>
 				<br>
 					 
+					  <a  href="#" class="btnNextFDP" id="btnCredencial"><i class="glyphicon glyphicon-user"></i> Credencial</a>
+				  <a href="<?php echo HOME_URL; ?>eaf/RecursosHumanos/Contrato/<?php echo $idCandidatoFDP["idCandidatoFDP"];?>" target="_blank" class="btnNextFDP" ><i class="glyphicon glyphicon-file"></i> Contrato</a>
+			  
 				  <a class="btnNextFDP" id="btnNextFDP5">Guardar</a>
 				   <a class="btnNextFDP" id="btnSolicitudCuenta">Solicitar Cuenta</a>
+			   
+			   
+			   
+			   
 			   
 			    <div style="clear: both;"></div>
 			    <!-- content -->
@@ -1067,6 +1230,40 @@
                 
             }
         });
+
+
+        $('#fotoCandidato_upload').fileupload({
+	        url: url,
+	        dataType: 'json',
+	        change : function (e, data) {
+		        if(data.files.length>=4){
+		            alert("1 archivo permitido por selección")
+		            return false;
+		        }
+		        
+		    },
+	        done: function (e, data) {
+	            $.each(data.result.files, function (index, file) {
+		            $(".fotoCandidato").val(file.name);
+		            
+	                $('<p/>').html('<a target="_blank" href="'+'<?php echo HOME_URL; ?>tempFDP/files/'+file.name+'">'+ file.name + "</a>").appendTo('#files_fotoCandidato');
+	            });
+	        },
+	        progressall: function (e, data) {
+	            var progress = parseInt(data.loaded / data.total * 100, 10);
+	            $('#fotoCandidato_progress .progress-bar').css(
+	                'width',
+	                progress + '%'
+	            );
+	            setInterval(function(){ 
+		            $('#fotoCandidato_progress .progress-bar').css(
+		                'width',
+		                0 + '%'
+		            );
+	            }, 2000);
+	        }
+	    }).prop('disabled', !$.support.fileInput)
+	        .parent().addClass($.support.fileInput ? undefined : 'disabled');
         
         
 	});

@@ -119,9 +119,15 @@
 									  endforeach;
 								  ?>
 						     </select></td>
-               
+						    
             </tr>
+<tr>
+<td></td>
+ <td >
+						       <a   target="_blank" class="btnPerfil" id="btnPerfil"><i class="glyphicon glyphicon-search"></i> Ver Perfil del Puesto Solicitado</a>
+               </td>
 
+</tr>
       
 
 
@@ -194,3 +200,26 @@
 
            
         </script>	
+        
+        
+        	<script type="text/javascript">
+var nextinput = 0;
+        $(document).ready(function() {
+            $("#puestoSolicitado").change(function() {
+            	 $("#puestoSolicitado option:selected").each(function() {
+                     puesto = $('#puestoSolicitado option:selected').text();
+
+
+if (puesto=='Seleccionar Puesto')
+{
+
+	document.getElementById('btnPerfil').href = "<?php echo site_url()?>PerfilesDoc/TELEFONIA.pdf";
+}
+else
+{
+    document.getElementById('btnPerfil').href = "<?php echo site_url()?>PerfilesDoc/"+puesto+".pdf";
+}     
+                 });
+            })
+        });
+    </script> 

@@ -70,7 +70,7 @@
 				foreach( $peticionesVacantes as $peticiones):
 					//$valoresUnicosPorPuesto[] = $peticiones["nombrePuesto"];
 		?>
-					<li><?php echo $peticiones["nombrePuesto"]; ?> - <?php echo $peticiones["nombreUsuario"]; ?> - No.de vacantes: <?php echo $peticiones["numeroVacantes"]; ?></li>
+					<li><?php echo $peticiones["nombrePuesto"]; ?> - <?php echo $peticiones["nombreUsuario"]; ?> - No.de vacantes: <?php echo $peticiones["numeroVacantes"]-$peticiones["vacantesContratados"]; ?></li>
 		<?php			
 				endforeach;
 				

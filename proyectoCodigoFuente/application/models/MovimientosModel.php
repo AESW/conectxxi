@@ -12,7 +12,7 @@ class MovimientosModel extends CI_Model {
 	public function CatPuestos(){
 		
 		
-		$sqlCatPuestos = "SELECT idPuestos,nombrePuesto FROM puestos order by nombrePuesto asc ";
+		$sqlCatPuestos = "SELECT idPuestos,nombrePuesto FROM Puestos order by nombrePuesto asc ";
 		$queryCatPuestos = $this->db->query( $sqlCatPuestos );
 		
 	return $queryCatPuestos->result();
@@ -23,7 +23,7 @@ class MovimientosModel extends CI_Model {
 	public function CatCartera(){
 	
 	
-		$sqlCatPuestos = "SELECT IdCartera,Cartera FROM cartera order by Cartera asc ";
+		$sqlCatPuestos = "SELECT IdCartera,Cartera FROM Cartera order by Cartera asc ";
 		$queryCatPuestos = $this->db->query( $sqlCatPuestos );
 	
 		return $queryCatPuestos->result();
@@ -45,7 +45,7 @@ class MovimientosModel extends CI_Model {
 	public function GuardaVacante($Cartera,$nomGerente,$Producto,$NumVacantes,$puestoSolicitado,$comentarios,$Motivo,$IdUsuario,$token){
 	
 	
-		$sqlInsert = "INSERT INTO vacantespeticiones ( idPuesto, idUsuariosPeticion, fechaPeticion,tokenFDPVacantesPendientes,motivo,comentarios,idCartera,idProducto,numerovacantes ) VALUES( $puestoSolicitado, $IdUsuario ,now(),'$token','$Motivo','$comentarios',$Cartera,$Producto,$NumVacantes)";
+		$sqlInsert = "INSERT INTO VacantesPeticiones ( idPuesto, idUsuariosPeticion, fechaPeticion,tokenFDPVacantesPendientes,motivo,comentarios,idCartera,idProducto,numerovacantes ) VALUES( $puestoSolicitado, $IdUsuario ,now(),'$token','$Motivo','$comentarios',$Cartera,$Producto,$NumVacantes)";
 	
 		$queryInsert = $this->db->query($sqlInsert);
 	//	$idAltaUsuario = $this->db->insert_id();

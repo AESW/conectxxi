@@ -165,5 +165,50 @@ class Direccion extends CI_Controller {
     	echo json_encode($resultado);
     }
     
+    public function RechazarVacante()
+    {
+    
+    	/*Obtener datos de usuario, roles, modulos , permisos*/
+    	$sessionUser = $this->session->userdata('logged_in');
+    	//echo "<pre>";
+    	//print_r( $sessionUser );die;
+    
+    	$IdUsuario=$sessionUser['usuario']['idUsuarios'];
+    
+    
+    
+    	$Comentarios=$this->Sanitize->clean_string($_POST["comentariosDireccion"]);
+    	$Id=$this->Sanitize->clean_string($_POST["id"]);
+    
+    
+    
+    
+    	$AprobarVacante=$this->DireccionModel->RechazarVacante($Comentarios,$Id,$IdUsuario);
+    	 
+    	if($AprobarVacante)
+    	{
+    
+    		$resultado = array(
+    				"codigo" => 400,
+    				"unique" => false,
+    				"mensaje" => "Vacante Rechazada Correctamente"
+    		);
+    	}
+    	else
+    
+    	{
+    		$resultado = array(
+    				"codigo" => 200,
+    				"unique" => false
+    		);
+    
+    
+    	}
+    	 
+    	ob_clean();
+    
+    	echo json_encode($resultado);
+    }
+    
     
 }

@@ -74,7 +74,7 @@ class Reclutamiento extends CI_Controller {
 		$dataContent["candidatosAceptadosReclutador"] = $candidatosAceptadosReclutador;
 		
 		
-		//print_r($dataContent);
+		//print_r($peticionesVacantes);
 		
 		$this->load->view('includes/header' , $dataHeader);
 		$this->load->view('eaf/reclutamiento/index' , $dataContent);

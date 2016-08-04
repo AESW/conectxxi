@@ -1,4 +1,4 @@
-	<script type="text/javascript">
+		<script type="text/javascript">
     $(document).ready( function() {
       $('#tab-container').easytabs();
       $('#tab-container').bind('easytabs:before', function(evt, tab, panel, data) {
@@ -184,6 +184,7 @@
 						     
 						      <select name="nivel_educativo_candidato" class="nivel_educativo_candidato" id="nivel_educativo_candidato" <?php echo ( in_array('nivel_educativo_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
 							      <option value="">Seleccionar nivel educativo</option>
+							      <option value="PosGrado" <?php if( isset($formArray["nivel_educativo_candidato"]) && $formArray["nivel_educativo_candidato"] == "Licenciatura" ): echo "selected='selected'"; endif;?>>PosGrado</option>
 							      <option value="Licenciatura" <?php if( isset($formArray["nivel_educativo_candidato"]) && $formArray["nivel_educativo_candidato"] == "Licenciatura" ): echo "selected='selected'"; endif;?>>Licenciatura</option>
 							      <option value="Bachillerato" <?php if( isset($formArray["nivel_educativo_candidato"]) && $formArray["nivel_educativo_candidato"] == "Bachillerato" ): echo "selected='selected'"; endif;?>>Bachillerato</option>
 							      <option value="Tecnico" <?php if( isset($formArray["nivel_educativo_candidato"]) && $formArray["nivel_educativo_candidato"] == "Tecnico" ): echo "selected='selected'"; endif;?>>Técnico</option>
@@ -200,6 +201,16 @@
 						      </select>
 					      </td>
 				     </tr>
+				     
+				      <tr>
+					     <td>Profesión</td>
+					     <td>
+						   <input type="text" name="profesion" class="profesion" id="profesion" placeholder="Profesión" autocomplete="off" required value="<?php echo (isset($formArray["profesion"]))?$formArray["profesion"]:""; ?>" <?php echo ( in_array('profesion' , $error_campos) )?"style='border:2px solid red;'":""; ?>>  
+						   
+					      </td>
+					  
+				     </tr>
+				     
 			     </table>    
 			     
 			     <h2><label>Números de identificación y seguro social</label></h2>
@@ -570,10 +581,15 @@
 					    
 				    </tr>
 				    
+				      <tr>
+					    <td colspan="4">
+						    <hr>
+					    </td>
+				    </tr>
 				       
 				    <tr>
-					    <td>Empleo anterior</td>
-					    <td><input type="text" name="empleo_anterior1_candidato" class="empleo_anterior1_candidato" id="empleo_anterior1_candidato" placeholder="Empleo anterior" autocomplete="off" required value="<?php echo (isset($formArray["empleo_anterior1_candidato"]))?$formArray["empleo_anterior1_candidato"]:""; ?>"></td>
+					    <td>Empresa anterior</td>
+					    <td><input type="text" name="empleo_anterior1_candidato" class="empleo_anterior1_candidato" id="empleo_anterior1_candidato" placeholder="Empresa anterior" autocomplete="off" required value="<?php echo (isset($formArray["empleo_anterior1_candidato"]))?$formArray["empleo_anterior1_candidato"]:""; ?>"></td>
 					    <td colspan="2">
 						    Descripción de Actividades
 						    <br/>
@@ -627,8 +643,8 @@
 					    </td>
 				    </tr>
 				    <tr>
-					    <td>Empleo anterior</td>
-					    <td><input type="text" name="empleo_anterior2_candidato" class="empleo_anterior2_candidato" id="empleo_anterior2_candidato" placeholder="Empleo anterior" autocomplete="off" required value="<?php echo (isset($formArray["empleo_anterior2_candidato"]))?$formArray["empleo_anterior2_candidato"]:""; ?>"></td>
+					    <td>Empresa anterior</td>
+					    <td><input type="text" name="empleo_anterior2_candidato" class="empleo_anterior2_candidato" id="empleo_anterior2_candidato" placeholder="Empresa anterior" autocomplete="off" required value="<?php echo (isset($formArray["empleo_anterior2_candidato"]))?$formArray["empleo_anterior2_candidato"]:""; ?>"></td>
 					    <td colspan="2">
 						    Descripción de Actividades
 						    <br/>
@@ -682,8 +698,8 @@
 					    </td>
 				    </tr>
 				     <tr>
-					    <td>Empleo anterior</td>
-					    <td><input type="text" name="empleo_anterior3_candidato" class="empleo_anterior3_candidato" id="empleo_anterior3_candidato" placeholder="Empleo anterior" autocomplete="off" required value="<?php echo (isset($formArray["empleo_anterior3_candidato"]))?$formArray["empleo_anterior3_candidato"]:""; ?>"></td>
+					    <td>Empresa anterior</td>
+					    <td><input type="text" name="empleo_anterior3_candidato" class="empleo_anterior3_candidato" id="empleo_anterior3_candidato" placeholder="Empresa anterior" autocomplete="off" required value="<?php echo (isset($formArray["empleo_anterior3_candidato"]))?$formArray["empleo_anterior3_candidato"]:""; ?>"></td>
 					    <td colspan="2">
 						    Descripción de Actividades
 						    <br/>

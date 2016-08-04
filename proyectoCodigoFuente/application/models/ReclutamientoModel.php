@@ -75,8 +75,8 @@ class ReclutamientoModel extends CI_Model {
 			SELECT 
 			* ,
 			(SELECT nombrePuesto FROM Puestos WHERE idPuestos = VacantesPeticiones.idPuesto ) as nombrePuesto,
-				(SELECT nombreUsuario FROM usuarios WHERE idUsuarios = VacantesPeticiones.idUsuariosPeticion ) as nombreUsuario,
-				(SELECT sum(numeroVacantes)  FROM vacantespeticiones WHERE estatusAprobacion=\'aprobado\') as porCubrir,
+				(SELECT nombreUsuario FROM Usuarios WHERE idUsuarios = VacantesPeticiones.idUsuariosPeticion ) as nombreUsuario,
+				(SELECT sum(numeroVacantes)-sum(vacantesContratados)  FROM VacantesPeticiones WHERE estatusAprobacion=\'aprobado\') as porCubrir,
 			(SELECT count(idCandidatoFDP) FROM CandidatoFDP WHERE tokenFDPVacantesPendientes = VacantesPeticiones.tokenFDPVacantesPendientes ) as totalToken
 			
 			FROM VacantesPeticiones WHERE VacantesPeticiones.estatusAprobacion = \'aprobado\' 
@@ -102,7 +102,8 @@ class ReclutamientoModel extends CI_Model {
 					"totalToken" => $pet->totalToken,
 						"nombreUsuario" => $pet->nombreUsuario,
 						"numeroVacantes" => $pet->numeroVacantes,
-						"porCubrir" => $pet->porCubrir
+						"porCubrir" => $pet->porCubrir,
+						"vacantesContratados" => $pet->vacantesContratados
 				);	
 			endforeach;
 			return $peticiones;
@@ -114,9 +115,9 @@ class ReclutamientoModel extends CI_Model {
 	public function obtenerEntrevistasRealizarPrimeraParte(){
 		$sqlEntrevistasPrimeraParte = "SELECT *,
 										(SELECT idPuesto FROM VacantesPeticiones WHERE tokenFDPVacantesPendientes = CandidatoFDP.tokenFDPVacantesPendientes) as idPuesto,
-				                        (SELECT valorMetaDatos FROM metadatoscandidatofdp WHERE idCandidatoFDP = candidatofdp.idCandidatoFDP and prefijoMetaDatos='puesto_solicitado') as puesto_solicitado,
+				                        (SELECT valorMetaDatos FROM MetaDatosCandidatoFDP WHERE idCandidatoFDP = CandidatoFDP.idCandidatoFDP and prefijoMetaDatos='puesto_solicitado') as puesto_solicitado,
 										( SELECT nombrePuesto FROM Puestos WHERE idPuestos = (SELECT idPuesto FROM VacantesPeticiones WHERE tokenFDPVacantesPendientes = CandidatoFDP.tokenFDPVacantesPendientes) ) as nombrePuesto,
-				(select count(*) from candidatofdp where idCandidatoFDP not in (select idCandidatoFDP from reclutamientofdp)) as porEntrevistar
+				(select count(*) from CandidatoFDP where idCandidatoFDP not in (select idCandidatoFDP from ReclutamientoFDP)) as porEntrevistar
 			FROM CandidatoFDP WHERE
 										( SELECT count( idReclutamientoFDP ) FROM ReclutamientoFDP WHERE idCandidatoFDP = CandidatoFDP.idCandidatoFDP ) <= 0 order by apeliidoPaterno asc 
 										

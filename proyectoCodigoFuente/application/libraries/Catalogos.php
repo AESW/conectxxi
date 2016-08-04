@@ -154,7 +154,6 @@ class Catalogos
     public function rhHorario(){
     	$list = array(
     			"Matutino" => "Matutino",
-    			"Mixto" => "Mixto",
     			"Vespertino" => "Vespertino"
     	);
     	 

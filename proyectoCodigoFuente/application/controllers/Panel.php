@@ -34,5 +34,59 @@ class Panel extends CI_Controller {
 		
 	}
 	
+	
+		public function Inicio()
+	{
+		$sessionUser = $this->session->userdata('logged_in');
+		
+		$isReclutamiento = 0;
+		$accionesReclutamiento = array();
+		if( isset( $sessionUser["puesto"]["permisos"] ) ):
+			foreach( $sessionUser["puesto"]["permisos"] as $permisos ):
+				
+				
+				if( $permisos["prefijoModulos"] == "reclutamiento"):
+					
+					redirect("eaf/Reclutamiento");
+				endif;
+				
+				if( $permisos["prefijoModulos"] == "recursos_humanos"):
+					
+					redirect("eaf/RecursosHumanos/");
+				endif;
+				if( $permisos["prefijoModulos"] == "gerente"):
+					
+					redirect("Gerente/");
+				endif;
+				
+				if( $permisos["prefijoModulos"] == "director"):
+					
+					redirect("Direccion/");
+				endif;
+				
+				if( $permisos["prefijoModulos"] == "supervisor"):
+					
+				redirect("Supervisor/");
+				endif;
+				
+				
+				if( $permisos["prefijoModulos"] == "nomina"):
+					
+				redirect("Nomina/");
+				endif;
+				
+				
+			endforeach;
+		else:
+			redirect("panel");
+		endif;
+		 
+		if( $isReclutamiento == 0 ):
+			redirect("panel");
+		endif;
+		
+	}
+	
+	
 		
 }

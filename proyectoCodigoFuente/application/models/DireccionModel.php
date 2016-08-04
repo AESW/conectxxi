@@ -14,11 +14,11 @@ class DireccionModel extends CI_Model {
     public function obtenerSolciitudesPersonal(){
     
     
-    	$sqlVAcantes = "SELECT idVacantesPeticiones, vacantespeticiones.idPuesto, puestos.nombrePuesto,usuarios.nombreUsuario
-FROM vacantespeticiones
-LEFT OUTER JOIN puestos ON vacantespeticiones.idPuesto = puestos.idPuestos
-left outer join usuarios on vacantespeticiones.idUsuariosPeticion=usuarios.idUsuarios
-WHERE vacantespeticiones.estatusAprobacion =  'pendiente' ";
+    	$sqlVAcantes = "SELECT idVacantesPeticiones, VacantesPeticiones.idPuesto, Puestos.nombrePuesto,Usuarios.nombreUsuario
+FROM VacantesPeticiones
+LEFT OUTER JOIN Puestos ON VacantesPeticiones.idPuesto = Puestos.idPuestos
+left outer join Usuarios on VacantesPeticiones.idUsuariosPeticion=Usuarios.idUsuarios
+WHERE VacantesPeticiones.estatusAprobacion =  'pendiente' ";
     	$queryVacantes = $this->db->query( $sqlVAcantes );
     
     	if( $queryVacantes->num_rows() > 0 ):
@@ -44,7 +44,7 @@ WHERE vacantespeticiones.estatusAprobacion =  'pendiente' ";
 	public function CatPuestos(){
 		
 		
-		$sqlCatPuestos = "SELECT idPuestos,nombrePuesto FROM puestos order by nombrePuesto asc ";
+		$sqlCatPuestos = "SELECT idPuestos,nombrePuesto FROM Puestos order by nombrePuesto asc ";
 		$queryCatPuestos = $this->db->query( $sqlCatPuestos );
 		
 	return $queryCatPuestos->result();
@@ -55,7 +55,7 @@ WHERE vacantespeticiones.estatusAprobacion =  'pendiente' ";
 	public function CatCartera(){
 	
 	
-		$sqlCatPuestos = "SELECT Cartera FROM cartera order by Cartera asc ";
+		$sqlCatPuestos = "SELECT Cartera FROM Cartera order by Cartera asc ";
 		$queryCatPuestos = $this->db->query( $sqlCatPuestos );
 	
 		return $queryCatPuestos->result();
@@ -77,7 +77,7 @@ WHERE vacantespeticiones.estatusAprobacion =  'pendiente' ";
 	public function GuardaVacante($Cartera,$nomGerente,$Producto,$NumVacantes,$puestoSolicitado,$comentarios,$Motivo,$IdUsuario,$token){
 	
 	
-		$sqlInsert = "INSERT INTO vacantespeticiones ( idPuesto, idUsuariosPeticion, fechaPeticion,tokenFDPVacantesPendientes ) VALUES( $puestoSolicitado, $IdUsuario ,now(),'$token')";
+		$sqlInsert = "INSERT INTO VacantesPeticiones ( idPuesto, idUsuariosPeticion, fechaPeticion,tokenFDPVacantesPendientes ) VALUES( $puestoSolicitado, $IdUsuario ,now(),'$token')";
 	
 		$queryInsert = $this->db->query($sqlInsert);
 	//	$idAltaUsuario = $this->db->insert_id();
@@ -99,12 +99,12 @@ WHERE vacantespeticiones.estatusAprobacion =  'pendiente' ";
 	public function VacanteDetalle($idVacante){
 	
 	
-		$sqlVAcantes = "SELECT vacantespeticiones.*,usuarios.nombreUsuario,puestos.nombrePuesto,cartera.Cartera,productos.nombreProducto
-FROM vacantespeticiones
-left outer join usuarios on vacantespeticiones.idUsuariosPeticion=usuarios.idUsuarios
-left outer join cartera on vacantespeticiones.idCartera=cartera.IdCartera
-left outer join productos on vacantespeticiones.idProducto=productos.idProductos
-left outer join puestos on vacantespeticiones.idPuesto=puestos.idPuestos
+		$sqlVAcantes = "SELECT VacantesPeticiones.*,Usuarios.nombreUsuario,Puestos.nombrePuesto,Cartera.Cartera,productos.nombreProducto
+FROM VacantesPeticiones
+left outer join Usuarios on VacantesPeticiones.idUsuariosPeticion=Usuarios.idUsuarios
+left outer join Cartera on VacantesPeticiones.idCartera=Cartera.IdCartera
+left outer join productos on VacantesPeticiones.idProducto=productos.idProductos
+left outer join Puestos on VacantesPeticiones.idPuesto=Puestos.idPuestos
 WHERE idVacantesPeticiones = $idVacante  ";
 		$queryVacantes = $this->db->query( $sqlVAcantes );
 	
@@ -144,7 +144,7 @@ WHERE idVacantesPeticiones = $idVacante  ";
 	public function AprobarVacante($Comentarios,$Id,$IdUsuario){
 	
 	
-		$sqlInsert = "update vacantespeticiones set idUsuariosPeticion=$IdUsuario ,fechaAprobacion=now(),estatusAprobacion='aprobado',comenDireccion='$Comentarios' where idVacantesPeticiones=$Id ";
+		$sqlInsert = "update VacantesPeticiones set idUsuariosAprobacion=$IdUsuario ,fechaAprobacion=now(),estatusAprobacion='aprobado',comenDireccion='$Comentarios' where idVacantesPeticiones=$Id ";
 	
 		$queryInsert = $this->db->query($sqlInsert);
 		//	$idAltaUsuario = $this->db->insert_id();
@@ -163,5 +163,28 @@ WHERE idVacantesPeticiones = $idVacante  ";
 	
 	}
 	
+	
+	
+	public function RechazarVacante($Comentarios,$Id,$IdUsuario){
+	
+	
+		$sqlInsert = "update VacantesPeticiones set idUsuariosAprobacion=$IdUsuario ,fechaAprobacion=now(),estatusAprobacion='rechazado',comenDireccion='$Comentarios' where idVacantesPeticiones=$Id ";
+	
+		$queryInsert = $this->db->query($sqlInsert);
+		//	$idAltaUsuario = $this->db->insert_id();
+	
+		if ($queryInsert)
+		{
+	
+	
+	
+			return true;
+		}
+		else{
+			return false;
+		}
+	
+	
+	}
 	
 }

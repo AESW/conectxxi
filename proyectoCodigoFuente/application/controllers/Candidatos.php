@@ -320,6 +320,7 @@ class Candidatos extends CI_Controller {
 			
 			$arrayFormPart2 = array(
 				"genero_candidato" => $this->Sanitize->clean_string($_POST["genero_candidato"]),
+				"profesion" => $this->Sanitize->clean_string($_POST["profesion"]),
 				"nivel_educativo_candidato" => $this->Sanitize->clean_string($_POST["nivel_educativo_candidato"]),
 				"estado_civil_candidato" => $this->Sanitize->clean_string($_POST["estado_civil_candidato"]),
 				"rfc_candidato" => $this->Sanitize->clean_string($_POST["rfc_candidato"]),
@@ -771,7 +772,7 @@ class Candidatos extends CI_Controller {
 		endif;
 		
 		
-		$sqlCatPuestos = 'SELECT * from puestos order by nombrePuesto asc
+		$sqlCatPuestos = 'SELECT * from Puestos order by nombrePuesto asc
 				';
 		
 		$queryCatPuestos = $this->db->query($sqlCatPuestos);

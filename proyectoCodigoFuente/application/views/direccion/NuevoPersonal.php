@@ -172,3 +172,53 @@ endforeach;
 
            
         </script>	
+        
+        
+          <script type="text/javascript">	               
+
+	
+	
+
+           $('#btnRechazar').click(function(event) {
+
+        	//   if ($('#formGerente').valid()) {
+
+
+        		//   event.preventDefault();
+
+     
+
+
+     
+     
+     $.ajax({
+	                        url: '<?php echo HOME_URL; ?>Direccion/RechazarVacante',
+	                        type: 'POST',
+	                        dataType: 'json',
+	                        data: $('#formDireccion').serialize(),
+	                        cache: false,
+	                        async: true,
+	                        success: function(response) {
+	                            if (response.codigo != 200) {
+	                            	 $("#resultado").html(response.mensaje);
+	                         
+	                            } else {
+
+	                                
+	                            }
+	                        },
+	                        error: function(jqXHR, textStatus, errorThrown) {
+	                         
+	                        }
+	                    }); 
+
+        //	   } else {
+        	//          alertify.error("Favor de completar los datos requeridos");
+        	  //    }   
+        		
+           });
+
+
+
+           
+        </script>	

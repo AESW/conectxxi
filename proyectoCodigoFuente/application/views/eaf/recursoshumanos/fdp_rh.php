@@ -955,7 +955,7 @@
 									  	
 									  	foreach( $peticionesVacantes as $vacante ):
 									  		$selectVacante = ( isset($reclutamientoFDP["idVacantesPeticiones"]) && $reclutamientoFDP["idVacantesPeticiones"] == $vacante["idVacantesPeticiones"] )?" selected ":"";
-									  		echo "<option ".$selectVacante." value='".$vacante["idVacantesPeticiones"]."'>".$vacante["nombrePuesto"]." - ".$vacante["tokenFDPVacantesPendientes"]."</option>";
+									  		echo "<option ".$selectVacante." value='".$vacante["idVacantesPeticiones"]."'>".$vacante["nombrePuesto"]." - ".$vacante["nombreUsuario"]."</option>";
 									  	endforeach;
 									  endif;
 								  ?>
@@ -982,6 +982,7 @@
 							  </select>
 							  
 						  </td>
+						  
 					  </tr>
 				  </table>
 				  
@@ -1288,7 +1289,7 @@
 								  ?>
 							  </select>
 						  </td>
-						  <td>GesticulacioÌ�n</td>
+						  <td>Gesticulacioón</td>
 						  <td>
 							  <select name="gesticulacion_rh_candidato" class="gesticulacion_rh_candidato" id="gesticulacion_rh_candidato" <?php if( in_array("gesticulacion_rh_candidato", $$arrayErrorFields) ): echo 'style="border:2px solid red;"'; endif; ?>>
 								  <option value="">Selecciona calificación</option>
@@ -1354,7 +1355,7 @@
 						  </td>
 					  </tr>
 					  <tr>
-						  <td>PrecisioÌ�n de la comunicacioÌ�n</td>
+						  <td>Precisioón de la comunicacioón</td>
 						  <td>
 							  <select name="precision_comunicacion_rh_candidato" class="precision_comunicacion_rh_candidato" id="precision_comunicacion_rh_candidato" <?php if( in_array("precision_comunicacion_rh_candidato", $$arrayErrorFields) ): echo 'style="border:2px solid red;"'; endif; ?>>
 								  <option value="">Selecciona calificación</option>
@@ -1388,7 +1389,7 @@
 				  <h2><label>Competencias generales del perfil del asesor telefónico</label></h2>
 				  <table cellpadding="0" cellspacing="0" width="100%">
 					  <tr>
-						  <td>AtencioÌ�n al cliente</td>
+						  <td>Atencioón al cliente</td>
 						  <td>
 							  <select name="atencion_cliente_rh_candidato" class="atencion_cliente_rh_candidato" id="atencion_cliente_rh_candidato" <?php if( in_array("atencion_cliente_rh_candidato", $$arrayErrorFields) ): echo 'style="border:2px solid red;"'; endif; ?>>
 								  <option value="">Selecciona calificación</option>
@@ -1402,7 +1403,7 @@
 								  ?>
 							  </select>
 						  </td>
-						  <td>Influencia y negociacioÌ�n</td>
+						  <td>Influencia y negociacioón</td>
 						  <td>
 							  <select name="influencia_negociacion_rh_candidato" class="influencia_negociacion_rh_candidato" id="influencia_negociacion_rh_candidato" <?php if( in_array("influencia_negociacion_rh_candidato", $$arrayErrorFields) ): echo 'style="border:2px solid red;"'; endif; ?>>
 								  <option value="">Selecciona calificación</option>
@@ -1432,7 +1433,7 @@
 								  ?>
 							  </select>
 						  </td>
-						  <td>ComunicacioÌ�n eficaz</td>
+						  <td>Comunicacioón eficaz</td>
 						  <td>
 							  <select name="comunicacion_eficaz_rh_candidato" class="comunicacion_eficaz_rh_candidato" id="comunicacion_eficaz_rh_candidato" <?php if( in_array("comunicacion_eficaz_rh_candidato", $$arrayErrorFields) ): echo 'style="border:2px solid red;"'; endif; ?>>
 								  <option value="">Selecciona calificación</option>
@@ -1522,4 +1523,26 @@
         
 	});
 	</script>
+	
+	<script type="text/javascript">
+var nextinput = 0;
+        $(document).ready(function() {
+            $("#perfil_candidato_reclutamiento").change(function() {
+            	 $("#perfil_candidato_reclutamiento option:selected").each(function() {
+                     puesto = $('#perfil_candidato_reclutamiento option:selected').text();
+
+
+if (puesto=='Seleccionar Perfil')
+{
+
+	document.getElementById('btnPerfil').href = "<?php echo site_url()?>PerfilesDoc/TELEFONIA.pdf";
+}
+else
+{
+    document.getElementById('btnPerfil').href = "<?php echo site_url()?>PerfilesDoc/"+puesto+".pdf";
+}     
+                 });
+            })
+        });
+    </script> 
 	
