@@ -79,7 +79,7 @@ class ReclutamientoModel extends CI_Model {
 				(SELECT sum(numeroVacantes)-sum(vacantesContratados)  FROM VacantesPeticiones WHERE estatusAprobacion=\'aprobado\') as porCubrir,
 			(SELECT count(idCandidatoFDP) FROM CandidatoFDP WHERE tokenFDPVacantesPendientes = VacantesPeticiones.tokenFDPVacantesPendientes ) as totalToken
 			
-			FROM VacantesPeticiones WHERE VacantesPeticiones.estatusAprobacion = \'aprobado\' 
+			FROM VacantesPeticiones WHERE VacantesPeticiones.estatusAprobacion = \'aprobado\' and (VacantesPeticiones.numeroVacantes-VacantesPeticiones.vacantesContratados)>0 
 			AND ( SELECT count( idUsuarios ) FROM UsuariosMetaDatos WHERE valorMetaDatos = VacantesPeticiones.tokenFDPVacantesPendientes ) >= 0	 
 		';//Agregar AND ReclutacionFDP aprobado, RecursosHumanosFDP aprobado
 		

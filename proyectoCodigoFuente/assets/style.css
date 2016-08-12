@@ -617,7 +617,32 @@ footer, header, hgroup, menu, nav, section {
 	height: 270px;
 }
 	
+.block_box_asistencia{
+	float: left;
+	min-height: 600px;
+	
+	margin-left: 0.65%;
+	margin-right: 0.65%;
+	margin-bottom: 0.65%;
+	border: 1px solid #357db8;
+	
+}
+	.block_box_asistencia h2{
+	width: 100%;
+	text-align: center;
+	color: #fff;
+	background-color: #357db8;
+	padding: 5px;
+}
+	
 
+
+.block_box_asistencia ul{
+	overflow-y: scroll;
+	overflow-x: hidden;
+	height: 580px;
+}	
+	
 .block_box_gen{
 	float: left;
 	min-height: 300px;
@@ -648,6 +673,22 @@ footer, header, hgroup, menu, nav, section {
 	background-size: 6px;
 	margin-bottom: 5px;
 	color: #357db8;
+}
+
+.block_box_gen_capacitacion{
+	float: left;
+	min-height: 400px;
+	width: 99% !important;
+	margin-left: 0.65%;
+	margin-right: 0.65%;
+	border: 1px solid #357db8;
+	
+}
+
+.block_box_gen_capacitacion ul{
+	list-style: none;
+	margin: 0;
+	padding: 10px;
 }
 @media only screen and (min-width : 1024px) {
 	

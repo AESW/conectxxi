@@ -512,4 +512,34 @@ WHERE Sueldos_has_Empresas.Estatus = 1' ;
 	
 	}
 	
+	public function menu_array($parent = 0) {
+		$items = array();
+	
+		$this->db->where('parent', $parent);
+		$results = $this->db->get('os_menu')->result();
+	
+		foreach($results as $result) {
+			$child_array = $this->menu_array($result->id);
+			if(sizeof($child_array) == 0) {
+				array_push($items, $result);
+			} else {
+				array_push($items, array($result, $child_array));
+			}
+		}
+		return $items;
+	}
+	
+	public function show_menu_array($array){
+		$output = '<ul>';
+		foreach ($array as $key => $mixedValue) {
+			if (is_array($mixedValue)) {
+				$output .= '<li>' . $this->show_menu_array($mixedValue) . '</li>';
+			} else {
+				$output .= '<li>' . $mixedValue->name . '</li>';
+			}
+		}
+		$output .= '</ul>';
+		return $output;
+	}
+	
 }

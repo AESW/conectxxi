@@ -27,7 +27,7 @@
             <br>
             <br>
             <br>
-            <a style="padding: 20px 40px; width:250px; height:60px; margin-right: 7%"class="btnNextFDP" id="btnReporteAsistencia">Reporte de Asistencia</a>
+            <a href="<?php echo HOME_URL."Supervisor/Asistencia"; ?>" style="padding: 20px 40px; width:250px; height:60px; margin-right: 7%"class="btnNextFDP" id="btnReporteAsistencia">Reporte de Asistencia</a>
             <a style="padding: 20px 40px; width:250px; height:60px; margin-right: 7%"class="btnNextFDP" id="btnControlPersonal">Control de Personal</a>
             <a style="padding: 20px 40px; width:250px; height:60px; margin-right: 7%"class="btnNextFDP" id="btnModuloEmp">M&oacute;dulo de Empleado</a>
 

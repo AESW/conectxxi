@@ -5,7 +5,7 @@
 		<a href="#" class="eaf_capacitacion_option"></a>
 		<a href="<?php echo HOME_URL."capacitacion/"; ?>" class="eaf_capacitacion_option" ></a>
 		<a href="#" class="eaf_descuentos_option"></a>
-	<!--	<a href="<?php echo HOME_URL."Nomina/AltaUsuario"; ?>" class="eaf_altas_option"></a> -->
+		<a href="<?php echo HOME_URL."Panel/Jerarquia/"; ?>" class="eaf_altas_option"></a> 
 		<a href="#" class="eaf_asistencia_option"></a>
 	<!-- 	<a href="<?php echo HOME_URL."Gerente/"; ?>" class="eaf_gerente_option"></a>
 		<a href="<?php echo HOME_URL."Direccion/"; ?>" class="eaf_direccion_option"></a> -->

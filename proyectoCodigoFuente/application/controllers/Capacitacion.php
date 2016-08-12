@@ -14,9 +14,9 @@ class Capacitacion extends CI_Controller {
         $this->load->helper('email');
         $this->load->library('form_validation');
         $this->Sanitize = new Sanitize();
-        
-        /*Mandar llamar modelos que requieran de actividades de BD*/
-        $this->load->model('User');
+        $this->load->model('CapacitacionModel');
+		        /*Mandar llamar modelos que requieran de actividades de BD*/
+		        $this->load->model('User');
         $this->SessionL->validarSesion();
     }
     
@@ -27,7 +27,16 @@ class Capacitacion extends CI_Controller {
 		);
 		
 			
-		$dataContent = array();
+		$usuariosActivos = $this->CapacitacionModel->obtenerUsuariosActivos();
+		
+		
+		$dataContent = array(
+				"usuariosActivos" => $usuariosActivos
+		);
+		
+		
+		
+		
 		$this->load->view('includes/header' , $dataHeader);
 		$this->load->view('capacitacion/index' , $dataContent);
 		$this->load->view('includes/footer');
@@ -40,21 +49,42 @@ class Capacitacion extends CI_Controller {
 			"titulo" => "Capacitaci&oacute;n"
 		);
 		
-			
-		$dataContent = array();
+		$Cursos = $this->CapacitacionModel->Cursos();
+		
+		
+		$dataContent = array(
+				"Cursos" => $Cursos
+		);
+		
 		$this->load->view('includes/header' , $dataHeader);
 		$this->load->view('capacitacion/programarCurso' , $dataContent);
 		$this->load->view('includes/footer');
 		
 	}	
-        public function programacionCursos()
+        public function programacionCursos($id)
 	{
 		$dataHeader = array(
 			"titulo" => "Capacitaci&oacute;n"
 		);
 		
 			
-		$dataContent = array();
+		$Curso = $this->CapacitacionModel->Curso($id);
+		$FechaCurso = $this->CapacitacionModel->FechaCurso($id);
+		$Duracion = $this->CapacitacionModel->Duracion($id);
+		$Lugar = $this->CapacitacionModel->Lugar($id);
+		$facilitador = $this->CapacitacionModel->facilitador();
+		
+		$dataContent = array(
+				"Curso" => $Curso,
+				"FechaCurso" => $FechaCurso,
+				"Lugar" => $Lugar,
+				"Duracion" => $Duracion,
+				"facilitador" => $facilitador
+		);
+		
+		
+		
+		
 		$this->load->view('includes/header' , $dataHeader);
 		$this->load->view('capacitacion/programacionCursos' , $dataContent);
 		$this->load->view('includes/footer');
@@ -99,5 +129,8 @@ class Capacitacion extends CI_Controller {
 		$this->load->view('capacitacion/evaluarCursos' , $dataContent);
 		$this->load->view('includes/footer');
 		
-	}	
+	}
+	
+	
+	
 }

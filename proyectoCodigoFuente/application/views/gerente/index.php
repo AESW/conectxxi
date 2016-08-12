@@ -28,7 +28,7 @@
 
 	
 	<div class="block_box_gen block_box_gen_ger">
-		<h2>Cotrol de Asistencia</h2>
+		<h2>Control de Asistencia</h2>
 		<ul>
 		<?php 
 			if( !empty($movimientos) ):
