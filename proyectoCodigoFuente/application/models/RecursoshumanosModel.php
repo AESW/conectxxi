@@ -137,7 +137,7 @@ class RecursoshumanosModel extends CI_Model {
 										 ( SELECT CONCAT( apeliidoPaterno , " " , apellidoMaterno , " " , nombre ) FROM CandidatoFDP WHERE idCandidatoFDP = RecursosHumanosFDP.idCandidatoFDP ) as nombreCandidato,
 				 ( SELECT valorMetaDatos FROM MetaDatosCandidatoFDP WHERE idCandidatoFDP = RecursosHumanosFDP.idCandidatoFDP and prefijoMetaDatos=\'puesto_solicitado\') as Puesto
 										 FROM
-										 RecursosHumanosFDP WHERE estatusRecursosHumanosFDP = \'aprobado\' and altaUsuarioNOI= 0 ';
+										 RecursosHumanosFDP WHERE estatusRecursosHumanosFDP = \'aprobado\' and altaUsuarioNOI= 0 and altaUsuario= 0 ';
 	
 		$queryCandidatosAprobados = $this->db->query( $sqlCandidatosAprobados );
 		$arrayAprobados = array();
@@ -421,15 +421,32 @@ class RecursoshumanosModel extends CI_Model {
 	public function ValidarToken($token){
 	
 	
-		$sqlObtenerValidar = "SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE prefijoMetaDatos = 'tokenVacante' and valorMetaDatos = '$token'" ;
+		$sqlObtenerValidar = "SELECT (numeroVacantes-vacantesContratados) as valor FROM VacantesPeticiones WHERE tokenFDPVacantesPendientes = '$token'" ;
 			
-		$resultObtenerValidar = array();
+	
 			
 		$queryObtenerValidar = $this->db->query($sqlObtenerValidar);
 			
+		
+		$valor='';
+		
 		if( $queryObtenerValidar->num_rows() > 0 ):
 	
-		return true;
+		$resultadoObtenerValidar = $queryObtenerValidar->result();
+		
+		foreach( $resultadoObtenerValidar as $meta ):
+		$valor = $meta->valor;
+		endforeach;
+	
+		if ($valor<=0)
+			
+		{
+			return true;
+		}
+			else {
+				return false;
+			}
+		
 		else:
 	
 		return false;
@@ -437,7 +454,7 @@ class RecursoshumanosModel extends CI_Model {
 		endif;
 			
 	
-	
+		
 	
 	
 	}
@@ -542,4 +559,34 @@ WHERE Sueldos_has_Empresas.Estatus = 1' ;
 		return $output;
 	}
 	
+	public function ContratoUsuarios($id){
+	
+	
+		$sqlContratoUsuarios = "SELECT CandidatoFDP.nombre,CandidatoFDP.apeliidoPaterno,CandidatoFDP.apellidoMaterno,CandidatoFDP.fechaNacimiento,CandidatoFDP.genero,CandidatoFDP.fechaNacimiento,CandidatoFDP.estadoCivil,CandidatoFDP.paisNacimiento,		
+(SELECT Empresas.nombreEmpresas  FROM Empresas WHERE idEmpresas = (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = (Select idUsuarios from RecursosHumanosFDP where idCandidatoFDP= $id) and prefijoMetaDatos='empresa_contrata')) as empresa,
+(SELECT valorMetaDatos FROM MetaDatosCandidatoFDP WHERE MetaDatosCandidatoFDP.idCandidatoFDP = $id and prefijoMetaDatos='calle_no_candidato' ) as calle,
+(SELECT valorMetaDatos FROM MetaDatosCandidatoFDP WHERE MetaDatosCandidatoFDP.idCandidatoFDP = $id and prefijoMetaDatos='colonia_domicilio_candidato') as colonia,
+(SELECT valorMetaDatos FROM MetaDatosCandidatoFDP WHERE MetaDatosCandidatoFDP.idCandidatoFDP = $id and prefijoMetaDatos='ciudad_domicilio_candidato') as ciudad, 
+(SELECT valorMetaDatos FROM MetaDatosCandidatoFDP WHERE MetaDatosCandidatoFDP.idCandidatoFDP = $id and prefijoMetaDatos='cdelegacion_domicilio_candidato') as municipio,
+(SELECT valorMetaDatos FROM MetaDatosCandidatoFDP WHERE MetaDatosCandidatoFDP.idCandidatoFDP = $id and prefijoMetaDatos='estado_domicilio_candidato') as estado,
+(SELECT valorMetaDatos FROM MetaDatosCandidatoFDP WHERE MetaDatosCandidatoFDP.idCandidatoFDP = $id and prefijoMetaDatos='cp_candidato') as cp,
+(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = (Select idUsuarios from RecursosHumanosFDP where idCandidatoFDP= $id) and prefijoMetaDatos='Sdi') as Sdi,
+(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = (Select idUsuarios from RecursosHumanosFDP where idCandidatoFDP= $id) and prefijoMetaDatos='puesto') as puesto
+FROM CandidatoFDP where CandidatoFDP.idCandidatoFDP =$id";
+		 
+		$queryContratoUsuarios = $this->db->query( $sqlContratoUsuarios );
+	
+	
+		$arrayContratoUsuarios = array();
+		if(  $queryContratoUsuarios->num_rows() > 0 ):
+	
+	
+		$arrayContratoUsuarios = $queryContratoUsuarios->result();
+	
+	
+		endif;
+			
+	
+		return $arrayContratoUsuarios;
+	}
 }

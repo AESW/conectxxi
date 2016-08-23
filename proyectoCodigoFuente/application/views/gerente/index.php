@@ -51,4 +51,15 @@
 		?>
 		</ul>
 	</div>
+	
+	
+    <a style="padding: 20px 40px; width:250px; height:60px; margin-top: 30px; margin-right: 7%" class="btnNextFDP" id="btnAclaracion" href="<?php echo HOME_URL."Movimientos/NuevoPersonal/";?>">Solicitud de nuevo empleado</a>
+	
+	  <a style="padding: 20px 40px; width:250px; height:60px; margin-top: 30px; margin-right: 7%" class="btnNextFDP" id="btnAclaracion" href="<?php echo HOME_URL."Gerente/incapacidad/";?>">Alta de incapacidades</a>
+	
+	
+	  <a style="padding: 20px 40px; width:250px; height:60px; margin-top: 30px; margin-right: 7%" class="btnNextFDP" id="btnAclaracion" href="<?php echo HOME_URL."Gerente/BajaPersonal/";?>">Solicitud de baja de empleado</a>
+	
+	
+	
 </div>

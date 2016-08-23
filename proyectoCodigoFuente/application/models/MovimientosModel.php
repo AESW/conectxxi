@@ -45,7 +45,7 @@ class MovimientosModel extends CI_Model {
 	public function GuardaVacante($Cartera,$nomGerente,$Producto,$NumVacantes,$puestoSolicitado,$comentarios,$Motivo,$IdUsuario,$token){
 	
 	
-		$sqlInsert = "INSERT INTO VacantesPeticiones ( idPuesto, idUsuariosPeticion, fechaPeticion,tokenFDPVacantesPendientes,motivo,comentarios,idCartera,idProducto,numerovacantes ) VALUES( $puestoSolicitado, $IdUsuario ,now(),'$token','$Motivo','$comentarios',$Cartera,$Producto,$NumVacantes)";
+		$sqlInsert = "INSERT INTO VacantesPeticiones ( idPuesto, idUsuariosPeticion, fechaPeticion,tokenFDPVacantesPendientes,motivo,comentarios,idCartera,idProducto,numerovacantes,vacantesContratados ) VALUES( $puestoSolicitado, $IdUsuario ,now(),'$token','$Motivo','$comentarios',$Cartera,$Producto,$NumVacantes,0)";
 	
 		$queryInsert = $this->db->query($sqlInsert);
 	//	$idAltaUsuario = $this->db->insert_id();
@@ -64,7 +64,24 @@ class MovimientosModel extends CI_Model {
 	
 	}
 	
+	function Productos($id)
+	{
+		$consulta = $this->db->query("SELECT idProductos,nombreProducto FROM productos where Cartera_IdCartera = $id order by nombreProducto asc");
+		
+		$arrayProductos = array();
+		if(  $consulta->num_rows() > 0 ):
+		
+		
+		$arrayProductos = $consulta->result();
+		
+		
+		endif;
+			
+		
+		return $arrayProductos;
+			
 	
+	}
 	
 	
 }

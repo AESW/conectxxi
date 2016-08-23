@@ -199,6 +199,35 @@ class Movimientos extends CI_Controller {
     	echo json_encode($resultado);
     	}
     	 
-    
+    	public function l_productos()
+    	{
+    		
+    	
+    	
+    		if($this->input->post('Cartera'))
+    		{
+    			$id = $this->input->post('Cartera');
+    	
+    			
+    			$clientes = $this->MovimientosModel->Productos($id);
+    				
+    				
+    			?>
+    					    		           			<option >Seleccionar Producto</option>
+    					    		           			
+    					    		           			 <?php
+    				
+    				foreach($clientes as $fila)
+    				{
+    					?>
+    					
+    		                <option value="<?php echo $fila->idProductos ?>"><?php echo $fila->nombreProducto ?></option>
+    		            <?php
+    		            }
+    		        	
+    		        	
+    		        	 
+    		        }
+    		    }
     
 }

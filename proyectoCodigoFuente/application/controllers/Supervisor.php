@@ -67,7 +67,7 @@ class Supervisor extends CI_Controller {
 	public function Asistencia()
 	{
 		$dataHeader = array(
-				"titulo" => "Control de Usuario"
+				"titulo" => "Control de Personal"
 		);
 		/*Obtener datos de usuario, roles, modulos , permisos*/
 		$sessionUser = $this->session->userdata('logged_in');
@@ -165,7 +165,8 @@ class Supervisor extends CI_Controller {
 			$Usuarios=$this->input->post('AltaUsuario');
 			$idturno=$this->input->post('turno');
 		
-			
+			$sessionUser = $this->session->userdata('logged_in');
+			$idUsuario=$sessionUser["usuario"]["idUsuarios"];
 			
 			
 		
@@ -174,7 +175,7 @@ class Supervisor extends CI_Controller {
 			
 				
 				
-				$sqlAsistencia = "Insert into Asistencia (turno,fechaAsistencia,Usuarios_idUsuarios) values ('$idturno',now(),$record)" ;
+				$sqlAsistencia = "Insert into Asistencia (turno,fechaAsistencia,Usuarios_idUsuarios,idUsuariosPadre) values ('$idturno',now(),$record,$idUsuario)" ;
 				
 			
 				

@@ -685,6 +685,14 @@ footer, header, hgroup, menu, nav, section {
 	
 }
 
+	.block_box_gen_capacitacion h2{
+	width: 100%;
+	text-align: center;
+	color: #fff;
+	background-color: #357db8;
+	padding: 5px;
+}
+
 .block_box_gen_capacitacion ul{
 	list-style: none;
 	margin: 0;

@@ -13,7 +13,7 @@ class SupervisorModel extends CI_Model {
     
     
     	$sqlObtenerPersonal = "SELECT TaxPuestoUsuario.*,Usuarios.nombreUsuario
-    		FROM TaxPuestoUsuario left outer join Usuarios  on TaxPuestoUsuario.idUsuarios=Usuarios.idUsuarios where TaxPuestoUsuario.idUsuarios not in (select Usuarios_idUsuarios from Asistencia where fechaAsistencia =curdate()) and idUsuariosPadre = $idUsuario and (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = TaxPuestoUsuario.idUsuarios and prefijoMetaDatos='turno') = '$id'" ;
+    		FROM TaxPuestoUsuario left outer join Usuarios  on TaxPuestoUsuario.idUsuarios=Usuarios.idUsuarios where  idUsuariosPadre = $idUsuario and (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = TaxPuestoUsuario.idUsuarios and prefijoMetaDatos='turno') = '$id'" ;
     		
     	$resultObtenerPersonal = array();
     		

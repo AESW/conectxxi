@@ -148,6 +148,15 @@ class Candidatos extends CI_Controller {
 				if( $resultado["estufa_vivienda_candidato"] == "" ):
 					$error_campos[] = "estufa_vivienda_candidato";
 				endif;
+				if( $resultado["credito_infonavit"] == "" ):
+				$error_campos[] = "credito_infonavit";
+				endif;
+				if( $resultado["credito_fonacot"] == "" ):
+				$error_campos[] = "credito_fonacot";
+				endif;
+				if( $resultado["pension_alimenticia"] == "" ):
+				$error_campos[] = "pension_alimenticia";
+				endif;
 				/*if( $resultado["empleo_anterior1_candidato"] == "" ):
 					$error_campos[] = "empleo_anterior1_candidato";
 				endif;
@@ -336,6 +345,9 @@ class Candidatos extends CI_Controller {
 				"escolaridad_jefefamilia_candidato" => $this->Sanitize->clean_string($_POST["escolaridad_jefefamilia_candidato"]),
 				"automovil_candidato" => $this->Sanitize->clean_string($_POST["automovil_candidato"]),
 				"ingresos_familia_candidato" => $_POST["ingresos_familia_candidato"],
+				"credito_infonavit" => $_POST["credito_infonavit"],
+				"credito_fonacot" => $_POST["credito_fonacot"],
+				"pension_alimenticia" => $_POST["pension_alimenticia"],
 				"egresos_vivienda_candidato" => ($_POST["egresos_vivienda_candidato"] != "")?$_POST["egresos_vivienda_candidato"]:0,
 				"egresos_educacion_candidato" => ( $_POST["egresos_educacion_candidato"] != "")?$_POST["egresos_educacion_candidato"]:0,
 				"egresos_alimentacion_candidato" => ( $_POST["egresos_alimentacion_candidato"] != "")?$_POST["egresos_alimentacion_candidato"]:0,
@@ -674,34 +686,39 @@ class Candidatos extends CI_Controller {
 					endif;
 					
 					
-					$mail             = new PHPMailer();
-					//$mail->IsSMTP(); // telling the class to use SMTP
-					$mail->Host       = "localhost"; // SMTP server
-					//$mail->SMTPDebug  = 1;                     // enables SMTP debug information (for testing)
-					$mail->CharSet = 'UTF-8';                                          // 1 = errors and messages
-					                                           // 2 = messages only
-					                                           
-					//Envío por SMTP
-					//$mail->AddBCC('rogelio.monte');
-					
-							 
-					$mail->AddReplyTo( SENDER_EMAIL_REPLY_TO ,SENDER_NAME_REPLY_TO );
-							 
-					
-					$mail->SetFrom( SENDER_EMAIL , SENDER_NAME);
-							 
-					$mail->Subject    = 'Confirmación de datos personales para candidatos.' ;
-					
-					//$mail->AltBody    = "Para ver este mensaje, necesitas un cliente de correo compatible con HTML."; // optional, comment out and test
-					
-					$messageHTML = '<p>Hola '.$resultado["nombre_candidato"].' '.$resultado["apellido_paterno_candidato"].' '.$resultado["apellido_materno_candidato"].'<br/>Para finalizar el proceso de registro como candidato confirma tu cuenta <a href="'.HOME_URL.'/candidatos/verificar/?token='.$hashValidacion.'" target="_blank">aquí</a><br/><br/>Atte. Staff ConectXXI</p>';		
-					 
-					$mail->MsgHTML($messageHTML);
-							 
 					$to   = trim( $resultado["correo_electronico_candidato"] );
-					$address = $to ;
-					$mail->AddAddress($address);
-					$mail->Send();
+						
+					
+					$config = array (
+								
+							'protocol' => 'smtp',
+							'smtp_host' => 'ssl://mail.solumas.com.mx',
+							'smtp_port' => 465,
+							'smtp_user' => 'reclutamiento@solumas.com.mx',
+							'smtp_pass' => 'Agosto2013',
+							'smtp_timeout' => '7',
+							'charset' => 'utf-8',
+							'newline' => "\r\n",
+								
+							'mailtype' => 'html', // or html
+							'validation' => TRUE
+					) // bool whether to validate email or not
+						
+					;
+						
+					$ci = get_instance ();
+						
+					$ci->load->library ( 'Email', $config );
+					$ci->email->initialize ( $config );
+						
+					$ci->email->from ( 'reclutamiento@solumas.com.mx', 'SOLUMAS' );
+					$ci->email->to ( $to );
+					$ci->email->subject ( 'Confirmación de datos personales para candidatos.' );
+					$ci->email->message ('<p>Hola '.$resultado["nombre_candidato"].' '.$resultado["apellido_paterno_candidato"].' '.$resultado["apellido_materno_candidato"].'<br/>Para finalizar el proceso de registro como candidato confirma tu cuenta <a href="'.HOME_URL.'candidatos/verificar/?token='.$hashValidacion.'" target="_blank">aquí</a><br/><br/>Atte. Staff ConectXXI</p>');
+						
+					$ci->email->send ();
+					
+					
 					
 					unset($_COOKIE['formArray1']);
 					setcookie('formArray1', '', time() - 3600, '/');
@@ -894,6 +911,42 @@ class Candidatos extends CI_Controller {
 				$updateHash = "UPDATE CandidatoFDP SET estaValidado = 1 , fechaValidacion = '".date("Y-m-d H:i:s")."' WHERE idCandidatoFDP = ".$resultHash[0]->idCandidatoFDP." AND idCandidatoFDP <> ''";
 				$this->db->query($updateHash);
 				$error = true;
+				
+				
+				$to   = trim( $resultHash[0]->correoElectronico );
+				
+					
+				$config = array (
+				
+						'protocol' => 'smtp',
+						'smtp_host' => 'ssl://mail.solumas.com.mx',
+						'smtp_port' => 465,
+						'smtp_user' => 'reclutamiento@solumas.com.mx',
+						'smtp_pass' => 'Agosto2013',
+						'smtp_timeout' => '7',
+						'charset' => 'utf-8',
+						'newline' => "\r\n",
+				
+						'mailtype' => 'html', // or html
+						'validation' => TRUE
+				) // bool whether to validate email or not
+				
+				;
+				
+				$ci = get_instance ();
+				
+				$ci->load->library ( 'Email', $config );
+				$ci->email->initialize ( $config );
+				
+				$ci->email->from ( 'reclutamiento@solumas.com.mx', 'SOLUMAS' );
+				$ci->email->to ( $to );
+				$ci->email->subject ( 'Entrevista.' );
+				$ci->email->message ('<p>Hola '.$resultado["nombre_candidato"].' '.$resultado["apellido_paterno_candidato"].' '.$resultado["apellido_materno_candidato"].'<br/>Para finalizar el proceso de registro como candidato confirma tu cuenta <br/><br/>Atte. Staff ConectXXI</p>');
+				
+				$ci->email->send ();
+				
+				
+				
 			else:
 				
 			endif;

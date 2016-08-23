@@ -52,19 +52,7 @@
                 <td>Producto</td>
                 <td> <select name="Producto" class="Producto" id="Producto" style='border:2px solid red;'" >
 							     <option value="">Seleccionar Producto</option>
-							     <?php
-									  foreach( $CatProductos as  $per ):
-								  
-									  $productos= $per->nombreProducto;
-									  $Idproducto= $per->idProductos;
-									  ?>
-								  
-								  
-								  
-								  		  <option value="<?php echo $Idproducto; ?>" <?php if( isset($formArray["puesto_solicitado"]) && $formArray["puesto_solicitado"] == $productos ): echo "selected='selected'"; endif;?>><?php echo $productos; ?></option>
-								  <?php	  
-									  endforeach;
-								  ?>
+							     
 						     </select></td>
               
             </tr>
@@ -223,3 +211,25 @@ else
             })
         });
     </script> 
+	
+	
+	<script type="text/javascript">
+    
+        $(document).ready(function() {
+            
+            $("#Cartera").change(function() {
+                $("#Cartera option:selected").each(function() {
+                    
+					Cartera = $('#Cartera').val();
+					
+                    $.post("<?php echo base_url("Movimientos/l_productos")?>", {
+                        Cartera : Cartera
+                    }, function(data) {
+                        $("#Producto").html(data);
+
+                                               
+                    });
+                });
+            })
+        });
+    </script>

@@ -206,6 +206,15 @@
 						      </select>
 					      </td>
 				     </tr>
+				     
+				     <tr>
+					     <td>Profesión u Oficio</td>
+					     <td>
+						   <input type="text" name="profesion" class="profesion" id="profesion" placeholder="Profesión" autocomplete="off" required value="<?php echo (isset($formArray["profesion"]))?$formArray["profesion"]:""; ?>" <?php echo ( in_array('profesion' , $error_campos) )?"style='border:2px solid red;'":""; ?>>  
+						   
+					      </td>
+					  
+				     </tr>
 			     </table>    
 			     
 			     <h2><label>Números de identificación y seguro social</label></h2>
@@ -497,6 +506,41 @@
 					    </td>
 					    <td><input type="text" name="ingresos_familia_candidato" class="ingresos_familia_candidato allownumericwithdecimal" id="ingresos_familia_candidato" placeholder="Ingresos familia" autocomplete="off" required value="<?php echo (isset($formArray["ingresos_familia_candidato"]))?$formArray["ingresos_familia_candidato"]:""; ?>" <?php echo ( in_array('ingresos_familia_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
 					</tr>
+					
+					<tr>
+					
+					<td>Cuenta con crédito infonavit</td>
+					    <td>
+						    <select name="credito_infonavit" class="credito_infonavit" id="credito_infonavit" <?php echo ( in_array('credito_infonavit' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+							   <option value="">Seleccionar opción</option> 
+							   <option value="si" <?php if( isset($formArray["credito_infonavit"]) && $formArray["credito_infonavit"] == "si" ): echo "selected='selected'"; endif;?>>si</option>
+							   <option value="no" <?php if( isset($formArray["credito_infonavit"]) && $formArray["credito_infonavit"] == "no" ): echo "selected='selected'"; endif;?>>no</option>
+						   </select>
+					    </td>
+					    </tr>
+					    
+					    <tr>
+					    <td>Cuenta con crédito Fonacot</td>
+					    <td>
+						    <select name="credito_fonacot" class="credito_fonacot" id="credito_fonacot" <?php echo ( in_array('credito_fonacot' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+							   <option value="">Seleccionar opción</option> 
+							   <option value="si" <?php if( isset($formArray["credito_fonacot"]) && $formArray["credito_fonacot"] == "si" ): echo "selected='selected'"; endif;?>>si</option>
+							   <option value="no" <?php if( isset($formArray["credito_fonacot"]) && $formArray["credito_fonacot"] == "no" ): echo "selected='selected'"; endif;?>>no</option>
+						   </select>
+					    </td>
+					    </tr>
+					    <tr>
+					    
+					    <td>Tiene impuesta alguna pensión alimenticia</td>
+					    <td>
+						    <select name="pension_alimenticia" class="pension_alimenticia" id="pension_alimenticia" <?php echo ( in_array('pension_alimenticia' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+							   <option value="">Seleccionar opción</option> 
+							   <option value="si" <?php if( isset($formArray["pension_alimenticia"]) && $formArray["pension_alimenticia"] == "si" ): echo "selected='selected'"; endif;?>>si</option>
+							   <option value="no" <?php if( isset($formArray["pension_alimenticia"]) && $formArray["pension_alimenticia"] == "no" ): echo "selected='selected'"; endif;?>>no</option>
+						   </select>
+					    </td>
+					    </tr>
+					
 				</table>
 				
 				<h2><label>Egresos de la familia</label></h2>
@@ -561,6 +605,38 @@
 			    <h2><label>Experiencia Laboral</label></h2>
 			    <p style="color:red;font-weight: bold;margin-bottom: 15px;"><?php echo (count($error_campos) > 0)?"Favor de revisar campos obligatorios marcados con rojo":""; ?></p>
 			    <table cellpadding="0" cellspacing="0" width="100%">
+				    <tr>
+					    <td>Puesto Solicitado</td>
+					    <td >
+					    <select name="puesto_solicitado" class="puesto_solicitado" id="puesto_solicitado" <?php echo ( in_array('puesto_solicitado' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+							   <option value="">Seleccione un puesto</option> 
+							   <?php
+									  foreach( $CatPuestos as  $per ):
+								  
+									  $puesto= $per->nombrePuesto;
+									  
+									  ?>
+								  
+								  
+								  
+								  		  <option value="<?php echo $puesto; ?>" <?php if( isset($formArray["puesto_solicitado"]) && $formArray["puesto_solicitado"] == $puesto ): echo "selected='selected'"; endif;?>><?php echo $puesto; ?></option>
+								  <?php	  
+									  endforeach;
+								  ?>
+							</select>
+							
+							  <a  target="_blank" class="btnNextFDP" id="btnPerfil"><i class="glyphicon glyphicon-search"></i> Ver Perfil del Puesto</a>
+							
+					    </td>
+					 
+					    
+				    </tr>
+				    
+				      <tr>
+					    <td colspan="4">
+						    <hr>
+					    </td>
+				    </tr>
 				    <tr>
 					    <td>Empleo anterior</td>
 					    <td><input type="text" name="empleo_anterior1_candidato" class="empleo_anterior1_candidato" id="empleo_anterior1_candidato" placeholder="Empleo anterior" autocomplete="off" required value="<?php echo (isset($formArray["empleo_anterior1_candidato"]))?$formArray["empleo_anterior1_candidato"]:""; ?>" <?php echo ( in_array('empleo_anterior1_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>

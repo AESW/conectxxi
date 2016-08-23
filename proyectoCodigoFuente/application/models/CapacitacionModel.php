@@ -15,7 +15,10 @@ class CapacitacionModel extends CI_Model {
 			$peticiones = array();
 		
 			$sqlPeticiones = '
-select Usuarios.nombreUsuario from RecursosHumanosFDP left outer join Usuarios on RecursosHumanosFDP.idusuarios = Usuarios.idusuarios where RecursosHumanosFDP.altaUsuario = 1 and RecursosHumanosFDP.altaUsuarioNOI = 1
+select Usuarios.nombreUsuario,Usuarios.idUsuarios,CursosUsuarios.Asignado from RecursosHumanosFDP left outer join Usuarios on RecursosHumanosFDP.idusuarios = Usuarios.idusuarios
+					left outer join CursosUsuarios
+					on RecursosHumanosFDP.idUsuarios = CursosUsuarios.idUsuarios
+					where RecursosHumanosFDP.altaUsuario = 1 and RecursosHumanosFDP.altaUsuarioNOI = 1
 					
 					';//Agregar AND ReclutacionFDP aprobado, RecursosHumanosFDP aprobado
 		
@@ -28,7 +31,9 @@ select Usuarios.nombreUsuario from RecursosHumanosFDP left outer join Usuarios o
 		
 			$peticiones[] = array(
 							
-					"nombreUsuario" => $pet->nombreUsuario
+					"nombreUsuario" => $pet->nombreUsuario,
+					"idUsuarios" => $pet->idUsuarios,
+					"Asignado" => $pet->Asignado
 			);
 			endforeach;
 			return $peticiones;
@@ -80,7 +85,7 @@ select CatalogoCursos.NombreDelCurso,CatalogoCursos.idCursos from Empresas_has_C
 			$peticiones = array();
 	
 			$sqlPeticiones = "
-select NombreDelCurso from CatalogoCursos where idCursos = $id
+select idCursos,NombreDelCurso from CatalogoCursos where idCursos = $id
 			
 					";//Agregar AND ReclutacionFDP aprobado, RecursosHumanosFDP aprobado
 	
@@ -92,7 +97,7 @@ select NombreDelCurso from CatalogoCursos where idCursos = $id
 			foreach( $resultadoPeticiones as $pet):
 	
 			$peticiones[] = array(
-	
+					"idCursos" => $pet->idCursos,
 					"NombreDelCurso" => $pet->NombreDelCurso,
 					
 			);
@@ -244,5 +249,284 @@ select Usuarios.nombreUsuario,Usuarios.idUsuarios from TaxPuestoUsuario left out
 	
 	
 	}
-
+	
+	public function obtenerCursos(){
+	
+		{
+			$peticiones = array();
+	
+			$sqlPeticiones = 'select * from CatalogoCursos';//Agregar AND ReclutacionFDP aprobado, RecursosHumanosFDP aprobado
+	
+			$queryPeticiones = $this->db->query( $sqlPeticiones );
+	
+			if( $queryPeticiones->num_rows() > 0 ):
+			$resultadoPeticiones = $queryPeticiones->result();
+			$peticiones = array();
+			foreach( $resultadoPeticiones as $pet):
+	
+			$peticiones[] = array(
+						
+					"idCursos" => $pet->idCursos,
+					"NombreDelCurso" => $pet->NombreDelCurso
+			);
+			endforeach;
+			return $peticiones;
+			else:
+			return array();
+			endif;
+		}
+	
+	
+	}
+	
+	public function obtenerGrupo($id){
+	
+	
+		$sqlObtenerGrupo = "Select * from CatalogoGrupos 
+Where CatalogoGrupos.CatalogoCursos_idCursos=$id " ;
+	
+		$resultObtenerGrupo = array();
+	
+		$queryObtenerGrupo = $this->db->query($sqlObtenerGrupo);
+	
+		if( $queryObtenerGrupo->num_rows() > 0 ):
+		$resultObtenerGrupo = $queryObtenerGrupo->result();
+	
+	
+		endif;
+	
+	
+		return $resultObtenerGrupo;
+	
+	
+	}
+	public function obtenerGrupoDetalle($id){
+	
+	
+		$sqlObtenerGrupo = "Select * from CatalogoGrupos left outer join CatalogoFechas
+		On CatalogoGrupos. CatalogoFechas_idFechas = CatalogoFechas. idFechas
+		Left outer join CatalogoDuracion
+		On CatalogoGrupos. CatalogoDuracion_idDuracion= CatalogoDuracion. idDuracion
+		Left outer join CatalogoUbicaciones
+		On CatalogoGrupos. CatalogoUbicaciones_idUbicacion = CatalogoUbicaciones. idUbicacion
+		Left outer join Usuarios
+		On CatalogoGrupos. Usuarios_idUsuarios = Usuarios.idUsuarios
+		Left outer join CatalogoSalas
+		On CatalogoUbicaciones. CatalogoDeSalas_idSalas = CatalogoSalas.idSalas
+		Where CatalogoGrupos.idGrupo=$id " ;
+	
+		$resultObtenerGrupo = array();
+	
+		$queryObtenerGrupo = $this->db->query($sqlObtenerGrupo);
+	
+		if( $queryObtenerGrupo->num_rows() > 0 ):
+		$resultObtenerGrupo = $queryObtenerGrupo->result();
+	
+	
+		endif;
+	
+	
+		return $resultObtenerGrupo;
+	
+	
+	}
+	
+	public function verificarGrupo($idgrupo){
+	
+	
+		$sqlObtenerGrupo = "Select * from CatalogoGrupos Where CatalogoGrupos.idGrupo=$idgrupo " ;
+	
+		$resultObtenerGrupo = array();
+	
+		$queryObtenerGrupo = $this->db->query($sqlObtenerGrupo);
+	
+		if( $queryObtenerGrupo->num_rows() > 0 ):
+		$resultObtenerGrupo = $queryObtenerGrupo->result();
+	
+	
+		endif;
+	
+	
+		return $resultObtenerGrupo;
+	
+	
+	}
+	public function verificarCupo($idgrupo){
+	
+	
+		$sqlObtenerGrupo = "Select * from CatalogoGrupos left outer join CatalogoFechas
+		On CatalogoGrupos. CatalogoFechas_idFechas = CatalogoFechas. idFechas
+		Left outer join CatalogoDuracion
+		On CatalogoGrupos. CatalogoDuracion_idDuracion= CatalogoDuracion. idDuracion
+		Left outer join CatalogoUbicaciones
+		On CatalogoGrupos. CatalogoUbicaciones_idUbicacion = CatalogoUbicaciones. idUbicacion
+		Left outer join Usuarios
+		On CatalogoGrupos. Usuarios_idUsuarios = Usuarios.idUsuarios
+		Left outer join CatalogoSalas
+		On CatalogoUbicaciones. CatalogoDeSalas_idSalas = CatalogoSalas.idSalas
+		Where CatalogoGrupos.idGrupo=$idgrupo " ;
+	
+		$resultObtenerGrupo = array();
+	
+		$queryObtenerGrupo = $this->db->query($sqlObtenerGrupo);
+	
+		if( $queryObtenerGrupo->num_rows() > 0 ):
+		$resultObtenerGrupo = $queryObtenerGrupo->result();
+	
+	
+		endif;
+	
+	
+		return $resultObtenerGrupo;
+	
+	
+	}
+	
+	
+	
+	
+	
+		public function obtenerUsuariosActivosGrupo($id){
+		
+			
+				$peticiones = array();
+		
+				$sqlPeticiones = "
+select Usuarios.nombreUsuario,Usuarios.idUsuarios,CursosUsuarios.Asignado from RecursosHumanosFDP left outer join Usuarios on RecursosHumanosFDP.idusuarios = Usuarios.idusuarios
+					left outer join CursosUsuarios
+					on RecursosHumanosFDP.idUsuarios = CursosUsuarios.idUsuarios and CursosUsuarios.CatalogoGrupos_idGrupo= $id	
+					where RecursosHumanosFDP.altaUsuario = 1 and RecursosHumanosFDP.altaUsuarioNOI = 1 
+			
+					";//Agregar AND ReclutacionFDP aprobado, RecursosHumanosFDP aprobado
+		
+				$queryPeticiones = $this->db->query( $sqlPeticiones );
+		
+				if( $queryPeticiones->num_rows() > 0 ):
+				$resultadoPeticiones = $queryPeticiones->result();
+				$peticiones = array();
+				foreach( $resultadoPeticiones as $pet):
+		
+				$peticiones[] = array(
+							
+						"nombreUsuario" => $pet->nombreUsuario,
+						"idUsuarios" => $pet->idUsuarios,
+						"Asignado" => $pet->Asignado
+				);
+				endforeach;
+				return $peticiones;
+				else:
+				return array();
+				endif;
+			
+		
+		
+		}
+	
+		
+		public function obtenerUsuariosActivosGrupoAsistencia($id){
+		
+				
+			$peticiones = array();
+		
+			$sqlPeticiones = "
+			select Usuarios.nombreUsuario,Usuarios.idUsuarios,CursosUsuarios.Asignado from CursosUsuarios left outer join Usuarios 
+			on CursosUsuarios.idUsuarios = Usuarios.idusuarios
+			left outer join CatalogoGrupos
+			on CursosUsuarios.CatalogoGrupos_idGrupo= $id 
+			where  CatalogoGrupos.cerrado=1
+				
+			";//Agregar AND ReclutacionFDP aprobado, RecursosHumanosFDP aprobado
+		
+			$queryPeticiones = $this->db->query( $sqlPeticiones );
+		
+			if( $queryPeticiones->num_rows() > 0 ):
+			$resultadoPeticiones = $queryPeticiones->result();
+			$peticiones = array();
+			foreach( $resultadoPeticiones as $pet):
+		
+			$peticiones[] = array(
+						
+					"nombreUsuario" => $pet->nombreUsuario,
+					"idUsuarios" => $pet->idUsuarios,
+					"Asignado" => $pet->Asignado
+			);
+			endforeach;
+			return $peticiones;
+			else:
+			return array();
+			endif;
+				
+		
+		
+		}
+		
+		public function Usuario($idUsuario){
+		
+		
+			$peticiones = array();
+		
+			$sqlPeticiones = "
+			select * from Usuarios where idUsuarios=$idUsuario
+		
+			";//Agregar AND ReclutacionFDP aprobado, RecursosHumanosFDP aprobado
+		
+			$queryPeticiones = $this->db->query( $sqlPeticiones );
+		
+			if( $queryPeticiones->num_rows() > 0 ):
+			$resultadoPeticiones = $queryPeticiones->result();
+			$peticiones = array();
+			foreach( $resultadoPeticiones as $pet):
+		
+			$peticiones[] = array(
+		
+					"nombreUsuario" => $pet->nombreUsuario,
+					"idUsuarios" => $pet->idUsuarios,
+					
+			);
+			endforeach;
+			return $peticiones;
+			else:
+			return array();
+			endif;
+		
+		
+		
+		}
+	
+		public function temas($id){
+		
+		
+			$peticiones = array();
+		
+			$sqlPeticiones = "
+			select * from CatalogoTemas where CatalogoDeCursos_idCursos = $id
+				
+			";//Agregar AND ReclutacionFDP aprobado, RecursosHumanosFDP aprobado
+		
+			$queryPeticiones = $this->db->query( $sqlPeticiones );
+		
+			if( $queryPeticiones->num_rows() > 0 ):
+			$resultadoPeticiones = $queryPeticiones->result();
+			$peticiones = array();
+			foreach( $resultadoPeticiones as $pet):
+		
+			$peticiones[] = array(
+					"idTema" => $pet->idTema,
+					"NombreDelTema" => $pet->NombreDelTema,
+					"ValorMinimo" => $pet->ValorMinimo
+						
+			);
+			endforeach;
+			return $peticiones;
+			else:
+			return array();
+			endif;
+		
+		
+		
+		}
+		
 }
+
+
+

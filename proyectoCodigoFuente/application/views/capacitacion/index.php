@@ -24,10 +24,23 @@
     <div class="block_box_gen">
         <h2>Cursos por Evaluar</h2>
         <ul>
-            <li><a href="capacitacion/cursosPorEvaluar">Inducci&oacute;n</a></li>			
+            <?php 
+			if(!empty( $obtenerCursos ) ):
+				foreach($obtenerCursos as $valor):
+		?>
+					<li><a href="<?php echo HOME_URL; ?>Capacitacion/cursosPorEvaluar/<?php echo $valor["idCursos"]; ?>"><?php echo $valor["NombreDelCurso"];?></a></li>
+		<?php
+				endforeach;
+			endif;
+		?>		
         </ul>
     </div>
     <br>
-        <a class="btnNextFDP" id="btnReportes">Reportes</a>
-        <a class="btnNextFDP" id="btnProgramarCurso" href="<?php echo HOME_URL; ?>Capacitacion/programarCurso">Programar curso de capacitaci&oacute;n</a>
+    
+   
+         <a style="padding: 20px 40px; width:250px; height:60px; margin-top: 30px; margin-right: 7%" class="btnNextFDP" id="btnAsignarCurso" href="<?php echo HOME_URL; ?>Capacitacion/AsignarCurso">Asignar Curso</a>
+        <a style="padding: 20px 40px; width:250px; height:60px; margin-top: 30px; margin-right: 7%" class="btnNextFDP" id="btnReportes">Reportes</a>
+        <a style="padding: 20px 40px; width:250px; height:60px; margin-top: 30px; margin-right: 7%" class="btnNextFDP" id="btnProgramarCurso" href="<?php echo HOME_URL; ?>Capacitacion/programarCurso">Programar curso de capacitaci&oacute;n</a>
+         <a style="padding: 20px 40px; width:250px; height:60px; margin-top: 30px; margin-right: 7%" class="btnNextFDP" id="btnProgramarCurso" href="<?php echo HOME_URL; ?>Capacitacion/asistenciaCurso">Control de Asistencia</a>
+       
 </div>

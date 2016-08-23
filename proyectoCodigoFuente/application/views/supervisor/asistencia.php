@@ -3,9 +3,9 @@
     <br>
     <div style="width: 99%" class="block_box_asistencia">
 
-<ul>
-        <h2><label>Control de Personal</label></h2>
 
+        <h2><label>Control de Personal</label></h2>
+<ul>
         <br>
         <form  name="form1" method="POST" action="AltaAsistencia">
       

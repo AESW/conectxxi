@@ -246,6 +246,14 @@
 						      </select>
 					      </td>
 				     </tr>
+					  <tr>
+					     <td>Profesión u Oficio</td>
+					     <td>
+						   <input type="text" name="profesion" class="profesion" id="profesion" placeholder="Profesión" autocomplete="off" required value="<?php echo (isset($formArray["profesion"]))?$formArray["profesion"]:""; ?>" <?php echo ( in_array('profesion' , $error_campos) )?"style='border:2px solid red;'":""; ?>>  
+						   
+					      </td>
+					  
+				     </tr>
 			     </table>    
 			     
 			     <h2><label>Números de identificación y seguro social</label></h2>
@@ -339,13 +347,13 @@
 				    </tr>
 				    <tr>
 					    <td>Número de teléfono de casa</td>
-					    <td><input maxlength="12" type="text" name="telefono_casa_candidato" class="telefono_casa_candidato allownumericwithoutdecimal" id="telefono_casa_candidato" placeholder="Tel. casa" autocomplete="off" required value="<?php echo (isset($formArray["telefono_casa_candidato"]))?$formArray["telefono_casa_candidato"]:""; ?>" <?php echo ( in_array('telefono_casa_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>> <p style="color:#aba5a5;font-size: 10pt;">10 dígitos. Ejemplo: 0155xxxxxxx</p></td>
+					    <td><input maxlength="10" type="text" name="telefono_casa_candidato" class="telefono_casa_candidato allownumericwithoutdecimal" id="telefono_casa_candidato" placeholder="Tel. casa" autocomplete="off" required value="<?php echo (isset($formArray["telefono_casa_candidato"]))?$formArray["telefono_casa_candidato"]:""; ?>" <?php echo ( in_array('telefono_casa_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>> <p style="color:#aba5a5;font-size: 10pt;">10 dígitos. Ejemplo: 0155xxxxxxx</p></td>
 					    <td>Número de teléfono móvil</td>
 					    <td><input type="text" maxlength="10" name="telefono_movil_candidato" class="telefono_movil_candidato allownumericwithoutdecimal" id="telefono_movil_candidato" placeholder="Tel. móvil" autocomplete="off" required value="<?php echo (isset($formArray["telefono_movil_candidato"]))?$formArray["telefono_movil_candidato"]:""; ?>" <?php echo ( in_array('telefono_casa_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>><p style="color:#aba5a5;font-size: 10pt;">10 dígitos. Ejemplo: 55xxxxxxxx</p></td>
 				    </tr>
 				    <tr>
 					    <td>Otro número de teléfono</td>
-					    <td><input type="text" maxlength="12" name="telefono_otro_candidato" class="telefono_otro_candidato allownumericwithoutdecimal" id="telefono_otro_candidato" placeholder="Otro teléfono" autocomplete="off" value="<?php echo (isset($formArray["telefono_otro_candidato"]))?$formArray["telefono_otro_candidato"]:""; ?>"></td>
+					    <td><input type="text" maxlength="10" name="telefono_otro_candidato" class="telefono_otro_candidato allownumericwithoutdecimal" id="telefono_otro_candidato" placeholder="Otro teléfono" autocomplete="off" value="<?php echo (isset($formArray["telefono_otro_candidato"]))?$formArray["telefono_otro_candidato"]:""; ?>"></td>
 					    <td>Correo electrónico personal</td>
 					    <td><input type="text" name="correo_electronico_candidato" class="correo_electronico_candidato" id="correo_electronico_candidato" placeholder="Correo electrónico" autocomplete="off" required value="<?php echo (isset($formArray["correo_electronico_candidato"]))?$formArray["correo_electronico_candidato"]:""; ?>" <?php echo ( in_array('correo_electronico_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
 					    <?php 
@@ -503,6 +511,39 @@
 					    </td>
 					    <td><input type="text" name="ingresos_familia_candidato" class="ingresos_familia_candidato allownumericwithdecimal" id="ingresos_familia_candidato" placeholder="Ingresos familia" autocomplete="off" required value="<?php echo (isset($formArray["ingresos_familia_candidato"]))?$formArray["ingresos_familia_candidato"]:""; ?>" <?php echo ( in_array('ingresos_familia_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
 					</tr>
+					
+					<td>Cuenta con crédito infonavit</td>
+					    <td>
+						    <select name="credito_infonavit" class="credito_infonavit" id="credito_infonavit" <?php echo ( in_array('credito_infonavit' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+							   <option value="">Seleccionar opción</option> 
+							   <option value="si" <?php if( isset($formArray["credito_infonavit"]) && $formArray["credito_infonavit"] == "si" ): echo "selected='selected'"; endif;?>>si</option>
+							   <option value="no" <?php if( isset($formArray["credito_infonavit"]) && $formArray["credito_infonavit"] == "no" ): echo "selected='selected'"; endif;?>>no</option>
+						   </select>
+					    </td>
+					    </tr>
+					    
+					    <tr>
+					    <td>Cuenta con crédito Fonacot</td>
+					    <td>
+						    <select name="credito_fonacot" class="credito_fonacot" id="credito_fonacot" <?php echo ( in_array('credito_fonacot' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+							   <option value="">Seleccionar opción</option> 
+							   <option value="si" <?php if( isset($formArray["credito_fonacot"]) && $formArray["credito_fonacot"] == "si" ): echo "selected='selected'"; endif;?>>si</option>
+							   <option value="no" <?php if( isset($formArray["credito_fonacot"]) && $formArray["credito_fonacot"] == "no" ): echo "selected='selected'"; endif;?>>no</option>
+						   </select>
+					    </td>
+					    </tr>
+					    <tr>
+					    
+					    <td>Tiene impuesta alguna pensión alimenticia</td>
+					    <td>
+						    <select name="pension_alimenticia" class="pension_alimenticia" id="pension_alimenticia" <?php echo ( in_array('pension_alimenticia' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+							   <option value="">Seleccionar opción</option> 
+							   <option value="si" <?php if( isset($formArray["pension_alimenticia"]) && $formArray["pension_alimenticia"] == "si" ): echo "selected='selected'"; endif;?>>si</option>
+							   <option value="no" <?php if( isset($formArray["pension_alimenticia"]) && $formArray["pension_alimenticia"] == "no" ): echo "selected='selected'"; endif;?>>no</option>
+						   </select>
+					    </td>
+					    </tr>
+					
 				</table>
 				
 				<h2><label>Egresos de la familia</label></h2>
@@ -836,10 +877,10 @@
 				   </tr> 
 				   <tr>
 					   <td>Número teléfono de casa</td>
-					   <td><input type="text" name="telefono_casa_emergencia_candidato" class="telefono_casa_emergencia_candidato" id="telefono_casa_emergencia_candidato" placeholder="Teléfono casa" autocomplete="off" required value="<?php echo (isset($formArray["telefono_casa_emergencia_candidato"]))?$formArray["telefono_casa_emergencia_candidato"]:""; ?>" <?php echo ( in_array('telefono_casa_emergencia_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					   <td><input type="text" maxlength="10" name="telefono_casa_emergencia_candidato" class="telefono_casa_emergencia_candidato allownumericwithoutdecimal" id="telefono_casa_emergencia_candidato" placeholder="Teléfono casa" autocomplete="off" required value="<?php echo (isset($formArray["telefono_casa_emergencia_candidato"]))?$formArray["telefono_casa_emergencia_candidato"]:""; ?>" <?php echo ( in_array('telefono_casa_emergencia_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
 					   <td>Número teléfono móvil</td>
 					   <td>
-						   <input type="text" name="telefono_movil_emergencia_candidato" class="telefono_movil_emergencia_candidato" id="telefono_movil_emergencia_candidato" placeholder="Teléfono móvil" autocomplete="off" required value="<?php echo (isset($formArray["telefono_movil_emergencia_candidato"]))?$formArray["telefono_movil_emergencia_candidato"]:""; ?>" <?php echo ( in_array('telefono_casa_emergencia_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+						   <input type="text" maxlength="10" name="telefono_movil_emergencia_candidato" class="telefono_movil_emergencia_candidato allownumericwithoutdecimal" id="telefono_movil_emergencia_candidato" placeholder="Teléfono móvil" autocomplete="off" required value="<?php echo (isset($formArray["telefono_movil_emergencia_candidato"]))?$formArray["telefono_movil_emergencia_candidato"]:""; ?>" <?php echo ( in_array('telefono_casa_emergencia_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
 					   </td>
 				   </tr>
 				   

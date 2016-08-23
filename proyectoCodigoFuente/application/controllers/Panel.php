@@ -335,7 +335,37 @@ class Panel extends CI_Controller {
 				endif;
 				
 				
-				$sqlObtenerUsuarios = "	SELECT Usuarios.nombreUsuario FROM TaxPuestoUsuario left outer join Usuarios on Usuarios.idUsuarios= TaxPuestoUsuario.idUsuariosPadre where TaxPuestoUsuario.idUsuarios = $idUsuario " ;
+				
+				
+				$sqlObtenerUsuarios = "	SELECT Usuarios.nombreUsuario,(Select nombreDocumento from DocumentosUsuarios where prefijoDocumento='fotoCandidato' and idUsuarios=$idUsuario) as foto FROM  Usuarios  where idUsuarios = $idUsuario" ;
+					
+				$resultObtenerUsuarios = array();
+					
+				$queryObtenerUsuarios = $this->db->query($sqlObtenerUsuarios);
+					
+				if( $queryObtenerUsuarios->num_rows() > 0 ):
+				$resultObtenerUsuarios = $queryObtenerUsuarios->result();
+				
+				
+				foreach( $resultObtenerUsuarios as $pet):
+				
+				
+				
+				$fotoUsuario = $pet->foto;
+				
+				
+				endforeach;
+				
+				else:
+				
+				
+				$fotoUsuario="";
+				
+				endif;
+				
+				
+				
+				$sqlObtenerUsuarios = "	SELECT Usuarios.nombreUsuario FROM TaxPuestoUsuario left outer join Usuarios on Usuarios.idUsuarios= TaxPuestoUsuario.idUsuariosPadre where TaxPuestoUsuario.idUsuarios = $idUsuario" ;
 					
 				$resultObtenerUsuarios = array();
 					
@@ -351,11 +381,13 @@ class Panel extends CI_Controller {
 				$reporta = $pet->nombreUsuario;
 				
 				
+				
 				endforeach;
 				
 				else:
 				
 				$reporta = "";
+				
 				
 				endif;
 				
@@ -388,7 +420,9 @@ class Panel extends CI_Controller {
 				endif;
 			
 				
-				$img='<div> <img src="./assets/images/Logo_legaxxi.png" alt="Smiley face" height="110" width="110" align="middle"></div>';
+				$img='<div> <img src="./assets/images/Logo_legaxxi.png" alt="LEGAXXI" height="110" width="110" align="middle"></div>';
+				
+				$foto='<div> <img src="./documentosUsuarios/files/thumbnail/'.$fotoUsuario.'" alt="FOTO" height="110" width="110" align="middle"></div>';
 				
 				
 				
@@ -442,16 +476,10 @@ class Panel extends CI_Controller {
 <tbody>
 <tr>
 <td width="20%" rowspan="3"> $img</td>
-<td width="60%" align="center" rowspan="2"><b><h3>CATÃ�LOGO INSTITUCIONAL DE PUESTOS</h3><br><p color="green">LEGAXXI</p></b></td>
-<td width="20%" align="center"><b><br>ActualizaciÃ³n</b><br>Agosto 2016<br></td>
+<td width="60%" align="center" rowspan="3"><b><h3>CATÃ�LOGO INSTITUCIONAL DE PUESTOS</h3><br><p color="green">LEGAXXI</p><br><p color="green">FICHA DEL EMPLEADO</p></b></td>
+<td width="20%" rowspan="3"> $foto</td>
 </tr>
-<tr>
-<td align="center"><b>Formato<br>CIPLEGAXXI_001</b></td>
-</tr>
-<tr>
-<td></td>
-<td align="center"><b><br>PÃ¡gina 1 de 1</b><br></td>
-</tr>
+
 </tbody>
 </table>
 <p>
@@ -513,15 +541,7 @@ class Panel extends CI_Controller {
 $Lereportan
 </table>
 <p></p>
-<table border="1" cellspacing="0" cellpadding="0" >
-<tbody>
-<tr bgcolor="#C0C0C0">
-<td align="center"><b>ORGANIGRAMA ESTRUCTURAL</b></td>
-</tr>
-<tr>
-<td align="center"><b><br>Ã�rbol jerÃ¡rquico<br><br></b></td>
-</tr>
-</table>
+
 EOD;
 					
 				// Print text using writeHTMLCell()

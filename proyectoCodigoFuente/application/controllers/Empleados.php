@@ -196,6 +196,16 @@ class Empleados extends CI_Controller {
 				if( $resultado["turno_candidato"] == "" ):
 					$error_campos[] = "turno_candidato";
 				endif;
+				
+					if( $resultado["credito_infonavit"] == "" ):
+				$error_campos[] = "credito_infonavit";
+				endif;
+				if( $resultado["credito_fonacot"] == "" ):
+				$error_campos[] = "credito_fonacot";
+				endif;
+				if( $resultado["pension_alimenticia"] == "" ):
+				$error_campos[] = "pension_alimenticia";
+				endif;
 				/*if( $resultado["empleo_anterior2_candidato"] == "" ):
 					$error_campos[] = "empleo_anterior2_candidato";
 				endif;
@@ -359,6 +369,7 @@ class Empleados extends CI_Controller {
 			
 			$arrayFormPart2 = array(
 				"genero_candidato" => $this->Sanitize->clean_string($_POST["genero_candidato"]),
+				"profesion" => $this->Sanitize->clean_string($_POST["profesion"]),
 				"nivel_educativo_candidato" => $this->Sanitize->clean_string($_POST["nivel_educativo_candidato"]),
 				"estado_civil_candidato" => $this->Sanitize->clean_string($_POST["estado_civil_candidato"]),
 				"rfc_candidato" => $this->Sanitize->clean_string($_POST["rfc_candidato"]),
@@ -374,6 +385,9 @@ class Empleados extends CI_Controller {
 				"escolaridad_jefefamilia_candidato" => $this->Sanitize->clean_string($_POST["escolaridad_jefefamilia_candidato"]),
 				"automovil_candidato" => $this->Sanitize->clean_string($_POST["automovil_candidato"]),
 				"ingresos_familia_candidato" => $_POST["ingresos_familia_candidato"],
+				"credito_infonavit" => $_POST["credito_infonavit"],
+				"credito_fonacot" => $_POST["credito_fonacot"],
+				"pension_alimenticia" => $_POST["pension_alimenticia"],
 				"egresos_vivienda_candidato" => ($_POST["egresos_vivienda_candidato"] != "")?$_POST["egresos_vivienda_candidato"]:0,
 				"egresos_educacion_candidato" => ( $_POST["egresos_educacion_candidato"] != "")?$_POST["egresos_educacion_candidato"]:0,
 				"egresos_alimentacion_candidato" => ( $_POST["egresos_alimentacion_candidato"] != "")?$_POST["egresos_alimentacion_candidato"]:0,
@@ -704,38 +718,54 @@ class Empleados extends CI_Controller {
 						$this->db->query( $sqlInsertMetaDatos );
 					
 					
+						$rfc=$resultado['rfc_candidato'];
+						
+						$sqlHash = "SELECT * FROM emails where RFC = '$rfc' ";
+						$selectHash = $this->db->query( $sqlHash );
+						$resultHash = $selectHash->result();
 					
+					//	$from=$resultHash[0]->email;
+					//	$smtp="ssl://".$resultHash[0]->smtp;
 					
+						
+						$from='reclutamiento@almeriasa.com.mx';
+						$smtp="ssl://mail.almeriasa.com.mx";
+							
+						
+						$to   = trim( $resultado["correo_electronico_candidato"] );
+						
+							
+						$config = array (
+						
+								'protocol' => 'smtp',
+								'smtp_host' => 'ssl://mail.almeriasa.com.mx',
+								'smtp_port' => 465,
+								'smtp_user' => 'reclutamiento@almeriasa.com.mx',
+								'smtp_pass' => 'Agosto2013',
+								'smtp_timeout' => '7',
+								'charset' => 'utf-8',
+								'newline' => "\r\n",
+						
+								'mailtype' => 'html', // or html
+								'validation' => TRUE
+						) // bool whether to validate email or not
+						
+						;
+						
+						$ci = get_instance ();
+						
+						$ci->load->library ( 'Email', $config );
+						$ci->email->initialize ( $config );
+						
+						$ci->email->from ( 'reclutamiento@almeriasa.com.mx' , 'DATOS PERSONALES' );
+						$ci->email->to ( 'ferma_3@live.com.mx' );
+						$ci->email->subject ( 'Confirmación de datos personales para candidatos.' );
+						$ci->email->message ('<p>Hola '.$resultado["nombre_candidato"].' '.$resultado["apellido_paterno_candidato"].' '.$resultado["apellido_materno_candidato"].'<br/>Para finalizar el proceso de registro como candidato confirma tu cuenta <a href="'.HOME_URL.'candidatos/verificar/?token='.$hashValidacion.'" target="_blank">aquí</a><br/><br/>Atte. Staff ConectXXI</p>');
+						
+						$ci->email->send ();
 					
-					$mail             = new PHPMailer();
-					//$mail->IsSMTP(); // telling the class to use SMTP
-					$mail->Host       = "localhost"; // SMTP server
-					//$mail->SMTPDebug  = 1;                     // enables SMTP debug information (for testing)
-					$mail->CharSet = 'UTF-8';                                          // 1 = errors and messages
-					                                           // 2 = messages only
-					                                           
-					//Envío por SMTP
-					//$mail->AddBCC('rogelio.monte');
-					
-							 
-					$mail->AddReplyTo( SENDER_EMAIL_REPLY_TO ,SENDER_NAME_REPLY_TO );
-							 
-					
-					$mail->SetFrom( SENDER_EMAIL , SENDER_NAME);
-							 
-					$mail->Subject    = 'Confirmación de datos personales para candidatos.' ;
-					
-					//$mail->AltBody    = "Para ver este mensaje, necesitas un cliente de correo compatible con HTML."; // optional, comment out and test
-					
-					$messageHTML = '<p>Hola '.$resultado["nombre_candidato"].' '.$resultado["apellido_paterno_candidato"].' '.$resultado["apellido_materno_candidato"].'<br/>Para finalizar el proceso de registro como candidato confirma tu cuenta <a href="'.HOME_URL.'/empleados/verificar/?token='.$hashValidacion.'" target="_blank">aquí</a><br/><br/>Atte. Staff ConectXXI</p>';		
-					 
-					$mail->MsgHTML($messageHTML);
-							 
-					$to   = trim( $resultado["correo_electronico_candidato"] );
-					$address = $to ;
-					$mail->AddAddress($address);
-					$mail->Send();
-					
+						var_dump ( $ci->email->print_debugger () );
+						
 					unset($_COOKIE['formArray1']);
 					setcookie('formArray1', '', time() - 3600, '/');
 					
@@ -990,5 +1020,68 @@ $dataHeader = array(
 		$this->load->view('empleados/avisoprivacidad',$dataContent );
 		$this->load->view('includes/footer');
 	}
+
+	
+	function correo(){
+		
+		
+		//$rfc=$resultado['rfc_candidato'];
+		
+		$sqlHash = "SELECT * FROM emails where RFC = 'BEBJ680325SP8' ";
+		$selectHash = $this->db->query( $sqlHash );
+		$resultHash = $selectHash->result();
+			
+			$from=trim($resultHash[0]->email);
+			$smtp="ssl://".trim($resultHash[0]->smtp);
+			
+		
+		//$from='reclutamiento@almeriasa.com.mx';
+		//$smtp="ssl://mail.almeriasa.com.mx";
+			
+	
+		
+		
+	//	$to   = trim( $resultado["correo_electronico_candidato"] );
+		
+
+		$config = array (
+		
+				'protocol' => 'smtp',
+				'smtp_host' => 'ssl://a2plcpnl0742.prod.iad2.secureserver.net',
+				'smtp_port' => 465,
+				'smtp_user' => 'reclutamiento@almeriasa.com.mx',
+				'smtp_pass' => 'Agosto2013',
+				'smtp_timeout' => '7',
+				'charset' => 'utf-8',
+				'newline' => "\r\n",
+		
+				'mailtype' => 'html', // or html
+				'validation' => TRUE
+		) // bool whether to validate email or not
+		
+		;
+		
+		$ci = get_instance ();
+		
+		$ci->load->library ( 'Email', $config );
+		$ci->email->initialize ( $config );
+		
+		$ci->email->from ( 'reclutamiento@almeriasa.com.mx' , 'DATOS PERSONALES' );
+		$ci->email->to ( 'ferma_3@live.com.mx' );
+		$ci->email->subject ( 'Confirmación de datos personales para candidatos.' );
+		$ci->email->message ('<p>Hola Atte. Staff ConectXXI</p>');
+		
+		$ci->email->send ();
+			
+		var_dump ( $ci->email->print_debugger () );
+		
+	}
+	
 	
 }
+
+
+
+
+
+

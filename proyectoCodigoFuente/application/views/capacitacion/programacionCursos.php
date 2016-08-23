@@ -6,15 +6,21 @@
         <br>
         <ul>
         <p><span id="resultado" style="color:red;font-weight: bold;margin-bottom: 15px;"></span></p>
+        <p><span id="guarda" style="font-weight: bold; text-align: center;font-size: 13pt; color: #00db05"></span></p>
         <br>
+        
+        <form id="capacitacion" name="capacitacion">
             <label style="margin-left: 5px">Nombre de curso:</label>
+            
+            
+           
             
             <?php 
 			if(!empty( $Curso ) ):
 				foreach($Curso as $valor):
 		?>
 		  <input style="margin-left: 6%;width:30%"type="text" name="nombreCurso" id="nombreCurso" class="nombreCurso" readonly value="<?php echo $valor["NombreDelCurso"];?>">
-				
+			   <input style="margin-left: 6%;width:30%"type="hidden" name="idCurso" id="idCurso" class="nombreCurso" readonly value="<?php echo $valor["idCursos"];?>">	
 		<?php
 				endforeach;
 			endif;
@@ -44,7 +50,7 @@
             <br>
             <br>
             <label style="margin-left: 5px">Capacitador:</label>
-             <select id="Curso" name="Curso" class="sel_curso" style="margin-left: 9.5%;width:30%">
+             <select id="Capacitador" name="Capacitador" class="sel_curso" style="margin-left: 9.5%;width:30%">
                     <option value="">Seleccione un capacitador</option>
                     
                     <?php 
@@ -108,13 +114,27 @@
            
 		  <input style="margin-left: 5.5%;width:30%"type="text" name="nombreGrupo" id="nombreGrupo" class="nombreGrupo" placeholder="Nombre del Grupo" value="">
 				
+				
+				
+				
 	       
             </form>
+            <br>
+        <br>
+        <br>
         </ul>
+        <div>
+     <a class="btnNextFDP" id="btnReportes">Men&uacute; principal</a>
+        <a class="btnNextFDP" id="btnProgramarCurso" href="#">Programar</a>
+</div>
+      <br>
+      <br>
+      <br>  
     </div>
-    <p>
-        <a class="btnNextFDP" id="btnReportes">Men&uacute; principal</a>
-        <a class="btnNextFDP" id="btnProgramarCurso" href="programarCurso">Programar</a>
+   
+ 
+
+   
 </div>
 
 
@@ -131,7 +151,10 @@ $("#btnProgramarCurso").click(function(){
         		error_campos.push( "Curso");
         		$("#Curso").css("border", "2px solid red");
         		}
-
+    		if( $("#Capacitador").val() == "" ) {
+        		error_campos.push( "Curso");
+        		$("#Capacitador").css("border", "2px solid red");
+        		}
 
     		if( $("#Lugar").val() == "" ) {
     		error_campos.push(  "Lugar");
@@ -155,26 +178,27 @@ $("#btnProgramarCurso").click(function(){
 
 
     				 
-       	    	  $.post("<?php echo HOME_URL; ?>eaf/RecursosHumanos/ValidarCuentaBancaria",{
-       	         	 id:id
-       	          },function(data) {
-
-
-       	        	  var mensaje=data;
-       	              
-                         
-                         if ($.trim(mensaje)=='error')
-                         {
-                             
-                      	   $("#resultado").html("El Usuario no tiene ninguna cuenta bancaria capturada, capture la cuenta o realice una solicitud de cuenta");
-                      	  
-                         }
-                         else
-                         {
-                       	  $("#form_fdp_conectxxi").submit();
-                         }
-
-       	      });
+    		    $.ajax({
+                    url: '<?= base_url(); ?>Capacitacion/GuardaGrupo/<?php echo $valor["idCursos"];?>',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: $('#capacitacion').serialize(),
+                    cache: false,
+                    async: false,
+                    success: function(response) {
+                        if (response.codigo==200) {
+                        	$("#guarda").html("Grupo guardado correctamente..");
+                           
+                        } else {
+                        	$("#resultado").html("Favor de intentar nuevamente..");
+                            
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                    	$("#resultado").html("Favor de intentar nuevamente..");
+                       
+                    }
+                });
     			
     			
     		}
@@ -183,7 +207,7 @@ $("#btnProgramarCurso").click(function(){
         		
     			$("#resultado").html("Favor de revisar campos obligatorios marcados con rojo..");
 
-alert("fer");
+
     			
     		}
 

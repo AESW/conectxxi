@@ -7,7 +7,9 @@
 		  return true;
 	  });
 	 
-
+      if( $("#registro").val() == "1" ) {
+    	  $(".step3").trigger("click");
+  		}
 
 	  $("#btnNextFDP1").click(function(){
 	      $('.page').ScrollTo();
@@ -248,6 +250,7 @@
     });
         
   </script>
+ 
   <?php
 	/*echo "<pre>";
 	      	print_r($error_campos);
@@ -299,20 +302,7 @@
 			  
 			  <!-- Paso 1 -->
 			  <div id="tabs1-paso1">
-				<?php
-					if(  $registro =="registro"  ):
-				?>
-				<div style="font-weight: bold; text-align: center;font-size: 13pt; color: #00db05">Registro completado correctamente.</div>
-				<?php 
-				else:
-				if(  $registro =="yaregistrado"  ):
-				?>
-								<div style="font-weight: bold; text-align: center;font-size: 13pt; color: red">La Vacante ya fue cubierta, favor de verificarlo.</div>
-								<?php 
 				
-				endif;
-					endif;
-				?>
 			    <h2><label>Alta de personal</label></h2>
 			     <p style="color:red;font-weight: bold;margin-bottom: 15px;"><?php echo ( count($error_campos) > 0 )?"Favor de revisar campos obligatorios marcados con rojo":""; ?></p>
 			    <div id="paso1"></div>
@@ -451,7 +441,7 @@
 					    
 					      <select name="sueldoNOI" class="sueldoNOI" id="sueldoNOI" <?php echo ( in_array('oficina' , $error_campos) )?"style='border:2px solid red;'":""; ?> >
 							     
-							     <option value="">Selecciona Oficina</option>
+							     <option value="">Selecciona Sueldo</option>
 								<?php 
 								
 								  if( !empty($Sueldos) ):
@@ -831,6 +821,26 @@
 			  
 			  <!-- Paso 3 -->
 			  <div id="tabs1-paso3">
+			  <?php
+					if(  $registro =="registro"  ):
+				?>
+				<div style="font-weight: bold; text-align: center;font-size: 13pt; color: #00db05">Registro completado correctamente, imprima su contrato</div>
+				
+				<input type="hidden" name="registro" class="registro" id="registro" value="1"/>
+			
+				
+				<?php 
+				
+				
+				else:
+				if(  $registro =="yaregistrado"  ):
+				?>
+								<div style="font-weight: bold; text-align: center;font-size: 13pt; color: red">La Vacante ya fue cubierta, favor de verificarlo.</div>
+								<?php 
+				
+				endif;
+					endif;
+				?>
 			    <h2><label>Alta de cuenta bancaria</label></h2>
 			       <span id="resultado" style="color:red"></span>
 			     <div id="paso3"></div>
@@ -838,9 +848,9 @@
 			    <table cellpadding="0" cellspacing="0" width="100%">
 				    <tr>
 					    <td>Número de cuenta</td>
-					    <td><input type="text" name="cuentaNomina" class="cuentaNomina allownumericwithoutdecimal" id="cuentaNomina" placeholder="Número de cuenta" autocomplete="off" required value="<?php echo (isset($formArray["cuentaNomina"]))?$formArray["cuentaNomina"]:""; ?>" ></td>
+					    <td><input type="text" maxlength="10" name="cuentaNomina" class="cuentaNomina allownumericwithoutdecimal" id="cuentaNomina" placeholder="Número de cuenta" autocomplete="off" required value="<?php echo (isset($formArray["cuentaNomina"]))?$formArray["cuentaNomina"]:""; ?>" ></td>
 					   <td>Cuenta Clabe</td>
-					    <td><input type="text" name="clabeInterbancaria" class="clabeInterbancaria allownumericwithoutdecimal" id="clabeInterbancaria" placeholder="Cuenta Clabe" autocomplete="off" required value="<?php echo (isset($formArray["clabeInterbancaria"]))?$formArray["clabeInterbancaria"]:""; ?>"  ></td>
+					    <td><input type="text" maxlength="18" name="clabeInterbancaria" class="clabeInterbancaria allownumericwithoutdecimal" id="clabeInterbancaria" placeholder="Cuenta Clabe" autocomplete="off" required value="<?php echo (isset($formArray["clabeInterbancaria"]))?$formArray["clabeInterbancaria"]:""; ?>"  ></td>
 					    </td>
 					    
 				    </tr>
@@ -860,7 +870,7 @@
 				<br>
 				<br>
 					 
-					  <a  href="#" class="btnNextFDP" id="btnCredencial"><i class="glyphicon glyphicon-user"></i> Credencial</a>
+				  <a  href="#" class="btnNextFDP" id="btnCredencial"><i class="glyphicon glyphicon-user"></i> Credencial</a>
 				  <a href="<?php echo HOME_URL; ?>eaf/RecursosHumanos/Contrato/<?php echo $idCandidatoFDP["idCandidatoFDP"];?>" target="_blank" class="btnNextFDP" ><i class="glyphicon glyphicon-file"></i> Contrato</a>
 			  
 				  <a class="btnNextFDP" id="btnNextFDP5">Guardar</a>

@@ -17,6 +17,7 @@ class Gerente extends CI_Controller {
         
         /*Mandar llamar modelos que requieran de actividades de BD*/
         $this->load->model('User');
+        $this->load->model('GerenteModel');
         $this->SessionL->validarSesion();
     }
     
@@ -73,4 +74,159 @@ class Gerente extends CI_Controller {
     	$this->load->view('includes/footer');
     
     }	
+    
+    public function BajaPersonal()
+    {
+    	$dataHeader = array(
+    			"titulo" => "Solicitud de Baja de Personal"
+    	);
+    	/*Obtener datos de usuario, roles, modulos , permisos*/
+    	$sessionUser = $this->session->userdata('logged_in');
+    	//echo "<pre>";
+    	//print_r( $sessionUser );die;
+    
+    	$isRRHH = 0;
+    	$accionesRRHH = array();
+    	if( isset( $sessionUser["puesto"]["permisos"] ) ):
+    	foreach( $sessionUser["puesto"]["permisos"] as $permisos ):
+    	if( $permisos["prefijoModulos"] == "gerente"):
+    	$isRRHH = 1;
+    	$accionesRRHH[] = $permisos["accionPermisos"];
+    	endif;
+    	endforeach;
+    	else:
+    	redirect("panel");
+    	endif;
+    
+    	if( $isRRHH == 0 ):
+    	redirect("panel");
+    	endif;
+    
+    	$personal = $this->GerenteModel->personalIncapacidad();
+    	$empresas = $this->GerenteModel->empresas();
+    	$puestos = $this->GerenteModel->puestos();
+    	$oficina = $this->GerenteModel->oficina();
+    	$sueldo = $this->GerenteModel->sueldo();
+    	 
+    	
+    	
+    	$dataContent = array(
+    			"personal" => $personal,
+    			"empresas" => $empresas,
+    			"puestos" => $puestos,
+    			"catalogos" => new Catalogos (),
+    			"oficina" => $oficina,
+    			"sueldo" => $sueldo
+    	
+    	);
+    
+    	$this->load->view('includes/header' , $dataHeader);
+    	$this->load->view('gerente/bajaPersonal',$dataContent );
+    	$this->load->view('includes/footer');
+    
+    }
+    
+    public function incapacidad()
+    {
+    	$dataHeader = array(
+    			"titulo" => "Alta de incapacidades empleados"
+    	);
+    	 
+    		$personal = $this->GerenteModel->personalIncapacidad();
+    	
+    	
+    	 	$dataContent = array(
+    	 			"personal" => $personal
+    
+    		);
+    
+    	$this->load->view('includes/header' , $dataHeader);
+    	$this->load->view('gerente/incapacidad',$dataContent );
+    	$this->load->view('includes/footer');
+    
+    }
+    
+    function AltaIncapacidad() {
+    
+    
+    	$selecEmp=$this->input->post('selecEmp');
+    	$incap=$this->input->post('incap');
+    	$inicio=$this->input->post('fecha_inicio_incapacidad');
+    	$fin=$this->input->post('fecha_fin_incapacidad');
+    
+    
+    
+    	$sqlAlta = "insert into Incapacidades (incapacidad,inicio,fin,idUsuarios) values ('$incap','$inicio','$fin',$selecEmp)" ;
+    
+    
+    
+    	$queryGrupo = $this->db->query($sqlAlta);
+    
+    	if ($queryGrupo)
+    	{
+    		$resultado = array (
+    				"codigo" => 200,
+    				"exito" => true,
+    				"mensaje" => "Incapacidad guardada correctamente."
+    		);
+    	}
+    	else {
+    		$resultado = array (
+    				"codigo" => 400,
+    				"exito" => false,
+    				"mensaje" => "Error, vuelva a intentarlo."
+    		);
+    	}
+    
+    	ob_clean ();
+    	echo json_encode ( $resultado );
+    	exit ();
+    }
+    
+    function SolicitudBajaPersonal() {
+    
+    
+    	$selecUsuario=$this->input->post('selecUsuario');
+    	$selecEmp=$this->input->post('selecEmp');
+    	$selecPuesto=$this->input->post('selecPuesto');
+    	$fecha_ingreso=$this->input->post('fecha_ingreso');
+    	$selecOficina=$this->input->post('selecOficina');
+    	$descanso=$this->input->post('descanso');
+    	$selecMotivo=$this->input->post('selecMotivo');
+    	$selecSolicita=$this->input->post('selecSolicita');
+    	$fecha_efectiva=$this->input->post('fecha_efectiva');
+    	$selecSueldo=$this->input->post('selecSueldo');
+    	$horario=$this->input->post('horario');
+    	$fecha_fin_Contrato=$this->input->post('fecha_fin_Contrato');
+    	$comentGerente=$this->input->post('comentGerente');
+    	
+    
+    
+    	$sqlAlta = "insert into SolBajasPersonal ( motivoBaja, fechaEfectiva, horario, fechaIngreso, diaDescanso, finContrato, comentarios, idUsuarios, idEmpresas, idPuestos, idOficinas, idSueldos, idUsuariosSolicita
+    	) values ('$selecMotivo','$fecha_efectiva','$horario','$fecha_ingreso','$descanso','$fecha_fin_Contrato','$comentGerente',$selecUsuario,$selecEmp,$selecPuesto,$selecOficina,$selecSueldo,$selecSolicita)" ;
+    
+    
+    
+    	$queryGrupo = $this->db->query($sqlAlta);
+    
+    	if ($queryGrupo)
+    	{
+    		$resultado = array (
+    				"codigo" => 200,
+    				"exito" => true,
+    				"mensaje" => "Solicitud guardada correctamente.."
+    		);
+    	}
+    	else {
+    		$resultado = array (
+    				"codigo" => 400,
+    				"exito" => false,
+    				"mensaje" => "Error, vuelva a intentarlo."
+    		);
+    	}
+    
+    	ob_clean ();
+    	echo json_encode ( $resultado );
+    	exit ();
+    }
 }

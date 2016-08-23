@@ -13,7 +13,7 @@
 	
 	<div class="block_2_eaf">
 		<a href="#" class="eaf_bonos_option"></a>
-		<a href="<?php echo HOME_URL."Movimientos/NuevoPersonal/";?>" class="eaf_movimientos_option"></a>
+		<a href="#" class="eaf_movimientos_option"></a>
 		<a href="#" class="eaf_incapacidad_option"></a>
 		<a href="#" class="eaf_expediente_option"></a>
 		<a href="#" class="eaf_nomina_option"></a>
