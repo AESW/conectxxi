@@ -179,7 +179,7 @@ $("#btnProgramarCurso").click(function(){
 
     				 
     		    $.ajax({
-                    url: '<?= base_url(); ?>Capacitacion/GuardaGrupo/<?php echo $valor["idCursos"];?>',
+                    url: '<?php echo HOME_URL; ?>Capacitacion/GuardaGrupo',
                     type: 'POST',
                     dataType: 'json',
                     data: $('#capacitacion').serialize(),

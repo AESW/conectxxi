@@ -198,7 +198,7 @@ $("#cerrarGrupo").click(function(){
 
     				 
     		    $.ajax({
-                    url: '<?= base_url(); ?>Capacitacion/CerrarGrupo',
+                    url: '<?php echo HOME_URL; ?>Capacitacion/CerrarGrupo',
                     type: 'POST',
                     dataType: 'json',
                     data: $('#form1').serialize(),
@@ -214,8 +214,8 @@ $("#cerrarGrupo").click(function(){
                         }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
-                    //	$("#resultado").html("Favor de intentar nuevamente..");
-                       alert(jqXHR.responseText);
+                    	$("#resultado").html("Favor de intentar nuevamente..");
+                     //  alert(jqXHR.responseText);
                     }
                 });
     			

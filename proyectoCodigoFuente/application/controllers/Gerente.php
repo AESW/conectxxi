@@ -75,7 +75,7 @@ class Gerente extends CI_Controller {
     
     }	
     
-    public function BajaPersonal()
+    public function BajaPersonal($id)
     {
     	$dataHeader = array(
     			"titulo" => "Solicitud de Baja de Personal"
@@ -84,6 +84,9 @@ class Gerente extends CI_Controller {
     	$sessionUser = $this->session->userdata('logged_in');
     	//echo "<pre>";
     	//print_r( $sessionUser );die;
+    	
+    	
+    	$idUsuario=$sessionUser["usuario"]["idUsuarios"];
     
     	$isRRHH = 0;
     	$accionesRRHH = array();
@@ -101,24 +104,37 @@ class Gerente extends CI_Controller {
     	if( $isRRHH == 0 ):
     	redirect("panel");
     	endif;
+    	
+    	
+    	
+    	if($id=="")
+    	{
+    	$datos="";	
+    	}
+    	else
+    	{
+    		$datos = $this->GerenteModel->personalBaja($id);
+    	}
+    	
+    	
+  //  	$idUsuario=245;
     
-    	$personal = $this->GerenteModel->personalIncapacidad();
-    	$empresas = $this->GerenteModel->empresas();
-    	$puestos = $this->GerenteModel->puestos();
-    	$oficina = $this->GerenteModel->oficina();
-    	$sueldo = $this->GerenteModel->sueldo();
+    	$personal = $this->GerenteModel->personalIncapacidad($idUsuario);
+    	//$empresas = $this->GerenteModel->empresas();
+    	//$puestos = $this->GerenteModel->puestos();
+    //	$oficina = $this->GerenteModel->oficina();
+    //	$sueldo = $this->GerenteModel->sueldo();
     	 
+    	
     	
     	
     	$dataContent = array(
     			"personal" => $personal,
-    			"empresas" => $empresas,
-    			"puestos" => $puestos,
-    			"catalogos" => new Catalogos (),
-    			"oficina" => $oficina,
-    			"sueldo" => $sueldo
+    				"catalogos" => new Catalogos (),
+    			"datos" => $datos
     	
     	);
+    //	print_r($datos);
     
     	$this->load->view('includes/header' , $dataHeader);
     	$this->load->view('gerente/bajaPersonal',$dataContent );
@@ -132,7 +148,12 @@ class Gerente extends CI_Controller {
     			"titulo" => "Alta de incapacidades empleados"
     	);
     	 
-    		$personal = $this->GerenteModel->personalIncapacidad();
+		 
+		 	$sessionUser = $this->session->userdata('logged_in');
+			$idUsuario=$sessionUser["usuario"]["idUsuarios"];
+		 
+		 
+    		$personal = $this->GerenteModel->personalIncapacidad($idUsuario);
     	
     	
     	 	$dataContent = array(
@@ -202,8 +223,8 @@ class Gerente extends CI_Controller {
     	
     
     
-    	$sqlAlta = "insert into SolBajasPersonal ( motivoBaja, fechaEfectiva, horario, fechaIngreso, diaDescanso, finContrato, comentarios, idUsuarios, idEmpresas, idPuestos, idOficinas, idSueldos, idUsuariosSolicita
-    	) values ('$selecMotivo','$fecha_efectiva','$horario','$fecha_ingreso','$descanso','$fecha_fin_Contrato','$comentGerente',$selecUsuario,$selecEmp,$selecPuesto,$selecOficina,$selecSueldo,$selecSolicita)" ;
+    	$sqlAlta = "insert into SolBajasPersonal ( motivoBaja, fechaEfectiva, horario, fechaIngreso, diaDescanso, finContrato, comentarios, idUsuarios, Empresa, Puesto, Oficina, sdi, idUsuariosSolicita
+    	) values ('$selecMotivo','$fecha_efectiva','$horario','$fecha_ingreso','$descanso','$fecha_fin_Contrato','$comentGerente',$selecUsuario,'$selecEmp','$selecPuesto','$selecOficina','$selecSueldo',$selecSolicita)" ;
     
     
     

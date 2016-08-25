@@ -1,61 +1,64 @@
   <div class="content_generic">
-        <div style="width: 99%" class="block_box_gen">
-            <h2>Alta de incapacidades empleados</h2>
-            <br>
-            <form  name="form1" id="form1" method="POST" >
-            <p><span id="resultado" style="color:red;font-weight: bold;margin-bottom: 15px;"></span></p>
-        <p><span id="guarda" style="font-weight: bold; text-align: center;font-size: 13pt; color: #00db05"></span></p>
-        <br>
-            <label>Seleccionar Empleado</label>
-            <select  name="selecEmp" class="selecEmp" id="selecEmp">
-                <option value="">Seleccione Personal</option>  
-               
-                <?php
-               if(!empty( $personal ) ):
-               foreach($personal as $fila)
-						{
-							?>
-					
-				                 <option value="<?php echo $fila["idUsuarios"]; ?>"><?php echo $fila["nombreUsuario"]; ?></option>  
-				            <?php
-				            }
-				            endif;
-               ?>
-								  
-               
-               
-               
-            </select>
-            <br>
-            <br>
-           
-            <table cellpadding="0" cellspacing="0" width="100%">
-                <tr>
-                    <td><label>N&uacute;mero de incapacidad</label></td>
-                    <td><input style="width: 80px" type="text" name="incap" class="incap" id=incap></td>
-                </tr>  
-                <tr>
-                    <td><label>Inicio</label></td>
-                    <td><label>Fin</label></td>
-                </tr>
-                <tr>
-                
-				
-                    <td><input type="text" onfocus="this.blur()" name="fecha_inicio_incapacidad" class="fecha_inicio_incapacidad" id="fecha_inicio_incapacidad" placeholder="dd/mm/YYYY" autocomplete="off" required ></td>
-             
-                    <td><input type="text" onfocus="this.blur()" name="fecha_fin_incapacidad" class="fecha_fin_incapacidad" id="fecha_fin_incapacidad" placeholder="dd/mm/YYYY" autocomplete="off" required ></td>
-             
-                </tr>                        
-            </table>
-            <br>
-            <br>
+            <div style="width: 99%" class="block_box_gen">
+                <h2>Alta de incapacidades empleados</h2>
+                <br>
+                <form  name="form1" id="form1" method="POST" >
+                    <p><span id="resultado" style="color:red;font-weight: bold;margin-bottom: 15px;"></span></p>
+                    <p><span id="guarda" style="font-weight: bold; text-align: center;font-size: 13pt; color: #00db05"></span></p>
+                    <br>
+                      <div style="text-align:center;">
+                        <table cellpadding="0" cellspacing="0"   style="margin: 0 auto;" >
+                                                    <tr >
+                                <td >Seleccionar Empleado</td>
+                                <td > <select  name="selecEmp" class="selecEmp" id="selecEmp">
+                                        <option value="">Seleccione Personal</option>  
 
-        </div>
-        <a class="btnNextFDP" id="btnMenu" href="">Men&uacute; principal</a>
-        <a class="btnNextFDP" id="btnGuardar" href="#">Guardar</a>
-</form>
-    </div>
-    
+                                        <?php
+                                        if(!empty( $personal ) ):
+                                        foreach($personal as $fila)
+                                        {
+                                        ?>
+
+                                        <option value="<?php echo $fila["idUsuarios"]; ?>"><?php echo $fila["nombreUsuario"]; ?></option>  
+                                        <?php
+                                        }
+                                        endif;
+                                        ?>
+
+                                    </select></td>
+                             <tr style="height: 10px">
+                             <tr>
+                             
+                            <tr>
+                                <td>N&uacute;mero de incapacidad</td>
+                                <td  ><input type="text" name="incap" class="incap" id=incap></td>
+                            </tr>
+                             <tr style="height: 10px">
+                             <tr>  
+                            <tr>
+                                <td>Inicio</td>
+                                
+                                <td>Fin</td>
+                            </tr>
+                            <tr>
+
+
+                                <td><input style="width:80%" type="text" onfocus="this.blur()" name="fecha_inicio_incapacidad" class="fecha_inicio_incapacidad" id="fecha_inicio_incapacidad" placeholder="dd/mm/YYYY" autocomplete="off" required ></td>
+                                <td><input type="text" onfocus="this.blur()" name="fecha_fin_incapacidad" class="fecha_fin_incapacidad" id="fecha_fin_incapacidad" placeholder="dd/mm/YYYY" autocomplete="off" required ></td>
+
+                            </tr>                        
+                        </table>
+                   </div>
+                    <br>
+                    <br>
+
+                    </div>
+                    <a class="btnNextFDP" id="btnMenu" href="">Men&uacute; principal</a>
+                    <a class="btnNextFDP" id="btnGuardar" href="#">Guardar</a>
+                </form>
+
+
+            </div>    
    	<script type="text/javascript">
     $( "#fecha_fin_incapacidad" ).datepicker({
 	        dateFormat: "yy-mm-dd",
@@ -107,7 +110,7 @@ $("#btnGuardar").click(function(){
 
     				 
     		    $.ajax({
-                    url: '<?= base_url(); ?>Gerente/AltaIncapacidad',
+                    url: '<?php echo HOME_URL; ?>Gerente/AltaIncapacidad',
                     type: 'POST',
                     dataType: 'json',
                     data: $('#form1').serialize(),
@@ -123,8 +126,8 @@ $("#btnGuardar").click(function(){
                         }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
-                    //	$("#resultado").html("Favor de intentar nuevamente..");
-                       alert(jqXHR.responseText);
+                    	$("#resultado").html("Favor de intentar nuevamente..");
+                      // alert(jqXHR.responseText);
                     }
                 });
     			

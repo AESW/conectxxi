@@ -146,13 +146,13 @@ where Empresas_idEmpresas = $id and Oficinas_idOficinas = (SELECT valorMetaDatos
 						(SELECT valorMetaDatos FROM MetaDatosCandidatoFDP WHERE MetaDatosCandidatoFDP.idCandidatoFDP = $value and prefijoMetaDatos='telefono_casa_candidato') as telefono_casa_candidato,
 						(SELECT valorMetaDatos FROM MetaDatosCandidatoFDP WHERE MetaDatosCandidatoFDP.idCandidatoFDP = $value and prefijoMetaDatos='telefono_movil_candidato') as telefono_movil_candidato,
 						(SELECT valorMetaDatos FROM MetaDatosCandidatoFDP WHERE MetaDatosCandidatoFDP.idCandidatoFDP = $value and prefijoMetaDatos='estado_domicilio_candidato') as estado_domicilio_candidato,
-				(SELECT Patronales.registroPatronal FROM oficinas_has_empresas
+				(SELECT Patronales.registroPatronal FROM Oficinas_has_Empresas
 left outer join Patronales on Patronales.idPatronales = Oficinas_has_Empresas.Patronales_idPatronales
 where Empresas_idEmpresas = (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = RecursosHumanosFDP.idUsuarios and prefijoMetaDatos='empresa_contrata') and Oficinas_idOficinas = (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = RecursosHumanosFDP.idUsuarios and prefijoMetaDatos='oficina')) as patronal,
-				          (SELECT Oficinas.abreviatura FROM oficinas_has_empresas
+				          (SELECT Oficinas.abreviatura FROM Oficinas_has_Empresas
 left outer join Oficinas on Oficinas.idOficinas = Oficinas_has_Empresas.Oficinas_idOficinas
 where Empresas_idEmpresas = (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = RecursosHumanosFDP.idUsuarios and prefijoMetaDatos='empresa_contrata') and Oficinas_idOficinas = (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = RecursosHumanosFDP.idUsuarios and prefijoMetaDatos='oficina')) as abreviatura,
-				(SELECT Oficinas.nombreOficina FROM oficinas_has_empresas
+				(SELECT Oficinas.nombreOficina FROM Oficinas_has_Empresas
 left outer join Oficinas on Oficinas.idOficinas = Oficinas_has_Empresas.Oficinas_idOficinas
 where Empresas_idEmpresas = (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = RecursosHumanosFDP.idUsuarios and prefijoMetaDatos='empresa_contrata') and Oficinas_idOficinas = (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = RecursosHumanosFDP.idUsuarios and prefijoMetaDatos='oficina')) as oficina
 				FROM RecursosHumanosFDP

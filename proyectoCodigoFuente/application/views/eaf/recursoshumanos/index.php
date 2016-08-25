@@ -69,11 +69,29 @@
 				<?php 
 					else:
 					?>
-						<li>'.$mo["nombreCandidato"]." , ".$accion.'</li>';
+						<!--<li><?php echo $mo["nombreCandidato"];?> ,<?php echo $accion;?></li>!-->
 					
 					<?php 
 					endif;
 				endforeach;
+				
+				foreach( $movimientos as $mo ):
+				$accion = $mo["estatusCandidato"] ;
+				if( $accion == "baja" ):
+				?>
+									
+										<li><a href="<?php echo HOME_URL; ?>eaf/RecursosHumanos/bajausuario/?idCandidatoFDP=<?php echo $mo["idCandidatoFDP"];?>"><?php echo $mo["nombreCandidato"]." , ".$accion;?> </a></li>
+								
+								<?php 
+									else:
+									?>
+										<li><?php echo $mo["nombreCandidato"];?> ,<?php echo $accion;?></li>
+									
+									<?php 
+									endif;
+								endforeach;
+				
+				
 			endif;
 		?>
 		</ul>

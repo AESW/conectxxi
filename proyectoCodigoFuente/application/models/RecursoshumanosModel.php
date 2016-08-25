@@ -171,8 +171,28 @@ class RecursoshumanosModel extends CI_Model {
 		);
 		endforeach;
 		endif;
+		
+		
+		$sqlCandidatosBaja = 'SELECT Usuarios.idUsuarios, Usuarios.nombreUsuario as nombreCandidato
+										FROM
+										 SolBajasPersonal left outer join Usuarios
+				on SolBajasPersonal.idUsuarios = Usuarios.idUsuarios';
+		
+		$queryCandidatosBaja = $this->db->query( $sqlCandidatosBaja );
+		$arrayBajas = array();
+		if(  $queryCandidatosBaja->num_rows() > 0 ):
+		$resultadoCandidatosBajas = $queryCandidatosBaja->result();
+		foreach($resultadoCandidatosBajas as $bajas):
+		$arrayBajas[] = array(
+				"idCandidatoFDP" => $bajas->idUsuarios,
+				"nombreCandidato" => $bajas->nombreCandidato,
+				"estatusCandidato" => "baja"
+		);
+		endforeach;
+		endif;
+		
 	
-		$resultadoMovimientos = array_merge($arrayAprobados, $arrayRechazados);
+		$resultadoMovimientos = array_merge($arrayAprobados, $arrayRechazados,$arrayBajas);
 	
 		return $resultadoMovimientos;
 	}

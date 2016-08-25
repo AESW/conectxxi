@@ -110,7 +110,7 @@ $("#btnEvaluar").click(function(){
     			Personal = $('#Personal').val();
     			Curso = $('#idCurso').val();
     			
-    			location.href="<?= base_url(); ?>Capacitacion/evaluarCursos/?Personal="+Personal+"&Curso="+Curso;
+    			location.href="<?php echo HOME_URL; ?>Capacitacion/evaluarCursos/?Personal="+Personal+"&Curso="+Curso;
     		   
     			
     			

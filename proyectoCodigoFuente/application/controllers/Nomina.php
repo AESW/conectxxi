@@ -2,6 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 require_once(APPPATH.'libraries/Sanitize.php');
+require_once(APPPATH.'libraries/noi.php');
 
 
 class Nomina extends CI_Controller {
@@ -14,6 +15,7 @@ class Nomina extends CI_Controller {
         $this->load->helper('email');
         $this->load->library('form_validation');
         $this->Sanitize = new Sanitize();
+        $this->noi = new noi();
         
         /*Mandar llamar modelos que requieran de actividades de BD*/
         $this->load->model('User');
@@ -143,7 +145,7 @@ class Nomina extends CI_Controller {
 	function exportar() {
 	
 		 
-		$this->load->library('noi');
+	//	$this->load->library('noi');
 		 
 		
 		$Usuarios=$this->input->post('AltaUsuario');

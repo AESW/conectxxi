@@ -1,208 +1,286 @@
-  <div class="content_generic">
-        <div style="width: 99%" class="block_box_gen">
-            <h2>Solicitud de Baja de Personal</h2>
-            <br>
-  <form  name="form1" id="form1" method="POST" >
-   <p><span id="resultado" style="color:red;font-weight: bold;margin-bottom: 15px;"></span></p>
-        <p><span id="guarda" style="font-weight: bold; text-align: center;font-size: 13pt; color: #00db05"></span></p>
-        <br>
-            <table cellpadding="0" cellspacing="0" width="100%" style="margin-left:20px">
+ <div class="content_generic">
+            <div style="width: 99%" class="block_box_gen">
+                <h2>Solicitud de Baja de Personal</h2>
+               
+                <form  name="form1" id="form1" method="POST" >
+                    <p><span id="resultado" style="color:red;font-weight: bold;margin-bottom: 15px;"></span></p>
+                    <p><span id="guarda" style="font-weight: bold; text-align: center;font-size: 13pt; color: #00db05"></span></p>
+                    <br>
+                      <div style="text-align:center;">
+                        <table cellpadding="0" cellspacing="0"   style="margin: 0 auto;" >
+                                          <tr >
+                            <td>Nombre del Empleado .</td>
+                            <td> <select  name="selecUsuario" class="selecUsuario" id="selecUsuario" style="width:100%;">
+                                   
 
-                <tr >
-                    <td><label>Nombre del Empleado</label></td>
-                    <td> <select  name="selecUsuario" class="selecUsuario" id="selecUsuario">
-                <option value="">Seleccione Personal</option>  
-               
-                <?php
-               if(!empty( $personal ) ):
-               foreach($personal as $fila)
-						{
-							?>
-					
-				                 <option value="<?php echo $fila["idUsuarios"]; ?>"><?php echo $fila["nombreUsuario"]; ?></option>  
-				            <?php
-				            }
-				            endif;
-               ?>
-								  
-               
-               
-               
-            </select></td>
-                    <td></td>
-                    <td></td>
+ <?php
+                                    if(!empty( $datos ) ):
+                                    foreach($datos as $fila)
+                                    {
+                                    ?>
 
-                </tr>
-                <tr >
-                    <td><label>Empresa</label></td>
-                    <td><select  name="selecEmp" class="selecEmp" id="selecEmp">
-                <option value="">Seleccione Empresa</option>  
-               
-                <?php
-               if(!empty( $empresas ) ):
-               foreach($empresas as $fila)
-						{
-							?>
-					
-				                 <option value="<?php echo $fila["idEmpresas"]; ?>"><?php echo $fila["nombreEmpresas"]; ?></option>  
-				            <?php
-				            }
-				            endif;
-               ?>
-								  
-               
-               
-               
-            </select></td>
-                    <td></td>
-                    <td></td>
+                                    <option value="<?php echo $fila["idUsuarios"]; ?>"><?php echo $fila["nombreUsuario"]; ?></option>  
+                                    <?php
+                                    }
+                                    
+                                    
+                                    if(!empty( $personal ) ):
+                                    foreach($personal as $fila)
+                                    {
+                                    	?>
+                                    
+                                                                        <option value="<?php echo $fila["idUsuarios"]; ?>"><?php echo $fila["nombreUsuario"]; ?></option>  
+                                                                        <?php
+                                                                        }
+                                                                        endif;
+                                    
+                                    else:
+                                    ?>
+                                    <option value="">Seleccione Personal</option>
+                                      
+                                    <?php
+                                    if(!empty( $personal ) ):
+                                    foreach($personal as $fila)
+                                    {
+                                    	?>
+                                    
+                                                                        <option value="<?php echo $fila["idUsuarios"]; ?>"><?php echo $fila["nombreUsuario"]; ?></option>  
+                                                                        <?php
+                                                                        }
+                                                                        endif;
+                                                                       
+                                    
+                                    endif;
+                                    ?>
 
-                </tr>    
-                <tr>
-                    <td><label>Puesto</label></td>
-                    <td><select  name="selecPuesto" class="selecPuesto" id="selecPuesto">
-                <option value="">Seleccione Puesto</option>  
-               
-                <?php
-               if(!empty( $puestos ) ):
-               foreach($puestos as $fila)
-						{
-							?>
-					
-				                 <option value="<?php echo $fila["idPuestos"]; ?>"><?php echo $fila["nombrePuesto"]; ?></option>  
-				            <?php
-				            }
-				            endif;
-               ?>
-								  
-               
-               
-               
-            </select></td>
-                    <td><label>Fecha de Ingreso</label></td>
-                    <td><input type="text" onfocus="this.blur()" name="fecha_ingreso" class="fecha_ingreso" id="fecha_ingreso" placeholder="dd/mm/YYYY" autocomplete="off" required ></td>
 
-                </tr>  
-                <tr>
-                    <td><label>Ubicaci&oacute;n</label></td>
-                    <td><select  name="selecOficina" class="selecOficina" id="selecOficina">
-                <option value="">Seleccione Ubicaci&oacute;n</option>  
-               
-                <?php
-               if(!empty( $oficina ) ):
-               foreach($oficina as $fila)
-						{
-							?>
-					
-				                 <option value="<?php echo $fila["idOficinas"]; ?>"><?php echo $fila["nombreOficina"]; ?></option>  
-				            <?php
-				            }
-				            endif;
-               ?>
-								  
-               
-               
-               
-            </select></td>
-                    <td><label>D&iacute;a de descanso</label></td>
-                    <td> <select name="descanso" class="descanso" id="descanso"   >
-							      
-							       <option value="">Selecciona Día de descanso</option>
-								  <?php
-									  $perfiles = $catalogos->rhDiaDescanso();
-									  
-									  foreach( $perfiles as $key => $per ):
-								  ?>
-								  		  <option value="<?php echo $per; ?>"><?php echo $per; ?></option>
-							  
-								  <?php	  
-									  endforeach;
-								  ?>
-						      </select></td>
+                                   
 
-                </tr>
-				
-                <tr>
-                    <td><label>Motivo de la baja</label></td>
-                    <td><select  name="selecMotivo" class="selecMotivo" id="selecMotivo">
-                               <option value="">Seleccione motivo de la baja</option>  
-                                <option value="Abandono de trabajo">Abandono de trabajo</option>
-                                 <option value="Disminución de Cartera">Disminución de Cartera</option>  
-                                  <option value="Faltas">Faltas</option>    
-				
-            </select></td>
-                    <td><label>Quien solicita</label></td>
-                    <td><select  name="selecSolicita" class="selecSolicita" id="selecSolicita">
-                <option value="">Seleccione quien solicita</option>  
-               
-                <?php
-               if(!empty( $personal ) ):
-               foreach($personal as $fila)
-						{
-							?>
-					
-				                 <option value="<?php echo $fila["idUsuarios"]; ?>"><?php echo $fila["nombreUsuario"]; ?></option>  
-				            <?php
-				            }
-				            endif;
-               ?>
-								  
-               
-               
-               
-            </select></td>
+                               </select></td>
+                        </tr>
+                         <tr style="height: 5px">
+                             </tr>
+                           
+                        <tr>
+                            <td>Fecha de Ingreso</td>
+                            <td>
+                            
+                            <?php
+                                    if(!empty( $datos ) ):
+                                   
+                                    foreach($datos as $fila)
+                                    {
+                                    ?>
+<input type="text" onfocus="this.blur()" name="fecha_ingreso" class="fecha_ingreso" id="fecha_ingreso" placeholder="dd/mm/YYYY" autocomplete="off" required value="<?php echo $fila["fechaAlta"]; ?>" >
+                                  
+                                    <?php
+                                    }
+                                    else:
+                                    ?>
+                                                                       <input type="text" onfocus="this.blur()" name="fecha_ingreso" class="fecha_ingreso" id="fecha_ingreso" placeholder="dd/mm/YYYY" autocomplete="off" required >
+                                                                        <?php 
+                                    endif;
+                                    ?>
+                            
+                            </td>
+                        </tr>
+                         <tr style="height: 5px">
+                             </tr>
+                        <tr >
+                            <td>Empresa</td>
+                            <td><select  name="selecEmp" class="selecEmp" id="selecEmp" style="width:100%;">
+                                    
 
-                </tr>  
-				
-                <tr>
-                    <td><label>Fecha Efectiva</label></td>
-                    <td><input type="text" onfocus="this.blur()" name="fecha_efectiva" class="fecha_efectiva" id="fecha_efectiva" placeholder="dd/mm/YYYY" autocomplete="off" required ></td>
-                    <td><label>Sueldo</label></td>
-                    <td><select  name="selecSueldo" class="selecSueldo" id="selecSueldo">
-                <option value="">Seleccione Sueldo</option>  
-               
-                <?php
-               if(!empty( $sueldo ) ):
-               foreach($sueldo as $fila)
-						{
-							?>
-					
-				                 <option value="<?php echo $fila["idSueldos"]; ?>"><?php echo $fila["sueldo"]; ?></option>  
-				            <?php
-				            }
-				            endif;
-               ?>
-								  
-               
-               
-               
-            </select></td>
+                                    <?php
+                                    if(!empty( $datos ) ):
+                                   
+                                    foreach($datos as $fila)
+                                    {
+                                    ?>
 
-                </tr> 
-                <tr>
-                    <td><label>Horario</label></td>
-                    <td><input type="text" name="horario" class="horario" id=horario></td>
-                    <td><label>Fin de contrato</label></td>
-                    <td><input type="text" onfocus="this.blur()" name="fecha_fin_Contrato" class="fecha_fin_Contrato" id="fecha_fin_Contrato" placeholder="dd/mm/YYYY" autocomplete="off" required ></td>
+                                    <option value="<?php echo $fila["empresa"]; ?>"><?php echo $fila["empresa"]; ?></option>  
+                                    <?php
+                                    }
+                                    else:
+                                    ?>
+                                                                        <option value="">Seleccione Empresa</option>
+                                                                        <?php 
+                                    endif;
+                                    ?>
 
-                </tr> 
-            </table>
-            <br>
-            <br>
-            <center>
-            <label>Comentarios Gerente</label>
-            <br>
-            <textarea style="width:99%" rows="8" cols="50" name="comentGerente" class="comentGerente" id=comentGerente></textarea>
-			<br>
-            </center>
-        </div>
-        <a class="btnNextFDP" id="btnSolicitarBaja" href="#">Solicitar baja</a>
-    
-        <a class="btnNextFDP" id="btnMenu" href="">Men&uacute; principal</a>
-  </form>
-  
+                                </select></td>
+                        </tr>
+                         <tr style="height: 5px">
+                             </tr>
+                        <tr>
+                            <td>D&iacute;a de descanso</td>
+                            <td> <select name="descanso" class="descanso" id="descanso"  style="width:100%;" >
+
+                                   
+                                    <?php
+                                    if(!empty( $datos ) ):
+                                   
+                                    foreach($datos as $fila)
+                                    {
+                                    ?>
+                                    <option value="<?php echo $fila["descanso"]; ?>"><?php echo $fila["descanso"]; ?></option>
+
+                                    <?php	
+                                    }
+                                    else:
+                                    ?>
+                                                                                                          <option value="">Selecciona Día de descanso</option>
+                                                                                                            <?php 
+                                    endif;
+                                    ?>
+                                </select></td>
+                        </tr>
+                         <tr style="height: 5px">
+                             </tr>
+                        <tr>
+                            <td>Puesto</td>
+                            <td><select  name="selecPuesto" class="selecPuesto" id="selecPuesto" style="width:100%;">
+                                   
+
+                                    <?php
+                                    if(!empty(  $datos ) ):
+                                     
+                                    foreach( $datos as $fila)
+                                    {
+                                    ?>
+
+                                    <option value="<?php echo $fila["puesto"]; ?>"><?php echo $fila["puesto"]; ?></option>  
+                                    <?php
+                                    }
+                                    else:
+                                    ?>
+                                                                         <option value="">Seleccione Puesto</option>  
+                                                                        <?php
+                                    endif;
+                                    ?>
+
+                                </select></td>
+                        </tr> 
+                         <tr style="height: 5px">
+                             </tr> 
+                        <tr>
+                            <td>Ubicaci&oacute;n</td>
+                            <td><select  name="selecOficina" class="selecOficina" id="selecOficina" style="width:100%;">
+                                     
+
+                                    <?php
+                                    if(!empty( $datos ) ):
+                                   
+                                    foreach($datos as $fila)
+                                    {
+                                    ?>
+
+                                    <option value="<?php echo $fila["oficina"]; ?>"><?php echo $fila["oficina"]; ?></option>  
+                                    <?php
+                                    }
+                                    else:
+                                    ?>
+                                                                         <option value="">Seleccione Ubicaci&oacute;n</option>
+                                                                        <?php 
+                                    endif;
+                                    ?>
+
+                                </select></td>
+                        </tr>
+                         <tr style="height: 5px">
+                             <tr>                 
+                        <tr>
+                            <td>Motivo de la baja</td>
+                            <td><select  name="selecMotivo" class="selecMotivo" id="selecMotivo" style="width:100%;">
+                                    <option value="">Seleccione motivo de la baja</option>  
+                                    <option value="Abandono de trabajo">Abandono de trabajo</option>
+                                    <option value="Disminución de Cartera">Disminución de Cartera</option>  
+                                    <option value="Faltas">Faltas</option>    
+
+                                </select></td>
+                        </tr>
+                         <tr style="height: 5px">
+                             </tr>
+                        <tr>
+                            <td>Quien solicita</td>
+                            <td><select  name="selecSolicita" class="selecSolicita" id="selecSolicita" style="width:100%;">
+                                    <option value="">Seleccione quien solicita</option>  
+
+                                    <?php
+                                    if(!empty( $personal ) ):
+                                    foreach($personal as $fila)
+                                    {
+                                    ?>
+
+                                    <option value="<?php echo $fila["idUsuarios"]; ?>"><?php echo $fila["nombreUsuario"]; ?></option>  
+                                    <?php
+                                    }
+                                    endif;
+                                    ?>
+
+
+                                </select></td>
+                        </tr>  
+ <tr style="height: 5px">
+                             </tr>
+                        <tr>
+                            <td>Fecha Efectiva</td>
+                            <td><input type="text" onfocus="this.blur()" name="fecha_efectiva" class="fecha_efectiva" id="fecha_efectiva" placeholder="dd/mm/YYYY" autocomplete="off" required ></td>
+                        </tr>
+                         <tr style="height: 5px">
+                             </tr>
+                        <tr>
+                            <td>Sueldo</td>
+                            <td><select  name="selecSueldo" class="selecSueldo" id="selecSueldo" style="width:100%;">
+                                  
+
+                                    <?php
+                                    if(!empty( $datos ) ):
+                                    
+                                    foreach($datos as $fila)
+                                    {
+                                    ?>
+
+                                    <option value="<?php echo $fila["sdi"]; ?>"><?php echo $fila["sdi"]; ?></option>  
+                                    <?php
+                                    }
+                                    else:
+                                    ?>
+                                                                          <option value="">Seleccione Sueldo</option>  
+                                                                          <?php 
+                                    endif;
+                                    ?>
+                               </select></td>
+                       </tr> 
+                        <tr style="height: 5px">
+                             </tr>
+                        <tr>
+                            <td>Horario</td>
+                            <td><input type="text" name="horario" class="horario" id=horario></td>
+                        </tr>
+                         <tr style="height: 5px">
+                             <tr>
+                        <tr>
+                            <td>Fin de contrato</td>
+                            <td><input type="text" onfocus="this.blur()" name="fecha_fin_Contrato" class="fecha_fin_Contrato" id="fecha_fin_Contrato" placeholder="dd/mm/YYYY" autocomplete="off" required ></td>
+                       </tr> 
+                    </table>
+                    </div>
+                    <br>
+               
+                    <center>
+                        Comentarios Gerente
+                        <br>
+                        <textarea style="width:99%" rows="8" cols="50" name="comentGerente" class="comentGerente" id=comentGerente></textarea>
+                        <br>
+                    </center>
+            </div>
+            <a class="btnNextFDP" id="btnSolicitarBaja" href="#">Solicitar baja</a>
+
+            <a class="btnNextFDP" id="btnMenu" href="">Men&uacute; principal</a>
+        </form>
+
     </div>
-
     
    	<script type="text/javascript">
     $( "#fecha_ingreso" ).datepicker({
@@ -310,7 +388,7 @@ $("#btnSolicitarBaja").click(function(){
 
     				 
     		    $.ajax({
-                    url: '<?= base_url(); ?>Gerente/SolicitudBajaPersonal',
+                    url: '<?php  echo HOME_URL; ?>Gerente/SolicitudBajaPersonal',
                     type: 'POST',
                     dataType: 'json',
                     data: $('#form1').serialize(),
@@ -319,6 +397,7 @@ $("#btnSolicitarBaja").click(function(){
                     success: function(response) {
                         if (response.codigo==200) {
                         	$("#guarda").html("Solicitud guardada correctamente..");
+                        	$("#resultado").html("");
                            
                         } else {
                         	$("#resultado").html("Favor de intentar nuevamente..");
@@ -326,8 +405,8 @@ $("#btnSolicitarBaja").click(function(){
                         }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
-                    //	$("#resultado").html("Favor de intentar nuevamente..");
-                       alert(jqXHR.responseText);
+                    	$("#resultado").html("Favor de intentar nuevamente..");
+                      // alert(jqXHR.responseText);
                     }
                 });
     			
@@ -348,3 +427,25 @@ $("#btnSolicitarBaja").click(function(){
 
 
 </script>
+
+ <script type="text/javascript">
+    
+        $(document).ready(function() {
+
+
+            
+            $("#selecUsuario").change(function() {
+                $("#selecUsuario option:selected").each(function() {
+                	usuario = $('#selecUsuario').val();
+
+
+                	 url = "<?php echo HOME_URL; ?>Gerente/BajaPersonal/"+usuario;
+                     
+                	 window.location.href = url;
+                            
+                 				
+                   
+                });
+            })
+        });
+    </script>

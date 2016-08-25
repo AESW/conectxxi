@@ -70,19 +70,6 @@ class Capacitacion extends CI_Controller {
 		);
 		
 		
-		
-		$idCurso=$this->input->post('idCurso');
-		
-		if ($idCurso=='')
-		{
-			$id=$id;
-		}
-		else 
-		{
-			
-			$id=$idCurso;
-		}
-		
 		$Curso = $this->CapacitacionModel->Curso($id);
 		$FechaCurso = $this->CapacitacionModel->FechaCurso($id);
 		$Duracion = $this->CapacitacionModel->Duracion($id);

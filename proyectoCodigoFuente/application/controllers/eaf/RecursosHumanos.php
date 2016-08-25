@@ -58,12 +58,15 @@ class Recursoshumanos extends CI_Controller {
 		
 		$movimientosCandidatosRH = $this->RecursoshumanosModel->obtenerMovimientosCandidatos ();
 		
+	
+		
 		$dataContent = array (
 				"isRRHH" => $isRRHH,
 				"accionesRRHH" => $accionesRRHH,
 				"entrevistasRealizar" => $entrevistasRealizar,
 				"entrevistasRealizarSegundaParte" => $entrevistasRealizarSegundaParte,
-				"movimientos" => $movimientosCandidatosRH 
+				"movimientos" => $movimientosCandidatosRH
+				
 		);
 		
 		// print_r($movimientosCandidatosRH);
@@ -279,6 +282,13 @@ class Recursoshumanos extends CI_Controller {
 		
 			
 		endif;
+		
+		
+		$sqlCatPuestos = 'SELECT * from Puestos order by nombrePuesto asc';
+		
+		$queryCatPuestos = $this->db->query($sqlCatPuestos);
+		
+		$dataContent["CatPuestos"] = $queryCatPuestos->result();
 		
 		$dataContent ["formArray"] = $candidatoFDP;
 		$dataContent ["catalogos"] = new Catalogos ();
