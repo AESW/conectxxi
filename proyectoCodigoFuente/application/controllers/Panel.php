@@ -422,7 +422,7 @@ class Panel extends CI_Controller {
 				
 				$img='<div> <img src="./assets/images/Logo_legaxxi.png" alt="LEGAXXI" height="110" width="110" align="middle"></div>';
 				
-				$foto='<div> <img src="./documentosUsuarios/files/thumbnail/'.$fotoUsuario.'" alt="FOTO" height="110" width="110" align="middle"></div>';
+				$foto='<div> <img src="./documentosUsuarios/'.$fotoUsuario.'" alt="FOTO" height="110" width="110" align="middle"></div>';
 				
 				
 				

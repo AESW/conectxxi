@@ -80,7 +80,7 @@
 				if( $accion == "baja" ):
 				?>
 									
-										<li><a href="<?php echo HOME_URL; ?>eaf/RecursosHumanos/bajausuario/?idCandidatoFDP=<?php echo $mo["idCandidatoFDP"];?>"><?php echo $mo["nombreCandidato"]." , ".$accion;?> </a></li>
+										<li><a href="<?php echo HOME_URL; ?>eaf/RecursosHumanos/bajausuario/?idUsuario=<?php echo $mo["idCandidatoFDP"];?>"><?php echo $mo["nombreCandidato"]." , ".$accion;?> </a></li>
 								
 								<?php 
 									else:

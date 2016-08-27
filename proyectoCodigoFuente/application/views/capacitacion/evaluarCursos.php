@@ -33,7 +33,7 @@
 							{
 								?>
 								
-		             <input style="margin-left: 1%" type="text" name="nomEmp" id="nomEmp" class="nomEmp" value="<?php echo $fila['nombreUsuario']; ?>">
+		             <input style="margin-left: 1%;width:40%" type="text" name="nomEmp" id="nomEmp" class="nomEmp" value="<?php echo $fila['nombreUsuario']; ?>">
 					            <?php
 					            }
 					        	 
@@ -54,7 +54,7 @@
           
             <tr>
                 <td style="text-align:right;"> <label style="margin-left: -200px;  width:60%;height:23px;" > <?php echo $fila['NombreDelTema']; ?></label></td>
-                <td  style="text-align:center;"><input type="text" name="calificacion[]" class="codEti" value="<?php echo $fila['ValorMinimo']; ?>" id="calificacion" style=" width:40px;height:23px;">
+                <td  style="text-align:center;"><input type="text" name="calificacion[]" class="codEti" value="0" id="calificacion" style=" width:40px;height:23px;">
                 <input type="hidden" name="tema[]" class="codEti" value="<?php echo $fila['NombreDelTema']; ?>" id="tema" style=" width:40px;height:23px;"></td>
                 
             </tr>

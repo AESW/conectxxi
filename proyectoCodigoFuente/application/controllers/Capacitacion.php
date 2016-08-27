@@ -71,16 +71,13 @@ class Capacitacion extends CI_Controller {
 		
 		
 		$Curso = $this->CapacitacionModel->Curso($id);
-		$FechaCurso = $this->CapacitacionModel->FechaCurso($id);
-		$Duracion = $this->CapacitacionModel->Duracion($id);
+		
 		$Lugar = $this->CapacitacionModel->Lugar($id);
 		$facilitador = $this->CapacitacionModel->facilitador();
 		
 		$dataContent = array(
 				"Curso" => $Curso,
-				"FechaCurso" => $FechaCurso,
 				"Lugar" => $Lugar,
-				"Duracion" => $Duracion,
 				"facilitador" => $facilitador
 		);
 		
@@ -159,7 +156,8 @@ class Capacitacion extends CI_Controller {
 	
 	
 		$idCurso=$this->input->post('idCurso');
-		$idFecha=$this->input->post('FechaCurso');
+		$FechaCursoInicio=$this->input->post('FechaCursoInicio');
+		$FechaCursoFinal=$this->input->post('FechaCursoFinal');
 		$idCapacitador=$this->input->post('Capacitador');
 		$idLugar=$this->input->post('Lugar');
 		$idduracion=$this->input->post('Duracion');
@@ -167,7 +165,7 @@ class Capacitacion extends CI_Controller {
 	
 		
 	
-			$sqlGrupo = "Insert into CatalogoGrupos (NombreGrupo,CatalogoCursos_idCursos,CatalogoFechas_idFechas,CatalogoDuracion_idDuracion,CatalogoUbicaciones_idUbicacion,Usuarios_idUsuarios) values ('$Grupo',$idCurso,$idFecha,$idduracion,$idLugar,$idCapacitador)" ;
+			$sqlGrupo = "Insert into CatalogoGrupos (NombreGrupo,CatalogoCursos_idCursos,fechaInicial,fechaFinal,duracion,CatalogoUbicaciones_idUbicacion,Usuarios_idUsuarios) values ('$Grupo',$idCurso,'$FechaCursoInicio','$FechaCursoFinal','$idduracion',$idLugar,$idCapacitador)" ;
 	
 				
 	
@@ -288,9 +286,9 @@ class Capacitacion extends CI_Controller {
 										{
 											?><tr>
 											
-										<td colspan="3">Fecha: <?php echo $fila->FechaInicial; ?> Al <?php echo $fila->FechaFinal; ?>, Duración: <?php echo $fila->Duracion; ?> <?php echo $fila->Horario; ?>, Capacitador: <?php echo $fila->nombreUsuario; ?>,
+										<td colspan="3">Fecha: <?php echo $fila->fechaInicial; ?> Al <?php echo $fila->fechaFinal; ?>, Duración: <?php echo $fila->duracion; ?> <?php echo $fila->Horario; ?>, Capacitador: <?php echo $fila->nombreUsuario; ?>,
 										
-										 Lugar: <?php echo $fila->Direccion; ?>, Sala: <?php echo $fila->Sala; ?></td>
+										 Lugar: <?php echo $fila->Direccion; ?>, Sala: <?php echo $fila->Sala; ?>, Capacidad: <?php echo $fila->Capacidad; ?> , Asignados: <?php echo $fila->asignados; ?></td>
 											
 											</tr>
 											
@@ -549,7 +547,7 @@ class Capacitacion extends CI_Controller {
 																{
 																	?><tr>
 																	
-																<td colspan="3">Fecha: <?php echo $fila->FechaInicial; ?> Al <?php echo $fila->FechaFinal; ?>, Duración: <?php echo $fila->Duracion; ?> <?php echo $fila->Horario; ?>, Capacitador: <?php echo $fila->nombreUsuario; ?>,
+																<td colspan="3">Fecha: <?php echo $fila->fechaInicial; ?> Al <?php echo $fila->fechaFinal; ?>, Duración: <?php echo $fila->duracion; ?> <?php echo $fila->Horario; ?>, Capacitador: <?php echo $fila->nombreUsuario; ?>,
 																
 																 Lugar: <?php echo $fila->Direccion; ?>, Sala: <?php echo $fila->Sala; ?></td>
 																	

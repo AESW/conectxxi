@@ -32,9 +32,12 @@ class Nomina extends CI_Controller {
 		
 		$AltasUsuario = $this->NominaModel->obtenerAltasUsuario();
 		
+		$BajasUsuario = $this->NominaModel->obtenerBajasUsuario();
+		
 			
 		$dataContent = array(
-				"Altas" => $AltasUsuario
+				"Altas" => $AltasUsuario,
+				"Bajas" => $BajasUsuario
 				
 		);
 		
@@ -244,12 +247,101 @@ class Nomina extends CI_Controller {
 			        	 
 			        }
 		
-		
-		
-		
+	}
+	
+	public function BajaUsuario()
+	{
+		$dataHeader = array(
+				"titulo" => "Baja de Usuario - NOI"
+		);
+		/*Obtener datos de usuario, roles, modulos , permisos*/
+		$sessionUser = $this->session->userdata('logged_in');
+	
+		$isReclutamiento = 0;
+		$accionesReclutamiento = array();
+		if( isset( $sessionUser["puesto"]["permisos"] ) ):
+		foreach( $sessionUser["puesto"]["permisos"] as $permisos ):
+		if( $permisos["prefijoModulos"] == "nomina"):
+		$isReclutamiento = 1;
+		$accionesReclutamiento[] = $permisos["accionPermisos"];
+		endif;
+		endforeach;
+		else:
+		redirect("panel");
+		endif;
+			
+		if( $isReclutamiento == 0 ):
+		redirect("panel");
+		endif;
+			
+	
+		$catEmpresas=$this->NominaModel->obtenerEmpresas();
+		//		$AltasUsuarios=$this->NominaModel->AltaUsuarios();
+	
+		$dataContent["Empresas"] = $catEmpresas;
+		//	$dataContent["DatosUsuario"] = $AltasUsuarios;
 	
 	
+		//print_r($AltasUsuarios);
+	
+		$this->load->view('includes/header' , $dataHeader);
+		$this->load->view('nomina/baja_personal' , $dataContent);
+		$this->load->view('includes/footer');
 	
 	}
+	
+	public function UsuariosEmpresaBaja()
+	{
+	
+	
+	
+	
+		if($this->input->post('empresa'))
+		{
+			$id = $this->input->post('empresa');
+	
+	
+			$AltasUsuarios=$this->NominaModel->BajaUsuarios($id);
+			?>
+					
+					
+					<tr>
+	                <th>PATERNO</th>
+	                <th>MATERNO</th>
+	                <th>NOMBRE</th>
+	                <th>SDI</th>
+	                <th>PUESTO</th>
+	                <th>FECHA NACIMIENTO</th>
+	                <th>REG. PATRONAL</th>
+	                <th>OFICINA</th>
+	                <th>SELECCIONAR</th>      
+	</tr>
+	
+	 <?php
+				
+						
+						foreach($AltasUsuarios as $fila)
+						{
+							?>
+							
+				                 <tr> 			  	           
+	                <td><?php echo $fila->apeliidoPaterno; ?></td>
+	                <td><?php echo $fila->apellidoMaterno; ?></td>
+	                <td><?php echo $fila->nombre; ?></td>
+	                <td><?php echo $fila->sdi; ?></td>
+	                <td><?php echo $fila->puesto; ?></td>
+	                <td><?php echo $fila->fechaNacimiento; ?></td>
+	                <td><?php echo $fila->patronal; ?></td>
+	                <td><?php echo $fila->oficina; ?></td>
+	                <td><center> <input type="checkbox" name="AltaUsuario[]" value="<?php echo $fila->idCandidatoFDP; ?>" checked></center></td>
+	                  </tr>  
+				            <?php
+				            }
+				        	
+				        	
+				        	 
+				        }
+			
+		}
 	
 }

@@ -20,6 +20,17 @@
 				endforeach;
 			endif;
 		?>
+		
+		 
+        <?php 
+			if(!empty( $Bajas ) ):
+				foreach($Bajas as $count):
+		?>
+					<li><a href="<?php echo HOME_URL."Nomina/BajaUsuario"; ?>"> Bajas de Usuarios: <?php echo $count["cuenta"];?></a></li>
+		<?php
+				endforeach;
+			endif;
+		?>
         
         
         </ul>

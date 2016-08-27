@@ -29,24 +29,14 @@
           
             <br>
             <br>
-            <label style="margin-left: 5px"> Fecha del Curso:</label>
-           <select id="FechaCurso" name="FechaCurso" class="sel_curso" style="margin-left: 6.8%;width:30%">
-                    <option value="">Seleccione fecha inicial</option>
-                    
-                    <?php 
-			if(!empty( $FechaCurso ) ):
-				foreach($FechaCurso as $valor):
-		?>
-					
-					 <option value="<?php echo $valor["idFechas"];?>"><?php echo $valor["FechaInicial"];?> - <?php echo $valor["FechaFinal"];?></option>
-					
-		<?php
-				endforeach;
-			endif;
-		?>
-                    
-                    
-                                    </select>
+            <label style="margin-left: 5px"> Fecha Inicial del Curso:</label>
+         
+                   <input style="margin-left: 2.5%;width:30%" type="text" onfocus="this.blur()" name="FechaCursoInicio" class="FechaCursoInicio" id="FechaCursoInicio" placeholder="dd/mm/YYYY" autocomplete="off" required >
+            <br>
+            <br>
+             <label style="margin-left: 5px"> Fecha Final del Curso:</label>
+         
+                   <input style="margin-left: 3%;width:30%" type="text" onfocus="this.blur()" name="FechaCursoFinal" class="FechaCursoFinal" id="FechaCursoFinal" placeholder="dd/mm/YYYY" autocomplete="off" required >
             <br>
             <br>
             <label style="margin-left: 5px">Capacitador:</label>
@@ -90,23 +80,9 @@
             <br>
             <br>
             <label style="margin-left: 5px">Duraci&oacute;n:</label>
-            <select id="Duracion" name="Duracion" class="sel_curso" style="margin-left: 11.5%;width:30%">
-                    <option value="">Seleccione Duración...</option>
-                    
-                    <?php 
-			if(!empty( $Duracion ) ):
-				foreach($Duracion as $valor):
-		?>
-					
-					 <option value="<?php echo $valor["idDuracion"];?>"><?php echo $valor["Duracion"];?> - <?php echo $valor["Horario"];?></option>
-					
-		<?php
-				endforeach;
-			endif;
-		?>
-                    
-                    
-                                    </select>
+           
+          <input style="margin-left: 11.5%;width:30%" type="text" name="Duracion" id="Duracion" class=Duracion placeholder="Duraci&oacute;n del curso" value="">
+		          
                                     <br>
                                     <br>
                                      <label style="margin-left: 5px">Nombre del Grupo:</label>
@@ -138,13 +114,35 @@
 </div>
 
 
+	<script type="text/javascript">
+    $( "#FechaCursoFinal" ).datepicker({
+	        dateFormat: "yy-mm-dd",
+	        yearRange: "-100:+0",
+	        changeYear:true,
+        });
+
+    $( "#FechaCursoInicio" ).datepicker({
+        dateFormat: "yy-mm-dd",
+        yearRange: "-100:+0",
+        changeYear:true,
+    });
+
+    
+    </script> 
+
+
 <script type="text/javascript">
 $("#btnProgramarCurso").click(function(){
 
     		error_campos = [];
-    		if( $("#FechaCurso").val() == "" ) {
-        		error_campos.push(  "FechaCurso");
-        		 $("#FechaCurso").css("border", "2px solid red");
+    		if( $("#FechaCursoInicio").val() == "" ) {
+        		error_campos.push(  "FechaCursoInicio");
+        		 $("#FechaCursoInicio").css("border", "2px solid red");
+    		}
+
+    		if( $("#FechaCursoFinal").val() == "" ) {
+        		error_campos.push(  "FechaCursoFinal");
+        		 $("#FechaCursoFinal").css("border", "2px solid red");
     		}
         		 
     		if( $("#Curso").val() == "" ) {
@@ -188,6 +186,7 @@ $("#btnProgramarCurso").click(function(){
                     success: function(response) {
                         if (response.codigo==200) {
                         	$("#guarda").html("Grupo guardado correctamente..");
+                        	$("#resultado").html("");
                            
                         } else {
                         	$("#resultado").html("Favor de intentar nuevamente..");

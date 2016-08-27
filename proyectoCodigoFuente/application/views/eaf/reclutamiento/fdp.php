@@ -961,7 +961,7 @@
 							  
 						  </td>
 					  </tr>
-				  </table>
+				  </table>															
 				  
 				  <h2><label>Resultados de examenes</label></h2>
 				  <table cellpadding="0" cellspacing="0" width="100%">
@@ -985,6 +985,8 @@
 									  endforeach;
 								  ?>
 							  </select>
+							  
+							    <a  target="_blank" class="btnNextFDP" id="btnPerfil"><i class="glyphicon glyphicon-search"></i> Ver Evaluación</a>
 						  </td>
 					  </tr>
 					  
@@ -1092,3 +1094,26 @@
         
 	});
 	</script>
+	
+	<script type="text/javascript">
+var nextinput = 0;
+        $(document).ready(function() {
+            $("#evaluacion_candidato_reclutamiento").change(function() {
+            	 $("#evaluacion_candidato_reclutamiento option:selected").each(function() {
+                     puesto = $('#evaluacion_candidato_reclutamiento option:selected').text();
+
+alert(puesto);
+                     
+if (puesto=='Selecciona evaluación')
+{
+
+	document.getElementById('btnPerfil').href = "<?php echo HOME_URL;?>EvaluacionesDoc/";
+}
+else
+{
+    document.getElementById('btnPerfil').href = "<?php echo HOME_URL;?> EvaluacionesDoc/"+puesto+".pdf";
+}    
+                 });
+            })
+        });
+    </script> 

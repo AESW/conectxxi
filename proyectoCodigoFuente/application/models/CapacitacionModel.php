@@ -303,10 +303,7 @@ Where CatalogoGrupos.CatalogoCursos_idCursos=$id " ;
 	public function obtenerGrupoDetalle($id){
 	
 	
-		$sqlObtenerGrupo = "Select * from CatalogoGrupos left outer join CatalogoFechas
-		On CatalogoGrupos. CatalogoFechas_idFechas = CatalogoFechas. idFechas
-		Left outer join CatalogoDuracion
-		On CatalogoGrupos. CatalogoDuracion_idDuracion= CatalogoDuracion. idDuracion
+		$sqlObtenerGrupo = "Select *, (select count(*) from CursosUsuarios where CatalogoGrupos_idGrupo=$id) as asignados from CatalogoGrupos 
 		Left outer join CatalogoUbicaciones
 		On CatalogoGrupos. CatalogoUbicaciones_idUbicacion = CatalogoUbicaciones. idUbicacion
 		Left outer join Usuarios
@@ -354,10 +351,7 @@ Where CatalogoGrupos.CatalogoCursos_idCursos=$id " ;
 	public function verificarCupo($idgrupo){
 	
 	
-		$sqlObtenerGrupo = "Select * from CatalogoGrupos left outer join CatalogoFechas
-		On CatalogoGrupos. CatalogoFechas_idFechas = CatalogoFechas. idFechas
-		Left outer join CatalogoDuracion
-		On CatalogoGrupos. CatalogoDuracion_idDuracion= CatalogoDuracion. idDuracion
+		$sqlObtenerGrupo = "Select * from CatalogoGrupos
 		Left outer join CatalogoUbicaciones
 		On CatalogoGrupos. CatalogoUbicaciones_idUbicacion = CatalogoUbicaciones. idUbicacion
 		Left outer join Usuarios

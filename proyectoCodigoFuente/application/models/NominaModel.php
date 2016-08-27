@@ -475,4 +475,61 @@ where Empresas_idEmpresas = (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE 
 		endif;
 	
 	}
+	
+	public function obtenerBajasUsuario(){
+	
+	
+		$sqlBajasUsuarios = "SELECT count(*) as cuenta FROM SolBajasPersonal
+				where bajaUsuario =1 and bajaUsuarioNOI = 0";
+	
+		$queryBajasUsuarios = $this->db->query( $sqlBajasUsuarios );
+		if( $queryBajasUsuarios->num_rows() > 0 ):
+		$resultadoBajasUsuarios = $queryBajasUsuarios->result();
+		$altas = array();
+			
+		foreach( $resultadoBajasUsuarios as $entre):
+		$altas[] = array(
+				"cuenta" => $entre->cuenta
+	
+		);
+		endforeach;
+			
+		return $altas;
+		else:
+		return array();
+		endif;
+	
+	}
+	
+	public function BajaUsuarios($id){
+	
+	
+		$sqlBajaUsuarios = "SELECT SolBajasPersonal.*,CandidatoFDP.nombre,CandidatoFDP.apeliidoPaterno,CandidatoFDP.apellidoMaterno,CandidatoFDP.fechaNacimiento,
+		(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = SolBajasPersonal.idUsuarios and prefijoMetaDatos='Sdi') as sdi,
+		(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = SolBajasPersonal.idUsuarios and prefijoMetaDatos='puesto') as puesto,
+		(SELECT Patronales.registroPatronal FROM Oficinas_has_Empresas
+		left outer join Patronales on Patronales.idPatronales = Oficinas_has_Empresas.Patronales_idPatronales
+		where Empresas_idEmpresas = $id and Oficinas_idOficinas = (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = SolBajasPersonal.idUsuarios and prefijoMetaDatos='oficina')) as patronal,
+		(SELECT Oficinas.nombreOficina FROM Oficinas_has_Empresas
+		left outer join Oficinas on Oficinas.idOficinas = Oficinas_has_Empresas.Oficinas_idOficinas
+		where Empresas_idEmpresas = $id and Oficinas_idOficinas = (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = SolBajasPersonal.idUsuarios and prefijoMetaDatos='oficina')) as oficina
+		FROM SolBajasPersonal
+		left outer join CandidatoFDP on CandidatoFDP.idCandidatoFDP= SolBajasPersonal.idCandidatoFDP
+		where bajaUsuario =1 and bajaUsuarioNOI = 0 and (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = SolBajasPersonal.idUsuarios and prefijoMetaDatos='empresa_contrata') = $id";
+		 
+		$queryBajaUsuarios = $this->db->query( $sqlBajaUsuarios );
+	
+	
+		$arrayBajaUsuarios = array();
+		if(  $queryBajaUsuarios->num_rows() > 0 ):
+	
+	
+		$arrayBajaUsuarios = $queryBajaUsuarios->result();
+	
+	
+		endif;
+			
+	
+		return $arrayBajaUsuarios;
+	}
 }

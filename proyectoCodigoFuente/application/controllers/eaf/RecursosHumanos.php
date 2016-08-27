@@ -1613,4 +1613,68 @@ function bisiesto($anio_actual){
 	}
 	return $bisiesto;
 }
+
+public function bajausuario() {
+	$dataHeader = array (
+			"titulo" => "Baja de Usuario"
+	);
+
+	$idCandidatoFDP = $this->input->get ( 'idUsuario' );
+	$Datosusuarios = $this->RecursoshumanosModel->Datosusuarios($idCandidatoFDP);
+	
+	
+
+	
+	$dataContent ["Datosusuarios"] = $Datosusuarios;
+
+	// echo "<pre>";print_r($error_campos);
+	 //echo "<pre>";print_r($dataContent);
+	//// echo "<pre>";print_r($resultado);
+	// echo "<pre>";print_r($formArray);
+
+	$this->load->view ( 'includes/header', $dataHeader );
+	$this->load->view ( 'eaf/recursoshumanos/baja_usuario', $dataContent );
+	$this->load->view ( 'includes/footer' );
+}
+
+
+
+public function AprobarBajaPersonal() {
+	$dataHeader = array (
+			"titulo" => "Baja de Usuario"
+	);
+
+	$idUsuario = $this->Sanitize->clean_string ( $_POST ["selecUsuario"] );
+	
+	$finiquito = $this->Sanitize->clean_string ( $_POST ["finiquito"] );
+	$cheque = $this->Sanitize->clean_string ( $_POST ["cheque"] );
+	$observaciones = $this->Sanitize->clean_string ( $_POST ["observaciones"] );
+	
+
+			
+		$sqlUpdateUsuario = "UPDATE SolBajasPersonal set cheque='$cheque' , finiquito = '$finiquito', observaciones= '$observaciones',bajaUsuario=1,fechaBaja=now() where idUsuarios= $idUsuario";
+			
+		$UpdateUsuario = $this->db->query ( $sqlUpdateUsuario );
+			
+		
+		if ($UpdateUsuario)
+		{
+			$resultado = array (
+					"codigo" => 200,
+					"exito" => true,
+					"mensaje" => "Baja realizada correctamente."
+			);
+		}
+		else {
+			$resultado = array (
+					"codigo" => 400,
+					"exito" => false,
+					"mensaje" => "Error, vuelva a intentarlo."
+			);
+		}
+		
+		ob_clean ();
+		echo json_encode ( $resultado );
+		exit ();
+}
 }

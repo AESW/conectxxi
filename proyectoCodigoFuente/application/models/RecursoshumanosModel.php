@@ -609,4 +609,26 @@ FROM CandidatoFDP where CandidatoFDP.idCandidatoFDP =$id";
 	
 		return $arrayContratoUsuarios;
 	}
+	
+	public function Datosusuarios($idCandidatoFDP){
+	
+	
+		$sqlObtenerDatos = "SELECT SolBajasPersonal.*,Usuarios.* FROM SolBajasPersonal left outer join Usuarios
+on SolBajasPersonal.idusuarios=Usuarios.idUsuarios where SolBajasPersonal.idusuarios= $idCandidatoFDP" ;
+			
+		$resultObtenerDatos = array();
+			
+		$queryObtenerDatos = $this->db->query($sqlObtenerDatos);
+			
+		if( $queryObtenerDatos->num_rows() > 0 ):
+		$resultObtenerDatos = $queryObtenerDatos->result();
+	
+	
+		endif;
+			
+	
+		return $resultObtenerDatos;
+	
+	
+	}
 }
