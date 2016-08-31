@@ -3,6 +3,7 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 
 require_once (APPPATH . 'libraries/Sanitize.php');
 require (APPPATH . 'libraries/UploadHandler.php');
+require_once "Mail.php";
 class Recursoshumanos extends CI_Controller {
 	function __construct() {
 		// Call the Model constructor

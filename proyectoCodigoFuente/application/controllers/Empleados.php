@@ -724,12 +724,12 @@ class Empleados extends CI_Controller {
 						$selectHash = $this->db->query( $sqlHash );
 						$resultHash = $selectHash->result();
 					
-					//	$from=$resultHash[0]->email;
-					//	$smtp="ssl://".$resultHash[0]->smtp;
+						$from=$resultHash[0]->email;
+				$smtp="ssl://".$resultHash[0]->smtp;
 					
 						
-						$from='reclutamiento@almeriasa.com.mx';
-						$smtp="ssl://mail.almeriasa.com.mx";
+				//		$from='reclutamiento@almeriasa.com.mx';
+				//		$smtp="ssl://mail.almeriasa.com.mx";
 							
 						
 						$to   = trim( $resultado["correo_electronico_candidato"] );
@@ -738,9 +738,9 @@ class Empleados extends CI_Controller {
 						$config = array (
 						
 								'protocol' => 'smtp',
-								'smtp_host' => 'ssl://mail.almeriasa.com.mx',
+								'smtp_host' => $smtp,
 								'smtp_port' => 465,
-								'smtp_user' => 'reclutamiento@almeriasa.com.mx',
+								'smtp_user' => $from,
 								'smtp_pass' => 'Agosto2013',
 								'smtp_timeout' => '7',
 								'charset' => 'utf-8',
@@ -757,14 +757,24 @@ class Empleados extends CI_Controller {
 						$ci->load->library ( 'Email', $config );
 						$ci->email->initialize ( $config );
 						
-						$ci->email->from ( 'reclutamiento@almeriasa.com.mx' , 'DATOS PERSONALES' );
-						$ci->email->to ( 'ferma_3@live.com.mx' );
+						$ci->email->from ( $from, 'DATOS PERSONALES' );
+						$ci->email->to ( $to );
 						$ci->email->subject ( 'Confirmación de datos personales para candidatos.' );
-						$ci->email->message ('<p>Hola '.$resultado["nombre_candidato"].' '.$resultado["apellido_paterno_candidato"].' '.$resultado["apellido_materno_candidato"].'<br/>Para finalizar el proceso de registro como candidato confirma tu cuenta <a href="'.HOME_URL.'candidatos/verificar/?token='.$hashValidacion.'" target="_blank">aquí</a><br/><br/>Atte. Staff ConectXXI</p>');
+						$ci->email->message ('<p>Hola '.$resultado["nombre_candidato"].' '.$resultado["apellido_paterno_candidato"].' '.$resultado["apellido_materno_candidato"].
+								'<br>Para finalizar el proceso de registro como candidato confirma tu cuenta <a href="'.HOME_URL.'Empleados/verificar/?token='.$hashValidacion.'" target="_blank">aquí</a>
+								<br><br>Atte. Staff ConectXXI</p>');
 						
 						$ci->email->send ();
 					
-						var_dump ( $ci->email->print_debugger () );
+					//	var_dump ( $ci->email->print_debugger () );
+						
+						
+						
+						
+						
+						
+						
+						
 						
 					unset($_COOKIE['formArray1']);
 					setcookie('formArray1', '', time() - 3600, '/');
@@ -967,7 +977,7 @@ class Empleados extends CI_Controller {
 		);
 		
 		$this->load->view('includes/header' , $dataHeader);
-		$this->load->view('fdp/confirmar' , $dataContent);
+		$this->load->view('empleados/confirmar' , $dataContent);
 		$this->load->view('includes/footer');
 	}
 	
