@@ -206,6 +206,9 @@ class Gerente extends CI_Controller {
     
     function SolicitudBajaPersonal() {
     
+    	
+    	$sessionUser = $this->session->userdata('logged_in');
+    	$selecSolicita=$sessionUser["usuario"]["idUsuarios"];
     
     	$selecUsuario=$this->input->post('selecUsuario');
     	$selecEmp=$this->input->post('selecEmp');
@@ -214,7 +217,7 @@ class Gerente extends CI_Controller {
     	$selecOficina=$this->input->post('selecOficina');
     	$descanso=$this->input->post('descanso');
     	$selecMotivo=$this->input->post('selecMotivo');
-    	$selecSolicita=$this->input->post('selecSolicita');
+    //	$selecSolicita=$this->input->post('selecSolicita');
     	$fecha_efectiva=$this->input->post('fecha_efectiva');
     	$selecSueldo=$this->input->post('selecSueldo');
     	$horario=$this->input->post('horario');
@@ -223,8 +226,8 @@ class Gerente extends CI_Controller {
     	
     
     
-    	$sqlAlta = "insert into SolBajasPersonal ( motivoBaja, fechaEfectiva, horario, fechaIngreso, diaDescanso, finContrato, comentarios, idUsuarios, Empresa, Puesto, Oficina, sdi, idUsuariosSolicita
-    	) values ('$selecMotivo','$fecha_efectiva','$horario','$fecha_ingreso','$descanso','$fecha_fin_Contrato','$comentGerente',$selecUsuario,'$selecEmp','$selecPuesto','$selecOficina','$selecSueldo',$selecSolicita)" ;
+    	$sqlAlta = "insert into SolBajasPersonal ( motivoBaja, fechaEfectiva, horario, fechaIngreso, diaDescanso, finContrato, comentarios, idUsuarios, Empresa, Puesto, Oficina, sdi, idUsuariosSolicita,cheque,finiquito,bajaUsuario,bajaUsuarioNOI
+    	) values ('$selecMotivo','$fecha_efectiva','$horario','$fecha_ingreso','$descanso','$fecha_fin_Contrato','$comentGerente',$selecUsuario,'$selecEmp','$selecPuesto','$selecOficina','$selecSueldo',$selecSolicita,0,0,0,0)" ;
     
     
     

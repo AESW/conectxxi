@@ -1,11 +1,59 @@
- <div class="content_generic">
-            <div style="width: 99% " class="block_box_bajaUsuario">
-                <h2>Solicitud de Baja de Personal</h2>
-               <ul>
-                <form  name="form1" id="form1" method="POST" >
-                    <p><span id="resultado" style="color:red;font-weight: bold;margin-bottom: 15px;"></span></p>
-                    <p><span id="guarda" style="font-weight: bold; text-align: center;font-size: 13pt; color: #00db05"></span></p>
-                    <br>
+	<script type="text/javascript">
+    $(document).ready( function() {
+      $('#tab-container').easytabs();
+      $('#tab-container').bind('easytabs:before', function(evt, tab, panel, data) {
+	      $(".step_current").val( $(tab).attr("href").replace("#", ""));
+	      
+		  return true;
+	  });
+	 
+      if( $("#registro").val() == "1" ) {
+    	  $(".step3").trigger("click");
+  		}
+
+	  $("#btnNextFDP1").click(function(){
+	      $('.page').ScrollTo();
+	      $(".step2").trigger("click");
+	      //$(".step_current").val('tabs1-paso2');
+	      //$(".btn_fire").val("continuar");
+	      //$("#form_fdp_conectxxi").submit();
+      });
+     
+      
+     
+
+  
+     
+      
+      	
+    });
+        
+  </script>
+ 
+  <?php
+	/*echo "<pre>";
+	      	print_r($error_campos);
+	echo "</pre>";  
+	
+	echo count($error_campos);*/
+  ?>
+ 
+  <div class="formulario_fdp">
+		<div id="tab-container" class="tab-container">
+		  	<ul class='etabs'>
+			    <li class='tab'><a href="#tabs1-paso1" class="step1">Paso 1</a></li>
+			    <li class='tab'><a href="#tabs1-paso2" class="step2">Paso 2</a></li>
+			  
+			   
+		  	</ul>
+		  	<div class='panel-container'>
+		  	
+		   <form  name="form1" id="form1" method="POST" > 
+			  <!-- Paso 1 -->
+			  <div id="tabs1-paso1">
+				
+			    <h2><label>Solicitud de Baja de Personal</label></h2>
+			    
                       <div style="text-align:center;">
                         <table cellpadding="0" cellspacing="0"   style="margin: 0 auto;" >
                                           <tr >
@@ -322,66 +370,122 @@
                        
                         <br>
                     </center>
-            </div>
-            <a class="btnNextFDP" id="btnSolicitarBaja" href="#">Aprobar baja</a>
+			    
+			    
+			       <a class="btnNextFDP" id="btnNextFDP1">Continuar</a>
+			     <div style="clear: both;"></div>
+			    <!-- content -->
+			  </div>
+			  <!-- End Paso 1 -->
+			  
+			  <!-- Paso 2 -->
+			  <div id="tabs1-paso2">	
+			    <h2><label>Finiquito</label></h2>
+			   
+			    <p><span id="resultado" style="color:red;font-weight: bold;margin-bottom: 15px;"></span></p>
+                    <p><span id="guarda" style="font-weight: bold; text-align: center;font-size: 13pt; color: #00db05"></span></p>
+                    <br>
+                      <div style="text-align:center;">
+                        <table cellpadding="0" cellspacing="0"   style="margin: 0 auto;" >
+                  
+                    
+           <?php 
+                    foreach($Conceptos as $fila)
+							{
+								
+						if ($fila['tipo']==1)
+						{
+								?>
+          
+          
+            <tr>
+                <td >  <?php echo $fila['Concepto']; ?> :</td>
+                <td ><input type="text" name="calificacion[]" class="codEti" value="0" id="calificacion" style=" width:100px;height:23px;">
+                <input type="hidden" name="tema[]" class="codEti" value="<?php echo $fila['Concepto']; ?>" id="tema" >
+				 <input type="hidden" name="tipo[]" class="codEti" value="<?php echo $fila['tipo']; ?>" id="tipo" >
+				</td>
+                
+            </tr>
+            
+             <?php
+						}
+						
+					            }
+					        
+                  ?>
+                  
+                  <tr>
+                <td > <label  > MENOS :</label></td>
+                <td ></td>
+          </tr>
+                  
+                   <?php 
+                    foreach($Conceptos as $fila)
+							{
+								
+						if ($fila['tipo']==2)
+						{
+								?>
+          
+          
+            <tr>
+                <td >  <?php echo $fila['Concepto']; ?> :</td>
+                <td ><input type="text" name="calificacion[]" class="codEti" value="0" id="calificacion" style=" width:100px;height:23px;">
+                <input type="hidden" name="tema[]" class="codEti" value="<?php echo $fila['Concepto']; ?>" id="tema" >
+				 <input type="hidden" name="tipo[]" class="codEti" value="<?php echo $fila['tipo']; ?>" id="tipo" ></td>
+                
+            </tr>
+            
+             <?php
+						}
+						
+					            }
+					        
+                  ?>
+                  
+                    <tr>
+                <td > <label  > TOTAL :</label></td>
+                <td ><input type="text" name="total_finiquito" class="codEti" value="0" id="total_finiquito" style=" width:100px;height:23px;">
+               
+                
+            </tr>
+        
+                    </table>
+                    </div>
+			  
+			   <a class="btnNextFDP" id="btnfiniquito">Guardar Finiquito</a>
+				
+				
+			    <div style="clear: both;"></div>
+			  </div>	 	   
+			  <!-- End Paso 2 -->
+			  
+			 
+			  
+			  </form>
+		  
+			 
+			 
+			
+		  </div>
+		</div>
+	</div>
+	<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+	<script src="<?php echo HOME_URL; ?>assets/js/vendor/jquery.ui.widget.js"></script>
+	<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+	<script src="<?php echo HOME_URL; ?>assets/js/jquery.iframe-transport.js"></script>
+	<!-- The basic File Upload plugin -->
+	<script src="<?php echo HOME_URL; ?>assets/js/jquery.fileupload.js"></script>
+	
+	
+	
+	<script type="text/javascript">
+$("#btnfiniquito").click(function(){
 
-            <a class="btnNextFDP" id="btnMenu" href="">Men&uacute; principal</a>
-        </form>
-</ul>
-    </div>
-    
-   	<script type="text/javascript">
-    $( "#fecha_ingreso" ).datepicker({
-	        dateFormat: "yy-mm-dd",
-	        yearRange: "-100:+0",
-	        changeYear:true,
-        });
-
-    $( "#fecha_efectiva" ).datepicker({
-        dateFormat: "yy-mm-dd",
-        yearRange: "-100:+0",
-        changeYear:true,
-    });
-
-    $( "#fecha_fin_Contrato" ).datepicker({
-        dateFormat: "yy-mm-dd",
-        yearRange: "-100:+0",
-        changeYear:true,
-    });
-    
-    </script>    
-    
-    
-      <script type="text/javascript">
-$("#btnSolicitarBaja").click(function(){
-
-    	//	error_campos = [];
-
-    	//	if( $("#finiquito").val() == "" ) {
-        	//	error_campos.push(  "finiquito");
-        	//	 $("#finiquito").css("border", "2px solid red");
-   // 		}
-        		 
-  //  		if( $("#cheque").val() == "" ) {
-    //    		error_campos.push( "cheque");
-     //   		$("#cheque").css("border", "2px solid red");
-      //  		}
-
-    		
-
-    		
-    		
-    		
-    //		if( error_campos.length  == 0 )
-    //		{
-
-
-    			
-
-
+    	
     				 
     		    $.ajax({
-                    url: '<?php  echo HOME_URL; ?>eaf/RecursosHumanos/AprobarBajaPersonal',
+                    url: '<?php echo HOME_URL; ?>Nomina/GuardaFiniquito',
                     type: 'POST',
                     dataType: 'json',
                     data: $('#form1').serialize(),
@@ -389,30 +493,23 @@ $("#btnSolicitarBaja").click(function(){
                     async: false,
                     success: function(response) {
                         if (response.codigo==200) {
-                        	$("#guarda").html("Solicitud guardada correctamente..");
-                        	$("#resultado").html("");
+                        	$("#guarda").html("Finiquito guardado correctamente");
+                        	 $('.page').ScrollTo();
                            
                         } else {
                         	$("#resultado").html("Favor de intentar nuevamente..");
+                        	 $('.page').ScrollTo();
                             
                         }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                     	$("#resultado").html("Favor de intentar nuevamente..");
-                      // alert(jqXHR.responseText);
+                    	 $('.page').ScrollTo();
+                    //   alert(jqXHR.responseText);
                     }
                 });
     			
-    			
-    		    //	}
-    		    //		else
-    //		{	
-        		
-    	//		$("#resultado").html("Favor de revisar campos obligatorios marcados con rojo..");
-
-
-    			
-    	//	}
+    		
 
 
     		
@@ -420,4 +517,4 @@ $("#btnSolicitarBaja").click(function(){
 
 
 </script>
-
+	

@@ -7,7 +7,7 @@
         <h2><label>Baja de Usuario - NOI</label></h2>
 
         <br>
-        <form  name="form1" method="POST" action="exportar">
+        <form  name="form1" method="POST" action="exportarBaja">
         
             <table cellpadding="0" cellspacing="0" width="100%">
 				   
@@ -41,12 +41,11 @@
         
         <table id="Usuarios" name="Usuarios" style="border-collapse:collapse;margin-left:1%" cellpadding="0" cellspacing="0" width="100%" >
             <tr>
-                <th>PATERNO</th>
-                <th>MATERNO</th>
+             
                 <th>NOMBRE</th>
-                <th>SDI</th>
+               
                 <th>PUESTO</th>
-                <th>FECHA NACIMIENTO</th>
+               
                 <th>REG. PATRONAL</th>
                 <th>OFICINA</th>
                 <th>SELECCIONAR</th>      
@@ -104,6 +103,7 @@
             $("#empresa_contrata").change(function() {
                 $("#empresa_contrata option:selected").each(function() {
                     empresa = $('#empresa_contrata').val();
+                   
                     $.post("<?php echo HOME_URL; ?>Nomina/UsuariosEmpresaBaja", {
                     	empresa : empresa
                     }, function(data) {

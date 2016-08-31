@@ -31,6 +31,16 @@
 				endforeach;
 			endif;
 		?>
+		
+		  <?php 
+			if(!empty( $BajasDatos ) ):
+				foreach($BajasDatos as $count):
+		?>
+					<li><a href="<?php echo HOME_URL."Nomina/finiquito/?idUsuario=$count->idUsuarios"; ?>"> Finiquito: <?php echo $count->nombreUsuario ?></a></li>
+		<?php
+				endforeach;
+			endif;
+		?>
         
         
         </ul>

@@ -201,6 +201,8 @@
                         </tr>
                          <tr style="height: 5px">
                              </tr>
+                             
+                             <!-- 
                         <tr>
                             <td>Quien solicita</td>
                             <td><select  name="selecSolicita" class="selecSolicita" id="selecSolicita" style="width:100%;">
@@ -221,8 +223,10 @@
 
                                 </select></td>
                         </tr>  
+                       
  <tr style="height: 5px">
                              </tr>
+                               -->
                         <tr>
                             <td>Fecha Efectiva</td>
                             <td><input type="text" onfocus="this.blur()" name="fecha_efectiva" class="fecha_efectiva" id="fecha_efectiva" placeholder="dd/mm/YYYY" autocomplete="off" required ></td>
@@ -347,10 +351,7 @@ $("#btnSolicitarBaja").click(function(){
         		}
 
 
-    		if( $("#selecSolicita").val() == "" ) {
-        		error_campos.push( "selecSolicita");
-        		$("#selecSolicita").css("border", "2px solid red");
-        		}
+    		
 
 
     		if( $("#fecha_efectiva").val() == "" ) {

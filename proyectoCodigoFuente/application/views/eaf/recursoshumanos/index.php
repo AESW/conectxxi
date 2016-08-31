@@ -85,11 +85,27 @@
 								<?php 
 									else:
 									?>
-										<li><?php echo $mo["nombreCandidato"];?> ,<?php echo $accion;?></li>
+											<!--<li><?php echo $mo["nombreCandidato"];?> ,<?php echo $accion;?></li>!-->
 									
 									<?php 
 									endif;
 								endforeach;
+								
+								foreach( $movimientos as $mo ):
+								$accion = $mo["estatusCandidato"] ;
+								if( $accion == "cheque" ):
+								?>
+																	
+																		<li><a href="<?php echo HOME_URL; ?>eaf/RecursosHumanos/ChequeUsuario/?idUsuario=<?php echo $mo["idCandidatoFDP"];?>"><?php echo $mo["nombreCandidato"]." , ".$accion;?> </a></li>
+																
+																<?php 
+																	else:
+																	?>
+																		<!--<li><?php echo $mo["nombreCandidato"];?> ,<?php echo $accion;?></li>!-->
+																	
+																	<?php 
+																	endif;
+																endforeach;
 				
 				
 			endif;

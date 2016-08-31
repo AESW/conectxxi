@@ -480,7 +480,7 @@ where Empresas_idEmpresas = (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE 
 	
 	
 		$sqlBajasUsuarios = "SELECT count(*) as cuenta FROM SolBajasPersonal
-				where bajaUsuario =1 and bajaUsuarioNOI = 0";
+				where bajaUsuario =1 and finiquito = 1 and cheque = 1 and bajaUsuarioNOI = 0";
 	
 		$queryBajasUsuarios = $this->db->query( $sqlBajasUsuarios );
 		if( $queryBajasUsuarios->num_rows() > 0 ):
@@ -504,8 +504,7 @@ where Empresas_idEmpresas = (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE 
 	public function BajaUsuarios($id){
 	
 	
-		$sqlBajaUsuarios = "SELECT SolBajasPersonal.*,CandidatoFDP.nombre,CandidatoFDP.apeliidoPaterno,CandidatoFDP.apellidoMaterno,CandidatoFDP.fechaNacimiento,
-		(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = SolBajasPersonal.idUsuarios and prefijoMetaDatos='Sdi') as sdi,
+		$sqlBajaUsuarios = "SELECT SolBajasPersonal.*,Usuarios.nombreUsuario,
 		(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = SolBajasPersonal.idUsuarios and prefijoMetaDatos='puesto') as puesto,
 		(SELECT Patronales.registroPatronal FROM Oficinas_has_Empresas
 		left outer join Patronales on Patronales.idPatronales = Oficinas_has_Empresas.Patronales_idPatronales
@@ -514,8 +513,8 @@ where Empresas_idEmpresas = (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE 
 		left outer join Oficinas on Oficinas.idOficinas = Oficinas_has_Empresas.Oficinas_idOficinas
 		where Empresas_idEmpresas = $id and Oficinas_idOficinas = (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = SolBajasPersonal.idUsuarios and prefijoMetaDatos='oficina')) as oficina
 		FROM SolBajasPersonal
-		left outer join CandidatoFDP on CandidatoFDP.idCandidatoFDP= SolBajasPersonal.idCandidatoFDP
-		where bajaUsuario =1 and bajaUsuarioNOI = 0 and (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = SolBajasPersonal.idUsuarios and prefijoMetaDatos='empresa_contrata') = $id";
+		left outer join Usuarios on Usuarios.idUsuarios= SolBajasPersonal.idUsuarios
+		where bajaUsuario =1 and finiquito = 1 and cheque = 1 and bajaUsuarioNOI = 0 and (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = SolBajasPersonal.idUsuarios and prefijoMetaDatos='empresa_contrata') = $id";
 		 
 		$queryBajaUsuarios = $this->db->query( $sqlBajaUsuarios );
 	
@@ -531,5 +530,174 @@ where Empresas_idEmpresas = (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE 
 			
 	
 		return $arrayBajaUsuarios;
+	}
+	
+	function queryBajaUsuario($Usuarios)   //en el modelo my_model
+	{
+		//datos a seleccionar
+			
+	
+		//encabezados de las columnas
+		$headers = array('# DE EMPL',
+				'NOMBRE',
+				'OFICINA',
+				'RAZON SOCIAL',
+				'FECHA DE INGRESO',
+				'AREA',
+				'PUESTO',
+				'TURNO',
+				'LOGIN',
+				'FECHA DE BAJA',
+				'MOTIVO',
+                'FIRMA DE CARTA DE RENUNCIA',
+				'VACACIONES PENDIENTES',
+				'BONO O COMISION PENDIENTE A LA FECHA DE BAJA',
+				'OBSERVACION',
+				);
+	
+		$table[] = $headers;
+		
+		foreach ($Usuarios as $key => $value) {
+	
+			$consulta="SELECT Usuarios.*,SolBajasPersonal.*,
+		
+			(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = Usuarios.idUsuarios and prefijoMetaDatos='idPuesto') as puesto,
+			(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = Usuarios.idUsuarios and prefijoMetaDatos='fechaAlta') as fechaAlta,
+			(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = Usuarios.idUsuarios and prefijoMetaDatos='turno') as turno,
+			(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = Usuarios.idUsuarios and prefijoMetaDatos='descripcionDepartamento') as Departamento,
+			(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = Usuarios.idUsuarios and prefijoMetaDatos='noEmpleado') as NumEmpleado
+		    FROM SolBajasPersonal
+			left outer join Usuarios on SolBajasPersonal.idUsuarios= $value
+			where bajaUsuario =1 and finiquito = 1 and cheque = 1 and bajaUsuarioNOI = 0 and Usuarios.idUsuarios = $value";
+				
+				
+	
+	
+			$query = $this->db->query($consulta);
+	
+				
+				
+			foreach ($query->result() as $row)
+			{
+	
+	
+	
+				//  $row->ID = $i;
+				$table[$i]['NumEmpleado'] = $row->NumEmpleado;
+				$table[$i]['nombreUsuario'] = $row->nombreUsuario;
+				$table[$i]['Oficina'] = $row->Oficina;
+				$table[$i]['Empresa'] = $row->Empresa;
+				$table[$i]['fechaIngreso'] = $row->fechaIngreso;
+				$table[$i]['Departamento'] = $row->Departamento;
+				$table[$i]['Puesto'] = $row->Puesto;
+				$table[$i]['turno'] = $row->turno;
+				$table[$i]['RFC'] = $row->RFC;
+				$table[$i]['fechaEfectiva'] = $row->fechaEfectiva;
+				$table[$i]['motivoBaja'] = $row->motivoBaja;
+				$table[$i]['firma'] = $row->observaciones;
+				$table[$i]['vacaciones'] = $row->observaciones;
+				$table[$i]['bono'] = $row->observaciones;
+				$table[$i]['observaciones'] = $row->observaciones;
+				
+	
+			
+				$sqlActualiza = "Update SolBajasPersonal set bajaUsuarioNOI=1 where idUsuarios = $value " ;
+					
+				$queryActualiza = $this->db->query($sqlActualiza);
+	
+			
+	
+	
+			}
+				
+				
+	
+				
+	
+			$i++;
+		}
+	
+		return $table;
+	}
+	
+	public function obtenerBajasDatos(){
+	
+	
+		$sqlBajaUsuarios = "SELECT SolBajasPersonal.*,Usuarios.nombreUsuario
+     	FROM SolBajasPersonal
+		left outer join Usuarios on Usuarios.idUsuarios= SolBajasPersonal.idUsuarios
+		where bajaUsuario =1 and finiquito = 0 and bajaUsuarioNOI = 0 ";
+			
+		$queryBajaUsuarios = $this->db->query( $sqlBajaUsuarios );
+	
+	
+		$arrayBajaUsuarios = array();
+		if(  $queryBajaUsuarios->num_rows() > 0 ):
+	
+	
+		$arrayBajaUsuarios = $queryBajaUsuarios->result();
+	
+	
+		endif;
+			
+	
+		return $arrayBajaUsuarios;
+	}
+	
+	public function Datosusuarios($idCandidatoFDP){
+	
+	
+		$sqlObtenerDatos = "SELECT SolBajasPersonal.*,Usuarios.*,
+		(select nombreUsuario from Usuarios where idUsuarios = SolBajasPersonal.idUsuariosSolicita) as solicita
+		FROM SolBajasPersonal left outer join Usuarios
+		on SolBajasPersonal.idUsuarios=Usuarios.idUsuarios where SolBajasPersonal.idUsuarios= $idCandidatoFDP" ;
+			
+		$resultObtenerDatos = array();
+			
+		$queryObtenerDatos = $this->db->query($sqlObtenerDatos);
+			
+		if( $queryObtenerDatos->num_rows() > 0 ):
+		$resultObtenerDatos = $queryObtenerDatos->result();
+	
+	
+		endif;
+			
+	
+		return $resultObtenerDatos;
+	
+	
+	}
+	
+	public function ConceptosFiniquito(){
+	
+	
+		$peticiones = array();
+	
+		$sqlPeticiones = "
+		select * from ConceptosFiniquito 
+	
+		";//Agregar AND ReclutacionFDP aprobado, RecursosHumanosFDP aprobado
+	
+		$queryPeticiones = $this->db->query( $sqlPeticiones );
+	
+		if( $queryPeticiones->num_rows() > 0 ):
+		$resultadoPeticiones = $queryPeticiones->result();
+		$peticiones = array();
+		foreach( $resultadoPeticiones as $pet):
+	
+		$peticiones[] = array(
+				"idConcepto" => $pet->idConcepto,
+				"Concepto" => $pet->Concepto,
+				"tipo" => $pet->tipo
+	
+		);
+		endforeach;
+		return $peticiones;
+		else:
+		return array();
+		endif;
+	
+	
+	
 	}
 }

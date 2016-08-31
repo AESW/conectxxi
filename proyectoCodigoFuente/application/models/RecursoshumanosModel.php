@@ -176,7 +176,8 @@ class RecursoshumanosModel extends CI_Model {
 		$sqlCandidatosBaja = 'SELECT Usuarios.idUsuarios, Usuarios.nombreUsuario as nombreCandidato
 										FROM
 										 SolBajasPersonal left outer join Usuarios
-				on SolBajasPersonal.idUsuarios = Usuarios.idUsuarios';
+				on SolBajasPersonal.idUsuarios = Usuarios.idUsuarios
+				where bajaUsuario=0';
 		
 		$queryCandidatosBaja = $this->db->query( $sqlCandidatosBaja );
 		$arrayBajas = array();
@@ -191,8 +192,28 @@ class RecursoshumanosModel extends CI_Model {
 		endforeach;
 		endif;
 		
+		
+		$sqlCandidatosCheque = 'SELECT Usuarios.idUsuarios, Usuarios.nombreUsuario as nombreCandidato
+										FROM
+										 SolBajasPersonal left outer join Usuarios
+				on SolBajasPersonal.idUsuarios = Usuarios.idUsuarios
+				where bajaUsuario=1 and finiquito=1 and cheque=0 and bajaUsuarioNOI=0';
+		
+		$queryCandidatosCheque = $this->db->query( $sqlCandidatosCheque );
+		$arrayCheque = array();
+		if(  $queryCandidatosCheque->num_rows() > 0 ):
+		$resultadoCandidatosCheque = $queryCandidatosCheque->result();
+		foreach($resultadoCandidatosCheque as $bajas):
+		$arrayCheque[] = array(
+				"idCandidatoFDP" => $bajas->idUsuarios,
+				"nombreCandidato" => $bajas->nombreCandidato,
+				"estatusCandidato" => "cheque"
+		);
+		endforeach;
+		endif;
+		
 	
-		$resultadoMovimientos = array_merge($arrayAprobados, $arrayRechazados,$arrayBajas);
+		$resultadoMovimientos = array_merge($arrayAprobados, $arrayRechazados,$arrayBajas,$arrayCheque);
 	
 		return $resultadoMovimientos;
 	}
@@ -613,8 +634,10 @@ FROM CandidatoFDP where CandidatoFDP.idCandidatoFDP =$id";
 	public function Datosusuarios($idCandidatoFDP){
 	
 	
-		$sqlObtenerDatos = "SELECT SolBajasPersonal.*,Usuarios.* FROM SolBajasPersonal left outer join Usuarios
-on SolBajasPersonal.idusuarios=Usuarios.idUsuarios where SolBajasPersonal.idusuarios= $idCandidatoFDP" ;
+		$sqlObtenerDatos = "SELECT SolBajasPersonal.*,Usuarios.*,
+		(select nombreUsuario from Usuarios where idUsuarios = SolBajasPersonal.idUsuariosSolicita) as solicita
+		FROM SolBajasPersonal left outer join Usuarios
+on SolBajasPersonal.idusuarios=Usuarios.idUsuarios where SolBajasPersonal.idUsuarios= $idCandidatoFDP" ;
 			
 		$resultObtenerDatos = array();
 			
@@ -628,6 +651,40 @@ on SolBajasPersonal.idusuarios=Usuarios.idUsuarios where SolBajasPersonal.idusua
 			
 	
 		return $resultObtenerDatos;
+	
+	
+	}
+	
+	public function DatosFiniquito($idCandidatoFDP){
+	
+	
+		$peticiones = array();
+	
+		$sqlPeticiones = "
+		select * from MetaDatosFiniquito where idUsuarios=$idCandidatoFDP
+	
+		";//Agregar AND ReclutacionFDP aprobado, RecursosHumanosFDP aprobado
+	
+		$queryPeticiones = $this->db->query( $sqlPeticiones );
+	
+		if( $queryPeticiones->num_rows() > 0 ):
+		$resultadoPeticiones = $queryPeticiones->result();
+		$peticiones = array();
+		foreach( $resultadoPeticiones as $pet):
+	
+		$peticiones[] = array(
+				"idUsuarios" => $pet->idUsuarios,
+				"prefijoMetaDatos" => $pet->prefijoMetaDatos,
+				"valorMetaDatos" => $pet->valorMetaDatos,
+				"tipo" => $pet->tipo
+	
+		);
+		endforeach;
+		return $peticiones;
+		else:
+		return array();
+		endif;
+	
 	
 	
 	}

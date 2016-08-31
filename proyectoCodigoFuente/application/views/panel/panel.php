@@ -17,7 +17,7 @@
 		<a href="#" class="eaf_incapacidad_option"></a>
 		<a href="#" class="eaf_expediente_option"></a>
 		<a href="#" class="eaf_nomina_option"></a>
-		<a href="#" class="eaf_vacaciones_option"></a>
+		<a href="<?php echo HOME_URL."MovEmpleados/Vacaciones";?>" class="eaf_vacaciones_option"></a>
 		<a href="#" class="eaf_engrane_gde"></a>
 	</div>
 	<div style="clear: both;"></div>

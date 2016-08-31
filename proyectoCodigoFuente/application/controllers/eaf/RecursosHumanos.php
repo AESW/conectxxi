@@ -784,17 +784,19 @@ endif;
 		}
 	}
 	function puerto() {
-		$dominio = "mail.almeriasa.com.mx"; // Dominio a comprobar
+		$dominio = "smtp.gmail.com"; // Dominio a comprobar
 		$puerto = 465; // Puerto a comprobar
 		
 		$fp = fsockopen ( $dominio, $puerto, $errno, $errstr );
 		if (! $fp)
 			
-			echo "Fallo, el puerto ", $puerto, " no esta abierto<br />El error ha sido: ", $errno;
+			echo "Fallo, el puerto ", $puerto, " no esta abierto<br />El error ha sido: ", $errno, $errstr;
 		else {
 			echo "El puerto ", $puerto, " esta abierto correctamente";
 			
 			var_dump ( curl_version () );
+			
+			phpinfo();
 			
 			fclose ( $fp );
 		}
@@ -1589,7 +1591,7 @@ EOD;
 /**
  * Esta función regresa un subfijo para la cifra
  * 
- * @author Ultiminio Ramos Galán <contacto@ultiminioramos.com>
+
  * @param string $cifras La cifra a medir su longitud
  */
 function subfijo($cifras)
@@ -1646,13 +1648,13 @@ public function AprobarBajaPersonal() {
 
 	$idUsuario = $this->Sanitize->clean_string ( $_POST ["selecUsuario"] );
 	
-	$finiquito = $this->Sanitize->clean_string ( $_POST ["finiquito"] );
-	$cheque = $this->Sanitize->clean_string ( $_POST ["cheque"] );
+//	$finiquito = $this->Sanitize->clean_string ( $_POST ["finiquito"] );
+//	$cheque = $this->Sanitize->clean_string ( $_POST ["cheque"] );
 	$observaciones = $this->Sanitize->clean_string ( $_POST ["observaciones"] );
 	
 
 			
-		$sqlUpdateUsuario = "UPDATE SolBajasPersonal set cheque='$cheque' , finiquito = '$finiquito', observaciones= '$observaciones',bajaUsuario=1,fechaBaja=now() where idUsuarios= $idUsuario";
+		$sqlUpdateUsuario = "UPDATE SolBajasPersonal set  observaciones= '$observaciones',bajaUsuario=1,fechaBaja=now() where idUsuarios= $idUsuario";
 			
 		$UpdateUsuario = $this->db->query ( $sqlUpdateUsuario );
 			
@@ -1676,5 +1678,69 @@ public function AprobarBajaPersonal() {
 		ob_clean ();
 		echo json_encode ( $resultado );
 		exit ();
+}
+
+public function ChequeUsuario() {
+	$dataHeader = array (
+			"titulo" => "Cheque"
+	);
+
+	$idCandidatoFDP = $this->input->get ( 'idUsuario' );
+	$Datosusuarios = $this->RecursoshumanosModel->Datosusuarios($idCandidatoFDP);
+	$DatosFiniquito = $this->RecursoshumanosModel->DatosFiniquito($idCandidatoFDP);
+
+
+
+
+	$dataContent ["Datosusuarios"] = $Datosusuarios;
+	$dataContent ["DatosFiniquito"] = $DatosFiniquito;
+
+	// echo "<pre>";print_r($error_campos);
+	//echo "<pre>";print_r($dataContent);
+	//// echo "<pre>";print_r($resultado);
+	// echo "<pre>";print_r($formArray);
+
+	$this->load->view ( 'includes/header', $dataHeader );
+	$this->load->view ( 'eaf/recursoshumanos/cheque', $dataContent );
+	$this->load->view ( 'includes/footer' );
+}
+
+
+public function GuardaCheque() {
+	$dataHeader = array (
+			"titulo" => "Cheque"
+	);
+
+	$idUsuario = $this->Sanitize->clean_string ( $_POST ["selecUsuario"] );
+
+	//	$finiquito = $this->Sanitize->clean_string ( $_POST ["finiquito"] );
+		$cheque = $this->Sanitize->clean_string ( $_POST ["cheque"] );
+	
+
+		
+	$sqlUpdateUsuario = "UPDATE SolBajasPersonal set  chequeTotal= '$cheque' , cheque=1, fechaCheque=now() where idUsuarios= $idUsuario";
+		
+	$UpdateUsuario = $this->db->query ( $sqlUpdateUsuario );
+		
+
+	if ($UpdateUsuario)
+	{
+		$resultado = array (
+				"codigo" => 200,
+				"exito" => true,
+				"mensaje" => "Cheque guardado correctamente."
+		);
+	}
+	else {
+		$resultado = array (
+				"codigo" => 400,
+				"exito" => false,
+				"mensaje" => "Error, vuelva a intentarlo."
+		);
+	}
+
+	ob_clean ();
+	echo json_encode ( $resultado );
+	exit ();
 }
 }

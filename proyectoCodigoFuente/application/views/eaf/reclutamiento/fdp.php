@@ -986,7 +986,7 @@
 								  ?>
 							  </select>
 							  
-							    <a  target="_blank" class="btnNextFDP" id="btnPerfil"><i class="glyphicon glyphicon-search"></i> Ver Evaluación</a>
+							    <a  target="_blank" class="btnNextFDP" id="btnEvaluacion"><i class="glyphicon glyphicon-search"></i> Ver Evaluación</a>
 						  </td>
 					  </tr>
 					  
@@ -1102,16 +1102,19 @@ var nextinput = 0;
             	 $("#evaluacion_candidato_reclutamiento option:selected").each(function() {
                      puesto = $('#evaluacion_candidato_reclutamiento option:selected').text();
 
-alert(puesto);
-                     
+
+                     documento = puesto.split(" ").join("");
+
+
+                    
 if (puesto=='Selecciona evaluación')
 {
 
-	document.getElementById('btnPerfil').href = "<?php echo HOME_URL;?>EvaluacionesDoc/";
+	document.getElementById('btnEvaluacion').href = "<?php echo HOME_URL;?>EvaluacionesDoc/";
 }
 else
 {
-    document.getElementById('btnPerfil').href = "<?php echo HOME_URL;?> EvaluacionesDoc/"+puesto+".pdf";
+    document.getElementById('btnEvaluacion').href = "<?php echo HOME_URL;?>PerfilesDoc/EvaluacionesDoc/"+documento+".pdf";
 }    
                  });
             })

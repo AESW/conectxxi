@@ -34,13 +34,17 @@ class Nomina extends CI_Controller {
 		
 		$BajasUsuario = $this->NominaModel->obtenerBajasUsuario();
 		
+		$BajasDatos = $this->NominaModel->obtenerBajasDatos();
+		
 			
 		$dataContent = array(
 				"Altas" => $AltasUsuario,
-				"Bajas" => $BajasUsuario
+				"Bajas" => $BajasUsuario,
+				"BajasDatos" => $BajasDatos
 				
 		);
 		
+		//print_r($dataContent);
 		
 		$this->load->view('includes/header' , $dataHeader);
 		$this->load->view('nomina/nominas' , $dataContent);
@@ -306,12 +310,11 @@ class Nomina extends CI_Controller {
 					
 					
 					<tr>
-	                <th>PATERNO</th>
-	                <th>MATERNO</th>
+	              
 	                <th>NOMBRE</th>
-	                <th>SDI</th>
+	              
 	                <th>PUESTO</th>
-	                <th>FECHA NACIMIENTO</th>
+	             
 	                <th>REG. PATRONAL</th>
 	                <th>OFICINA</th>
 	                <th>SELECCIONAR</th>      
@@ -325,15 +328,14 @@ class Nomina extends CI_Controller {
 							?>
 							
 				                 <tr> 			  	           
-	                <td><?php echo $fila->apeliidoPaterno; ?></td>
-	                <td><?php echo $fila->apellidoMaterno; ?></td>
-	                <td><?php echo $fila->nombre; ?></td>
-	                <td><?php echo $fila->sdi; ?></td>
-	                <td><?php echo $fila->puesto; ?></td>
-	                <td><?php echo $fila->fechaNacimiento; ?></td>
-	                <td><?php echo $fila->patronal; ?></td>
-	                <td><?php echo $fila->oficina; ?></td>
-	                <td><center> <input type="checkbox" name="AltaUsuario[]" value="<?php echo $fila->idCandidatoFDP; ?>" checked></center></td>
+	               
+	                <td><?php echo $fila->nombreUsuario; ?></td>
+	              
+	                <td><?php echo $fila->Puesto; ?></td>
+	              
+	                <td><?php echo $fila->Empresa; ?></td>
+	                <td><?php echo $fila->Oficina; ?></td>
+	                <td><center> <input type="checkbox" name="AltaUsuario[]" value="<?php echo $fila->idUsuarios; ?>" checked></center></td>
 	                  </tr>  
 				            <?php
 				            }
@@ -342,6 +344,132 @@ class Nomina extends CI_Controller {
 				        	 
 				        }
 			
+		}
+		
+		function exportarBaja() {
+		
+				
+			//	$this->load->library('noi');
+				
+		
+			$Usuarios=$this->input->post('AltaUsuario');
+			$idEmpres=$this->input->post('empresa_contrata');
+		
+		
+			if($idEmpres=="")
+			{
+				$empresa="";
+					
+			}
+			else
+			{
+				$sqlEmpresa = "SELECT nombreCorto FROM Empresas
+				where idEmpresas = $idEmpres";
+		
+				$queryEmpresa = $this->db->query( $sqlEmpresa );
+		
+				$resultadoEmpresa = $queryEmpresa->result();
+		
+					
+				foreach( $resultadoEmpresa as $entre):
+		
+				$empresa= $entre->nombreCorto;
+		
+		
+				endforeach;
+					
+		
+			}
+		
+		
+		
+			$table = $this->NominaModel->queryBajaUsuario($Usuarios);
+		
+		
+			//	print_r($table);
+		
+			$this->noi->export($table,$empresa);
+		
+				
+		
+			//$this->load->view("Reportes");
+		
+		}
+		
+		public function finiquito() {
+			$dataHeader = array (
+					"titulo" => "Finiquito"
+			);
+		
+			$idCandidatoFDP = $this->input->get ( 'idUsuario' );
+		    $Datosusuarios = $this->NominaModel->Datosusuarios($idCandidatoFDP);
+		    $Conceptos = $this->NominaModel->ConceptosFiniquito();
+		
+		
+		
+		
+			$dataContent ["Datosusuarios"] = $Datosusuarios;
+			$dataContent ["Conceptos"] = $Conceptos;
+		
+			// echo "<pre>";print_r($error_campos);
+			//echo "<pre>";print_r($dataContent);
+			//// echo "<pre>";print_r($resultado);
+			// echo "<pre>";print_r($formArray);
+		
+			$this->load->view ( 'includes/header', $dataHeader );
+			$this->load->view ( 'nomina/finiquito', $dataContent );
+			$this->load->view ( 'includes/footer' );
+		}
+		
+		function GuardaFiniquito() {
+		
+		
+			$idusuario=$this->input->post('selecUsuario');
+		
+			$calificacion=$this->input->post('calificacion');
+			$tema=$this->input->post('tema');
+			$tipo=$this->input->post('tipo');
+            $totalfiniquito=$this->input->post('total_finiquito');
+		
+			$resultado = array_merge($calificacion,$tema,$tipo);
+		
+		
+			$sqlAlta = "update  SolBajasPersonal set finiquito=1,fechaFiniquito=now(),finiquitoTotal='$totalfiniquito' where idUsuarios=$idusuario" ;
+		
+		    $queryGrupo = $this->db->query($sqlAlta);
+			
+			$a=0;
+		
+			foreach( $calificacion as $key => $res ):
+		
+			$sqlInsertMetaDatos = 'INSERT INTO MetaDatosFiniquito ( prefijoMetaDatos , valorMetaDatos , idUsuarios , tipo ) VALUES( \''.$tema[$key].'\' , \''.$res.'\' , '.$idusuario.','.$tipo[$key].' );';
+			$sqlInsert=$this->db->query( $sqlInsertMetaDatos );
+		
+			$a++;
+		
+			endforeach;
+		
+			if ($sqlInsert)
+			{
+				$resultado = array (
+						"codigo" => 200,
+						"exito" => true,
+						"mensaje" => "Finiquito guardado correctamente."
+				);
+			}
+			else {
+				$resultado = array (
+						"codigo" => 400,
+						"exito" => false,
+						"mensaje" => "Error, vuelva a intentarlo."
+				);
+			}
+		
+			ob_clean ();
+			echo json_encode ( $resultado );
+			exit ();
+		
+		
 		}
 	
 }
