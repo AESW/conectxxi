@@ -68,6 +68,8 @@
                                     	
                                     	$finiquitoTotal=$fila->finiquitoTotal;
                                     	
+                                    	$idUSuario=$fila->idUsuarios;
+                                    	
                                     ?>
 
                                     <option value="<?php echo $fila->idUsuarios; ?>"><?php echo $fila->nombreUsuario; ?></option>  
@@ -462,7 +464,9 @@
                     </div>
 			  
 			
-			      <a class="btnNextFDP" id="btnimprimir">Imprimir Carta Finiquito</a>
+			     
+			        <a href="<?php echo HOME_URL; ?>eaf/RecursosHumanos/CartaFiniquito/<?php echo $idUSuario; ?>" target="_blank" class="btnNextFDP" ><i class="glyphicon glyphicon-file"></i> Imprimir Carta Finiquito</a>
+			  
 				   <a class="btnNextFDP" id="btnfiniquito">Guardar Cheque</a>
 				
 			    <div style="clear: both;"></div>

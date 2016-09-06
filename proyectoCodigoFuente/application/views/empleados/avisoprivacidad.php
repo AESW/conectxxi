@@ -433,8 +433,9 @@ $emp= $t->razonsocial;
 	font-family:Arial'>Usted, autoriza por este medio, a que conservemos hasta por
 	el plazo de 5 años calendario, sus datos personales incluyendo los sensibles,
 	término que empezará a correr a partir de que termine su relación jurídica con
-	la responsable, sin embargo en cualquier momento puede ejercer sus derechos ARCO,
-	de acuerdo al presente Aviso de Privacidad. </span></p>
+	la responsable, independientemente que los usaremos mientras dure su relación
+	jurídica con el responsable, sin embargo en cualquier momento puede ejercer 
+	sus derechos ARCO, de acuerdo al presente Aviso de Privacidad.  </span></p>
 	
 	<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
 	justify'><span lang=ES-MX style='font-size:12.0pt;font-family:Arial'>&nbsp;</span></p>
@@ -508,7 +509,7 @@ $emp= $t->razonsocial;
 	  border-top:none;padding:0cm 5.4pt 0cm 5.4pt'>
 	  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
 	  justify'><span lang=ES-MX style='font-size:12.0pt;font-family:Arial'>Instituto
-	  del Fondo Nacional de la Vivienda para los Trabajadores</span></p>
+	  del Fondo Nacional de la Vivienda para los Trabajadores, (Infonavit)</span></p>
 	  </td>
 	  <td width=150 valign=top style='width:149.65pt;border-top:none;border-left:
 	  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
@@ -528,31 +529,54 @@ $emp= $t->razonsocial;
 	  <td width=150 valign=top style='width:149.6pt;border:solid windowtext 1.0pt;
 	  border-top:none;padding:0cm 5.4pt 0cm 5.4pt'>
 	  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
-	  justify'><span lang=ES-MX style='font-size:12.0pt;font-family:Arial'>Otras
-	  empresas de investigación para comprobación de la veracidad de los datos
-	  proporcionados.</span></p>
+	  justify'><span lang=ES-MX style='font-size:12.0pt;font-family:Arial'>Al Fondo
+	  Nacional para el Consumo de los Trabajadores, (Fonacot)</span></p>
 	  </td>
 	  <td width=150 valign=top style='width:149.65pt;border-top:none;border-left:
 	  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
 	  padding:0cm 5.4pt 0cm 5.4pt'>
 	  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
-	  justify'><span lang=ES-MX style='font-size:12.0pt;font-family:Arial'>&nbsp;</span></p>
+	  justify'><span lang=ES-MX style='font-size:12.0pt;font-family:Arial'>Otorgarle
+	  sus derechos de ley</span></p>
 	  </td>
 	  <td width=150 valign=top style='width:149.65pt;border-top:none;border-left:
 	  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
 	  padding:0cm 5.4pt 0cm 5.4pt'>
 	  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
-	  justify'><span lang=ES-MX style='font-size:12.0pt;font-family:Arial'>&nbsp;</span></p>
+	  justify'><span lang=ES-MX style='font-size:12.0pt;font-family:Arial'>No</span></p>
+	  </td>
+	 </tr>
+	  <tr>
+	  <td width=150 valign=top style='width:149.6pt;border:solid windowtext 1.0pt;
+	  border-top:none;padding:0cm 5.4pt 0cm 5.4pt'>
+	  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+	  justify'><span lang=ES-MX style='font-size:12.0pt;font-family:Arial'>A nuestros
+	   clientes cuando así nos lo soliciten. </span></p>
+	  </td>
+	  <td width=150 valign=top style='width:149.65pt;border-top:none;border-left:
+	  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+	  padding:0cm 5.4pt 0cm 5.4pt'>
+	  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+	  justify'><span lang=ES-MX style='font-size:12.0pt;font-family:Arial'>Nuestros
+	  clientes solicitan saber quiénes son los asesores que gestionan sus portafolios.</span></p>
+	  </td>
+	  <td width=150 valign=top style='width:149.65pt;border-top:none;border-left:
+	  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+	  padding:0cm 5.4pt 0cm 5.4pt'>
+	  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+	  justify'><span lang=ES-MX style='font-size:12.0pt;font-family:Arial'>Sí</span></p>
 	  </td>
 	 </tr>
 	</table>
 	
 	</div>
-	
+	<br>
 	<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
 	justify;text-indent:42.55pt'><span lang=ES-MX style='font-size:12.0pt;
-	font-family:Arial;'>Los datos de identificación son
-	solicitados por nuestros clientes.</span></p>
+	font-family:Arial;'>En los tres primeros casos de los mencionados en la tabla
+	anterior, no es necesario recabar su consentimiento, ya que los derechos de
+	seguridad social dada su naturaleza y que son irrenunciables, razón por la cual,
+	no se indica ningún proceso de cancelación o ejercicio de derechos ARCO, en este rubro. </span></p>
 	
 	<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
 	justify;text-indent:42.55pt'><span lang=ES-MX style='font-size:12.0pt;
@@ -560,10 +584,11 @@ $emp= $t->razonsocial;
 	
 	<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
 	justify;text-indent:42.55pt'><span lang=ES-MX style='font-size:12.0pt;
-	font-family:Arial'>No es necesario recabar su consentimiento, ya que los
-	derechos de seguridad social dada su naturaleza y que son irrenunciables, razón
-	por la cual, no se indica ningún proceso de cancelación o ejercicio de derechos
-	ARCO, en este rubro. </span></p>
+	font-family:Arial'>Por lo que respecta al último caso de la tabla precedente,
+	es necesario obtener su consentimiento, por lo que en caso de que Usted no esté
+	de acuerdo en que compartamos sus datos, deberá expresar su oposición de conformidad
+	con el apartado siguiente, en caso de no expresarla, entenderemos que otorga
+	 tácitamente su consentimiento para el uso de sus datos personales como ha quedado descrito. </span></p>
 	
 	<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
 	justify;text-indent:42.55pt'><span lang=ES-MX style='font-size:12.0pt;

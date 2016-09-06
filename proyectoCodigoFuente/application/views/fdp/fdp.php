@@ -103,13 +103,13 @@
 			    <table cellpadding="0" cellspacing="0" width="100%">
 				    <tr>
 					    <td>Nombre (s)</td>
-					    <td><input type="text" name="nombre_candidato" class="nombre_candidato" id="nombre_candidato" placeholder="Nombre (s)" autocomplete="off" required value="<?php echo (isset($formArray["nombre_candidato"]))?$formArray["nombre_candidato"]:""; ?>" <?php echo ( in_array ('nombre_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    <td><input type="text" name="nombre_candidato" onkeyup="javascript:this.value=this.value.toUpperCase();" class="nombre_candidato" id="nombre_candidato" placeholder="Nombre (s)" autocomplete="off" required value="<?php echo (isset($formArray["nombre_candidato"]))?$formArray["nombre_candidato"]:""; ?>" <?php echo ( in_array ('nombre_candidato' , $error_campos) )?"style='width:95%; border:2px solid red;'":""; ?>></td>
 					    <td>Apellido paterno</td>
-					    <td><input type="text" name="apellido_paterno_candidato" class="apellido_paterno_candidato" id="apellido_paterno_candidato" placeholder="Apellido" autocomplete="off" required value="<?php echo (isset($formArray["apellido_paterno_candidato"]))?$formArray["apellido_paterno_candidato"]:""; ?>" <?php echo ( in_array('apellido_paterno_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    <td><input type="text" name="apellido_paterno_candidato" onkeyup="javascript:this.value=this.value.toUpperCase();" class="apellido_paterno_candidato" id="apellido_paterno_candidato" placeholder="Apellido" autocomplete="off" required value="<?php echo (isset($formArray["apellido_paterno_candidato"]))?$formArray["apellido_paterno_candidato"]:""; ?>" <?php echo ( in_array('apellido_paterno_candidato' , $error_campos) )?"style='width:95%;border:2px solid red;'":""; ?>></td>
 				    </tr>
 				    <tr>
 					    <td>Apellido materno</td>
-					    <td><input type="text" name="apellido_materno_candidato" class="apellido_materno_candidato" id="apellido_materno_candidato" placeholder="Apellido" autocomplete="off" required value="<?php echo (isset($formArray["apellido_materno_candidato"]))?$formArray["apellido_materno_candidato"]:""; ?>" <?php echo ( in_array('apellido_materno_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    <td><input type="text" name="apellido_materno_candidato" onkeyup="javascript:this.value=this.value.toUpperCase();" class="apellido_materno_candidato" id="apellido_materno_candidato" placeholder="Apellido" autocomplete="off" required value="<?php echo (isset($formArray["apellido_materno_candidato"]))?$formArray["apellido_materno_candidato"]:""; ?>" <?php echo ( in_array('apellido_materno_candidato' , $error_campos) )?"style='width:95%;border:2px solid red;'":""; ?>></td>
 					    <td>&nbsp;</td>
 					    <td>&nbsp;</td>
 				    </tr>
@@ -205,7 +205,7 @@
 				      <tr>
 					     <td>Profesión u Oficio</td>
 					     <td>
-						   <input type="text" name="profesion" class="profesion" id="profesion" placeholder="Profesión" autocomplete="off" required value="<?php echo (isset($formArray["profesion"]))?$formArray["profesion"]:""; ?>" <?php echo ( in_array('profesion' , $error_campos) )?"style='border:2px solid red;'":""; ?>>  
+						   <input type="text" name="profesion" onkeyup="javascript:this.value=this.value.toUpperCase();" class="profesion" id="profesion" placeholder="Profesión" autocomplete="off" required value="<?php echo (isset($formArray["profesion"]))?$formArray["profesion"]:""; ?>" <?php echo ( in_array('profesion' , $error_campos) )?"style='border:2px solid red;'":""; ?>>  
 						   
 					      </td>
 					  
@@ -227,7 +227,7 @@
 					    ?>	
 					    </td>
 					    <td>CURP</td>
-					    <td><input type="text" name="curp_candidato" class="curp_candidato" id="curp_candidato" placeholder="C.U.R.P." autocomplete="off" required value="<?php echo (isset($formArray["curp_candidato"]))?$formArray["curp_candidato"]:""; ?>" <?php echo ( in_array('curp_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+					    <td><input type="text" name="curp_candidato" onkeyup="javascript:this.value=this.value.toUpperCase();" class="curp_candidato" id="curp_candidato" placeholder="C.U.R.P." autocomplete="off" required value="<?php echo (isset($formArray["curp_candidato"]))?$formArray["curp_candidato"]:""; ?>" <?php echo ( in_array('curp_candidato' , $error_campos) )?"style='width:51%;border:2px solid red;'":""; ?>>
 					    <?php 
 						if( in_array('curp_candidato' , $error_campos) ):
 						?>
@@ -260,31 +260,31 @@
 				     </tr>
 				     <tr>
 					    <td>Calle y número</td>
-					    <td><input type="text" name="calle_no_candidato" class="calle_no_candidato" id="calle_no_candidato" placeholder="Calle y número" autocomplete="off" required value="<?php echo (isset($formArray["calle_no_candidato"]))?$formArray["calle_no_candidato"]:""; ?>" <?php echo ( in_array('calle_no_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    <td><input type="text" name="calle_no_candidato" onkeyup="javascript:this.value=this.value.toUpperCase();" class="calle_no_candidato" id="calle_no_candidato" placeholder="Calle y número" autocomplete="off" required value="<?php echo (isset($formArray["calle_no_candidato"]))?$formArray["calle_no_candidato"]:""; ?>" <?php echo ( in_array('calle_no_candidato' , $error_campos) )?"style='width:95%;border:2px solid red;'":""; ?>></td>
 					    <td>Código Postal</td>
 					    <td><input type="text" name="cp_candidato" class="cp_candidato" id="cp_candidato" placeholder="C.P." autocomplete="off" required value="<?php echo (isset($formArray["cp_candidato"]))?$formArray["cp_candidato"]:""; ?>" <?php echo ( in_array('cp_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
 				    </tr>
 				    <tr>
 					    <td>Estado</td>
 					    <td>
-						    <select name="estado_domicilio_candidato" class="estado_domicilio_candidato" id="estado_domicilio_candidato" <?php echo ( in_array('estado_domicilio_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+						    <select name="estado_domicilio_candidato" class="estado_domicilio_candidato" id="estado_domicilio_candidato" <?php echo ( in_array('estado_domicilio_candidato' , $error_campos) )?"style='width:95%;border:2px solid red;'":""; ?>>
 							    <option value="">Seleccionar estado</option>
 							    
 						     </select>
 					    </td>
 					    <td>Ciudad</td>
-					    <td><input type="text" name="ciudad_domicilio_candidato" class="ciudad_domicilio_candidato" id="ciudad_domicilio_candidato" placeholder="Ciudad" autocomplete="off" required value="<?php echo (isset($formArray["ciudad_domicilio_candidato"]))?$formArray["ciudad_domicilio_candidato"]:""; ?>" <?php echo ( in_array('ciudad_domicilio_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    <td><input type="text" name="ciudad_domicilio_candidato" class="ciudad_domicilio_candidato" id="ciudad_domicilio_candidato" placeholder="Ciudad" autocomplete="off" required value="<?php echo (isset($formArray["ciudad_domicilio_candidato"]))?$formArray["ciudad_domicilio_candidato"]:""; ?>" <?php echo ( in_array('ciudad_domicilio_candidato' , $error_campos) )?"style='width:95%;border:2px solid red;'":""; ?>></td>
 				    </tr>
 				    <tr>
 					    <td>Municipio o delegación</td>
 					    <td>
-						   <select name="delegacion_domicilio_candidato" class="delegacion_domicilio_candidato" id="delegacion_domicilio_candidato" <?php echo ( in_array('delegacion_domicilio_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+						   <select name="delegacion_domicilio_candidato" class="delegacion_domicilio_candidato" id="delegacion_domicilio_candidato" <?php echo ( in_array('delegacion_domicilio_candidato' , $error_campos) )?"style='width:95%;border:2px solid red;'":""; ?>>
 							   <option value="">Seleccionar delegación o municipio</option> 
 						   </select>
 					    </td>
 					    <td>Colonia</td>
 					    <td>
-						    <select name="colonia_domicilio_candidato" class="colonia_domicilio_candidato" id="colonia_domicilio_candidato" required <?php echo ( in_array('colonia_domicilio_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+						    <select name="colonia_domicilio_candidato" onkeyup="javascript:this.value=this.value.toUpperCase();" class="colonia_domicilio_candidato" id="colonia_domicilio_candidato" required <?php echo ( in_array('colonia_domicilio_candidato' , $error_campos) )?"style='width:95%;border:2px solid red;'":""; ?>>
 				              <option value="">Seleccionar colonia</option> 
 				            </select>
 						</td>
@@ -312,7 +312,7 @@
 					    <td>Otro número de teléfono</td>
 					    <td><input type="text" maxlength="10" name="telefono_otro_candidato" class="telefono_otro_candidato allownumericwithoutdecimal" id="telefono_otro_candidato" placeholder="Otro teléfono" autocomplete="off" value="<?php echo (isset($formArray["telefono_otro_candidato"]))?$formArray["telefono_otro_candidato"]:""; ?>"></td>
 					    <td>Correo electrónico personal</td>
-					    <td><input type="text" name="correo_electronico_candidato" class="correo_electronico_candidato" id="correo_electronico_candidato" placeholder="Correo electrónico" autocomplete="off" required value="<?php echo (isset($formArray["correo_electronico_candidato"]))?$formArray["correo_electronico_candidato"]:""; ?>" <?php echo ( in_array('correo_electronico_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+					    <td><input type="text" name="correo_electronico_candidato" class="correo_electronico_candidato" id="correo_electronico_candidato" placeholder="Correo electrónico" autocomplete="off" required value="<?php echo (isset($formArray["correo_electronico_candidato"]))?$formArray["correo_electronico_candidato"]:""; ?>" <?php echo ( in_array('correo_electronico_candidato' , $error_campos) )?"style='width:95%;border:2px solid red;'":""; ?>>
 					    <?php 
 						if( in_array('correo_electronico_candidato' , $error_campos) ):
 						?>
@@ -796,7 +796,7 @@
 			    <table cellpadding="0" cellspacing="0" width="100%">
 				    <tr>
 					    <td>Nombre completo</td>
-					    <td><input type="text" name="nombre_completo_familiar_candidato" class="nombre_completo_familiar_candidato" id="nombre_completo_familiar_candidato" placeholder="Nombre completo de familiar" autocomplete="off" required value="<?php echo (isset($formArray["nombre_completo_familiar_candidato"]))?$formArray["nombre_completo_familiar_candidato"]:""; ?>"></td>
+					    <td><input type="text" name="nombre_completo_familiar_candidato" class="nombre_completo_familiar_candidato" id="nombre_completo_familiar_candidato" style="width:95%; text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" placeholder="Nombre completo de familiar" autocomplete="off" required value="<?php echo (isset($formArray["nombre_completo_familiar_candidato"]))?$formArray["nombre_completo_familiar_candidato"]:""; ?>"></td>
 					    
 					   <td>Relación con el empleado</td>
 					   <td>
@@ -888,7 +888,7 @@
 			    <table cellpadding="0" cellspacing="0" width="100%">
 				   <tr>
 					   <td>Nombre de contacto</td>
-					   <td><input type="text" name="nombre_contacto_emergencia_candidato" class="nombre_contacto_emergencia_candidato" id="nombre_contacto_emergencia_candidato" placeholder="Nombre" autocomplete="off" required value="<?php echo (isset($formArray["nombre_contacto_emergencia_candidato"]))?$formArray["nombre_contacto_emergencia_candidato"]:""; ?>" <?php echo ( in_array('nombre_contacto_emergencia_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					   <td><input type="text" name="nombre_contacto_emergencia_candidato" class="nombre_contacto_emergencia_candidato" id="nombre_contacto_emergencia_candidato" placeholder="Nombre" autocomplete="off" onkeyup="javascript:this.value=this.value.toUpperCase();" required value="<?php echo (isset($formArray["nombre_contacto_emergencia_candidato"]))?$formArray["nombre_contacto_emergencia_candidato"]:""; ?>" <?php echo ( in_array('nombre_contacto_emergencia_candidato' , $error_campos) )?"style='text-transform:uppercase; width:95%;border:2px solid red;'":""; ?>></td>
 					   <td>Parentesco</td>
 					   <td>
 						   <select name="parentesco_contacto_emergencia_candidato" class="parentesco_contacto_emergencia_candidato" id="parentesco_contacto_emergencia_candidato" <?php echo ( in_array('parentesco_contacto_emergencia_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>

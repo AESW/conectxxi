@@ -191,7 +191,10 @@ class Nomina extends CI_Controller {
 		
 	//	print_r($table);
 	
-		$this->noi->export($table,$empresa);
+		
+		$accion="ALTA";
+	
+		$this->noi->export($table,$empresa,$accion);
 		
 			
 		
@@ -387,8 +390,10 @@ class Nomina extends CI_Controller {
 		
 		
 			//	print_r($table);
+			
+			$accion="BAJA";
 		
-			$this->noi->export($table,$empresa);
+			$this->noi->export($table,$empresa,$accion);
 		
 				
 		

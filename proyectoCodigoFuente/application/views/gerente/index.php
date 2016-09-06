@@ -4,9 +4,7 @@
 		
 		<ul>
 			<li><a href="#">Aviso 1 , Fecha , Lugar</a></li>
-			<li><a href="#">Aviso 2 , Fecha , Lugar</a></li>
-			<li><a href="#">Aviso 3 , Fecha , Lugar</a></li>
-			<li><a href="#">Aviso 4 , Fecha , Lugar</a></li>
+			
 		</ul>
 	</div>
 	
@@ -14,11 +12,31 @@
 		<h2>Solicitud de Autorizaciones</h2>
 		<ul>
 		<?php 
-			if(!empty( $entrevistasRealizar ) ):
-				foreach($entrevistasRealizar as $entrevistas):
+			if(!empty( $autorizaciones ) ):
+		      foreach($autorizaciones as $datos):
+		      $accion = $datos["autorizacion"] ;
+			  if( $accion == "permiso" ):
 		?>
-					<li><a href="<?php echo HOME_URL; ?>eaf/Reclutamiento/candidato/?idCandidatoFDP=<?php echo $entrevistas["idCandidatoFDP"]; ?>"><?php echo $entrevistas["apellidoPaterno"]." ".$entrevistas["apellidoMaterno"]." ".$entrevistas["nombre"]; ?> , <?php echo $entrevistas["nombrePuesto"] ?></a></li>
-		<?php
+						<li><a href="<?php echo HOME_URL; ?>eaf/RecursosHumanos/altausuario/?idCandidatoFDP=<?php echo $datos["idUsuarios"];?>"><?php echo $datos["nombreUsuario"]." , Autorización de ".$accion;?> </a></li>
+					
+					<?php 
+					endif;
+					
+					if( $accion == "descanso" ):
+					?>
+						<li><a href="<?php echo HOME_URL; ?>eaf/RecursosHumanos/altausuario/?idCandidatoFDP=<?php echo $datos["idUsuarios"];?>"><?php echo $datos["nombreUsuario"]." , Autorización de ".$accion;?> </a></li>
+								
+							<?php 
+							endif;
+										
+						if( $accion == "turno" ):
+										?>
+						<li><a href="<?php echo HOME_URL; ?>eaf/RecursosHumanos/altausuario/?idCandidatoFDP=<?php echo $datos["idUsuarios"];?>"><?php echo $datos["nombreUsuario"]." , Autorización de ".$accion;?></a></li>
+															
+															<?php 
+															endif;
+					
+		
 				endforeach;
 			endif;
 		?>
@@ -42,7 +60,7 @@
 				<?php 
 					else:
 					?>
-						<li>'.$mo["nombreCandidato"]." , ".$accion.'</li>';
+						
 					
 					<?php 
 					endif;

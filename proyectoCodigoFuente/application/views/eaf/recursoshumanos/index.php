@@ -106,6 +106,22 @@
 																	<?php 
 																	endif;
 																endforeach;
+																
+																foreach( $movimientos as $mo ):
+																$accion = $mo["estatusCandidato"] ;
+																if( $accion == "Incapacidad" ):
+																?>
+																																	
+																																		<li><a href="<?php echo HOME_URL; ?>eaf/RecursosHumanos/Incapacidad/?idIncapacidad=<?php echo $mo["idIncapacidades"];?>"><?php echo $mo["nombreUsuario"]." , ".$accion;?> </a></li>
+																																
+																																<?php 
+																																	else:
+																																	?>
+																																		<!--<li><?php echo $mo["nombreUsuario"];?> ,<?php echo $accion;?></li>!-->
+																																	
+																																	<?php 
+																																	endif;
+																																endforeach;
 				
 				
 			endif;

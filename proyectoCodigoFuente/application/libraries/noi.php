@@ -38,7 +38,7 @@ class noi
 {
 	
 
-	function export($table,$empresa)
+	function export($table,$empresa,$accion)
 	{
 
 /** Error reporting */
@@ -102,7 +102,7 @@ $objPHPExcel->getProperties()->setCreator("Fernando Martinez")
     		$column = 0;
     		$row++;
     	}
-$objPHPExcel->getActiveSheet()->setTitle('AltaNOI');
+$objPHPExcel->getActiveSheet()->setTitle($accion);
 
 
 // Set active sheet index to the first sheet, so Excel opens this as the first sheet
@@ -114,7 +114,7 @@ $objPHPExcel->setActiveSheetIndex(0);
 $callStartTime = microtime(true);
 
 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-$objWriter->save(str_replace('.php', $empresa.'.xlsx', __FILE__));
+$objWriter->save(str_replace('.php', $empresa.'_'.$accion.'.xlsx', __FILE__));
 $callEndTime = microtime(true);
 $callTime = $callEndTime - $callStartTime;
 
@@ -126,15 +126,15 @@ unset($objPHPExcel);
 
 header('Content-Description: File Transfer');
 header('Content-Type: application/octet-stream');
-header('Content-Disposition: attachment; filename='.basename(str_replace('.php', $empresa.'.xlsx', __FILE__)));
+header('Content-Disposition: attachment; filename='.basename(str_replace('.php', $empresa.'_'.$accion.'.xlsx', __FILE__)));
 header('Content-Transfer-Encoding: binary');
 header('Expires: 0');
 header('Cache-Control: must-revalidate');
 header('Pragma: public');
-header('Content-Length: ' . filesize(str_replace('.php',$empresa. '.xlsx', __FILE__)));
+header('Content-Length: ' . filesize(str_replace('.php',$empresa.'_'.$accion.'.xlsx', __FILE__)));
 ob_clean();
 flush();
-readfile(str_replace('.php', $empresa.'.xlsx', __FILE__));
+readfile(str_replace('.php', $empresa.'_'.$accion.'.xlsx', __FILE__));
 exit;
 
 	}

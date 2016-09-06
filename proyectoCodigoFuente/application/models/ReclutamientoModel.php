@@ -117,7 +117,7 @@ class ReclutamientoModel extends CI_Model {
 										(SELECT idPuesto FROM VacantesPeticiones WHERE tokenFDPVacantesPendientes = CandidatoFDP.tokenFDPVacantesPendientes) as idPuesto,
 				                        (SELECT valorMetaDatos FROM MetaDatosCandidatoFDP WHERE idCandidatoFDP = CandidatoFDP.idCandidatoFDP and prefijoMetaDatos='puesto_solicitado') as puesto_solicitado,
 										( SELECT nombrePuesto FROM Puestos WHERE idPuestos = (SELECT idPuesto FROM VacantesPeticiones WHERE tokenFDPVacantesPendientes = CandidatoFDP.tokenFDPVacantesPendientes) ) as nombrePuesto,
-				(select count(*) from CandidatoFDP where idCandidatoFDP not in (select idCandidatoFDP from ReclutamientoFDP)) as porEntrevistar
+				(select count(*) from CandidatoFDP where  CandidatoFDP.estaValidado=1 and idCandidatoFDP not in (select idCandidatoFDP from ReclutamientoFDP)) as porEntrevistar
 			FROM CandidatoFDP WHERE
 										( SELECT count( idReclutamientoFDP ) FROM ReclutamientoFDP WHERE idCandidatoFDP = CandidatoFDP.idCandidatoFDP ) <= 0 and CandidatoFDP.estaValidado=1  order by apeliidoPaterno asc 
 										

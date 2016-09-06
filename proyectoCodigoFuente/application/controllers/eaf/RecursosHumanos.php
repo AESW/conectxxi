@@ -60,17 +60,18 @@ class Recursoshumanos extends CI_Controller {
 		$movimientosCandidatosRH = $this->RecursoshumanosModel->obtenerMovimientosCandidatos ();
 		
 	
-		
+	
 		$dataContent = array (
 				"isRRHH" => $isRRHH,
 				"accionesRRHH" => $accionesRRHH,
 				"entrevistasRealizar" => $entrevistasRealizar,
 				"entrevistasRealizarSegundaParte" => $entrevistasRealizarSegundaParte,
-				"movimientos" => $movimientosCandidatosRH
+				"movimientos" => $movimientosCandidatosRH,
+			
 				
 		);
 		
-		// print_r($movimientosCandidatosRH);
+	// print_r($movimientosCandidatosRH);
 		
 		$this->load->view ( 'includes/header', $dataHeader );
 		$this->load->view ( 'eaf/recursoshumanos/index', $dataContent );
@@ -833,9 +834,9 @@ endif;
 		$config = array (
 						
 								'protocol' => 'smtp',
-								'smtp_host' => 'ssl://mail.solumas.com.mx',
+								'smtp_host' => 'ssl://mail.almeriasa.com.mx',
 								'smtp_port' => 465,
-								'smtp_user' => 'reclutamiento@solumas.com.mx',
+								'smtp_user' => 'reclutamiento@almeriasa.com.mx',
 								'smtp_pass' => 'Agosto2013',
 								'smtp_timeout' => '7',
 								'charset' => 'utf-8',
@@ -852,8 +853,8 @@ endif;
 		$ci->load->library ( 'Email', $config );
 		$ci->email->initialize ( $config );
 		
-		$ci->email->from ( 'reclutamiento@solumas.com.mx', 'Prueba' );
-		$ci->email->to ( 'ferma_3@live.com.mx' );
+		$ci->email->from ( 'reclutamiento@almeriasa.com.mx', 'Prueba' );
+		$ci->email->to ( 'fmartinez@aesoftware.com.mx' );
 		$ci->email->subject ( 'Registro de publicacion' );
 		$ci->email->message ( "
 			    		    	
@@ -1744,4 +1745,274 @@ public function GuardaCheque() {
 	echo json_encode ( $resultado );
 	exit ();
 }
+
+public function CartaFiniquito($id) {
+	$this->load->library ( 'Pdf' );
+
+	
+	$sessionUser = $this->session->userdata('logged_in');
+		
+	$UsuarioRH=$sessionUser["usuario"]["nombreUsuario"];
+	
+	
+	
+	$datos = $this->RecursoshumanosModel->DatosCartaFiniquito( $id );
+	
+	$DatosFiniquito = $this->RecursoshumanosModel->DatosFiniquito($id);
+	
+	$tabla1='';
+	$tabla2='';
+	
+	
+	foreach($DatosFiniquito as $fila)
+	{
+	
+		if ($fila['tipo']==1)
+		{
+			
+			$etiqueta=$fila['prefijoMetaDatos'];
+			$valor=$fila['valorMetaDatos'];
+			
+			$tabla1= '
+	      <tr>
+	                <td >'.$etiqueta.' :</td>
+	              <td><p>$'.$valor.'</p></td>
+	            </tr>
+		<tr>
+	                <td >'.$etiqueta.' :</td>
+	              <td><p>$'.$valor.'</p></td>
+	            </tr>';
+			
+			
+							
+		}
+			}
+			
+	                  
+	                    foreach($DatosFiniquito as $fila)
+								{
+									
+							if ($fila['tipo']==2)
+							{
+									
+								$tabla2='
+	          
+	            <tr>
+	                <td > '. $fila['prefijoMetaDatos'].' :</td>
+	                <td ><input type="text" name="calificacion[]" class="codEti" value="'. $fila['valorMetaDatos'].'" id="calificacion" style=" width:100px;height:23px;">
+	               </td>
+	                
+	            </tr>';
+	            
+	          
+							}
+							
+						            }
+						        
+	                
+	                  
+	                	
+	
+
+	foreach ( $datos as $fila ) {
+		
+		$total = strtoupper($fila->finiquitoTotal);
+		$puesto = strtoupper($fila->Puesto);
+		$empresa = strtoupper($fila->Empresa);
+		
+		
+	}
+
+	$arrayMeses = array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+			'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre');
+
+	$arrayDias = array('Domingo' ,	'Lunes', 'Martes',
+			'Miercoles', 'Jueves', 'Viernes', 'Sabado');
+		
+	$hoy= $arrayDias[date('w')].", ".date('d')." de ".$arrayMeses[date('m')-1]." de ".date('Y');
+	/*
+	 Resultado, (fecha actual 21/09/2012):
+	 Viernes, 21 de Septiembre de 2012
+	 */
+
+
+
+	$cantidad=$this->num_to_letras($total);
+
+	
+
+	$pdf = new TCPDF ( PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false );
+
+	// set default monospaced font
+	$pdf->SetDefaultMonospacedFont ( PDF_FONT_MONOSPACED );
+
+	// set margins
+	$pdf->SetMargins ( PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT );
+	$pdf->SetHeaderMargin ( PDF_MARGIN_HEADER );
+	$pdf->SetFooterMargin ( PDF_MARGIN_FOOTER );
+
+	// set auto page breaks
+	$pdf->SetAutoPageBreak ( TRUE, PDF_MARGIN_BOTTOM );
+
+	// set image scale factor
+	$pdf->setImageScale ( PDF_IMAGE_SCALE_RATIO );
+
+	// set some language-dependent strings (optional)
+	if (@file_exists ( dirname ( __FILE__ ) . '/lang/eng.php' )) {
+		require_once (dirname ( __FILE__ ) . '/lang/eng.php');
+		$pdf->setLanguageArray ( $l );
+	}
+
+	// ---------------------------------------------------------
+
+	// set default font subsetting mode
+	$pdf->setFontSubsetting ( true );
+
+	// Set font
+	// dejavusans is a UTF-8 Unicode font, if you only need to
+	// print standard ASCII chars, you can use core fonts like
+	// helvetica or times to reduce file size.
+	$pdf->SetFont ( 'dejavusans', '', 12, '', true );
+
+	// Add a page
+	// This method has several options, check the source code documentation for more information.
+	$pdf->AddPage ();
+
+	// set text shadow effect
+	$pdf->setTextShadow ( array (
+			'enabled' => true,
+			'depth_w' => 0.2,
+			'depth_h' => 0.2,
+			'color' => array (
+					196,
+					196,
+					196
+			),
+			'opacity' => 1,
+			'blend_mode' => 'Normal'
+	) );
+
+	// Set some content to print
+	$html = <<<EOD
+					  
+
+  <html>
+    
+  <p>Ciudad de M&eacute;xico a <b>$hoy</b></p>
+
+    <p>R E C I B I de <b>$empresa</b> la cantidad de: $<b>$total </b><b> $cantidad</b> Por concepto de pago de vacaciones, prima vacacional y aguinaldo proporcional al &uacute;ltimo a&ntilde;o de servicios prestados, as&iacute; como por concepto del pago a que se refiere el art&iacute;culo 162 de la ley federal del trabajo, relativo a la prima de antig&uuml;edad y una gratificaci&oacute;n como saldo finiquito durante la prestaci&oacute;n de mis servicios para la empresa.</p>
+
+    <p>Mi separaci&oacute;n es voluntaria al puesto de <b>$puesto </b>que ven&iacute;a desarrollando, pues he decidido separarme voluntariamente de una manera definitiva de mi trabajo.</p>
+
+    <p>Manifiesto expresamente que no se me adeuda cantidad alguna por concepto de salarios devengados, tiempo extraordinario, vacaciones, prima vacacional, aguinaldo, comisiones, premio, bonos o incentivos, s&eacute;ptimos d&iacute;as de descanso obligatorio, reparto de utilidades, prima de antig&uuml;edad, as&iacute; como no haber sufrido accidente alguno o enfermedad profesional o de trabajo alguna, ni por ning&uacute;n otro motivo por lo cual libero a esta empresa, quien fue &uacute;nico patr&oacute;n, de toda responsabilidad, otorg&aacute;ndole el m&aacute;s amplio finiquito de obligaciones que en derecho proceda, no reserv&aacute;ndome acci&oacute;n o derecho alguno que ejercitar en contra de la misma.</p>
+
+<p>En la cantidad que en este acto recibo de entera conformidad, se contienen los siguientes conceptos:</p>
+<center>
+<table border="1" cellspacing="0" cellpadding="0" > 
+
+   $tabla1
+   <tr>
+	                <td > <label  > MENOS :</label></td>
+	                <td ></td>
+	          </tr>
+	          
+	        
+	        
+    <tr>
+	                <td > <label  > TOTAL :</label></td>
+	                <td><p>$$total</p></td>
+	               
+	            </tr>
+	              
+	      
+
+</table>
+
+<p>ATENTAMENTE</p>
+
+<p><b>$UsuarioRH</b></p>
+</center>
+</html>
+    		
+
+EOD;
+
+	// Print text using writeHTMLCell()
+	$pdf->writeHTMLCell ( 0, 0, '', '', $html, 0, 1, 0, true, '', true );
+
+	// ---------------------------------------------------------
+
+	// Close and output PDF document
+	// This method has several options, check the source code documentation for more information.
+
+	// ---------------------------------------------------------
+
+	ob_clean ();
+
+	$pdf->Output ( 'Carta_Finiquito.pdf', 'I' );
+}
+
+
+public function Incapacidad() {
+	$dataHeader = array (
+			"titulo" => "Autorización de Incapacidad"
+	);
+
+	$idIncapacidad = $this->input->get ( 'idIncapacidad' );
+	$Datosusuarios = $this->RecursoshumanosModel->DatosusuariosIncapacidad($idIncapacidad);
+
+
+
+
+	$dataContent ["Datosusuarios"] = $Datosusuarios;
+
+	// echo "<pre>";print_r($error_campos);
+//	echo "<pre>";print_r($dataContent);
+	//// echo "<pre>";print_r($resultado);
+	// echo "<pre>";print_r($formArray);
+
+	$this->load->view ( 'includes/header', $dataHeader );
+	$this->load->view ( 'eaf/recursoshumanos/incapacidad', $dataContent );
+	$this->load->view ( 'includes/footer' );
+}
+
+
+public function AutorizaIncapacidad() {
+	$dataHeader = array (
+			"titulo" => "Autorización de Incapacidad"
+	);
+
+	$idIncapacidad = $this->Sanitize->clean_string ( $_POST ["idIncapacidad"] );
+
+	//	$finiquito = $this->Sanitize->clean_string ( $_POST ["finiquito"] );
+//	$cheque = $this->Sanitize->clean_string ( $_POST ["cheque"] );
+
+
+
+	$sqlUpdateUsuario = "UPDATE Incapacidades set  aprobada= 1 , fecha_Aprobacion=now() where idIncapacidades= $idIncapacidad";
+
+	$UpdateUsuario = $this->db->query ( $sqlUpdateUsuario );
+
+
+	if ($UpdateUsuario)
+	{
+		$resultado = array (
+				"codigo" => 200,
+				"exito" => true,
+				"mensaje" => "Incapacidad Autorizada correctamente."
+		);
+	}
+	else {
+		$resultado = array (
+				"codigo" => 400,
+				"exito" => false,
+				"mensaje" => "Error, vuelva a intentarlo."
+		);
+	}
+
+	ob_clean ();
+	echo json_encode ( $resultado );
+	exit ();
+}
+
 }

@@ -181,4 +181,75 @@ where  Oficinas_idOficinas = (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE
 	
 	}
 	
+	public function obtenerAutorizacionesGerente($idUsuario){
+		
+		$sqlSolPermisos = 'select SolPermisos.*,Usuarios.nombreUsuario from SolPermisos
+left outer join Usuarios
+on SolPermisos.idUsuarios=Usuarios.idUsuarios
+left outer join TaxPuestoUsuario
+on TaxPuestoUsuario.idUsuarios =  SolPermisos.idUsuarios ';
+	
+		$querySolPermisos = $this->db->query( $sqlSolPermisos );
+		$arraySolPermisos = array();
+		if(  $querySolPermisos->num_rows() > 0 ):
+		$resultadoSolPermisos = $querySolPermisos->result();
+		foreach($resultadoSolPermisos as $aprobados):
+		$arraySolPermisos[] = array(
+				"idUsuarios" => $aprobados->idUsuarios,
+				"nombreUsuario" => $aprobados->nombreUsuario,
+				"autorizacion" => "permiso",
+				
+		);
+		endforeach;
+		endif;
+	
+	
+		$sqlSolDescanso = 'select SolDiaDescanso.*,Usuarios.nombreUsuario from SolDiaDescanso
+left outer join Usuarios
+on SolDiaDescanso.idUsuarios=Usuarios.idUsuarios
+left outer join TaxPuestoUsuario
+on TaxPuestoUsuario.idUsuarios =  SolDiaDescanso.idUsuarios';
+	
+		$querySolDescanso = $this->db->query( $sqlSolDescanso );
+		$arraySolDescanso = array();
+		if(  $querySolDescanso->num_rows() > 0 ):
+		$resultadoSolDescanso = $querySolDescanso->result();
+		foreach($resultadoSolDescanso as $SolDescanso):
+		$arraySolDescanso[] = array(
+				"idUsuarios" => $SolDescanso->idUsuarios,
+				"nombreUsuario" => $SolDescanso->nombreUsuario,
+				"autorizacion" => "descanso"
+		);
+		endforeach;
+		endif;
+	
+	
+		$sqlSolTurno = 'select SolCambioTurno.*,Usuarios.nombreUsuario from SolCambioTurno
+left outer join Usuarios
+on SolCambioTurno.idUsuarios=Usuarios.idUsuarios
+left outer join TaxPuestoUsuario
+on TaxPuestoUsuario.idUsuarios =  SolCambioTurno.idUsuarios';
+	
+		$querySolTurno = $this->db->query( $sqlSolTurno );
+		$arraySolTurno = array();
+		if(  $querySolTurno->num_rows() > 0 ):
+		$resultadoSolTurno = $querySolTurno->result();
+		foreach($resultadoSolTurno as $SolTurno):
+		$arraySolTurno[] = array(
+				"idUsuarios" => $SolTurno->idUsuarios,
+				"nombreUsuario" => $SolTurno->nombreUsuario,
+				"autorizacion" => "turno"
+		);
+		endforeach;
+		endif;
+	
+	
+		
+	
+	
+		$resultadoMovimientos = array_merge($arraySolPermisos, $arraySolDescanso,$arraySolTurno);
+	
+		return $resultadoMovimientos;
+	}
+	
 }

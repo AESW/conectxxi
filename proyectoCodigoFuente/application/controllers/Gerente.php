@@ -31,6 +31,7 @@ class Gerente extends CI_Controller {
     	$sessionUser = $this->session->userdata('logged_in');
     	//echo "<pre>";
     	//print_r( $sessionUser );die;
+    	$idUsuario=$sessionUser["usuario"]["idUsuarios"];
     
     	$isRRHH = 0;
     	$accionesRRHH = array();
@@ -58,19 +59,22 @@ class Gerente extends CI_Controller {
     	/*Segundas entrevistas*/
     	//print_r( $entrevistasRealizarSegundaParte );
     
-   // 	$movimientosCandidatosRH = $this->RecursoshumanosModel->obtenerMovimientosCandidatos();
+    	$autorizacionesGerente = $this->GerenteModel->obtenerAutorizacionesGerente($idUsuario);
     
     
-   // 	$dataContent = array(
+    	$dataContent = array(
    // 			"isRRHH" => $isRRHH,
     //			"accionesRRHH" => $accionesRRHH,
     	//		"entrevistasRealizar" => $entrevistasRealizar,
     		//	"entrevistasRealizarSegundaParte" => $entrevistasRealizarSegundaParte,
-   // 			"movimientos" => $movimientosCandidatosRH
-    //	);
+    			"autorizaciones" => $autorizacionesGerente
+    	);
+    	
+    	
+    //	print_r( $dataContent );
     
     	$this->load->view('includes/header' , $dataHeader);
-    	$this->load->view('gerente/index' );
+    	$this->load->view('gerente/index',$dataContent );
     	$this->load->view('includes/footer');
     
     }	
@@ -177,7 +181,7 @@ class Gerente extends CI_Controller {
     
     
     
-    	$sqlAlta = "insert into Incapacidades (incapacidad,inicio,fin,idUsuarios) values ('$incap','$inicio','$fin',$selecEmp)" ;
+    	$sqlAlta = "insert into Incapacidades (incapacidad,inicio,fin,idUsuarios,aprobada) values ('$incap','$inicio','$fin',$selecEmp,0)" ;
     
     
     

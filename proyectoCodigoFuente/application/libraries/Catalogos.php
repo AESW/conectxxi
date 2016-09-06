@@ -186,7 +186,7 @@ class Catalogos
 	
 	   public function fdpOficina(){
     	$list = array(
-    			"MEXICO"=>"MEXICO",
+    			"TLALPAN"=>"TLALPAN",
 "HERMOSILLO"=>"HERMOSILLO",
 "GUADALAJARA"=>"GUADALAJARA",
 "VERACRUZ"=>"VERACRUZ",
@@ -236,7 +236,7 @@ class Catalogos
 "COLIMA"=>"COLIMA",
 "CHIAPAS"=>"CHIAPAS",
 "CHIHUAHUA"=>"CHIHUAHUA",
-"DF"=>"DF",
+"CIUDAD DE MEXICO"=>"CIUDAD DE MEXICO",
 "DURANGO"=>"DURANGO",
 "GUANAJUATO"=>"GUANAJUATO",
 "GUERRERO"=>"GUERRERO",

@@ -212,8 +212,28 @@ class RecursoshumanosModel extends CI_Model {
 		endforeach;
 		endif;
 		
+		
+		$sqlCandidatosIncapacidad = "SELECT Incapacidades.idUsuarios,Incapacidades.idIncapacidades, Usuarios.nombreUsuario	from Incapacidades
+		left outer join Usuarios
+		on Usuarios.idUsuarios=Incapacidades.idUsuarios where Incapacidades.aprobada=0";
+		
+		$queryCandidatosIncapacidad = $this->db->query( $sqlCandidatosIncapacidad );
+		$arrayIncapacidad = array();
+		if(  $queryCandidatosIncapacidad->num_rows() > 0 ):
+		$resultadoCandidatosIncapacidad = $queryCandidatosIncapacidad->result();
+		foreach($resultadoCandidatosIncapacidad as $aprobados):
+		$arrayIncapacidad[] = array(
+				"idUsuarios" => $aprobados->idUsuarios,
+				"nombreUsuario" => $aprobados->nombreUsuario,
+				"estatusCandidato" => "Incapacidad",
+				"idIncapacidades" => $aprobados->idIncapacidades,
+					
+		);
+		endforeach;
+		endif;
+		
 	
-		$resultadoMovimientos = array_merge($arrayAprobados, $arrayRechazados,$arrayBajas,$arrayCheque);
+		$resultadoMovimientos = array_merge($arrayAprobados, $arrayRechazados,$arrayBajas,$arrayCheque,$arrayIncapacidad);
 	
 		return $resultadoMovimientos;
 	}
@@ -687,5 +707,66 @@ on SolBajasPersonal.idusuarios=Usuarios.idUsuarios where SolBajasPersonal.idUsua
 	
 	
 	
+	}
+	
+	public function DatosusuariosIncapacidad($idIncapacidad){
+	
+		
+		$peticiones = array();
+		
+		$sqlPeticiones = "
+		SELECT Incapacidades.*, Usuarios.nombreUsuario	from Incapacidades
+		left outer join Usuarios
+		on Usuarios.idUsuarios=Incapacidades.idUsuarios where Incapacidades.idIncapacidades= $idIncapacidad
+		
+		";//Agregar AND ReclutacionFDP aprobado, RecursosHumanosFDP aprobado
+		
+		$queryPeticiones = $this->db->query( $sqlPeticiones );
+		
+		if( $queryPeticiones->num_rows() > 0 ):
+		$resultadoPeticiones = $queryPeticiones->result();
+		$peticiones = array();
+		foreach( $resultadoPeticiones as $pet):
+		
+		$peticiones[] = array(
+				"idIncapacidades" => $pet->idIncapacidades,
+				"idUsuarios" => $pet->idUsuarios,
+				"nombreUsuario" => $pet->nombreUsuario,
+				"incapacidad" => $pet->incapacidad,
+				"inicio" => $pet->inicio,
+				"fin" => $pet->fin
+		
+		);
+		endforeach;
+		return $peticiones;
+		else:
+		return array();
+		endif;
+	
+	
+	}
+	
+	
+	
+	public function DatosCartaFiniquito($id){
+	
+	
+		$sqlFiniquitoUsuarios = "SELECT *
+		FROM SolBajasPersonal where idUsuarios =$id";
+			
+		$queryFiniquitoUsuarios = $this->db->query( $sqlFiniquitoUsuarios );
+	
+	
+		$arrayFiniquitoUsuarios = array();
+		if(  $queryFiniquitoUsuarios->num_rows() > 0 ):
+	
+	
+		$arrayFiniquitoUsuarios = $queryFiniquitoUsuarios->result();
+	
+	
+		endif;
+			
+	
+		return $arrayFiniquitoUsuarios;
 	}
 }
