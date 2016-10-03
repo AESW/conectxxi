@@ -92,17 +92,24 @@ class Movimientos extends CI_Controller {
     	$CatCartera=$this->MovimientosModel->CatCartera();
     	$CatProductos=$this->MovimientosModel->CatProductos();
     	
+
+    	$sqlCatalogos = 'SELECT * from catalogos left outer join cat_detalle on catalogos.id=cat_detalle.id_catalogo
+    left outer join ObjetosCatalogo
+    on catalogos.id=ObjetosCatalogo.idCatalogo where cat_detalle.estatus=1';
+    	$queryCatalogos = $this->db->query($sqlCatalogos);
+    	//$dataContent["Catalogos"] = $queryCatalogos->result();
+    	
     	
     	 	$dataContent = array(
     	 			"CatPuestos" => $CatPuestos,
-    	 			"catalogos" => new Catalogos(),
+    	 			"Catalogos" => $queryCatalogos->result(),
     	 			"CatProductos" => $CatProductos,
     	 			"CatCartera" => $CatCartera,
     	 			"DatosUsuario" => $DatosUsuario
     		);
         
     	 	
-    	 //	print_r($sessionUser);
+    	 	//print_r($dataContent);
     	 	
     	$this->load->view('includes/header' , $dataHeader);
     	$this->load->view('movimientos/NuevoPersonal',$dataContent );

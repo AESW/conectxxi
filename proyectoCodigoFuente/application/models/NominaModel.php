@@ -56,7 +56,7 @@ where Empresas_idEmpresas = $id and Oficinas_idOficinas = (SELECT valorMetaDatos
 	public function obtenerEmpresas(){
 	
 	
-		$sqlObtenerEmpresas = 'SELECT * FROM Empresas' ;
+		$sqlObtenerEmpresas = 'SELECT * FROM Empresas where estatus = 1'  ;
 			
 		$resultObtenerEmpresas = array();
 			
@@ -650,7 +650,7 @@ where Empresas_idEmpresas = (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE 
 		$sqlObtenerDatos = "SELECT SolBajasPersonal.*,Usuarios.*,
 		(select nombreUsuario from Usuarios where idUsuarios = SolBajasPersonal.idUsuariosSolicita) as solicita
 		FROM SolBajasPersonal left outer join Usuarios
-		on SolBajasPersonal.idUsuarios=Usuarios.idUsuarios where SolBajasPersonal.idUsuarios= $idCandidatoFDP" ;
+		on SolBajasPersonal.idUsuarios=Usuarios.idUsuarios where SolBajasPersonal.idSolBajal= $idCandidatoFDP" ;
 			
 		$resultObtenerDatos = array();
 			
@@ -674,7 +674,7 @@ where Empresas_idEmpresas = (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE 
 		$peticiones = array();
 	
 		$sqlPeticiones = "
-		select * from ConceptosFiniquito 
+		select * from ConceptosFiniquito where estatus=1
 	
 		";//Agregar AND ReclutacionFDP aprobado, RecursosHumanosFDP aprobado
 	
@@ -699,5 +699,143 @@ where Empresas_idEmpresas = (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE 
 	
 	
 	
+	}
+	
+	public function SelDescuentos(){
+	
+	
+		$peticiones = array();
+	
+		$sqlPeticiones = "
+		select * from DescuentosAbono where movimiento=1
+	
+		";//Agregar AND ReclutacionFDP aprobado, RecursosHumanosFDP aprobado
+	
+		$queryPeticiones = $this->db->query( $sqlPeticiones );
+	
+		if( $queryPeticiones->num_rows() > 0 ):
+		$resultadoPeticiones = $queryPeticiones->result();
+		$peticiones = array();
+		foreach( $resultadoPeticiones as $pet):
+	
+		$peticiones[] = array(
+				"numeroEmpleado" => $pet->numeroEmpleado,
+				"nombreEmpleado" => $pet->nombreEmpleado,
+				"concepto" => $pet->concepto,
+				"Importe" => $pet->Importe,
+				"movimiento" => $pet->movimiento,
+				"movimientoFecha" => $pet->movimientoFecha
+	
+		);
+		endforeach;
+		return $peticiones;
+		else:
+		return array();
+		endif;
+	
+	
+	
+	}
+	
+
+	public function BuscarDescuentos($id,$fecha){
+	
+	
+		if(!empty($fecha))
+		{
+		$fechafin = str_replace("/","-", $fecha);
+		}
+		else
+		{
+			$fechafin='';
+		
+		}
+		
+		
+		$sqlDescuentos = "SELECT * from DescuentosAbono WHERE nombreEmpleado LIKE '%$id%' and movimientoFecha LIKE '%$fechafin%' and movimiento=1;";
+		 
+		$queryDescuentos = $this->db->query( $sqlDescuentos );
+	
+	
+		$arrayDescuentos = array();
+		if(  $queryDescuentos->num_rows() > 0 ):
+	
+	
+		$arrayDescuentos = $queryDescuentos->result();
+	
+	
+		endif;
+			
+	
+		return $arrayDescuentos;
+	}
+	
+	public function SelAbonos(){
+	
+	
+		$peticiones = array();
+	
+		$sqlPeticiones = "
+		select * from DescuentosAbono where movimiento=2
+	
+		";//Agregar AND ReclutacionFDP aprobado, RecursosHumanosFDP aprobado
+	
+		$queryPeticiones = $this->db->query( $sqlPeticiones );
+	
+		if( $queryPeticiones->num_rows() > 0 ):
+		$resultadoPeticiones = $queryPeticiones->result();
+		$peticiones = array();
+		foreach( $resultadoPeticiones as $pet):
+	
+		$peticiones[] = array(
+				"numeroEmpleado" => $pet->numeroEmpleado,
+				"nombreEmpleado" => $pet->nombreEmpleado,
+				"concepto" => $pet->concepto,
+				"Importe" => $pet->Importe,
+				"movimiento" => $pet->movimiento,
+				"movimientoFecha" => $pet->movimientoFecha
+	
+		);
+		endforeach;
+		return $peticiones;
+		else:
+		return array();
+		endif;
+	
+	
+	
+	}
+	
+	
+	public function BuscarAbonos($id,$fecha){
+	
+	
+		if(!empty($fecha))
+		{
+			$fechafin = str_replace("/","-", $fecha);
+		}
+		else
+		{
+			$fechafin='';
+	
+		}
+	
+	
+		$sqlAbonos = "SELECT * from DescuentosAbono WHERE nombreEmpleado LIKE '%$id%' and movimientoFecha LIKE '%$fechafin%' and movimiento=2;";
+			
+		$queryAbonos = $this->db->query( $sqlAbonos );
+	
+	
+		$arrayAbonos = array();
+		if(  $queryAbonos->num_rows() > 0 ):
+	
+	
+		$arrayAbonos = $queryAbonos->result();
+	
+	
+		endif;
+			
+	
+		return $arrayAbonos;
 	}
 }

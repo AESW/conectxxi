@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 require_once(APPPATH.'libraries/Sanitize.php');
 require_once(APPPATH.'libraries/noi.php');
+require_once(APPPATH.'libraries/PHPExcel/IOFactory.php');
 
 
 class Nomina extends CI_Controller {
@@ -406,7 +407,7 @@ class Nomina extends CI_Controller {
 					"titulo" => "Finiquito"
 			);
 		
-			$idCandidatoFDP = $this->input->get ( 'idUsuario' );
+			$idCandidatoFDP = $this->input->get ( 'idBaja' );
 		    $Datosusuarios = $this->NominaModel->Datosusuarios($idCandidatoFDP);
 		    $Conceptos = $this->NominaModel->ConceptosFiniquito();
 		
@@ -428,8 +429,10 @@ class Nomina extends CI_Controller {
 		
 		function GuardaFiniquito() {
 		
-		
+			
 			$idusuario=$this->input->post('selecUsuario');
+			
+			$idBaja=$this->input->post('idBaja');
 		
 			$calificacion=$this->input->post('calificacion');
 			$tema=$this->input->post('tema');
@@ -439,7 +442,7 @@ class Nomina extends CI_Controller {
 			$resultado = array_merge($calificacion,$tema,$tipo);
 		
 		
-			$sqlAlta = "update  SolBajasPersonal set finiquito=1,fechaFiniquito=now(),finiquitoTotal='$totalfiniquito' where idUsuarios=$idusuario" ;
+			$sqlAlta = "update  SolBajasPersonal set finiquito=1,fechaFiniquito=now(),finiquitoTotal='$totalfiniquito' where idSolBajal=$idBaja" ;
 		
 		    $queryGrupo = $this->db->query($sqlAlta);
 			
@@ -447,7 +450,7 @@ class Nomina extends CI_Controller {
 		
 			foreach( $calificacion as $key => $res ):
 		
-			$sqlInsertMetaDatos = 'INSERT INTO MetaDatosFiniquito ( prefijoMetaDatos , valorMetaDatos , idUsuarios , tipo ) VALUES( \''.$tema[$key].'\' , \''.$res.'\' , '.$idusuario.','.$tipo[$key].' );';
+			$sqlInsertMetaDatos = 'INSERT INTO MetaDatosFiniquito ( prefijoMetaDatos , valorMetaDatos , idSolBajal , tipo ) VALUES( \''.$tema[$key].'\' , \''.$res.'\' , '.$idBaja.','.$tipo[$key].' );';
 			$sqlInsert=$this->db->query( $sqlInsertMetaDatos );
 		
 			$a++;
@@ -476,5 +479,520 @@ class Nomina extends CI_Controller {
 		
 		
 		}
+		
+		
+		public function ImportDescuentos() {
+			$dataHeader = array (
+					"titulo" => "Descuentos"
+			);
+		
+			
+			
+			$Descuentos = $this->NominaModel->SelDescuentos();
+			$dataContent ["Descuentos"] = $Descuentos;
+			// echo "<pre>";print_r($error_campos);
+			//echo "<pre>";print_r($dataContent);
+			//// echo "<pre>";print_r($resultado);
+			//echo "<pre>";print_r($formArray);
+		
+		//	print_r($dataContent);
+			
+			$this->load->view ( 'includes/header', $dataHeader );
+			$this->load->view ( 'nomina/historia_descuentos', $dataContent );
+			$this->load->view ( 'includes/footer' );
+		}
+		
+		
+		function importcsv() {
+			
+			
+			$dataHeader = array (
+					"titulo" => "Importar Descuentos"
+			);
+		
+		//	$this->load->library('upload');
+		//	$this->load->library('csvimport');
+		//	$this->load->library('csvreader');
+			
+		
+			$this->load->library('session');
+		
 	
+				$directorio="PerfilesDoc/upload";
+				$file_path=  $_FILES["userfile"]["tmp_name"];
+				$file_name=  $_FILES["userfile"]["name"];
+		
+				move_uploaded_file($file_path, $directorio."/".$file_name);
+		
+				$file_path=$directorio."/".$file_name;
+		
+	
+				$datos["archivo"]=$file_path;
+		
+			
+
+				$inputFileType = PHPExcel_IOFactory::identify($file_path);
+				$objReader = PHPExcel_IOFactory::createReader($inputFileType);
+				$objPHPExcel = $objReader->load($file_path);
+				
+				
+				$sheet = $objPHPExcel->getSheet(0);
+				$highestRow = $sheet->getHighestRow();
+				$highestColumn = $sheet->getHighestColumn();
+				
+				//  Loop through each row of the worksheet in turn
+				$armado="";
+				
+				for ($row = 1; $row <= $highestRow; $row++) {
+					//  Read a row of data into an array
+					$armado=$armado."<tr>";
+					
+					$rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row,
+							NULL, TRUE, FALSE);
+					foreach($rowData[0] as $k=>$v){
+						
+						
+						if($k==5)
+						{
+							$v=date("Y-m-d", PHPExcel_Shared_Date::ExcelToPHP($v));
+						
+								
+							
+						}
+						
+						$armado=$armado."<td>".utf8_encode($v)."</td>";
+					}
+						$armado=$armado."</tr>";
+						
+				}
+				
+					
+		
+	$datos["Listar_campos"] = $armado;
+	
+	
+
+	
+	$this->load->view ( 'includes/header', $dataHeader );
+    $this->load->view("nomina/importar_descuentos",$datos);
+	$this->load->view ( 'includes/footer' );
+					
+		
+		
+		}
+		
+		
+		
+		function guardarexcel() {
+				
+				
+			$dataHeader = array (
+					"titulo" => "Importar Descuentos"
+			);
+		
+		
+		
+			$file_path=$this->input->post('archivo');
+		
+			
+			//$file_path='upload/pasodescuento.xlsx';
+			
+			$inputFileType = PHPExcel_IOFactory::identify($file_path);
+			$objReader = PHPExcel_IOFactory::createReader($inputFileType);
+			$objPHPExcel = $objReader->load($file_path);
+		
+		
+			$sheet = $objPHPExcel->getSheet(0);
+			$highestRow = $sheet->getHighestRow();
+			$highestColumn = $sheet->getHighestColumn();
+		
+			//  Loop through each row of the worksheet in turn
+			
+		
+			for ($row = 1; $row <= $highestRow; $row++) {
+				//  Read a row of data into an array
+				
+				$sqlInsertMov = "INSERT INTO DescuentosAbono (numeroEmpleado,nombreEmpleado,concepto,Importe,movimiento,movimientoFecha) VALUES (";
+						
+				$rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row,
+						NULL, TRUE, FALSE);
+				foreach($rowData[0] as $k=>$v){
+		
+					
+					if($k==0)
+					{
+		
+					$sqlInsertMov=$sqlInsertMov.utf8_encode($v).",'";
+					}
+					else 
+					{
+						if($k==4)
+						{
+							$sqlInsertMov=$sqlInsertMov."1,'";
+						}
+						else
+						{
+							if($k==3)
+							{
+								$sqlInsertMov=$sqlInsertMov.$v."',";
+							}
+							else 
+							{
+								if($k==5)
+								{
+									$fecha=date("Y-m-d", PHPExcel_Shared_Date::ExcelToPHP($v));
+										
+									
+									$sqlInsertMov=$sqlInsertMov.$fecha;
+								}
+								else 
+								{
+							$sqlInsertMov=$sqlInsertMov.$v."','";
+								}
+							}
+						}
+						
+					}
+					
+					
+				}
+				
+				$sqlInsertMov=$sqlInsertMov."')";
+				
+				
+				$sqlInsert=$this->db->query( $sqlInsertMov );
+		
+			}
+		
+			
+			if($sqlInsert)
+			{
+			
+				redirect('Nomina/ImportDescuentos');
+				
+			}
+			else {
+				
+				redirect('Nomina/ImportDescuentos');
+				
+			}
+			
+				
+		
+			
+				
+		
+		
+		}
+		
+		public function BuscarDescuento()
+		{
+		
+		
+			if($this->input->post('empresa')=='' && $this->input->post('fecha')=='')
+		{
+				
+					        }
+					        else {
+					        	$id = $this->input->post('empresa');
+					        	$fecha = $this->input->post('fecha');
+					        	
+					        	$Descuentos=$this->NominaModel->BuscarDescuentos($id,$fecha);
+					        	?>
+					        							
+					        							
+					        							 <tr>
+					        	                <th>NUMERO DE EMPLEADO</th>
+					        	                <th>NOMBRE DEL EMPLEADO</th>
+					        	                <th>CONCEPTO</th>
+					        	                <th>IMPORTE</th>
+					        	                <th>TIPO DE MOVIMIENTO</th>
+					        	                  <th>FECHA</th>
+					        	              
+					        	</tr>
+					        			
+					        			 <?php
+					        						
+					        								
+					        			 if( !empty($Descuentos) ):
+					        			 foreach($Descuentos as  $fila){
+					        			 	?>
+					        			 								  
+					        			 					 <tr> 			  	           
+					        			                 <td><?php echo $fila->numeroEmpleado; ?></td>
+					        			                 <td><?php echo $fila->nombreEmpleado; ?></td>
+					        			                 <td><?php echo $fila->concepto; ?></td>
+					        			                 <td><?php echo $fila->Importe; ?></td>
+					        			                 <td>Descuento</td>
+					        			                 <td><?php echo $fila->movimientoFecha; ?></td>
+					        			                  </tr>  
+					        			                   <?php	  
+					        			 								  }
+					        			 									  endif;
+					        						        	
+					        						        	
+					        						        	 
+					        	
+					        }
+					        
+					        
+				
+			}
+	
+			
+			public function ImportAbonos() {
+				$dataHeader = array (
+						"titulo" => "Bonos"
+				);
+			
+					
+					
+				$Abonos = $this->NominaModel->SelAbonos();
+				$dataContent ["Abonos"] = $Abonos;
+				// echo "<pre>";print_r($error_campos);
+				//echo "<pre>";print_r($dataContent);
+				//// echo "<pre>";print_r($resultado);
+				//echo "<pre>";print_r($formArray);
+			
+				//	print_r($dataContent);
+					
+				$this->load->view ( 'includes/header', $dataHeader );
+				$this->load->view ( 'nomina/historia_abonos', $dataContent );
+				$this->load->view ( 'includes/footer' );
+			}
+			
+			
+			function importcsvAbonos() {
+					
+					
+				$dataHeader = array (
+						"titulo" => "Importar Bonos"
+				);
+			
+			//	$this->load->library('upload');
+			//	$this->load->library('csvimport');
+			//	$this->load->library('csvreader');
+					
+			
+				$this->load->library('session');
+			
+			
+				$directorio="PerfilesDoc/upload";
+				$file_path=  $_FILES["userfile"]["tmp_name"];
+				$file_name=  $_FILES["userfile"]["name"];
+			
+				move_uploaded_file($file_path, $directorio."/".$file_name);
+			
+				$file_path=$directorio."/".$file_name;
+			
+			
+				$datos["archivo"]=$file_path;
+			
+					
+			
+				$inputFileType = PHPExcel_IOFactory::identify($file_path);
+				$objReader = PHPExcel_IOFactory::createReader($inputFileType);
+				$objPHPExcel = $objReader->load($file_path);
+			
+			
+				$sheet = $objPHPExcel->getSheet(0);
+				$highestRow = $sheet->getHighestRow();
+				$highestColumn = $sheet->getHighestColumn();
+			
+				//  Loop through each row of the worksheet in turn
+				$armado="";
+			
+				for ($row = 1; $row <= $highestRow; $row++) {
+					//  Read a row of data into an array
+					$armado=$armado."<tr>";
+						
+					$rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row,
+							NULL, TRUE, FALSE);
+					foreach($rowData[0] as $k=>$v){
+			
+			
+						if($k==5)
+						{
+							$v=date("Y-m-d", PHPExcel_Shared_Date::ExcelToPHP($v));
+			
+			
+								
+						}
+			
+						$armado=$armado."<td>".utf8_encode($v)."</td>";
+					}
+					$armado=$armado."</tr>";
+			
+				}
+			
+					
+			
+				$datos["Listar_campos"] = $armado;
+			
+			
+			
+			
+				$this->load->view ( 'includes/header', $dataHeader );
+				$this->load->view("nomina/importar_abonos",$datos);
+				$this->load->view ( 'includes/footer' );
+					
+			
+			
+			}
+			
+			
+			
+			function guardarexcelAbonos() {
+			
+			
+				$dataHeader = array (
+						"titulo" => "Importar Bonos"
+				);
+			
+			
+			
+			   $file_path=$this->input->post('archivo');
+			
+					
+				
+					
+				$inputFileType = PHPExcel_IOFactory::identify($file_path);
+				$objReader = PHPExcel_IOFactory::createReader($inputFileType);
+				$objPHPExcel = $objReader->load($file_path);
+			
+			
+				$sheet = $objPHPExcel->getSheet(0);
+				$highestRow = $sheet->getHighestRow();
+				$highestColumn = $sheet->getHighestColumn();
+			
+				//  Loop through each row of the worksheet in turn
+					
+			
+				for ($row = 1; $row <= $highestRow; $row++) {
+					//  Read a row of data into an array
+			
+					$sqlInsertMov = "INSERT INTO DescuentosAbono (numeroEmpleado,nombreEmpleado,concepto,Importe,movimiento,movimientoFecha) VALUES (";
+			
+					$rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row,
+							NULL, TRUE, FALSE);
+					foreach($rowData[0] as $k=>$v){
+			
+							
+						if($k==0)
+						{
+			
+							$sqlInsertMov=$sqlInsertMov.utf8_encode($v).",'";
+						}
+						else
+						{
+							if($k==4)
+							{
+								$sqlInsertMov=$sqlInsertMov."2,'";
+							}
+							else
+							{
+								if($k==3)
+								{
+									$sqlInsertMov=$sqlInsertMov.$v."',";
+								}
+								else
+								{
+									if($k==5)
+									{
+										$fecha=date("Y-m-d", PHPExcel_Shared_Date::ExcelToPHP($v));
+			
+											
+										$sqlInsertMov=$sqlInsertMov.$fecha;
+									}
+									else
+									{
+										$sqlInsertMov=$sqlInsertMov.$v."','";
+									}
+								}
+							}
+			
+						}
+							
+							
+					}
+			
+					$sqlInsertMov=$sqlInsertMov."')";
+			
+			
+					$sqlInsert=$this->db->query( $sqlInsertMov );
+				
+			
+				}
+			
+					
+				if($sqlInsert)
+				{
+						
+					redirect('Nomina/ImportAbonos');
+			
+				}
+				else {
+			
+					redirect('Nomina/ImportAbonos');
+			
+				}
+					
+			
+			
+					
+			
+			
+			
+			}
+			
+			public function BuscarAbono()
+			{
+			
+			
+				if($this->input->post('empresa')=='' && $this->input->post('fecha')=='')
+				{
+			
+				}
+				else {
+					$id = $this->input->post('empresa');
+					$fecha = $this->input->post('fecha');
+			
+					$Abonos=$this->NominaModel->BuscarAbonos($id,$fecha);
+					?>
+								        							
+								        							
+								        							 <tr>
+								        	                <th>NUMERO DE EMPLEADO</th>
+								        	                <th>NOMBRE DEL EMPLEADO</th>
+								        	                <th>CONCEPTO</th>
+								        	                <th>IMPORTE</th>
+								        	                <th>TIPO DE MOVIMIENTO</th>
+								        	                  <th>FECHA</th>
+								        	              
+								        	</tr>
+								        			
+								        			 <?php
+								        						
+								        								
+								        			 if( !empty($Abonos) ):
+								        			 foreach($Abonos as  $fila){
+								        			 	?>
+								        			 								  
+								        			 					 <tr> 			  	           
+								        			                 <td><?php echo $fila->numeroEmpleado; ?></td>
+								        			                 <td><?php echo $fila->nombreEmpleado; ?></td>
+								        			                 <td><?php echo $fila->concepto; ?></td>
+								        			                 <td><?php echo $fila->Importe; ?></td>
+								        			                 <td>Bono</td>
+								        			                 <td><?php echo $fila->movimientoFecha; ?></td>
+								        			                  </tr>  
+								        			                   <?php	  
+								        			 								  }
+								        			 									  endif;
+								        						        	
+								        						        	
+								        						        	 
+								        	
+								        }
+			}  
 }

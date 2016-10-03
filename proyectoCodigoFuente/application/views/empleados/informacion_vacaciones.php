@@ -2,8 +2,11 @@
 <div class="content_generic">
     <div style="width: 100%" class="block_box_gen">
      <h2><label>Información de vacaciones del empleado</label></h2>
+     
+           	<div id="resultado" style="color:red;font-weight: bold;margin-bottom: 15px;"	></div>
+       		 <p><span id="guarda" style="font-weight: bold; text-align: center;font-size: 13pt; color: #00db05"></span></p>
         <table cellpadding="0" cellspacing="0" width="80%">
-            <br>
+           
             <tr>
                 <td>Fecha de ingreso</td>
                 <td><input type="text"name="fechIngreso" class="fechIngreso" id="fechIngreso"></td>
@@ -12,11 +15,11 @@
                 <td>Días totales disponibles</td>
                 <td><input style="margin-top: 15px; margin-bottom: 15px"type="text" name="diasTot" class="diasTot" id="diasTot"></td>
             </tr>
-            <br>   
+             
         </table>
         <h2><label>Información del Periodo</label></h2>
         <table cellpadding="0" cellspacing="0" width="80%">
-            <br>
+          
             <tr>
                 <td>Días pedidos</td>
                 <td><input style="margin-left:14%" type="text" name="diasPed" class="diasPed" id="diasPed"></td>
@@ -69,3 +72,84 @@
 
     
     </script> 
+    
+    
+         
+<script type="text/javascript">
+$("#btnSolicitar").click(function(){
+
+    		error_campos = [];
+    		if( $("#fecha_fin").val() == "" ) {
+        		error_campos.push(  "fecha_fin");
+        		 $("#fecha_fin").css("border", "2px solid red");
+    		}
+
+    		if( $("#fecha_inicio").val() == "" ) {
+        		error_campos.push(  "fecha_inicio");
+        		 $("#fecha_inicio").css("border", "2px solid red");
+    		}
+
+    		if( $("#diasPed").val() == "" ) {
+        		error_campos.push(  "diasPed");
+        		 $("#diasPed").css("border", "2px solid red");
+    		}
+
+    		if( $("#diasDisp").val() == "" ) {
+        		error_campos.push(  "diasDisp");
+        		 $("#diasDisp").css("border", "2px solid red");
+    		}
+
+    		
+    		
+    		if( error_campos.length  == 0 )
+    		{
+
+
+    			
+
+
+    				 
+    		    $.ajax({
+                    url: '<?php echo HOME_URL; ?>MovEmpleados/GuardaVacaciones',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: $('#formdescanso').serialize(),
+                    cache: false,
+                    async: false,
+                    success: function(response) {
+                        if (response.codigo==200) {
+                        	$("#guarda").html("Solicitud guardada correctamente..");
+                        	$("#resultado").html("");
+                           
+                        } else {
+                        	$("#resultado").html("Favor de intentar nuevamente..");
+                            
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                    	$("#resultado").html("Favor de intentar nuevamente..");
+                       
+                    }
+                });
+    			
+    			
+    		}
+    		else
+    		{	
+        		
+    			$("#resultado").html("Favor de revisar campos obligatorios marcados con rojo..");
+
+
+    			
+    		}
+
+
+    		
+	  });
+
+
+</script>
+        
+          
+    
+    

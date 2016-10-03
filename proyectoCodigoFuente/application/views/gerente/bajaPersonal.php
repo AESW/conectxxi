@@ -193,9 +193,23 @@
                             <td>Motivo de la baja</td>
                             <td><select  name="selecMotivo" class="selecMotivo" id="selecMotivo" style="width:100%;">
                                     <option value="">Seleccione motivo de la baja</option>  
-                                    <option value="Abandono de trabajo">Abandono de trabajo</option>
-                                    <option value="Disminución de Cartera">Disminución de Cartera</option>  
-                                    <option value="Faltas">Faltas</option>    
+                                    <?php
+									  foreach( $Catalogos as  $per ):
+								  
+									  if($per->catalogo=='MOTIVO BAJA PERSONAL')
+									  {
+									  $valor= $per->valor;
+									  
+									  ?>
+								  
+								  
+								  
+								  		  <option value="<?php echo $valor; ?>" ><?php echo $valor; ?></option>
+								  <?php
+									  }
+									 
+									  endforeach;
+								  ?>    
 
                                 </select></td>
                         </tr>
@@ -260,7 +274,22 @@
                              </tr>
                         <tr>
                             <td>Horario</td>
-                            <td><input type="text" name="horario" class="horario" id=horario></td>
+                            <td>
+                             <?php
+                                    if(!empty( $datos ) ):
+                                    
+                                    foreach($datos as $fila)
+                                    {
+                                    ?>
+
+                                    <input type="text" name="horario" readonly class="horario" id=horario value="<?php echo $fila["horario"]; ?>">
+                                    <?php
+                                    }
+                                   
+                                    endif;
+                                    ?>
+                            
+                            </td>
                         </tr>
                          <tr style="height: 5px">
                              <tr>

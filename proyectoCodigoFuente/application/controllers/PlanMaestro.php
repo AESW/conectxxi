@@ -342,7 +342,7 @@ class PlanMaestro extends CI_Controller
     		$resultado = array(
     				"codigo" => 400,
     				"exito" => false,
-    				"mensaje" => "Error, intente más tarde."
+    				"mensaje" => "Error, intente mï¿½s tarde."
     		);
     	}
     	
@@ -551,7 +551,7 @@ class PlanMaestro extends CI_Controller
     		$resultado = array(
     				"codigo" => 400,
     				"exito" => false,
-    				"mensaje" => "Error, intente más tarde."
+    				"mensaje" => "Error, intente mï¿½s tarde."
     		);
     	}
     	
@@ -968,7 +968,7 @@ $Problema5
             		$resultado = array(
             		"codigo" => 400,
             		"exito" => false,
-            				"mensaje" => "Error, intente más tarde."
+            				"mensaje" => "Error, intente mï¿½s tarde."
             		);
             	}
         
@@ -1414,7 +1414,7 @@ $totalcosto_tot
             		$resultado = array(
             				"codigo" => 400,
             				"exito" => false,
-            				"mensaje" => "Error, intente más tarde."
+            				"mensaje" => "Error, intente mï¿½s tarde."
             		);
             	}
             
@@ -2579,7 +2579,7 @@ $equipos_pprom
             		$resultado = array(
             				"codigo" => 400,
             				"exito" => false,
-            				"mensaje" => "Error, intente más tarde."
+            				"mensaje" => "Error, intente mï¿½s tarde."
             		);
             	}
             
@@ -2676,7 +2676,7 @@ $equipos_pprom
             		$resultado = array(
             				"codigo" => 400,
             				"unique" => false,
-            				"mensaje" => "No se logro guardar la información."
+            				"mensaje" => "No se logro guardar la informaciï¿½n."
             		);
             			
             	}
@@ -2714,7 +2714,7 @@ $equipos_pprom
             		$resultado = array(
             				"codigo" => 400,
             				"unique" => false,
-            				"mensaje" => "No se logro guardar la información."
+            				"mensaje" => "No se logro guardar la informaciï¿½n."
             		);
             		 
             	}
@@ -2754,7 +2754,7 @@ $equipos_pprom
             		$resultado = array(
             				"codigo" => 400,
             				"unique" => false,
-            				"mensaje" => "No se logro guardar la información."
+            				"mensaje" => "No se logro guardar la informaciï¿½n."
             		);
             		 
             	}
@@ -2794,7 +2794,7 @@ $equipos_pprom
             		$resultado = array(
             				"codigo" => 400,
             				"unique" => false,
-            				"mensaje" => "No se logro guardar la información."
+            				"mensaje" => "No se logro guardar la informaciï¿½n."
             		);
             		 
             	}

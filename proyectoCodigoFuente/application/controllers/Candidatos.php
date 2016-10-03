@@ -63,7 +63,7 @@ class Candidatos extends CI_Controller {
 					$error_campos[] = "apellido_materno_candidato";
 				endif;
 				
-				if( $resultado["fecha_nacimiento_candidato"] == "" ):
+				if( $resultado["fecha_nacimiento_candidato"] == ""  || !validarFechaNacimiento($resultado["fecha_nacimiento_candidato"],$resultado["rfc_candidato"])):
 					$error_campos[] = "fecha_nacimiento_candidato";
 				endif;
 				if( $resultado["pais_nacimiento_candidato"] == "" ):
@@ -87,6 +87,20 @@ class Candidatos extends CI_Controller {
 				if( !validarRFC( $resultado["rfc_candidato"] ) ):
 					$error_campos[] = "rfc_candidato";
 				endif;
+				
+				$idRFC=$resultado["rfc_candidato"];
+				
+				$sqlHash = "SELECT * FROM CandidatoFDP where rfcCandidato = '$idRFC' ";
+				$selectHash = $this->db->query( $sqlHash );
+				 
+				if( $selectHash->num_rows() > 0 ):
+				 
+				$error_campos[] = "rfc_candidato";
+				 
+				endif;
+				 
+				
+				
 				if( $resultado["curp_candidato"] == "" ):
 					$error_campos[] = "curp_candidato";
 				endif;
@@ -197,7 +211,7 @@ class Candidatos extends CI_Controller {
 				/*if( $resultado["cuenta_con_cuenta_bancaria"] == "" ):
 					$error_campos[] = "cuenta_con_cuenta_bancaria";
 				endif;*/
-				if( $resultado["telefono_casa_candidato"] == "" && $resultado["telefono_movil_candidato"] == ""):
+					if( !validarTelefono($resultado["telefono_casa_candidato"]) && !validarTelefono($resultado["telefono_movil_candidato"] )):
 					$error_campos[] = "telefono_casa_candidato";
 				endif;
 				if( $resultado["puesto_solicitado"] == "" ):
@@ -210,6 +224,17 @@ class Candidatos extends CI_Controller {
 				endif;*/
 				if( $resultado["correo_electronico_candidato"] == "" || !$this->VerificarrDireccionCorreo($resultado["correo_electronico_candidato"]) ):
 					$error_campos[] = "correo_electronico_candidato";
+				endif;
+				
+				$correoVlida=$resultado["correo_electronico_candidato"];
+				
+				$sqlHash = "SELECT * FROM CandidatoFDP where correoElectronico = '$correoVlida' ";
+				$selectHash = $this->db->query( $sqlHash );
+					
+				if( $selectHash->num_rows() > 0 ):
+				
+				$error_campos[] = "correo_electronico_candidato";
+				
 				endif;
 				/*if( $resultado["nombre_completo_familiar_candidato"] == "" ):
 					$error_campos[] = "nombre_completo_familiar_candidato";
@@ -224,7 +249,7 @@ class Candidatos extends CI_Controller {
 					$error_campos[] = "parentesco_contacto_emergencia_candidato";
 				endif;
 				
-				if( $resultado["telefono_casa_emergencia_candidato"] == "" && $resultado["telefono_movil_emergencia_candidato"] == ""):
+				if( !validarTelefono($resultado["telefono_casa_emergencia_candidato"]) && !validarTelefono($resultado["telefono_movil_emergencia_candidato"])):
 					$error_campos[] = "telefono_casa_emergencia_candidato";
 				endif;
 				
@@ -331,7 +356,7 @@ class Candidatos extends CI_Controller {
 				"genero_candidato" => $this->Sanitize->clean_string($_POST["genero_candidato"]),
 				"profesion" => $this->Sanitize->clean_string($_POST["profesion"]),
 				"nivel_educativo_candidato" => $this->Sanitize->clean_string($_POST["nivel_educativo_candidato"]),
-				"estado_civil_candidato" => $this->Sanitize->clean_string($_POST["estado_civil_candidato"]),
+				"estado_civil_candidato" => $_POST["estado_civil_candidato"],
 				"rfc_candidato" => $this->Sanitize->clean_string($_POST["rfc_candidato"]),
 				"curp_candidato" => $this->Sanitize->clean_string($_POST["curp_candidato"]),
 				"numero_segurosocial_candidato" => $this->Sanitize->clean_string($_POST["numero_segurosocial_candidato"]),
@@ -394,10 +419,10 @@ class Candidatos extends CI_Controller {
 				"telefono_otro_candidato" => $this->Sanitize->clean_string($_POST["telefono_otro_candidato"]),
 				"correo_electronico_candidato" => $this->Sanitize->clean_email($_POST["correo_electronico_candidato"]),
 				"nombre_completo_familiar_candidato" => $this->Sanitize->clean_string($_POST["nombre_completo_familiar_candidato"]),
-				"parentesco_familiar_candidato" => $this->Sanitize->clean_string($_POST["parentesco_familiar_candidato"]),
+				"parentesco_familiar_candidato" => $_POST["parentesco_familiar_candidato"],
 				"parentesco_dependiente_economico_candidato" => $_POST["parentesco_dependiente_economico_candidato"],
 				"nombre_contacto_emergencia_candidato" => $this->Sanitize->clean_string($_POST["nombre_contacto_emergencia_candidato"]),
-				"parentesco_contacto_emergencia_candidato" => $this->Sanitize->clean_string($_POST["parentesco_contacto_emergencia_candidato"]),
+				"parentesco_contacto_emergencia_candidato" => $_POST["parentesco_contacto_emergencia_candidato"],
 				"telefono_casa_emergencia_candidato" => $this->Sanitize->clean_string($_POST["telefono_casa_emergencia_candidato"]),
 				"telefono_movil_emergencia_candidato" => $this->Sanitize->clean_string($_POST["telefono_movil_emergencia_candidato"]),
 				//"numero_cuenta_candidato" => $this->Sanitize->clean_string($_POST["numero_cuenta_candidato"]),
@@ -692,7 +717,7 @@ class Candidatos extends CI_Controller {
 					$config = array (
 								
 							'protocol' => 'smtp',
-							'smtp_host' => 'ssl://mail.solumas.com.mx',
+							'smtp_host' => 'ssl://a2plcpnl0742.prod.iad2.secureserver.net',
 							'smtp_port' => 465,
 							'smtp_user' => 'reclutamiento@solumas.com.mx',
 							'smtp_pass' => 'Agosto2013',
@@ -714,7 +739,40 @@ class Candidatos extends CI_Controller {
 					$ci->email->from ( 'reclutamiento@solumas.com.mx', 'SOLUMAS' );
 					$ci->email->to ( $to );
 					$ci->email->subject ( 'Confirmación de datos personales para candidatos.' );
-					$ci->email->message ('<p>Hola '.$resultado["nombre_candidato"].' '.$resultado["apellido_paterno_candidato"].' '.$resultado["apellido_materno_candidato"].'<br/>Para finalizar el proceso de registro como candidato confirma tu cuenta <a href="'.HOME_URL.'candidatos/verificar/?token='.$hashValidacion.'" target="_blank">aquí</a><br/><br/>Atte. Staff ConectXXI</p>');
+					$ci->email->message ('<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td style="background-color: #05406B; padding-top:25px; padding-bottom:25px; font-family: Arial;color:#ffffff; font-size:60px;""><center>
+      FDP
+    </center></td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td style="background-color: #F4F6F8; padding-top:25px; padding-bottom:25px; font-family: Arial;color:#05406B; font-size:30px;"><center>
+    Termina el proceso de registro
+    </center>
+    </td>
+    </tr>
+    </table>
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td style="background-color: #fff; padding-top:25px; padding-bottom:135px; padding-left:10px; padding-right:10px; font-family: Arial;color: #7F7F7F; font-size:15px;"><center>
+     <p style="font-weight:bold;color:#26313c;">Apreciable '.$resultado["nombre_candidato"].' '.$resultado["apellido_paterno_candidato"].' '.$resultado["apellido_materno_candidato"].',</p>
+   		<p>
+			Gracias por hacer el registro de tus datos personales. </p><hr />
+        <p>Confirmar tu cuenta de correo <a href="'.HOME_URL.'candidatos/verificar/?token='.$hashValidacion.'" target="_blank">aquí</a></p>
+    </center>
+    </td>
+    </tr>
+    </table>
+     <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td style="background-color:#F4F6F8; padding-top:20px; padding-bottom:20px; font-family: Arial;color:#7F7F7F; font-size:15px;"><center>
+    &copy; 2016 ConnectXXI
+    </center>
+    </td>
+    </tr>
+    </table>');
 						
 					$ci->email->send ();
 					
@@ -789,12 +847,19 @@ class Candidatos extends CI_Controller {
 		endif;
 		
 		
-		$sqlCatPuestos = 'SELECT * from Puestos order by nombrePuesto asc
-				';
-		
+		$sqlCatPuestos = 'SELECT * from Puestos where estatusPuesto=1 order by nombrePuesto asc';
 		$queryCatPuestos = $this->db->query($sqlCatPuestos);
-		
 		$dataContent["CatPuestos"] = $queryCatPuestos->result();
+		
+		$sqlCatalogos = 'SELECT * from catalogos left outer join cat_detalle on catalogos.id=cat_detalle.id_catalogo
+    left outer join ObjetosCatalogo
+    on catalogos.id=ObjetosCatalogo.idCatalogo where cat_detalle.estatus=1
+';
+		$queryCatalogos = $this->db->query($sqlCatalogos);
+		$dataContent["Catalogos"] = $queryCatalogos->result();
+		
+		
+		
 		
 		//print_r($dataContent);
 		
@@ -919,7 +984,7 @@ class Candidatos extends CI_Controller {
 				$config = array (
 				
 						'protocol' => 'smtp',
-						'smtp_host' => 'ssl://mail.solumas.com.mx',
+						'smtp_host' => 'ssl://a2plcpnl0742.prod.iad2.secureserver.net',
 						'smtp_port' => 465,
 						'smtp_user' => 'reclutamiento@solumas.com.mx',
 						'smtp_pass' => 'Agosto2013',
@@ -941,7 +1006,50 @@ class Candidatos extends CI_Controller {
 				$ci->email->from ( 'reclutamiento@solumas.com.mx', 'SOLUMAS' );
 				$ci->email->to ( $to );
 				$ci->email->subject ( 'Entrevista.' );
-				$ci->email->message ('<p>Hola '.$resultado["nombre_candidato"].' '.$resultado["apellido_paterno_candidato"].' '.$resultado["apellido_materno_candidato"].'<br/>Para finalizar el proceso de registro como candidato confirma tu cuenta <br/><br/>Atte. Staff ConectXXI</p>');
+				$ci->email->message ('<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td style="background-color: #05406B; padding-top:25px; padding-bottom:25px; font-family: Arial;color:#ffffff; font-size:60px;""><center>
+      FDP
+    </center></td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td style="background-color: #F4F6F8; padding-top:25px; padding-bottom:25px; font-family: Arial;color:#05406B; font-size:30px;"><center>
+    Termina el proceso de entrevista
+    </center>
+    </td>
+    </tr>
+    </table>
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td style="background-color: #fff; padding-top:25px; padding-bottom:135px; padding-left:10px; padding-right:10px; font-family: Arial;color: #7F7F7F; font-size:15px;"><center>
+     <p style="font-weight:bold;color:#26313c;">Apreciable '.$resultHash[0]->nombre.' '.$resultHash[0]->apeliidoPaterno.' '.$resultHash[0]->apellidoMaterno.',</p>
+   		<p>
+			Hemos recibido la confirmación de registro de tus datos personales, en breve nos pondremos en contacto contigo para que nos visites. </p>
+        <p>Por favor el día de tu entrevista traer los siguientes documentos en original:</p>
+		<p>CURP</p>
+		<p>Acta de nacimiento</p>
+		<p>Comprobante de domicilio</p>
+		<p>RFC</p>
+		<p>IMSS</p>
+		<p>Antecedentes No Penales</p>
+		<p>Buró de Crédito</p>
+		<p>Identificación Oficial</p>
+		<p>Comprobante de Estudios</p>
+		<p>Foto digital reciente de frente y fondo blanco</p>
+    </center>
+    </td>
+    </tr>
+    </table>
+     <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td style="background-color:#F4F6F8; padding-top:20px; padding-bottom:20px; font-family: Arial;color:#7F7F7F; font-size:15px;"><center>
+    &copy; 2016 ConnectXXI
+    </center>
+    </td>
+    </tr>
+    </table>');
 				
 				$ci->email->send ();
 				
@@ -964,4 +1072,47 @@ class Candidatos extends CI_Controller {
 		$this->load->view('fdp/confirmar' , $dataContent);
 		$this->load->view('includes/footer');
 	}
+	
+	
+	public function ValidaEmail(){
+	
+		$cp = $this->input->post('cp');
+	
+		$sqlHash = "SELECT * FROM CandidatoFDP where correoElectronico = '$cp' ";
+		$selectHash = $this->db->query( $sqlHash );
+			
+		if( $selectHash->num_rows() > 0 ):
+	
+		echo  "registrado";
+	
+		else:
+	
+		echo "";
+	
+		endif;
+	
+	}
+	
+	
+	public function ValidaRFCBase(){
+	
+		$cp = $this->input->post('cp');
+	
+		$sqlHash = "SELECT * FROM CandidatoFDP where rfcCandidato = '$cp' ";
+		$selectHash = $this->db->query( $sqlHash );
+	
+		if( $selectHash->num_rows() > 0 ):
+	
+		echo  "registrado";
+	
+		else:
+	
+		echo "";
+	
+		endif;
+	
+	}
 }
+
+
+

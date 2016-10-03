@@ -165,12 +165,23 @@ class Reclutamiento extends CI_Controller {
 		
 		
 		$dataContent["formArray"] = $candidatoFDP;
-		$dataContent["catalogos"] = new Catalogos();
+		
 		$dataContent["reclutamientoFDP"] = $reclutamientoFDP;
 		$dataContent["peticionesVacantes"] = $peticionesVacantes;
 		
+		$sqlCatPuestos = 'SELECT * from Puestos where estatusPuesto=1 order by nombrePuesto asc';
+		$queryCatPuestos = $this->db->query($sqlCatPuestos);
+		$dataContent["CatPuestos"] = $queryCatPuestos->result();
 		
-	//	echo "<pre>";print_r($dataContent);
+		
+		$sqlCatalogos = 'SELECT * from catalogos left outer join cat_detalle on catalogos.id=cat_detalle.id_catalogo
+    left outer join ObjetosCatalogo
+    on catalogos.id=ObjetosCatalogo.idCatalogo where cat_detalle.estatus=1';
+		$queryCatalogos = $this->db->query($sqlCatalogos);
+		$dataContent["Catalogos"] = $queryCatalogos->result();
+		
+		
+		//echo "<pre>";print_r($dataContent);
 		
 		/*Obtener datos de usuario, roles, modulos , permisos*/
 		

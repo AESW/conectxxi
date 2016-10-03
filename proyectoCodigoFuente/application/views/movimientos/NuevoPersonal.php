@@ -59,7 +59,7 @@
 
             <tr>
                 <td>No. de Vacantes</td>
-                <td><input type="text" maxlength="6" name="NumVacantes" class="NumVacantes" id="NumVacantes" placeholder="No. de Vacantes" autocomplete="off" required value="<?php echo (isset($formArray["apellido_materno_candidato"]))?$formArray["apellido_materno_candidato"]:""; ?>" style='border:2px solid red;'"></td>
+                <td><input type="text" maxlength="10" name="NumVacantes" class="NumVacantes allownumericwithoutdecimal" id="NumVacantes" placeholder="No. de Vacantes" autocomplete="off" required value="<?php echo (isset($formArray["apellido_materno_candidato"]))?$formArray["apellido_materno_candidato"]:""; ?>" style='border:2px solid red;'"></td>
               
             </tr>
 
@@ -68,20 +68,21 @@
                 <td> <select name="Motivo" class="Motivo" id="Motivo" style='border:2px solid red;'">
 							     <option value="">Seleccionar Motivo</option>
 							    
-							    <?php
-									  $Motivo = $catalogos->NuevoPersonalMotivo();
+							   <?php
+									  foreach( $Catalogos as  $per ):
+								  
+									  if($per->ObjetosNombre=='Motivo')
+									  {
+									  $valor= $per->valor;
 									  
-									  foreach( $Motivo as $key => $per ):
-								  ?>
-								  		
-								  		
-								  		
-								  		  <option value="<?php echo $per; ?>" <?php if( isset($formArray["oficina_candidato"]) && $formArray["oficina_candidato"] == $per ): echo "selected='selected'"; endif;?>><?php echo $per; ?></option>
-							  
-								  			
-								  			
-								  		
-								  <?php	  
+									  ?>
+								  
+								  
+								  
+								  		  <option value="<?php echo $valor; ?>" ><?php echo $valor; ?></option>
+								  <?php
+									  }
+									 
 									  endforeach;
 								  ?>
 						     </select></td>
@@ -232,4 +233,16 @@ else
                 });
             })
         });
+
+
+        $(".allownumericwithoutdecimal").on("keypress keyup blur",function (event) {    
+            $(this).val($(this).val().replace(/[^\d].+/, ""));
+            console.log(event.which);
+             if ((event.which < 48 || event.which > 57)) {
+ 	            if( event.which != 43 && event.which != 8 &&  event.which != 46){
+ 		            event.preventDefault();
+ 	            }
+                 
+             }
+         });
     </script>

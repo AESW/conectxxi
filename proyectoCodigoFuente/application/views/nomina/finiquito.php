@@ -56,6 +56,21 @@
 			    
                       <div style="text-align:center;">
                         <table cellpadding="0" cellspacing="0"   style="margin: 0 auto;" >
+                        
+                         <?php
+                                    if(!empty( $Datosusuarios ) ):
+                                   
+                                    foreach($Datosusuarios as $fila)
+                                    {
+                                    ?>
+<input type="hidden"  name="idBaja" class="idBaja" id="idBaja"   value="<?php echo $fila->idSolBajal; ?>" >
+                                  
+                                    <?php
+                                    }
+                                   
+                                    endif;
+                                    ?>
+                        
                                           <tr >
                             <td>Nombre del Empleado .</td>
                             <td> <select  name="selecUsuario" class="selecUsuario" id="selecUsuario" style="width:100%;">
@@ -288,7 +303,7 @@
                                     {
                                     ?>
 
-                                  <input type="text" name="horario" class="horario" id="horario" value="<?php echo $fila->horario; ?>">
+                                  <input type="text" name="horario" readonly class="horario" id="horario" value="<?php echo $fila->horario; ?>">
                                     <?php
                                     }
                                    
@@ -353,7 +368,7 @@
                                     foreach($Datosusuarios as $fila)
                                     {
                                     ?>
-                        <textarea style="width:99%" rows="8" cols="50" name="comentGerente" class="comentGerente" id=comentGerente><?php echo $fila->comentarios; ?></textarea>
+                        <textarea style="width:99%" rows="8" readonly cols="50" name="comentGerente" class="comentGerente" id=comentGerente><?php echo $fila->comentarios; ?></textarea>
                         <?php
                                     }
                                    
@@ -366,7 +381,24 @@
                        Observaciones
                         <br>
                        
-                        <textarea style="width:99%" rows="8" cols="50" name="observaciones" class="observaciones" id=observaciones></textarea>
+                       
+                        <?php
+                                    if(!empty( $Datosusuarios ) ):
+                                   
+                                    foreach($Datosusuarios as $fila)
+                                    {
+                                    ?>
+                     
+                       
+                         <textarea style="width:99%" rows="8" readonly cols="50" name="observaciones" class="observaciones" id=observaciones><?php echo $fila->observaciones; ?></textarea>
+                       
+                        <?php
+                                    }
+                                   
+                                    endif;
+                                    ?>
+                       
+                      
                        
                         <br>
                     </center>
@@ -385,7 +417,7 @@
 			    <p><span id="resultado" style="color:red;font-weight: bold;margin-bottom: 15px;"></span></p>
                     <p><span id="guarda" style="font-weight: bold; text-align: center;font-size: 13pt; color: #00db05"></span></p>
                     <br>
-                      <div style="text-align:center;">
+                      <div style="text-align:center;float:left; display:block; width:50%;" >
                         <table cellpadding="0" cellspacing="0"   style="margin: 0 auto;" >
                   
                     
@@ -400,7 +432,7 @@
           
             <tr>
                 <td >  <?php echo $fila['Concepto']; ?> :</td>
-                <td ><input type="text" name="calificacion[]" class="codEti" value="0" id="calificacion" style=" width:100px;height:23px;">
+                <td ><input type="text" name="calificacion[]" class="codEti calculafiniquito" value="0" id="calificacion" style=" width:100px;height:23px;">
                 <input type="hidden" name="tema[]" class="codEti" value="<?php echo $fila['Concepto']; ?>" id="tema" >
 				 <input type="hidden" name="tipo[]" class="codEti" value="<?php echo $fila['tipo']; ?>" id="tipo" >
 				</td>
@@ -414,7 +446,17 @@
 					        
                   ?>
                   
-                  <tr>
+                
+        
+                    </table>
+                    </div>
+                    
+                    
+               <div style="text-align:center;float:left; display:block;width:50%;height:62%;" >
+               
+                  <table cellpadding="0" cellspacing="0"   style="margin: 0 auto;" >
+               
+                 <tr>
                 <td > <label  > MENOS :</label></td>
                 <td ></td>
           </tr>
@@ -430,7 +472,7 @@
           
             <tr>
                 <td >  <?php echo $fila['Concepto']; ?> :</td>
-                <td ><input type="text" name="calificacion[]" class="codEti" value="0" id="calificacion" style=" width:100px;height:23px;">
+                <td ><input type="text" name="calificacion[]" class="codEti calculafiniquito" value="0" id="calificacion" style=" width:100px;height:23px;">
                 <input type="hidden" name="tema[]" class="codEti" value="<?php echo $fila['Concepto']; ?>" id="tema" >
 				 <input type="hidden" name="tipo[]" class="codEti" value="<?php echo $fila['tipo']; ?>" id="tipo" ></td>
                 
@@ -449,9 +491,9 @@
                
                 
             </tr>
-        
-                    </table>
-                    </div>
+               </table>
+               
+               </div>
 			  
 			   <a class="btnNextFDP" id="btnfiniquito">Guardar Finiquito</a>
 				
@@ -514,6 +556,30 @@ $("#btnfiniquito").click(function(){
 
     		
 	  });
+
+
+
+
+
+
+$(".calculafiniquito").on("keypress keyup blur",function (event) {
+    //this.value = this.value.replace(/[^0-9\.]/g,'');
+	$(this).val($(this).val().replace(/[^0-9\.]/g,''));
+
+	
+   
+
+	
+    if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+        if( event.which != 43 && event.which != 8 &&  event.which != 46){
+
+            event.preventDefault();
+        }
+    }
+
+   
+    
+});
 
 
 </script>

@@ -56,7 +56,9 @@ class Supervisor extends CI_Controller {
 		);
 		
 			
-		$dataContent = array();
+	
+		
+		
 		$this->load->view('includes/header' , $dataHeader);
 		$this->load->view('supervisor/reporte_asistencia' , $dataContent);
 		$this->load->view('includes/footer');
@@ -90,9 +92,11 @@ class Supervisor extends CI_Controller {
 		endif;
 			
 		
-		$dataContent["catalogos"] = new Catalogos();
-	
-		
+			$sqlCatalogos = 'SELECT * from catalogos left outer join cat_detalle on catalogos.id=cat_detalle.id_catalogo
+    left outer join ObjetosCatalogo
+    on catalogos.id=ObjetosCatalogo.idCatalogo where cat_detalle.estatus=1';
+		$queryCatalogos = $this->db->query($sqlCatalogos);
+		$dataContent["Catalogos"] = $queryCatalogos->result();
 		
 		
 	//	print_r($sessionUser);

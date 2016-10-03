@@ -10,7 +10,7 @@
                         <table cellpadding="0" cellspacing="0"   style="margin: 0 auto;" >
                                           <tr >
                             <td>Nombre del Empleado .</td>
-                            <td> <select  name="selecUsuario" class="selecUsuario" id="selecUsuario" style="width:100%;">
+                            <td> <select  name="selecUsuario" class="selecUsuario" id="selecUsuario" style="width:100%;" readonly >
                                    
 
  <?php
@@ -45,7 +45,7 @@
                                     foreach($Datosusuarios as $fila)
                                     {
                                     ?>
-<input type="text" onfocus="this.blur()" name="fecha_ingreso" class="fecha_ingreso" id="fecha_ingreso" placeholder="dd/mm/YYYY" autocomplete="off" required value="<?php echo $fila->fechaIngreso; ?>" >
+<input type="text" onfocus="this.blur()" name="fecha_ingreso" class="fecha_ingreso" readonly id="fecha_ingreso" placeholder="dd/mm/YYYY" autocomplete="off" required value="<?php echo $fila->fechaIngreso; ?>" >
                                   
                                     <?php
                                     }
@@ -59,7 +59,7 @@
                              </tr>
                         <tr >
                             <td>Empresa</td>
-                            <td><select  name="selecEmp" class="selecEmp" id="selecEmp" style="width:100%;">
+                            <td><select  name="selecEmp" class="selecEmp" id="selecEmp" readonly style="width:100%;">
                                     
 
                                     <?php
@@ -80,7 +80,7 @@
                              </tr>
                         <tr>
                             <td>D&iacute;a de descanso</td>
-                            <td> <select name="descanso" class="descanso" id="descanso"  style="width:100%;" >
+                            <td> <select name="descanso" class="descanso" id="descanso"  readonly style="width:100%;" >
 
                                    
                                     <?php
@@ -101,7 +101,7 @@
                              </tr>
                         <tr>
                             <td>Puesto</td>
-                            <td><select  name="selecPuesto" class="selecPuesto" id="selecPuesto" style="width:100%;">
+                            <td><select  name="selecPuesto" class="selecPuesto" id="selecPuesto" readonly style="width:100%;">
                                    
 
                                     <?php
@@ -124,7 +124,7 @@
                              </tr> 
                         <tr>
                             <td>Ubicaci&oacute;n</td>
-                            <td><select  name="selecOficina" class="selecOficina" id="selecOficina" style="width:100%;">
+                            <td><select  name="selecOficina" class="selecOficina" id="selecOficina" readonly style="width:100%;">
                                      
 
                                     <?php
@@ -146,7 +146,7 @@
                              <tr>                 
                         <tr>
                             <td>Motivo de la baja</td>
-                            <td><select  name="selecMotivo" class="selecMotivo" id="selecMotivo" style="width:100%;">
+                            <td><select  name="selecMotivo" class="selecMotivo" id="selecMotivo" readonly style="width:100%;">
                                          <?php
                                     if(!empty( $Datosusuarios ) ):
                                     foreach($Datosusuarios as $fila)
@@ -166,7 +166,7 @@
                              </tr>
                         <tr>
                             <td>Quien solicita</td>
-                            <td><select  name="selecSolicita" class="selecSolicita" id="selecSolicita" style="width:100%;">
+                            <td><select  name="selecSolicita" class="selecSolicita" id="selecSolicita" readonly style="width:100%;">
                                   
 
                                     <?php
@@ -197,7 +197,7 @@
                                     {
                                     ?>
 
- <input type="text" onfocus="this.blur()" name="fecha_efectiva" class="fecha_efectiva" id="fecha_efectiva" placeholder="dd/mm/YYYY" autocomplete="off" required value="<?php echo $fila->fechaEfectiva; ?>" >                                  
+ <input type="text" onfocus="this.blur()" name="fecha_efectiva" class="fecha_efectiva" id="fecha_efectiva" readonly placeholder="dd/mm/YYYY" autocomplete="off" required value="<?php echo $fila->fechaEfectiva; ?>" >                                  
                                     <?php
                                     }
                                    
@@ -210,7 +210,7 @@
                              </tr>
                         <tr>
                             <td>Sueldo</td>
-                            <td><select  name="selecSueldo" class="selecSueldo" id="selecSueldo" style="width:100%;">
+                            <td><select  name="selecSueldo" class="selecSueldo" id="selecSueldo" readonly style="width:100%;">
                                   
 
                                     <?php
@@ -240,7 +240,7 @@
                                     {
                                     ?>
 
-                                  <input type="text" name="horario" class="horario" id="horario" value="<?php echo $fila->horario; ?>">
+                                  <input type="text" name="horario" class="horario" id="horario" readonly value="<?php echo $fila->horario; ?>">
                                     <?php
                                     }
                                    
@@ -260,7 +260,7 @@
                                     {
                                     ?>
 
- <input type="text" onfocus="this.blur()" name="fecha_fin_contrato" class="fecha_fin_contrato" id="fecha_fin_contrato" placeholder="dd/mm/YYYY" autocomplete="off" required value="<?php echo $fila->finContrato; ?>" >                                  
+ <input type="text" onfocus="this.blur()" name="fecha_fin_contrato" class="fecha_fin_contrato" readonly id="fecha_fin_contrato" placeholder="dd/mm/YYYY" autocomplete="off" required value="<?php echo $fila->finContrato; ?>" >                                  
                                     <?php
                                     }
                                    
@@ -305,7 +305,7 @@
                                     foreach($Datosusuarios as $fila)
                                     {
                                     ?>
-                        <textarea style="width:99%" rows="8" cols="50" name="comentGerente" class="comentGerente" id=comentGerente><?php echo $fila->comentarios; ?></textarea>
+                        <textarea style="width:99%" rows="8" cols="50" name="comentGerente" readonly class="comentGerente" id=comentGerente><?php echo $fila->comentarios; ?></textarea>
                         <?php
                                     }
                                    
@@ -330,27 +330,7 @@
 </ul>
     </div>
     
-   	<script type="text/javascript">
-    $( "#fecha_ingreso" ).datepicker({
-	        dateFormat: "yy-mm-dd",
-	        yearRange: "-100:+0",
-	        changeYear:true,
-        });
-
-    $( "#fecha_efectiva" ).datepicker({
-        dateFormat: "yy-mm-dd",
-        yearRange: "-100:+0",
-        changeYear:true,
-    });
-
-    $( "#fecha_fin_Contrato" ).datepicker({
-        dateFormat: "yy-mm-dd",
-        yearRange: "-100:+0",
-        changeYear:true,
-    });
-    
-    </script>    
-    
+  
     
       <script type="text/javascript">
 $("#btnSolicitarBaja").click(function(){
@@ -391,6 +371,7 @@ $("#btnSolicitarBaja").click(function(){
                         if (response.codigo==200) {
                         	$("#guarda").html("Solicitud guardada correctamente..");
                         	$("#resultado").html("");
+                        	$('.page').ScrollTo()
                            
                         } else {
                         	$("#resultado").html("Favor de intentar nuevamente..");

@@ -10,7 +10,7 @@
                         <table cellpadding="0" cellspacing="0"   style="margin: 0 auto;" >
                                                     <tr >
                                 <td >Nombre del Empleado</td>
-                                <td > <select  name="selecEmp" class="selecEmp" id="selecEmp">
+                                <td > <select  name="selecEmp" readonly class="selecEmp" id="selecEmp">
                                       
 
                                         <?php
@@ -28,7 +28,7 @@
                              
                             <tr>
                                 <td>N&uacute;mero de incapacidad</td>
-                                <td  ><input type="text" name="incap" class="incap" id=incap value="<?php echo $fila["incapacidad"]; ?>">
+                                <td  ><input type="text" name="incap" class="incap" id=incap readonly value="<?php echo $fila["incapacidad"]; ?>">
                                 <input type="hidden" name="idIncapacidad" class="idIncapacidad" id=idIncapacidad value="<?php echo $fila["idIncapacidades"]; ?>">
                                 </td>
                             </tr>
@@ -42,16 +42,29 @@
                             <tr>
 
 
-                                <td><input style="width:80%" type="text" onfocus="this.blur()" name="fecha_inicio_incapacidad" class="fecha_inicio_incapacidad" id="fecha_inicio_incapacidad" placeholder="dd/mm/YYYY" autocomplete="off" required value="<?php echo $fila["inicio"]; ?>"></td>
-                                <td><input type="text" onfocus="this.blur()" name="fecha_fin_incapacidad" class="fecha_fin_incapacidad" id="fecha_fin_incapacidad" placeholder="dd/mm/YYYY" autocomplete="off" required value="<?php echo $fila["fin"]; ?>"></td>
+                                <td><input style="width:80%" type="text" onfocus="this.blur()" name="fecha_inicio_incapacidad" class="fecha_inicio_incapacidad" id="fecha_inicio_incapacidad" readonly placeholder="dd/mm/YYYY" autocomplete="off" required value="<?php echo $fila["inicio"]; ?>"></td>
+                                <td><input type="text" onfocus="this.blur()" name="fecha_fin_incapacidad" class="fecha_fin_incapacidad" id="fecha_fin_incapacidad" placeholder="dd/mm/YYYY" readonly autocomplete="off" required value="<?php echo $fila["fin"]; ?>"></td>
 
                             </tr> 
                             
-                             <?php
+                             
+                                         </tr>   
+                             <tr style="height: 10px">
+                             </tr> 
+                             <tr>
+                <td>Observaciones</td>
+            </tr>                                      
+                        </table>
+                        
+                         <center>
+            <textarea style="width: 90%; height: 20%" name="observaciones" class="observaciones" id="observaciones" readonly><?php echo $fila["observaciones"]; ?></textarea></td> 
+        </center>
+        
+          <?php
                                         }
                                         endif;
-                                        ?>                       
-                        </table>
+                                        ?>
+                        
                    </div>
                     <br>
                     <br>
@@ -63,21 +76,7 @@
 
 
             </div>    
-   	<script type="text/javascript">
-    $( "#fecha_fin_incapacidad" ).datepicker({
-	        dateFormat: "yy-mm-dd",
-	        yearRange: "-100:+0",
-	        changeYear:true,
-        });
-
-    $( "#fecha_inicio_incapacidad" ).datepicker({
-        dateFormat: "yy-mm-dd",
-        yearRange: "-100:+0",
-        changeYear:true,
-    });
-
-    
-    </script> 
+   	
     
       <script type="text/javascript">
 $("#btnGuardar").click(function(){

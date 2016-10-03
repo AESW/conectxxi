@@ -173,7 +173,7 @@ class RecursoshumanosModel extends CI_Model {
 		endif;
 		
 		
-		$sqlCandidatosBaja = 'SELECT Usuarios.idUsuarios, Usuarios.nombreUsuario as nombreCandidato
+		$sqlCandidatosBaja = 'SELECT Usuarios.idUsuarios, Usuarios.nombreUsuario as nombreCandidato,SolBajasPersonal.idSolBajal
 										FROM
 										 SolBajasPersonal left outer join Usuarios
 				on SolBajasPersonal.idUsuarios = Usuarios.idUsuarios
@@ -185,6 +185,7 @@ class RecursoshumanosModel extends CI_Model {
 		$resultadoCandidatosBajas = $queryCandidatosBaja->result();
 		foreach($resultadoCandidatosBajas as $bajas):
 		$arrayBajas[] = array(
+				"idSolBajal" => $bajas->idSolBajal,
 				"idCandidatoFDP" => $bajas->idUsuarios,
 				"nombreCandidato" => $bajas->nombreCandidato,
 				"estatusCandidato" => "baja"
@@ -193,7 +194,7 @@ class RecursoshumanosModel extends CI_Model {
 		endif;
 		
 		
-		$sqlCandidatosCheque = 'SELECT Usuarios.idUsuarios, Usuarios.nombreUsuario as nombreCandidato
+		$sqlCandidatosCheque = 'SELECT Usuarios.idUsuarios, Usuarios.nombreUsuario as nombreCandidato,SolBajasPersonal.idSolBajal
 										FROM
 										 SolBajasPersonal left outer join Usuarios
 				on SolBajasPersonal.idUsuarios = Usuarios.idUsuarios
@@ -205,6 +206,7 @@ class RecursoshumanosModel extends CI_Model {
 		$resultadoCandidatosCheque = $queryCandidatosCheque->result();
 		foreach($resultadoCandidatosCheque as $bajas):
 		$arrayCheque[] = array(
+				"idSolBajal" => $bajas->idSolBajal,
 				"idCandidatoFDP" => $bajas->idUsuarios,
 				"nombreCandidato" => $bajas->nombreCandidato,
 				"estatusCandidato" => "cheque"
@@ -372,7 +374,7 @@ class RecursoshumanosModel extends CI_Model {
 	public function obtenerEmpresas(){
 		
 		
-		$sqlObtenerEmpresas = 'SELECT * FROM Empresas' ;
+		$sqlObtenerEmpresas = 'SELECT * FROM Empresas where estatus=1' ;
 			
 		$resultObtenerEmpresas = array();
 			
@@ -417,7 +419,7 @@ class RecursoshumanosModel extends CI_Model {
 	public function obtenerDepartamentos(){
 	
 	
-		$sqlObtenerDepartamentos = 'SELECT * FROM departamentos' ;
+		$sqlObtenerDepartamentos = 'SELECT * FROM departamentos ' ;
 			
 		$resultObtenerDepartamentos = array();
 			
@@ -631,6 +633,7 @@ WHERE Sueldos_has_Empresas.Estatus = 1' ;
 (SELECT valorMetaDatos FROM MetaDatosCandidatoFDP WHERE MetaDatosCandidatoFDP.idCandidatoFDP = $id and prefijoMetaDatos='cdelegacion_domicilio_candidato') as municipio,
 (SELECT valorMetaDatos FROM MetaDatosCandidatoFDP WHERE MetaDatosCandidatoFDP.idCandidatoFDP = $id and prefijoMetaDatos='estado_domicilio_candidato') as estado,
 (SELECT valorMetaDatos FROM MetaDatosCandidatoFDP WHERE MetaDatosCandidatoFDP.idCandidatoFDP = $id and prefijoMetaDatos='cp_candidato') as cp,
+(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = (Select idUsuarios from RecursosHumanosFDP where idCandidatoFDP= $id) and prefijoMetaDatos='horario') as horario,
 (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = (Select idUsuarios from RecursosHumanosFDP where idCandidatoFDP= $id) and prefijoMetaDatos='Sdi') as Sdi,
 (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = (Select idUsuarios from RecursosHumanosFDP where idCandidatoFDP= $id) and prefijoMetaDatos='puesto') as puesto
 FROM CandidatoFDP where CandidatoFDP.idCandidatoFDP =$id";
@@ -657,7 +660,7 @@ FROM CandidatoFDP where CandidatoFDP.idCandidatoFDP =$id";
 		$sqlObtenerDatos = "SELECT SolBajasPersonal.*,Usuarios.*,
 		(select nombreUsuario from Usuarios where idUsuarios = SolBajasPersonal.idUsuariosSolicita) as solicita
 		FROM SolBajasPersonal left outer join Usuarios
-on SolBajasPersonal.idusuarios=Usuarios.idUsuarios where SolBajasPersonal.idUsuarios= $idCandidatoFDP" ;
+on SolBajasPersonal.idusuarios=Usuarios.idUsuarios where SolBajasPersonal.idSolBajal= $idCandidatoFDP" ;
 			
 		$resultObtenerDatos = array();
 			
@@ -681,7 +684,7 @@ on SolBajasPersonal.idusuarios=Usuarios.idUsuarios where SolBajasPersonal.idUsua
 		$peticiones = array();
 	
 		$sqlPeticiones = "
-		select * from MetaDatosFiniquito where idUsuarios=$idCandidatoFDP
+		select * from MetaDatosFiniquito where idSolBajal=$idCandidatoFDP
 	
 		";//Agregar AND ReclutacionFDP aprobado, RecursosHumanosFDP aprobado
 	
@@ -693,7 +696,7 @@ on SolBajasPersonal.idusuarios=Usuarios.idUsuarios where SolBajasPersonal.idUsua
 		foreach( $resultadoPeticiones as $pet):
 	
 		$peticiones[] = array(
-				"idUsuarios" => $pet->idUsuarios,
+				"idSolBajal" => $pet->idSolBajal,
 				"prefijoMetaDatos" => $pet->prefijoMetaDatos,
 				"valorMetaDatos" => $pet->valorMetaDatos,
 				"tipo" => $pet->tipo
@@ -734,7 +737,8 @@ on SolBajasPersonal.idusuarios=Usuarios.idUsuarios where SolBajasPersonal.idUsua
 				"nombreUsuario" => $pet->nombreUsuario,
 				"incapacidad" => $pet->incapacidad,
 				"inicio" => $pet->inicio,
-				"fin" => $pet->fin
+				"fin" => $pet->fin,
+				"observaciones" => $pet->observaciones
 		
 		);
 		endforeach;
@@ -752,7 +756,7 @@ on SolBajasPersonal.idusuarios=Usuarios.idUsuarios where SolBajasPersonal.idUsua
 	
 	
 		$sqlFiniquitoUsuarios = "SELECT *
-		FROM SolBajasPersonal where idUsuarios =$id";
+		FROM SolBajasPersonal where idSolBajal =$id";
 			
 		$queryFiniquitoUsuarios = $this->db->query( $sqlFiniquitoUsuarios );
 	
@@ -769,4 +773,45 @@ on SolBajasPersonal.idusuarios=Usuarios.idUsuarios where SolBajasPersonal.idUsua
 	
 		return $arrayFiniquitoUsuarios;
 	}
+	
+	public function obtenerHorarios($id){
+	
+	
+		$sqlObtenerHorarios = "SELECT * from cat_detalle where parametro = $id" ;
+	
+		$resultObtenerHorarios = array();
+	
+		$queryObtenerHorarios = $this->db->query($sqlObtenerHorarios);
+	
+		if( $queryObtenerHorarios->num_rows() > 0 ):
+		$resultObtenerHorarios = $queryObtenerHorarios->result();
+	
+	
+		endif;
+	
+	
+		return $resultObtenerHorarios;
+	
+	
+	}
+	
+public function EstatusCorreo($valor){
+	
+	
+		$sqlInsert = "INSERT INTO statusCorreos ( movimiento,status ) VALUES('Prueba','$valor')";
+	
+		$queryInsert = $this->db->query($sqlInsert);
+		
+	
+		if ($queryInsert)
+		{
+			return true;
+		}
+		else{
+			return false;
+		}
+	
+}
+	
+	
 }

@@ -3,7 +3,7 @@
     <div style="width: 100%" class="block_box_gen">
         <h2><label>Solicitud de cambio de turno</label></h2>
         
-        <div id="resultado" style="color:red;font-weight: bold;margin-bottom: 15px;"	></div>
+        <div id="resultados" style="color:red;font-weight: bold;margin-bottom: 15px;"	></div>
        		 <p><span id="guarda" style="font-weight: bold; text-align: center;font-size: 13pt; color: #00db05"></span></p>
 		
 
@@ -20,9 +20,23 @@
                 <td><label>Turno</label></td>
                 <td><select style="width: 175px"name="turno" class="turno" id="turno">
                         <option value="">Seleccione turno</option>
-                        <option value="Matutino">Matutino</option>
-                        <option value="Mixto">Mixto</option>
-                        <option value="Vespertino">Vespertino</option>
+                        <?php
+									  foreach( $Catalogos as  $per ):
+								  
+									  if($per->ObjetosNombre=='turno')
+									  {
+									  $valor= $per->valor;
+									  
+									  ?>
+								  
+								  
+								  
+								  		  <option value="<?php echo $valor; ?>" ><?php echo $valor; ?></option>
+								  <?php
+									  }
+									 
+									  endforeach;
+								  ?>
                 </td> 
             </tr>
             <tr>
@@ -86,15 +100,15 @@ $("#btnSolicitarCambio").click(function(){
                     success: function(response) {
                         if (response.codigo==200) {
                         	$("#guarda").html("Solicitud guardada correctamente..");
-                        	$("#resultado").html("");
+                        	$("#resultados").html("");
                            
                         } else {
-                        	$("#resultado").html("Favor de intentar nuevamente..");
+                        	$("#resultados").html("Favor de intentar nuevamente..");
                             
                         }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
-                    	$("#resultado").html("Favor de intentar nuevamente..");
+                    	$("#resultados").html("Favor de intentar nuevamente..");
                        
                     }
                 });
@@ -104,7 +118,7 @@ $("#btnSolicitarCambio").click(function(){
     		else
     		{	
         		
-    			$("#resultado").html("Favor de revisar campos obligatorios marcados con rojo..");
+    			$("#resultados").html("Favor de revisar campos obligatorios marcados con rojo..");
 
 
     			

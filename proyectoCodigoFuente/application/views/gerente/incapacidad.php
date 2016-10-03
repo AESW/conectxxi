@@ -25,16 +25,16 @@
                                         endif;
                                         ?>
 
-                                    </select></td>
+                                    </select></td></tr>
                              <tr style="height: 10px">
-                             <tr>
+                             </tr>
                              
                             <tr>
                                 <td>N&uacute;mero de incapacidad</td>
-                                <td  ><input type="text" name="incap" class="incap" id=incap></td>
+                                <td  ><input type="text" maxlength="20" name="incap" class="incap" id=incap></td>
                             </tr>
                              <tr style="height: 10px">
-                             <tr>  
+                             </tr>  
                             <tr>
                                 <td>Inicio</td>
                                 
@@ -46,8 +46,18 @@
                                 <td><input style="width:80%" type="text" onfocus="this.blur()" name="fecha_inicio_incapacidad" class="fecha_inicio_incapacidad" id="fecha_inicio_incapacidad" placeholder="dd/mm/YYYY" autocomplete="off" required ></td>
                                 <td><input type="text" onfocus="this.blur()" name="fecha_fin_incapacidad" class="fecha_fin_incapacidad" id="fecha_fin_incapacidad" placeholder="dd/mm/YYYY" autocomplete="off" required ></td>
 
-                            </tr>                        
+                            </tr>   
+                             <tr style="height: 10px">
+                             </tr> 
+                             <tr>
+                <td>Observaciones</td>
+            </tr>                     
                         </table>
+                      
+                         <center>
+            <textarea style="width: 90%; height: 20%" name="observaciones" class="observaciones" id="observaciones" ></textarea></td> 
+        </center>
+                        
                    </div>
                     <br>
                     <br>

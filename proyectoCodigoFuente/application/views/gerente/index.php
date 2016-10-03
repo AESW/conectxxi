@@ -17,21 +17,21 @@
 		      $accion = $datos["autorizacion"] ;
 			  if( $accion == "permiso" ):
 		?>
-						<li><a href="<?php echo HOME_URL; ?>eaf/RecursosHumanos/altausuario/?idCandidatoFDP=<?php echo $datos["idUsuarios"];?>"><?php echo $datos["nombreUsuario"]." , Autorización de ".$accion;?> </a></li>
+						<li><a href="<?php echo HOME_URL; ?>Gerente/Permiso/?idPermiso=<?php echo $datos["IdPermiso"];?>"><?php echo $datos["nombreUsuario"]." , Autorización de ".$accion; ?> </a></li>
 					
 					<?php 
 					endif;
 					
 					if( $accion == "descanso" ):
 					?>
-						<li><a href="<?php echo HOME_URL; ?>eaf/RecursosHumanos/altausuario/?idCandidatoFDP=<?php echo $datos["idUsuarios"];?>"><?php echo $datos["nombreUsuario"]." , Autorización de ".$accion;?> </a></li>
+						<li><a href="<?php echo HOME_URL; ?>Gerente/Descanso/?idDescanso=<?php echo $datos["idSolDiaDescanso"];?>"><?php echo $datos["nombreUsuario"]." , Autorización de ".$accion;?> </a></li>
 								
 							<?php 
 							endif;
 										
 						if( $accion == "turno" ):
 										?>
-						<li><a href="<?php echo HOME_URL; ?>eaf/RecursosHumanos/altausuario/?idCandidatoFDP=<?php echo $datos["idUsuarios"];?>"><?php echo $datos["nombreUsuario"]." , Autorización de ".$accion;?></a></li>
+						<li><a href="<?php echo HOME_URL; ?>Gerente/Turno/?idTurno=<?php echo $datos["idSolCambioTurno"];?>"><?php echo $datos["nombreUsuario"]." , Autorización de ".$accion;?></a></li>
 															
 															<?php 
 															endif;

@@ -129,17 +129,32 @@
 					     <td><input type="text" onfocus="this.blur()" name="fecha_nacimiento_candidato" class="fecha_nacimiento_candidato" id="fecha_nacimiento_candidato" placeholder="dd/mm/YYYY" autocomplete="off" required value="<?php echo (isset($formArray["fecha_nacimiento_candidato"]))?$formArray["fecha_nacimiento_candidato"]:""; ?>" <?php echo ( in_array('fecha_nacimiento_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
 					     <td>Nacionalidad</td>
 					     <td>
-						     <select name="pais_nacimiento_candidato" class="pais_nacimiento_candidato" id="pais_nacimiento_candidato" <?php echo ( in_array('pais_nacimiento_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+						     <select name="pais_nacimiento_candidato" class="pais_nacimiento_candidato" id="pais_nacimiento_candidato" <?php echo ( in_array('pais_nacimiento_candidato' , $error_campos) )?"style='border:2px solid red;width:60%;'":"style='width:60%;'"; ?>>
 							     <option value="">Seleccionar país</option>
-							     <option <?php if( isset($formArray["pais_nacimiento_candidato"]) && $formArray["pais_nacimiento_candidato"] == "Mexicana" ): echo "selected='selected'";endif; ?>value="Mexicana">Mexicana</option>
-							     <option <?php if( isset($formArray["pais_nacimiento_candidato"]) && $formArray["pais_nacimiento_candidato"] == "Otro" ): echo "selected='selected'";endif; ?> value="Otro">Otro</option>
+							      <?php
+									  foreach( $Catalogos as  $per ):
+								  
+									  if($per->ObjetosNombre=='pais_nacimiento_candidato')
+									  {
+									  $valor= $per->valor;
+									  
+									  ?>
+								  
+								  
+								  
+								  		  <option value="<?php echo $valor; ?>" <?php if( isset($formArray["pais_nacimiento_candidato"]) && $formArray["pais_nacimiento_candidato"] == $valor ): echo "selected='selected'"; endif;?>><?php echo $valor; ?></option>
+								  <?php
+									  }
+									 
+									  endforeach;
+								  ?>
 						     </select>
 					     </td>
 				     </tr>
 				     <tr>
 					     <td>Estado de nacimiento</td>
 					     <td>
-						     <select name="estado_nacimiento_candidato" class="estado_nacimiento_candidato" id="estado_nacimiento_candidato" <?php echo ( in_array('estado_nacimiento_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+						     <select name="estado_nacimiento_candidato" class="estado_nacimiento_candidato" id="estado_nacimiento_candidato" <?php echo ( in_array('estado_nacimiento_candidato' , $error_campos) )?"style='border:2px solid red;width:55%;'":"style='width:55%;'"; ?>>
 							    <option value="">Seleccionar estado</option>
 							    <option value="Aguascalientes" <?php if( isset($formArray["estado_nacimiento_candidato"]) && $formArray["estado_nacimiento_candidato"] == "Aguascalientes" ): echo "selected='selected'"; endif;?>>Aguascalientes</option>
 								<option value="Baja California" <?php if( isset($formArray["estado_nacimiento_candidato"]) && $formArray["estado_nacimiento_candidato"] == "Baja California" ): echo "selected='selected'"; endif;?>>Baja California</option>
@@ -177,10 +192,25 @@
 					     </td>
 					      <td>Género</td>
 					      <td>
-						      <select name="genero_candidato" class="genero_candidato" id="genero_candidato" <?php echo ( in_array('genero_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+						      <select name="genero_candidato" class="genero_candidato" id="genero_candidato" <?php echo ( in_array('genero_candidato' , $error_campos) )?"style='border:2px solid red;width:60%;'":"style='width:60%;'"; ?>>
 							      <option value="">Seleccionar género</option>
-							      <option value="Mujer" <?php if( isset($formArray["genero_candidato"]) && $formArray["genero_candidato"] == "Mujer" ): echo "selected='selected'"; endif;?>>Mujer</option>
-							      <option value="Hombre" <?php if( isset($formArray["genero_candidato"]) && $formArray["genero_candidato"] == "Hombre" ): echo "selected='selected'"; endif;?>>Hombre</option>
+							       <?php
+									  foreach( $Catalogos as  $per ):
+								  
+									  if($per->ObjetosNombre=='genero_candidato')
+									  {
+									  $valor= $per->valor;
+									  
+									  ?>
+								  
+								  
+								  
+								  		  <option value="<?php echo $valor; ?>" <?php if( isset($formArray["genero_candidato"]) && $formArray["genero_candidato"] == $valor ): echo "selected='selected'"; endif;?>><?php echo $valor; ?></option>
+								  <?php
+									  }
+									 
+									  endforeach;
+								  ?>
 						      </select>
 					      </td>
 				     </tr>
@@ -190,19 +220,46 @@
 					     <td>
 						      <select name="nivel_educativo_candidato" class="nivel_educativo_candidato" id="nivel_educativo_candidato" <?php echo ( in_array('nivel_educativo_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
 							      <option value="">Seleccionar nivel educativo</option>
-							      <option value="Licenciatura" <?php if( isset($formArray["nivel_educativo_candidato"]) && $formArray["nivel_educativo_candidato"] == "Licenciatura" ): echo "selected='selected'"; endif;?>>Licenciatura</option>
-							      <option value="Bachillerato" <?php if( isset($formArray["nivel_educativo_candidato"]) && $formArray["nivel_educativo_candidato"] == "Bachillerato" ): echo "selected='selected'"; endif;?>>Bachillerato</option>
-							      <option value="Tecnico" <?php if( isset($formArray["nivel_educativo_candidato"]) && $formArray["nivel_educativo_candidato"] == "Técnico" ): echo "selected='selected'"; endif;?>>Técnico</option>
-							      <option value="Secundaria" <?php if( isset($formArray["nivel_educativo_candidato"]) && $formArray["nivel_educativo_candidato"] == "Secundaria" ): echo "selected='selected'"; endif;?>>Secundaria</option>
-							      <option value="Primaria" <?php if( isset($formArray["nivel_educativo_candidato"]) && $formArray["nivel_educativo_candidato"] == "Primaria" ): echo "selected='selected'"; endif;?>>Primaria</option>
+							       <?php
+									  foreach( $Catalogos as  $per ):
+								  
+									  if($per->ObjetosNombre=='nivel_educativo_candidato')
+									  {
+									  $valor= $per->valor;
+									  
+									  ?>
+								  
+								  
+								  
+								  		  <option value="<?php echo $valor; ?>" <?php if( isset($formArray["nivel_educativo_candidato"]) && $formArray["nivel_educativo_candidato"] == $valor ): echo "selected='selected'"; endif;?>><?php echo $valor; ?></option>
+								  <?php
+									  }
+									 
+									  endforeach;
+								  ?>
 						      </select>
 					      </td>
 					      <td>Estado civil</td>
 					     <td>
-						      <select name="estado_civil_candidato" class="estado_civil_candidato" id="estado_civil_candidato" <?php echo ( in_array('estado_civil_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+						      <select name="estado_civil_candidato" class="estado_civil_candidato" id="estado_civil_candidato" <?php echo ( in_array('estado_civil_candidato' , $error_campos) )?"style='border:2px solid red;width:60%;'":"style='width:60%;'"; ?>>
 							      <option value="">Seleccionar estado civil</option>
-							      <option value="Soltero"  <?php if( isset($formArray["estado_civil_candidato"]) && $formArray["estado_civil_candidato"] == "Soltero" ): echo "selected='selected'"; endif;?>>Soltero</option>
-							      <option value="Casado"  <?php if( isset($formArray["estado_civil_candidato"]) && $formArray["estado_civil_candidato"] == "Casado" ): echo "selected='selected'"; endif;?>>Casado</option>
+							      <?php
+									  foreach( $Catalogos as  $per ):
+								  
+									  if($per->ObjetosNombre=='estado_civil_candidato')
+									  {
+									  $valor= $per->valor;
+									  
+									  ?>
+								  
+								  
+								  
+								  		  <option value="<?php echo $valor; ?>" <?php if( isset($formArray["estado_civil_candidato"]) && $formArray["estado_civil_candidato"] == $valor ): echo "selected='selected'"; endif;?>><?php echo $valor; ?></option>
+								  <?php
+									  }
+									 
+									  endforeach;
+								  ?>
 						      </select>
 					      </td>
 				     </tr>
@@ -292,7 +349,7 @@
 			    <table cellpadding="0" cellspacing="0" width="100%">
 				    <tr>
 					    <td>Número de teléfono de casa</td>
-					    <td><input maxlength="12" type="text" name="telefono_casa_candidato" class="telefono_casa_candidato allownumericwithoutdecimal" id="telefono_casa_candidato" placeholder="Tel. casa" autocomplete="off" required value="<?php echo (isset($formArray["telefono_casa_candidato"]))?$formArray["telefono_casa_candidato"]:""; ?>" <?php echo ( in_array('telefono_casa_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>> <p style="color:#aba5a5;font-size: 10pt;">10 dígitos. Ejemplo: 0155xxxxxxx</p></td>
+					    <td><input maxlength="12" type="text" name="telefono_casa_candidato" class="telefono_casa_candidato allownumericwithoutdecimal" id="telefono_casa_candidato" placeholder="Tel. casa" autocomplete="off" required value="<?php echo (isset($formArray["telefono_casa_candidato"]))?$formArray["telefono_casa_candidato"]:""; ?>" <?php echo ( in_array('telefono_casa_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>> <p style="color:#aba5a5;font-size: 10pt;">10 dígitos. Ejemplo: 55xxxxxxx</p></td>
 					    <td>Número de teléfono móvil</td>
 					    <td><input type="text" maxlength="10" name="telefono_movil_candidato" class="telefono_movil_candidato allownumericwithoutdecimal" id="telefono_movil_candidato" placeholder="Tel. móvil" autocomplete="off" required value="<?php echo (isset($formArray["telefono_movil_candidato"]))?$formArray["telefono_movil_candidato"]:""; ?>" <?php echo ( in_array('telefono_movil_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>><p style="color:#aba5a5;font-size: 10pt;">8 dígitos. Ejemplo: 55xxxxxxxx</p></td>
 				    </tr>
@@ -390,11 +447,23 @@
 					    <td>
 						    <select name="escolaridad_jefefamilia_candidato" class="escolaridad_jefefamilia_candidato" id="escolaridad_jefefamilia_candidato" <?php echo ( in_array('escolaridad_jefefamilia_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
 							   <option value="">Seleccionar escolaridad</option> 
-							   <option value="SinInstruccion" <?php if( isset($formArray["escolaridad_jefefamilia_candidato"]) && $formArray["escolaridad_jefefamilia_candidato"] == "SinInstruccion" ): echo "selected='selected'"; endif;?>>Sin instrucción</option>
-							   <option value="primaria_secundaria" <?php if( isset($formArray["escolaridad_jefefamilia_candidato"]) && $formArray["escolaridad_jefefamilia_candidato"] == "primaria_secundaria" ): echo "selected='selected'"; endif;?>>Primaria o secundaria, completa o incompleta</option>
-							   <option value="tecnico_preparatoria" <?php if( isset($formArray["escolaridad_jefefamilia_candidato"]) && $formArray["escolaridad_jefefamilia_candidato"] == "tecnico_preparatoria" ): echo "selected='selected'"; endif;?>>Carrera técnica, preparatoria completa o incompleta</option>
-							   <option value="licenciatura" <?php if( isset($formArray["escolaridad_jefefamilia_candidato"]) && $formArray["escolaridad_jefefamilia_candidato"] == "licenciatura" ): echo "selected='selected'"; endif;?>>Licenciatura completa o incompleta</option>
-							   <option value="posgrado" <?php if( isset($formArray["escolaridad_jefefamilia_candidato"]) && $formArray["escolaridad_jefefamilia_candidato"] == "posgrado" ): echo "selected='selected'"; endif;?>>Posgrado</option>
+							   <?php
+									  foreach( $Catalogos as  $per ):
+								  
+									  if($per->ObjetosNombre=='escolaridad_jefefamilia_candidato')
+									  {
+									  $valor= $per->valor;
+									  
+									  ?>
+								  
+								  
+								  
+								  		  <option value="<?php echo $valor; ?>" <?php if( isset($formArray["escolaridad_jefefamilia_candidato"]) && $formArray["escolaridad_jefefamilia_candidato"] == $valor ): echo "selected='selected'"; endif;?>><?php echo $valor; ?></option>
+								  <?php
+									  }
+									 
+									  endforeach;
+								  ?>
 						   </select>
 					    </td>
 				    </tr>  
@@ -512,9 +581,23 @@
 					<td>Cuenta con crédito infonavit</td>
 					    <td>
 						    <select name="credito_infonavit" class="credito_infonavit" id="credito_infonavit" <?php echo ( in_array('credito_infonavit' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
-							   <option value="">Seleccionar opción</option> 
-							   <option value="si" <?php if( isset($formArray["credito_infonavit"]) && $formArray["credito_infonavit"] == "si" ): echo "selected='selected'"; endif;?>>si</option>
-							   <option value="no" <?php if( isset($formArray["credito_infonavit"]) && $formArray["credito_infonavit"] == "no" ): echo "selected='selected'"; endif;?>>no</option>
+							    <?php
+									  foreach( $Catalogos as  $per ):
+								  
+									  if($per->ObjetosNombre=='credito_infonavit')
+									  {
+									  $valor= $per->valor;
+									  
+									  ?>
+								  
+								  
+								  
+								  		  <option value="<?php echo $valor; ?>" <?php if( isset($formArray["credito_infonavit"]) && $formArray["credito_infonavit"] == $valor ): echo "selected='selected'"; endif;?>><?php echo $valor; ?></option>
+								  <?php
+									  }
+									 
+									  endforeach;
+								  ?>
 						   </select>
 					    </td>
 					    </tr>
@@ -524,8 +607,23 @@
 					    <td>
 						    <select name="credito_fonacot" class="credito_fonacot" id="credito_fonacot" <?php echo ( in_array('credito_fonacot' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
 							   <option value="">Seleccionar opción</option> 
-							   <option value="si" <?php if( isset($formArray["credito_fonacot"]) && $formArray["credito_fonacot"] == "si" ): echo "selected='selected'"; endif;?>>si</option>
-							   <option value="no" <?php if( isset($formArray["credito_fonacot"]) && $formArray["credito_fonacot"] == "no" ): echo "selected='selected'"; endif;?>>no</option>
+							    <?php
+									  foreach( $Catalogos as  $per ):
+								  
+									  if($per->ObjetosNombre=='credito_fonacot')
+									  {
+									  $valor= $per->valor;
+									  
+									  ?>
+								  
+								  
+								  
+								  		  <option value="<?php echo $valor; ?>" <?php if( isset($formArray["credito_fonacot"]) && $formArray["credito_fonacot"] == $valor ): echo "selected='selected'"; endif;?>><?php echo $valor; ?></option>
+								  <?php
+									  }
+									 
+									  endforeach;
+								  ?>
 						   </select>
 					    </td>
 					    </tr>
@@ -535,8 +633,23 @@
 					    <td>
 						    <select name="pension_alimenticia" class="pension_alimenticia" id="pension_alimenticia" <?php echo ( in_array('pension_alimenticia' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
 							   <option value="">Seleccionar opción</option> 
-							   <option value="si" <?php if( isset($formArray["pension_alimenticia"]) && $formArray["pension_alimenticia"] == "si" ): echo "selected='selected'"; endif;?>>si</option>
-							   <option value="no" <?php if( isset($formArray["pension_alimenticia"]) && $formArray["pension_alimenticia"] == "no" ): echo "selected='selected'"; endif;?>>no</option>
+							  <?php
+									  foreach( $Catalogos as  $per ):
+								  
+									  if($per->ObjetosNombre=='pension_alimenticia')
+									  {
+									  $valor= $per->valor;
+									  
+									  ?>
+								  
+								  
+								  
+								  		  <option value="<?php echo $valor; ?>" <?php if( isset($formArray["pension_alimenticia"]) && $formArray["pension_alimenticia"] == $valor ): echo "selected='selected'"; endif;?>><?php echo $valor; ?></option>
+								  <?php
+									  }
+									 
+									  endforeach;
+								  ?>
 						   </select>
 					    </td>
 					    </tr>
@@ -791,16 +904,23 @@
 					   <td>
 						    <select name="parentesco_familiar_candidato" class="parentesco_familiar_candidato" id="parentesco_familiar_candidato" <?php echo ( in_array('parentesco_familiar_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
 							   <option value="">Seleccionar opción</option> 
-							   <option value="amigo" <?php if( isset($formArray["parentesco_familiar_candidato"]) && $formArray["parentesco_familiar_candidato"] == "amigo" ): echo "selected='selected'"; endif;?>>Amigo</option>
-							   <option value="conocido" <?php if( isset($formArray["parentesco_familiar_candidato"]) && $formArray["parentesco_familiar_candidato"] == "conocido" ): echo "selected='selected'"; endif;?>>Conocido</option>
-							   <option value="esposo" <?php if( isset($formArray["parentesco_familiar_candidato"]) && $formArray["parentesco_familiar_candidato"] == "esposo" ): echo "selected='selected'"; endif;?>>Esposo</option>
-							   <option value="esposa" <?php if( isset($formArray["parentesco_familiar_candidato"]) && $formArray["parentesco_familiar_candidato"] == "esposa" ): echo "selected='selected'"; endif;?>>Esposa</option>
-							   <option value="hija" <?php if( isset($formArray["parentesco_familiar_candidato"]) && $formArray["parentesco_familiar_candidato"] == "hija" ): echo "selected='selected'"; endif;?>>Hija</option>
-							   <option value="hijo" <?php if( isset($formArray["parentesco_familiar_candidato"]) && $formArray["parentesco_familiar_candidato"] == "hijo" ): echo "selected='selected'"; endif;?>>Hijo</option>
-							   <option value="madre" <?php if( isset($formArray["parentesco_familiar_candidato"]) && $formArray["parentesco_familiar_candidato"] == "madre" ): echo "selected='selected'"; endif;?>>Madre</option>
-							   <option value="padre" <?php if( isset($formArray["parentesco_familiar_candidato"]) && $formArray["parentesco_familiar_candidato"] == "padre" ): echo "selected='selected'"; endif;?>>Padre</option>
-							   <option value="novio" <?php if( isset($formArray["parentesco_familiar_candidato"]) && $formArray["parentesco_familiar_candidato"] == "novio" ): echo "selected='selected'"; endif;?>>Novio</option>
-							   <option value="novia" <?php if( isset($formArray["parentesco_familiar_candidato"]) && $formArray["parentesco_familiar_candidato"] == "novia" ): echo "selected='selected'"; endif;?>>Novia</option>
+							   <?php
+									  foreach( $Catalogos as  $per ):
+								  
+									  if($per->ObjetosNombre=='parentesco_familiar_candidato')
+									  {
+									  $valor= $per->valor;
+									  
+									  ?>
+								  
+								  
+								  
+								  		  <option value="<?php echo $valor; ?>" <?php if( isset($formArray["parentesco_familiar_candidato"]) && $formArray["parentesco_familiar_candidato"] == $valor ): echo "selected='selected'"; endif;?>><?php echo $valor; ?></option>
+								  <?php
+									  }
+									 
+									  endforeach;
+								  ?>
 						   </select>
 					    </td>
 				    </tr>
@@ -861,16 +981,23 @@
 					   <td>
 						   <select name="parentesco_contacto_emergencia_candidato" class="parentesco_contacto_emergencia_candidato" id="parentesco_contacto_emergencia_candidato" <?php echo ( in_array('parentesco_contacto_emergencia_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
 							   <option value="">Seleccionar opción</option> 
-							   <option value="amigo" <?php if( isset($formArray["parentesco_contacto_emergencia_candidato"]) && $formArray["parentesco_contacto_emergencia_candidato"] == "amigo" ): echo "selected='selected'"; endif;?>>Amigo</option>
-							   <option value="conocido" <?php if( isset($formArray["parentesco_contacto_emergencia_candidato"]) && $formArray["parentesco_contacto_emergencia_candidato"] == "conocido" ): echo "selected='selected'"; endif;?>>Conocido</option>
-							   <option value="esposo" <?php if( isset($formArray["parentesco_contacto_emergencia_candidato"]) && $formArray["parentesco_contacto_emergencia_candidato"] == "esposo" ): echo "selected='selected'"; endif;?>>Esposo</option>
-							   <option value="esposa" <?php if( isset($formArray["parentesco_contacto_emergencia_candidato"]) && $formArray["parentesco_contacto_emergencia_candidato"] == "esposa" ): echo "selected='selected'"; endif;?>>Esposa</option>
-							   <option value="hija" <?php if( isset($formArray["parentesco_contacto_emergencia_candidato"]) && $formArray["parentesco_contacto_emergencia_candidato"] == "hija" ): echo "selected='selected'"; endif;?>>Hija</option>
-							   <option value="hijo" <?php if( isset($formArray["parentesco_contacto_emergencia_candidato"]) && $formArray["parentesco_contacto_emergencia_candidato"] == "hijo" ): echo "selected='selected'"; endif;?>>Hijo</option>
-							   <option value="madre" <?php if( isset($formArray["parentesco_contacto_emergencia_candidato"]) && $formArray["parentesco_contacto_emergencia_candidato"] == "madre" ): echo "selected='selected'"; endif;?>>Madre</option>
-							   <option value="padre" <?php if( isset($formArray["parentesco_contacto_emergencia_candidato"]) && $formArray["parentesco_contacto_emergencia_candidato"] == "padre" ): echo "selected='selected'"; endif;?>>Padre</option>
-							   <option value="novio" <?php if( isset($formArray["parentesco_contacto_emergencia_candidato"]) && $formArray["parentesco_contacto_emergencia_candidato"] == "novio" ): echo "selected='selected'"; endif;?>>Novio</option>
-							   <option value="novia" <?php if( isset($formArray["parentesco_contacto_emergencia_candidato"]) && $formArray["parentesco_contacto_emergencia_candidato"] == "novia" ): echo "selected='selected'"; endif;?>>Novia</option>
+							   <?php
+									  foreach( $Catalogos as  $per ):
+								  
+									  if($per->ObjetosNombre=='parentesco_contacto_emergencia_candidato')
+									  {
+									  $valor= $per->valor;
+									  
+									  ?>
+								  
+								  
+								  
+								  		  <option value="<?php echo $valor; ?>" <?php if( isset($formArray["parentesco_contacto_emergencia_candidato"]) && $formArray["parentesco_contacto_emergencia_candidato"] == $valor ): echo "selected='selected'"; endif;?>><?php echo $valor; ?></option>
+								  <?php
+									  }
+									 
+									  endforeach;
+								  ?>
 						   </select>
 					   </td>
 				   </tr> 
@@ -945,16 +1072,21 @@
 						  <td>
 							  <select name="perfil_candidato_reclutamiento" id="perfil_candidato_reclutamiento" class="perfil_candidato_reclutamiento">
 								  <option value="">Selecciona perfil</option>
-								  <?php
-									  $perfiles = $catalogos->perfilCandidatosReclutamiento();
+								 <?php
+									  foreach( $Catalogos as  $per ):
+								  
+									  if($per->ObjetosNombre=='perfil_candidato_reclutamiento')
+									  {
+									  $valor= $per->valor;
 									  
-									  foreach( $perfiles as $key => $per ):
-								  ?>
-								  		<option <?php if( isset( $reclutamientoFDP["perfilCandidato"] ) && $reclutamientoFDP["perfilCandidato"] == $key ): echo "selected"; endif;?> value="<?php echo $key; ?>">
-								  			
-								  			<?php echo $per; ?>
-								  		</option>
-								  <?php	  
+									  ?>
+								  
+								  
+								  
+								  		  <option value="<?php echo $per->parametro; ?>" <?php if( isset($formArray["perfil_candidato_reclutamiento"]) && $formArray["perfil_candidato_reclutamiento"] == $valor ): echo "selected='selected'"; endif;?>><?php echo $valor; ?></option>
+								  <?php
+									  }
+									 
 									  endforeach;
 								  ?>
 							  </select>
@@ -970,18 +1102,23 @@
 							  Evaluación
 						  </td>
 						  <td>
-							  <select name="evaluacion_candidato_reclutamiento" id="evaluacion_candidato_reclutamiento" class="evaluacion_candidato_reclutamiento">
+							  <select name="evaluacion_candidato_reclutamiento" id="evaluacion_candidato_reclutamiento" style="width: 36%;" class="evaluacion_candidato_reclutamiento">
 								  <option value="">Selecciona evaluación</option>
 								  <?php
-									  $evaluaciones = $catalogos->evaluacionesReclutamiento();
+									  foreach( $Catalogos as  $per ):
+								  
+									  if($per->ObjetosNombre=='evaluacion_candidato_reclutamiento')
+									  {
+									  $valor= $per->valor;
 									  
-									  foreach( $evaluaciones as $key => $ev ):
-								  ?>
-								  		<option <?php if( isset( $reclutamientoFDP["evaluacionRazonamiento"] ) && $reclutamientoFDP["evaluacionRazonamiento"] == $key ): echo "selected"; endif;?> value="<?php echo $key; ?>">
-								  			
-								  			<?php echo $ev; ?>
-								  		</option>
-								  <?php	  
+									  ?>
+								  
+								  
+								  
+								  		  <option value="<?php echo $per->parametro; ?>" <?php if( isset($formArray["evaluacion_candidato_reclutamiento"]) && $formArray["evaluacion_candidato_reclutamiento"] == $valor ): echo "selected='selected'"; endif;?>><?php echo $valor; ?></option>
+								  <?php
+									  }
+									 
 									  endforeach;
 								  ?>
 							  </select>
@@ -995,18 +1132,23 @@
 							  Valores evaluación
 						  </td>
 						  <td>
-							  <select name="valores_evaluacion_candidato_reclutamiento" id="valores_evaluacion_candidato_reclutamiento" class="valores_evaluacion_candidato_reclutamiento">
+							  <select name="valores_evaluacion_candidato_reclutamiento" id="valores_evaluacion_candidato_reclutamiento"  class="valores_evaluacion_candidato_reclutamiento">
 								  <option value="">Selecciona valor</option>
 								  <?php
-									  $valores = $catalogos->valoresEvaluacionesReclutamiento();
+									  foreach( $Catalogos as  $per ):
+								  
+									  if($per->ObjetosNombre=='valores_evaluacion_candidato_reclutamiento')
+									  {
+									  $valor= $per->valor;
 									  
-									  foreach( $valores as $key => $val ):
-								  ?>
-								  		<option <?php if( isset( $reclutamientoFDP["puntajeEvaluacionRazonamiento"] ) && $reclutamientoFDP["puntajeEvaluacionRazonamiento"] == $key ): echo "selected"; endif;?> value="<?php echo $key; ?>">
-								  			
-								  			<?php echo $val; ?>
-								  		</option>
-								  <?php	  
+									  ?>
+								  
+								  
+								  
+								  		  <option value="<?php echo $per->parametro; ?>" <?php if( isset($formArray["valores_evaluacion_candidato_reclutamiento"]) && $formArray["valores_evaluacion_candidato_reclutamiento"] == $valor ): echo "selected='selected'"; endif;?>><?php echo $valor; ?></option>
+								  <?php
+									  }
+									 
 									  endforeach;
 								  ?>
 							  </select>
@@ -1018,18 +1160,23 @@
 							  Escala de evaluación
 						  </td>
 						  <td>
-							  <select name="escala_evaluacion_candidato_reclutamiento" id="escala_evaluacion_candidato_reclutamiento" class="escala_evaluacion_candidato_reclutamiento">
+							  <select name="escala_evaluacion_candidato_reclutamiento" id="escala_evaluacion_candidato_reclutamiento"  style="width: 36%;" class="escala_evaluacion_candidato_reclutamiento">
 								  <option value="">Selecciona escala</option>
-								  <?php
-									  $escalas = $catalogos->escalaValoresEvaluacionesReclutamiento();
+								 <?php
+									  foreach( $Catalogos as  $per ):
+								  
+									  if($per->ObjetosNombre=='escala_evaluacion_candidato_reclutamiento')
+									  {
+									  $valor= $per->valor;
 									  
-									  foreach( $escalas as $key => $es ):
-								  ?>
-								  		<option <?php if( isset( $reclutamientoFDP["escalaValoresEvaluacionRazonamiento"] ) && $reclutamientoFDP["escalaValoresEvaluacionRazonamiento"] == $key ): echo "selected"; endif;?> value="<?php echo $key; ?>">
-								  			
-								  			<?php echo $es; ?>
-								  		</option>
-								  <?php	  
+									  ?>
+								  
+								  
+								  
+								  		  <option value="<?php echo $per->parametro; ?>" <?php if( isset($formArray["escala_evaluacion_candidato_reclutamiento"]) && $formArray["escala_evaluacion_candidato_reclutamiento"] == $valor ): echo "selected='selected'"; endif;?>><?php echo $valor; ?></option>
+								  <?php
+									  }
+									 
 									  endforeach;
 								  ?>
 							  </select>

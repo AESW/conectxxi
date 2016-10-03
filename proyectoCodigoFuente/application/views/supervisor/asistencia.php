@@ -29,10 +29,23 @@
 					      <td>
 						      <select name="turno" class="turno" id="turno"  >
 							      <option value="">Selecciona Turno</option>
-								 
-								  		  <option value="MATUTINO" >MATUTINO</option>
-							    <option value="VESPERTINO" >VESPERTINO</option>
-							    <option value="MIXTO" >MIXTO</option>
+								 <?php
+									  foreach( $Catalogos as  $per ):
+								  
+									  if($per->ObjetosNombre=='turno')
+									  {
+									  $valor= $per->valor;
+									  
+									  ?>
+								  
+								  
+								  
+								  		  <option value="<?php echo $valor; ?>" ><?php echo $valor; ?></option>
+								  <?php
+									  }
+									 
+									  endforeach;
+								  ?>
 							  
 								  
 						      </select>

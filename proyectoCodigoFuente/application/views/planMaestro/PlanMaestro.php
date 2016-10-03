@@ -148,8 +148,7 @@ $tdiaslab=$v->parametro;
     
     	<tr>
 														<th >Portafolio:</th>
-														<th >Periodo:</th>
-														<th >Responsable:</th>
+														
 														<th >Fecha:</th>
 														
 													
@@ -174,41 +173,8 @@ $tdiaslab=$v->parametro;
                           
                             
               </select></th>
-													<th > <select class="form-control" id="periodo" name="periodo" > 
-                    <option value="" />Seleccione...                    
-                           <?php 
-	                                                     
-	                                                if( !empty($Periodo) ):    
-	                                                    foreach($Periodo as  $v){ ?>
-                           
-                            <option value="<?php echo $v->valor?>" /><?php echo $v->valor?>
-                             <?php 
-	                                                    
-	                                                    } 
-	                                                    endif;
-	                                                ?>
-                            
-                          
-                            
-              </select></th>
-													<th >  <select class="form-control" id="responsable" name="responsable">> 
-                    <option value="" />Seleccione...                    
-                            <?php 
-	                                                    
-	                                                if( !empty($Responsable) ):    
-	                                                    foreach($Responsable as $i => $v){ ?>
-                           
-                            <option value="<?php echo $v->valor?>" /><?php echo $v->valor?>
-                             <?php 
-	                                                   
-	                                                    } 
-	                                                    endif;
-	                                                ?>	
-                            
-                            
-                          
-                            
-              </select></th>
+													
+										
 													<th style='width:16%;' >  <div class="input-group">
                       <input type="text" class="form-control" id="datepickerFecha"
 															name="datepickerFecha" />

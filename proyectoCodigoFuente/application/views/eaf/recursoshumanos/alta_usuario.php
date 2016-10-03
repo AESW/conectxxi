@@ -82,6 +82,9 @@
     		error_campos.push(  "descanso");
     		}
 
+    		if( $("#horario").val() == "" ) {
+        		error_campos.push(  "horario");
+        		}
     		
     		if( error_campos.length  == 0 )
     		{
@@ -309,28 +312,28 @@
 			    <table cellpadding="0" cellspacing="0" width="100%">
 				    <tr>
 					    <td>Nombre (s)</td>
-					    <td><input type="text" name="nombre_candidato" class="nombre_candidato" id="nombre_candidato" placeholder="Nombre (s)" autocomplete="off" required value="<?php echo (isset($formArrayCandidato["nombre_candidato"]))?$formArrayCandidato["nombre_candidato"]:""; ?>"<?php echo ( in_array ('nombre_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?> ></td>
+					    <td><input type="text" name="nombre_candidato" class="nombre_candidato" id="nombre_candidato" placeholder="Nombre (s)" readonly autocomplete="off" required value="<?php echo (isset($formArrayCandidato["nombre_candidato"]))?$formArrayCandidato["nombre_candidato"]:""; ?>"<?php echo ( in_array ('nombre_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?> ></td>
 					   </tr>
 					   <tr>
 					    <td>Apellido paterno</td>
-					    <td><input type="text" name="apellido_paterno_candidato" class="apellido_paterno_candidato" id="apellido_paterno_candidato" placeholder="Apellido" autocomplete="off" required value="<?php echo (isset($formArrayCandidato["apellido_paterno_candidato"]))?$formArrayCandidato["apellido_paterno_candidato"]:""; ?>"<?php echo ( in_array ('apellido_paterno_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?> ></td>
+					    <td><input type="text" name="apellido_paterno_candidato" class="apellido_paterno_candidato" id="apellido_paterno_candidato" readonly placeholder="Apellido" autocomplete="off" required value="<?php echo (isset($formArrayCandidato["apellido_paterno_candidato"]))?$formArrayCandidato["apellido_paterno_candidato"]:""; ?>"<?php echo ( in_array ('apellido_paterno_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?> ></td>
 				    </tr>
 				    <tr>
 					    <td>Apellido materno</td>
-					    <td><input type="text" name="apellido_materno_candidato" class="apellido_materno_candidato" id="apellido_materno_candidato" placeholder="Apellido" autocomplete="off" required value="<?php echo (isset($formArrayCandidato["apellido_materno_candidato"]))?$formArrayCandidato["apellido_materno_candidato"]:""; ?>"<?php echo ( in_array ('apellido_materno_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?> ></td>
+					    <td><input type="text" name="apellido_materno_candidato" class="apellido_materno_candidato" id="apellido_materno_candidato" readonly placeholder="Apellido" autocomplete="off" required value="<?php echo (isset($formArrayCandidato["apellido_materno_candidato"]))?$formArrayCandidato["apellido_materno_candidato"]:""; ?>"<?php echo ( in_array ('apellido_materno_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?> ></td>
 					    <td>&nbsp;</td>
 					    <td>&nbsp;</td>
 				    </tr>
 				      <tr>
 					    <td>Gerente que Autoriza</td>
-					    <td><input type="text" name="gerente_autoriza" class="gerente_autoriza" id="gerente_autoriza" placeholder="Gerente" autocomplete="off" required value="<?php echo (isset($formArrayCandidato["idNombreAprobacionGerente"]))?$formArrayCandidato["idNombreAprobacionGerente"]:""; ?>"<?php echo ( in_array ('gerente_autoriza' , $error_campos) )?"style='border:2px solid red;'":""; ?> ></td>
+					    <td><input type="text" name="gerente_autoriza" class="gerente_autoriza" id="gerente_autoriza" placeholder="Gerente" readonly autocomplete="off" required value="<?php echo (isset($formArrayCandidato["idNombreAprobacionGerente"]))?$formArrayCandidato["idNombreAprobacionGerente"]:""; ?>"<?php echo ( in_array ('gerente_autoriza' , $error_campos) )?"style='border:2px solid red;'":""; ?> ></td>
 					    <td>&nbsp;</td>
 					    <td>&nbsp;</td>
 				    </tr>
 				    <tr>
 				     <td>Empresa que contrata</td>
 					      <td>
-						      <select name="empresa_contrata" class="empresa_contrata" id="empresa_contrata" <?php echo ( in_array('empresa_contrata' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+						      <select name="empresa_contrata" class="empresa_contrata"  id="empresa_contrata" <?php echo ( in_array('empresa_contrata' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
 							   
 							   <option value="">Selecciona Empresa</option>
 								  <?php
@@ -354,7 +357,7 @@
 				        <tr>
 				     <td>Corporativo</td>
 					      <td>
-						   <select name="corporativo" class="corporativo" id="corporativo" <?php echo ( in_array('corporativo' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+						   <select name="corporativo" class="corporativo" id="corporativo" <?php echo ( in_array('corporativo' , $error_campos) )?"style='border:2px solid red;width:26%'":"style='width:26%;'"; ?>>
 							   <option value="">Seleccione Corporativo</option> 
 							   <option value="Si" <?php if( isset($formArray["corporativo"]) && $formArray["corporativo"] == "Si" ): echo "selected='selected'"; endif;?>>Si</option>
 							   <option value="No" <?php if( isset($formArray["corporativo"]) && $formArray["corporativo"] == "No" ): echo "selected='selected'"; endif;?>>No</option>
@@ -374,7 +377,7 @@
 				    <tr>
 				     <td>Oficina</td>
 					      <td>
-						         <select name="oficina" class="oficina" id="oficina" <?php echo ( in_array('oficina' , $error_campos) )?"style='border:2px solid red;'":""; ?> >
+						         <select name="oficina" class="oficina" id="oficina" <?php echo ( in_array('oficina' , $error_campos) )?"style='border:2px solid red;width:26%;'":"style='width:26%;'"; ?> >
 							     
 							     <option value="">Selecciona Oficina</option>
 								<?php 
@@ -401,7 +404,7 @@
 					    <td> 
 						   
 						   
-						    <select name="plaza" class="plaza" id="plaza" <?php echo ( in_array('plaza' , $error_campos) )?"style='border:2px solid red;'":""; ?> >
+						    <select name="plaza" class="plaza" id="plaza" <?php echo ( in_array('plaza' , $error_campos) )?"style='border:2px solid red;width:26%;'":"style='width:26%;'"; ?> >
 							     
 							     <option value="">Selecciona Plaza</option>
 								  <?php
@@ -439,7 +442,7 @@
 					    <td>Sueldo</td>
 					    <td>
 					    
-					      <select name="sueldoNOI" class="sueldoNOI" id="sueldoNOI" <?php echo ( in_array('oficina' , $error_campos) )?"style='border:2px solid red;'":""; ?> >
+					      <select name="sueldoNOI" class="sueldoNOI" id="sueldoNOI" <?php echo ( in_array('oficina' , $error_campos) )?"style='border:2px solid red;width:26%;'":"style='width:26%;'"; ?> >
 							     
 							     <option value="">Selecciona Sueldo</option>
 								<?php 
@@ -463,7 +466,7 @@
 				    </tr>
 				    <tr>
 				     <td>Puesto</td>
-					      <td><input type="text" name="puesto" class="puesto" id="puesto" placeholder="puesto" autocomplete="off" required value="<?php echo (isset($formArrayCandidato["Puesto"]))?$formArrayCandidato["Puesto"]:""; ?>" <?php echo ( in_array ('puesto' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					      <td><input type="text" name="puesto" class="puesto" id="puesto" readonly placeholder="puesto" autocomplete="off" required value="<?php echo (isset($formArrayCandidato["Puesto"]))?$formArrayCandidato["Puesto"]:""; ?>" <?php echo ( in_array ('puesto' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
 					    <td>&nbsp;</td>
 					    <td>&nbsp;</td>
 				    </tr>
@@ -492,25 +495,7 @@
 					      </td>
 				    </tr>
 				    
-				    <tr>
-				     <td>Turno</td>
-					      <td>
-						      <select name="turno" class="turno" id="turno"  <?php echo ( in_array('turno' , $error_campos) )?"style='border:2px solid red;'":""; ?> >
-							      <option value="">Selecciona Turno</option>
-								  <?php
-									  $perfiles = $catalogos->rhHorario();
-									  
-									  foreach( $perfiles as $key => $per ):
-								  ?>
-								  		  <option value="<?php echo $per; ?>" <?php if( isset($formArray["turno"]) && $formArray["turno"] == $per ): echo "selected='selected'"; endif;?>><?php echo $per; ?></option>
-							  
-								  <?php	  
-									  endforeach;
-								  ?>
-							     
-						      </select>
-					      </td>
-				    </tr>
+				  
 				    <tr>
 				     <td>Día de descanso</td>
 					      <td>
@@ -527,6 +512,45 @@
 								  <?php	  
 									  endforeach;
 								  ?>
+						      </select>
+					      </td>
+				    </tr>
+				    
+				      <tr>
+				     <td>Turno</td>
+					      <td>
+						      <select name="turno" class="turno" id="turno"  <?php echo ( in_array('turno' , $error_campos) )?"style='border:2px solid red;width:26%;''":"style='width:26%;'"; ?> >
+							      <option value="">Selecciona Turno</option>
+								  <?php
+									  foreach( $Catalogos as  $per ):
+								  
+									  if($per->ObjetosNombre=='turno')
+									  {
+									  $valor= $per->valor;
+									  $parametro= $per->id;
+									  
+									  ?>
+								  
+								  
+								  
+								  		  <option value="<?php echo $parametro; ?>" ><?php echo $valor; ?></option>
+								  <?php
+									  }
+									 
+									  endforeach;
+								  ?>
+							     
+						      </select>
+					      </td>
+				    </tr>
+				    
+				      <tr>
+				     <td>Horario</td>
+					      <td>
+						      <select name="horario" class="horario" id="horario"  <?php echo ( in_array('horario' , $error_campos) )?"style='border:2px solid red;width:26%;''":"style='width:26%;'"; ?> >
+							      <option value="">Selecciona Horario</option>
+								 
+							     
 						      </select>
 					      </td>
 				    </tr>
@@ -859,8 +883,24 @@
 					   <td>
 						      <select name="banco" class="banco" id="banco" <?php echo ( in_array('banco' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
 							      <option value="">Seleccionar Banco</option>
-							      <option value="12" <?php if( isset($formArray["banco"]) && $formArray["banco"] == "BANCOMER" ): echo "selected='selected'"; endif;?>>BANCOMER</option>
-							      <option value="72" <?php if( isset($formArray["banco"]) && $formArray["banco"] == "BANORTE" ): echo "selected='selected'"; endif;?>>BANORTE</option>
+							      <?php
+									  foreach( $Catalogos as  $per ):
+								  
+									  if($per->ObjetosNombre=='banco')
+									  {
+									  $valor= $per->valor;
+									  $parametro= $per->id;
+									  
+									  ?>
+								  
+								  
+								  
+								  		  <option value="<?php echo $parametro; ?>" ><?php echo $valor; ?></option>
+								  <?php
+									  }
+									 
+									  endforeach;
+								  ?>
 						      </select>
 					      </td>
 				    </tr>
@@ -1279,5 +1319,80 @@
 	});
 
 	
+	</script>
+	
+	
+	  <script type="text/javascript">
+    
+        $(document).ready(function() {
+
+
+            
+            $("#turno").change(function() {
+                $("#turno option:selected").each(function() {
+                    empresa = $('#turno').val();   
+
+if(empresa!='')
+{
+                    
+                    $.post("<?php echo HOME_URL; ?>eaf/RecursosHumanos/SelHorario", {
+                    	empresa : empresa
+                    }, function(data) {
+                        $("#horario").html(data);
+                   });
+}
+else
+{
+	$("#horario").html('<option value="">Selecciona Horario</option>');
+}
+                 				
+                   
+                });
+            })
+        });
+    </script>
+    
+    <script>
+
+	$(document).ready(function(){
+		$("input[name=cuentaNomina]").change(function(){
+		var	valor= $('input[name=cuentaNomina]').val();
+		
+
+			var n = valor.length;
+
+if (n>0 && n!=10)
+{	
+			alert("Capture el número de cuenta a 10 digitos ");
+			$('input[name=cuentaNomina]').val("");
+}
+			
+		});
+	
+	})
+
+
+	</script>
+	
+	<script>
+
+	$(document).ready(function(){
+		$("input[name=clabeInterbancaria]").change(function(){
+		var	valor= $('input[name=clabeInterbancaria]').val();
+		
+
+			var n = valor.length;
+
+if (n>0 && n!=18)
+{	
+			alert("Capture la cuenta CLABE a 18 digitos ");
+			$('input[name=clabeInterbancaria]').val("");
+}
+			
+		});
+	
+	})
+
+
 	</script>
 	

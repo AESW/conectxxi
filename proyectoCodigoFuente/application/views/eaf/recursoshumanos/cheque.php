@@ -58,7 +58,7 @@
                         <table cellpadding="0" cellspacing="0"   style="margin: 0 auto;" >
                                           <tr >
                             <td>Nombre del Empleado .</td>
-                            <td> <select  name="selecUsuario" class="selecUsuario" id="selecUsuario" style="width:100%;">
+                            <td> <select  name="selecUsuario" class="selecUsuario" id="selecUsuario" readonly style="width:100%;">
                                    
 
  <?php
@@ -68,9 +68,10 @@
                                     	
                                     	$finiquitoTotal=$fila->finiquitoTotal;
                                     	
-                                    	$idUSuario=$fila->idUsuarios;
+                                    	$idBaja=$fila->idSolBajal;
                                     	
                                     ?>
+
 
                                     <option value="<?php echo $fila->idUsuarios; ?>"><?php echo $fila->nombreUsuario; ?></option>  
                                     <?php
@@ -83,7 +84,9 @@
 
                                    
 
-                               </select></td>
+                               </select>
+                               <input type="hidden"  name="id_baja" class="id_baja" readonly id="id_baja"  required value="<?php echo $idBaja; ?>" >
+                               </td>
                         </tr>
                          <tr style="height: 5px">
                              </tr>
@@ -98,7 +101,7 @@
                                     foreach($Datosusuarios as $fila)
                                     {
                                     ?>
-<input type="text" onfocus="this.blur()" name="fecha_ingreso" class="fecha_ingreso" id="fecha_ingreso" placeholder="dd/mm/YYYY" autocomplete="off" required value="<?php echo $fila->fechaIngreso; ?>" >
+<input type="text" onfocus="this.blur()" name="fecha_ingreso" class="fecha_ingreso" readonly id="fecha_ingreso" placeholder="dd/mm/YYYY" autocomplete="off" required value="<?php echo $fila->fechaIngreso; ?>" >
                                   
                                     <?php
                                     }
@@ -112,7 +115,7 @@
                              </tr>
                         <tr >
                             <td>Empresa</td>
-                            <td><select  name="selecEmp" class="selecEmp" id="selecEmp" style="width:100%;">
+                            <td><select  name="selecEmp" class="selecEmp" id="selecEmp" readonly style="width:100%;">
                                     
 
                                     <?php
@@ -133,7 +136,7 @@
                              </tr>
                         <tr>
                             <td>D&iacute;a de descanso</td>
-                            <td> <select name="descanso" class="descanso" id="descanso"  style="width:100%;" >
+                            <td> <select name="descanso" class="descanso" id="descanso"  readonly style="width:100%;" >
 
                                    
                                     <?php
@@ -154,7 +157,7 @@
                              </tr>
                         <tr>
                             <td>Puesto</td>
-                            <td><select  name="selecPuesto" class="selecPuesto" id="selecPuesto" style="width:100%;">
+                            <td><select  name="selecPuesto" class="selecPuesto" id="selecPuesto" readonly style="width:100%;">
                                    
 
                                     <?php
@@ -177,7 +180,7 @@
                              </tr> 
                         <tr>
                             <td>Ubicaci&oacute;n</td>
-                            <td><select  name="selecOficina" class="selecOficina" id="selecOficina" style="width:100%;">
+                            <td><select  name="selecOficina" class="selecOficina" readonly id="selecOficina" style="width:100%;">
                                      
 
                                     <?php
@@ -199,7 +202,7 @@
                              <tr>                 
                         <tr>
                             <td>Motivo de la baja</td>
-                            <td><select  name="selecMotivo" class="selecMotivo" id="selecMotivo" style="width:100%;">
+                            <td><select  name="selecMotivo" class="selecMotivo" readonly id="selecMotivo" style="width:100%;">
                                          <?php
                                     if(!empty( $Datosusuarios ) ):
                                     foreach($Datosusuarios as $fila)
@@ -219,7 +222,7 @@
                              </tr>
                         <tr>
                             <td>Quien solicita</td>
-                            <td><select  name="selecSolicita" class="selecSolicita" id="selecSolicita" style="width:100%;">
+                            <td><select  name="selecSolicita" class="selecSolicita" readonly id="selecSolicita" style="width:100%;">
                                   
 
                                     <?php
@@ -250,7 +253,7 @@
                                     {
                                     ?>
 
- <input type="text" onfocus="this.blur()" name="fecha_efectiva" class="fecha_efectiva" id="fecha_efectiva" placeholder="dd/mm/YYYY" autocomplete="off" required value="<?php echo $fila->fechaEfectiva; ?>" >                                  
+ <input type="text" onfocus="this.blur()" name="fecha_efectiva" class="fecha_efectiva" readonly id="fecha_efectiva" placeholder="dd/mm/YYYY" autocomplete="off" required value="<?php echo $fila->fechaEfectiva; ?>" >                                  
                                     <?php
                                     }
                                    
@@ -263,7 +266,7 @@
                              </tr>
                         <tr>
                             <td>Sueldo</td>
-                            <td><select  name="selecSueldo" class="selecSueldo" id="selecSueldo" style="width:100%;">
+                            <td><select  name="selecSueldo" class="selecSueldo" readonly id="selecSueldo" style="width:100%;">
                                   
 
                                     <?php
@@ -293,7 +296,7 @@
                                     {
                                     ?>
 
-                                  <input type="text" name="horario" class="horario" id="horario" value="<?php echo $fila->horario; ?>">
+                                  <input type="text" name="horario" class="horario" readonly id="horario" value="<?php echo $fila->horario; ?>">
                                     <?php
                                     }
                                    
@@ -313,7 +316,7 @@
                                     {
                                     ?>
 
- <input type="text" onfocus="this.blur()" name="fecha_fin_contrato" class="fecha_fin_contrato" id="fecha_fin_contrato" placeholder="dd/mm/YYYY" autocomplete="off" required value="<?php echo $fila->finContrato; ?>" >                                  
+ <input type="text" onfocus="this.blur()" name="fecha_fin_contrato" class="fecha_fin_contrato" readonly id="fecha_fin_contrato" placeholder="dd/mm/YYYY" autocomplete="off" required value="<?php echo $fila->finContrato; ?>" >                                  
                                     <?php
                                     }
                                    
@@ -358,7 +361,7 @@
                                     foreach($Datosusuarios as $fila)
                                     {
                                     ?>
-                        <textarea style="width:99%" rows="8" cols="50" name="comentGerente" class="comentGerente" id=comentGerente><?php echo $fila->comentarios; ?></textarea>
+                        <textarea style="width:99%" rows="8" cols="50" name="comentGerente" readonly class="comentGerente" id=comentGerente><?php echo $fila->comentarios; ?></textarea>
                         <?php
                                     }
                                    
@@ -371,7 +374,23 @@
                        Observaciones
                         <br>
                        
-                        <textarea style="width:99%" rows="8" cols="50" name="observaciones" class="observaciones" id=observaciones></textarea>
+                        <?php
+                                    if(!empty( $Datosusuarios ) ):
+                                   
+                                    foreach($Datosusuarios as $fila)
+                                    {
+                                    ?>
+
+                        
+                          <textarea style="width:99%" rows="8" cols="50" readonly name="observaciones" class="observaciones" id=observaciones><?php echo $fila->observaciones; ?></textarea>
+                        
+                        <?php
+                                    }
+                                   
+                                    endif;
+                                    ?>
+                       
+                      
                        
                         <br>
                     </center>
@@ -390,7 +409,7 @@
 			    <p><span id="resultado" style="color:red;font-weight: bold;margin-bottom: 15px;"></span></p>
                     <p><span id="guarda" style="font-weight: bold; text-align: center;font-size: 13pt; color: #00db05"></span></p>
                     <br>
-                      <div style="text-align:center;">
+                      <div style="text-align:center;float:left; display:block; width:50%;" >
                         <table cellpadding="0" cellspacing="0"   style="margin: 0 auto;" >
                   
                     
@@ -405,7 +424,7 @@
           
             <tr>
                 <td >  <?php echo $fila['prefijoMetaDatos']; ?> :</td>
-                <td ><input type="text" name="calificacion[]" class="codEti" value="<?php echo $fila['valorMetaDatos']; ?>" id="calificacion" style=" width:100px;height:23px;">
+                <td ><input type="text" name="calificacion[]" class="codEti" value="<?php echo $fila['valorMetaDatos']; ?>" id="calificacion" readonly style=" width:100px;height:23px;">
                </td>
                 
             </tr>
@@ -416,6 +435,13 @@
 					            }
 					        
                   ?>
+                  
+                    </table>
+                    </div>
+                    
+                     <div style="text-align:center;float:left; display:block;width:50%;height:62%;" >
+               
+                  <table cellpadding="0" cellspacing="0"   style="margin: 0 auto;" >
                   
                   <tr>
                 <td > <label  > MENOS :</label></td>
@@ -433,7 +459,7 @@
           
             <tr>
                 <td >  <?php echo $fila['prefijoMetaDatos']; ?> :</td>
-                <td ><input type="text" name="calificacion[]" class="codEti" value="<?php echo $fila['valorMetaDatos']; ?>" id="calificacion" style=" width:100px;height:23px;">
+                <td ><input type="text" name="calificacion[]" class="codEti" value="<?php echo $fila['valorMetaDatos']; ?>" id="calificacion" readonly style=" width:100px;height:23px;">
                </td>
                 
             </tr>
@@ -447,7 +473,7 @@
                   
                     <tr>
                 <td > <label  > TOTAL :</label></td>
-                <td ><input type="text" name="total_finiquito" class="codEti" value="<?php echo $finiquitoTotal ;?>" id="total_finiquito" style=" width:100px;height:23px;">
+                <td ><input type="text" name="total_finiquito" class="codEti" readonly value="<?php echo $finiquitoTotal ;?>" id="total_finiquito" style=" width:100px;height:23px;">
                
             </tr>
             
@@ -465,7 +491,7 @@
 			  
 			
 			     
-			        <a href="<?php echo HOME_URL; ?>eaf/RecursosHumanos/CartaFiniquito/<?php echo $idUSuario; ?>" target="_blank" class="btnNextFDP" ><i class="glyphicon glyphicon-file"></i> Imprimir Carta Finiquito</a>
+			        <a href="<?php echo HOME_URL; ?>eaf/RecursosHumanos/CartaFiniquito/<?php echo $idBaja; ?>" target="_blank" class="btnNextFDP" ><i class="glyphicon glyphicon-file"></i> Imprimir Carta Finiquito</a>
 			  
 				   <a class="btnNextFDP" id="btnfiniquito">Guardar Cheque</a>
 				

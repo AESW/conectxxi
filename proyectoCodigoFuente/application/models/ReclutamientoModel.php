@@ -153,7 +153,7 @@ class ReclutamientoModel extends CI_Model {
 	public function obtenerEntrevistasRealizarSegundaParte(){
 		$sqlEntrevistasPrimeraParte = 'SELECT *,
 										(SELECT idPuesto FROM VacantesPeticiones WHERE tokenFDPVacantesPendientes = CandidatoFDP.tokenFDPVacantesPendientes) as idPuesto,
-										( SELECT nombrePuesto FROM Puestos WHERE idPuestos = (SELECT idPuesto FROM VacantesPeticiones WHERE tokenFDPVacantesPendientes = CandidatoFDP.tokenFDPVacantesPendientes) ) as nombrePuesto,
+										( SELECT ValorMetaDatos FROM MetaDatosCandidatoFDP WHERE PrefijoMetaDatos= \'puesto_solicitado\'  and idCandidatoFDP = CandidatoFDP.idCandidatoFDP ) as nombrePuesto,
 										( SELECT estatusReclutamientoFDP FROM ReclutamientoFDP WHERE idCandidatoFDP = CandidatoFDP.idCandidatoFDP ) as estatus
 										 FROM CandidatoFDP WHERE
 										( SELECT count( idReclutamientoFDP ) FROM ReclutamientoFDP WHERE idCandidatoFDP = CandidatoFDP.idCandidatoFDP ) >= 0

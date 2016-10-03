@@ -129,12 +129,17 @@ class Gerente extends CI_Controller {
     //	$oficina = $this->GerenteModel->oficina();
     //	$sueldo = $this->GerenteModel->sueldo();
     	 
-    	
+    	$sqlCatalogos = 'SELECT * from catalogos left outer join cat_detalle on catalogos.id=cat_detalle.id_catalogo
+    left outer join ObjetosCatalogo
+    on catalogos.id=ObjetosCatalogo.idCatalogo where cat_detalle.estatus=1';
+		$queryCatalogos = $this->db->query($sqlCatalogos);
+		
     	
     	
     	$dataContent = array(
     			"personal" => $personal,
-    				"catalogos" => new Catalogos (),
+    			"Catalogos"=>$queryCatalogos->result(),
+    				
     			"datos" => $datos
     	
     	);
@@ -178,10 +183,11 @@ class Gerente extends CI_Controller {
     	$incap=$this->input->post('incap');
     	$inicio=$this->input->post('fecha_inicio_incapacidad');
     	$fin=$this->input->post('fecha_fin_incapacidad');
+    	$observaciones=$this->input->post('observaciones');
     
     
     
-    	$sqlAlta = "insert into Incapacidades (incapacidad,inicio,fin,idUsuarios,aprobada) values ('$incap','$inicio','$fin',$selecEmp,0)" ;
+    	$sqlAlta = "insert into Incapacidades (incapacidad,inicio,fin,idUsuarios,aprobada,observaciones) values ('$incap','$inicio','$fin',$selecEmp,0,'$observaciones')" ;
     
     
     
@@ -243,6 +249,187 @@ class Gerente extends CI_Controller {
     				"codigo" => 200,
     				"exito" => true,
     				"mensaje" => "Solicitud guardada correctamente.."
+    		);
+    	}
+    	else {
+    		$resultado = array (
+    				"codigo" => 400,
+    				"exito" => false,
+    				"mensaje" => "Error, vuelva a intentarlo."
+    		);
+    	}
+    
+    	ob_clean ();
+    	echo json_encode ( $resultado );
+    	exit ();
+    }
+    
+    
+    public function Permiso() {
+    	$dataHeader = array (
+    			"titulo" => "Autorizacion de Permiso"
+    	);
+    
+    	$idPermiso = $this->input->get ( 'idPermiso' );
+    	$Datosusuarios = $this->GerenteModel->DatosusuariosPermiso($idPermiso);
+    
+    
+    
+    
+    	$dataContent ["Datosusuarios"] = $Datosusuarios;
+    
+    	// echo "<pre>";print_r($error_campos);
+    	//	echo "<pre>";print_r($dataContent);
+    	//// echo "<pre>";print_r($resultado);
+    	// echo "<pre>";print_r($formArray);
+    
+    	$this->load->view ( 'includes/header', $dataHeader );
+    	$this->load->view ( 'gerente/Autoriza_permiso', $dataContent );
+    	$this->load->view ( 'includes/footer' );
+    }
+    
+    public function AutorizaPermiso() {
+    	$dataHeader = array (
+    			"titulo" => "Autorizacion de Permiso"
+    	);
+    
+    	$idPermiso = $this->Sanitize->clean_string ( $_POST ["idPermiso"] );
+    
+    	//	$finiquito = $this->Sanitize->clean_string ( $_POST ["finiquito"] );
+    	//	$cheque = $this->Sanitize->clean_string ( $_POST ["cheque"] );
+    
+    
+    
+    	$sqlUpdateUsuario = "UPDATE SolPermisos set  aprobado= 1 , fecha_aprobacion=now() where IdPermiso= $idPermiso";
+    
+    	$UpdateUsuario = $this->db->query ( $sqlUpdateUsuario );
+    
+    
+    	if ($UpdateUsuario)
+    	{
+    		$resultado = array (
+    				"codigo" => 200,
+    				"exito" => true,
+    				"mensaje" => "Permiso Autorizado correctamente."
+    		);
+    	}
+    	else {
+    		$resultado = array (
+    				"codigo" => 400,
+    				"exito" => false,
+    				"mensaje" => "Error, vuelva a intentarlo."
+    		);
+    	}
+    
+    	ob_clean ();
+    	echo json_encode ( $resultado );
+    	exit ();
+    }
+    
+    public function Descanso() {
+    	$dataHeader = array (
+    			"titulo" => "Autorizacion de dia de descanso"
+    	);
+    
+    	$idDescanso = $this->input->get ( 'idDescanso' );
+    	$Datosusuarios = $this->GerenteModel->DatosusuariosDescanso($idDescanso);
+    
+    
+    
+    
+    	$dataContent ["Datosusuarios"] = $Datosusuarios;
+    
+    	
+    
+    	$this->load->view ( 'includes/header', $dataHeader );
+    	$this->load->view ( 'gerente/autoriza_cambio_descanso', $dataContent );
+    	$this->load->view ( 'includes/footer' );
+    }
+    
+    
+    public function AutorizaDescanso() {
+    	$dataHeader = array (
+    			"titulo" => "Autorizacion de dia de descanso"
+    	);
+    
+    	$idDescanso = $this->Sanitize->clean_string ( $_POST ["idDescanso"] );
+    
+    	//	$finiquito = $this->Sanitize->clean_string ( $_POST ["finiquito"] );
+    	//	$cheque = $this->Sanitize->clean_string ( $_POST ["cheque"] );
+    
+    
+    
+    	$sqlUpdateUsuario = "UPDATE SolDiaDescanso set  aprobado= 1 , fecha_aprobacion=now() where idSolDiaDescanso= $idDescanso";
+    
+    	$UpdateUsuario = $this->db->query ( $sqlUpdateUsuario );
+    
+    
+    	if ($UpdateUsuario)
+    	{
+    		$resultado = array (
+    				"codigo" => 200,
+    				"exito" => true,
+    				"mensaje" => "Solicitud Autorizada correctamente."
+    		);
+    	}
+    	else {
+    		$resultado = array (
+    				"codigo" => 400,
+    				"exito" => false,
+    				"mensaje" => "Error, vuelva a intentarlo."
+    		);
+    	}
+    
+    	ob_clean ();
+    	echo json_encode ( $resultado );
+    	exit ();
+    }
+    
+    
+    public function Turno() {
+    	$dataHeader = array (
+    			"titulo" => "Autorizacion de cambio de turno"
+    	);
+    
+    	$idTurno = $this->input->get ( 'idTurno' );
+    	$Datosusuarios = $this->GerenteModel->DatosusuariosCambioTurno($idTurno);
+    
+    
+    
+    
+    	$dataContent ["Datosusuarios"] = $Datosusuarios;
+    
+    	 
+    
+    	$this->load->view ( 'includes/header', $dataHeader );
+    	$this->load->view ( 'gerente/autoriza_cambio_turno', $dataContent );
+    	$this->load->view ( 'includes/footer' );
+    }
+    
+    
+    public function AutorizaTurno() {
+    	$dataHeader = array (
+    			"titulo" => "Autorizacion de cambio de turno"
+    	);
+    
+    	$idTurno = $this->Sanitize->clean_string ( $_POST ["idTurno"] );
+    
+    	//	$finiquito = $this->Sanitize->clean_string ( $_POST ["finiquito"] );
+    	//	$cheque = $this->Sanitize->clean_string ( $_POST ["cheque"] );
+    
+    
+    
+    	$sqlUpdateUsuario = "UPDATE SolCambioTurno set  aprobado= 1 , fecha_aprobacion=now() where idSolCambioTurno= 	$idTurno";
+    
+    	$UpdateUsuario = $this->db->query ( $sqlUpdateUsuario );
+    
+    
+    	if ($UpdateUsuario)
+    	{
+    		$resultado = array (
+    				"codigo" => 200,
+    				"exito" => true,
+    				"mensaje" => "Solicitud Autorizada correctamente."
     		);
     	}
     	else {

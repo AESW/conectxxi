@@ -83,7 +83,7 @@ if(!function_exists('is_mx_state'))
 {
 	function is_mx_state($state){
 	    
-	    $mxStates = [
+	    $mxStates = array(
 	        
 	        'AS','BS','CL','CS','DF','GT',
 	        
@@ -97,7 +97,7 @@ if(!function_exists('is_mx_state'))
 	        
 	        'TS','VZ','ZS'
 	    
-	    ];
+	    );
 	    
 	    if(in_array(strtoupper($state),$mxStates)){
 	        
@@ -114,7 +114,7 @@ if(!function_exists('is_sexo_curp'))
 {
 	function is_sexo_curp($sexo){
 	    
-	    $sexoCurp = ['H','M'];
+	    $sexoCurp = array('H','M');
 	    
 	    if(in_array(strtoupper($sexo),$sexoCurp)){
 	        
@@ -170,5 +170,35 @@ if(!function_exists('repeatedElements'))
 	
 		return $repeated;
 	}
+	
+	if(!function_exists('validarTelefono'))
+{
+	function validarTelefono($telefono)
+		{
+			if( ctype_digit($telefono) && strlen($telefono) == 10):
+				return true;
+			else:
+				return false;
+			endif;
+		}
+}
+
+	if(!function_exists('validarFechaNacimiento'))
+{
+	function validarFechaNacimiento($fecha,$rfc)
+		{
+			
+		$fechaRFC=substr($rfc, 4, 2);
+		
+		$fechaA=substr($fecha, 2, 2);
+		
+			
+			if( $fechaRFC == $fechaA):
+				return true;
+			else:
+				return false;
+			endif;
+		}
+}
 }	
 ?>

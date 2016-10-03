@@ -41,6 +41,7 @@
 
 		  var idRFC =  $('#rfc_candidato').val();
 
+		  
 
 		  $.post("<?php echo HOME_URL; ?>Empleados/ValidarRFC/",{
 			  idRFC:idRFC
@@ -61,7 +62,9 @@
             }
             else
             {
-          	  window.open('<?php echo HOME_URL; ?>Empleados/Aviso/'+idRFC,'_blank');  // changed here (cambiado aqu�)
+
+              
+          	  window.open('<?php echo HOME_URL; ?>Empleados/Aviso/'+idRFC,'_blank');  // changed here (cambiado aqu�)
             }
 
 	      });
@@ -149,13 +152,13 @@
 			    <table cellpadding="0" cellspacing="0" width="100%">
 				    <tr>
 					    <td>Nombre (s)</td>
-					    <td><input type="text" name="nombre_candidato" onkeyup="javascript:this.value=this.value.toUpperCase();" class="nombre_candidato" id="nombre_candidato" placeholder="Nombre (s)" autocomplete="off" required value="<?php echo (isset($formArray["nombre_candidato"]))?$formArray["nombre_candidato"]:""; ?>" <?php echo ( in_array ('nombre_candidato' , $error_campos) )?"style='width:95%;border:2px solid red;'":""; ?>></td>
+					    <td><input type="text" name="nombre_candidato"  onkeyup="javascript:this.value=this.value.toUpperCase();" class="nombre_candidato" id="nombre_candidato" placeholder="Nombre (s)" autocomplete="off" required value="<?php echo (isset($formArray["nombre_candidato"]))?$formArray["nombre_candidato"]:""; ?>" <?php echo ( in_array ('nombre_candidato' , $error_campos) )?"style='width:95%;border:2px solid red;'":"style='width:95%;'"; ?>></td>
 					    <td>Apellido paterno</td>
-					    <td><input type="text" name="apellido_paterno_candidato" onkeyup="javascript:this.value=this.value.toUpperCase();" class="apellido_paterno_candidato" id="apellido_paterno_candidato" placeholder="Apellido" autocomplete="off" required value="<?php echo (isset($formArray["apellido_paterno_candidato"]))?$formArray["apellido_paterno_candidato"]:""; ?>" <?php echo ( in_array('apellido_paterno_candidato' , $error_campos) )?"style='width:95%;border:2px solid red;'":""; ?>></td>
+					    <td><input type="text" name="apellido_paterno_candidato" onkeyup="javascript:this.value=this.value.toUpperCase();" class="apellido_paterno_candidato" id="apellido_paterno_candidato" placeholder="Apellido" autocomplete="off" required value="<?php echo (isset($formArray["apellido_paterno_candidato"]))?$formArray["apellido_paterno_candidato"]:""; ?>" <?php echo ( in_array('apellido_paterno_candidato' , $error_campos) )?"style='width:95%;border:2px solid red;'":"style='width:95%;'"; ?>></td>
 				    </tr>
 				    <tr>
 					    <td>Apellido materno</td>
-					    <td><input type="text" name="apellido_materno_candidato" onkeyup="javascript:this.value=this.value.toUpperCase();" class="apellido_materno_candidato" id="apellido_materno_candidato" placeholder="Apellido" autocomplete="off" required value="<?php echo (isset($formArray["apellido_materno_candidato"]))?$formArray["apellido_materno_candidato"]:""; ?>" <?php echo ( in_array('apellido_materno_candidato' , $error_campos) )?"style='width:95%;border:2px solid red;'":""; ?>></td>
+					    <td><input type="text" name="apellido_materno_candidato"  onkeyup="javascript:this.value=this.value.toUpperCase();" class="apellido_materno_candidato" id="apellido_materno_candidato" placeholder="Apellido" autocomplete="off" required value="<?php echo (isset($formArray["apellido_materno_candidato"]))?$formArray["apellido_materno_candidato"]:""; ?>" <?php echo ( in_array('apellido_materno_candidato' , $error_campos) )?"style='width:95%;border:2px solid red;'":"style='width:95%;'"; ?>></td>
 					    <td>&nbsp;</td>
 					    <td>&nbsp;</td>
 				    </tr>
@@ -165,20 +168,43 @@
 			     <table cellpadding="0" cellspacing="0" width="100%">
 				     <tr>
 					     <td>Fecha de nacimiento</td>
-					     <td><input type="text" onfocus="this.blur()" name="fecha_nacimiento_candidato" class="fecha_nacimiento_candidato" id="fecha_nacimiento_candidato" placeholder="dd/mm/YYYY" autocomplete="off" required value="<?php echo (isset($formArray["fecha_nacimiento_candidato"]))?$formArray["fecha_nacimiento_candidato"]:""; ?>" <?php echo ( in_array('fecha_nacimiento_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					     <td><input type="text" onfocus="this.blur()" name="fecha_nacimiento_candidato" class="fecha_nacimiento_candidato" id="fecha_nacimiento_candidato" placeholder="dd/mm/YYYY" autocomplete="off" required value="<?php echo (isset($formArray["fecha_nacimiento_candidato"]))?$formArray["fecha_nacimiento_candidato"]:""; ?>" <?php echo ( in_array('fecha_nacimiento_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+					      <?php 
+						if( in_array('fecha_nacimiento_candidato' , $error_campos) ):
+						?>
+					    	<p style="color: red;font-weight: bold;margin-top: 5px;margin-bottom: 5px;">La fecha debe coincidir con el RFC.</p>
+					    <?php 
+					    endif;
+					    ?>	
+					     </td>
 					     <td>Nacionalidad</td>
 					     <td>
-						     <select name="pais_nacimiento_candidato" class="pais_nacimiento_candidato" id="pais_nacimiento_candidato" <?php echo ( in_array('pais_nacimiento_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+						     <select name="pais_nacimiento_candidato" class="pais_nacimiento_candidato" id="pais_nacimiento_candidato" <?php echo ( in_array('pais_nacimiento_candidato' , $error_campos) )?"style='border:2px solid red;width:60%;'":"style='width:60%;'"; ?>>
 							     <option value="">Seleccionar país</option>
-							     <option <?php if( isset($formArray["pais_nacimiento_candidato"]) && $formArray["pais_nacimiento_candidato"] == "Mexicana" ): echo "selected='selected'";endif; ?>value="Mexicana">Mexicana</option>
-							     <option <?php if( isset($formArray["pais_nacimiento_candidato"]) && $formArray["pais_nacimiento_candidato"] == "Otro" ): echo "selected='selected'";endif; ?> value="Otro">Otro</option>
+							     <?php
+									  foreach( $Catalogos as  $per ):
+								  
+									  if($per->ObjetosNombre=='pais_nacimiento_candidato')
+									  {
+									  $valor= $per->valor;
+									  
+									  ?>
+								  
+								  
+								  
+								  		  <option value="<?php echo $valor; ?>" <?php if( isset($formArray["pais_nacimiento_candidato"]) && $formArray["pais_nacimiento_candidato"] == $valor ): echo "selected='selected'"; endif;?>><?php echo $valor; ?></option>
+								  <?php
+									  }
+									 
+									  endforeach;
+								  ?>
 						     </select>
 					     </td>
 				     </tr>
 				     <tr>
 					     <td>Estado de nacimiento</td>
 					     <td>
-						     <select name="estado_nacimiento_candidato" class="estado_nacimiento_candidato" id="estado_nacimiento_candidato" <?php echo ( in_array('estado_nacimiento_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+						     <select name="estado_nacimiento_candidato" class="estado_nacimiento_candidato" id="estado_nacimiento_candidato" <?php echo ( in_array('estado_nacimiento_candidato' , $error_campos) )?"style='border:2px solid red;width:55%;'":"style='width:55%;'"; ?>>
 							    <option value="">Seleccionar estado</option>
 							    <option value="Aguascalientes" <?php if( isset($formArray["estado_nacimiento_candidato"]) && $formArray["estado_nacimiento_candidato"] == "Aguascalientes" ): echo "selected='selected'"; endif;?>>Aguascalientes</option>
 								<option value="Baja California" <?php if( isset($formArray["estado_nacimiento_candidato"]) && $formArray["estado_nacimiento_candidato"] == "Baja California" ): echo "selected='selected'"; endif;?>>Baja California</option>
@@ -216,10 +242,25 @@
 					     </td>
 					      <td>Género</td>
 					      <td>
-						      <select name="genero_candidato" class="genero_candidato" id="genero_candidato" <?php echo ( in_array('genero_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+						      <select name="genero_candidato" class="genero_candidato" id="genero_candidato" <?php echo ( in_array('genero_candidato' , $error_campos) )?"style='border:2px solid red;width:60%;'":"style='width:60%;'"; ?>>
 							      <option value="">Seleccionar género</option>
-							      <option value="Mujer" <?php if( isset($formArray["genero_candidato"]) && $formArray["genero_candidato"] == "Mujer" ): echo "selected='selected'"; endif;?>>Mujer</option>
-							      <option value="Hombre" <?php if( isset($formArray["genero_candidato"]) && $formArray["genero_candidato"] == "Hombre" ): echo "selected='selected'"; endif;?>>Hombre</option>
+							        <?php
+									  foreach( $Catalogos as  $per ):
+								  
+									  if($per->ObjetosNombre=='genero_candidato')
+									  {
+									  $valor= $per->valor;
+									  
+									  ?>
+								  
+								  
+								  
+								  		  <option value="<?php echo $valor; ?>" <?php if( isset($formArray["genero_candidato"]) && $formArray["genero_candidato"] == $valor ): echo "selected='selected'"; endif;?>><?php echo $valor; ?></option>
+								  <?php
+									  }
+									 
+									  endforeach;
+								  ?>
 						      </select>
 					      </td>
 				     </tr>
@@ -227,22 +268,48 @@
 				     <tr>
 					     <td>Nivel educativo</td>
 					     <td>
-						      <select name="nivel_educativo_candidato" class="nivel_educativo_candidato" id="nivel_educativo_candidato" <?php echo ( in_array('nivel_educativo_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+						      <select name="nivel_educativo_candidato" class="nivel_educativo_candidato" id="nivel_educativo_candidato" <?php echo ( in_array('nivel_educativo_candidato' , $error_campos) )?"style='border:2px solid red;width:55%;'":""; ?>>
 							      <option value="">Seleccionar nivel educativo</option>
-							      <option value="Licenciatura" <?php if( isset($formArray["nivel_educativo_candidato"]) && $formArray["nivel_educativo_candidato"] == "Licenciatura" ): echo "selected='selected'"; endif;?>>Licenciatura</option>
-							      <option value="Bachillerato" <?php if( isset($formArray["nivel_educativo_candidato"]) && $formArray["nivel_educativo_candidato"] == "Bachillerato" ): echo "selected='selected'"; endif;?>>Bachillerato</option>
-							      <option value="Técnico" <?php if( isset($formArray["nivel_educativo_candidato"]) && $formArray["nivel_educativo_candidato"] == "Técnico" ): echo "selected='selected'"; endif;?>>Técnico</option>
-							      <option value="Secundaria" <?php if( isset($formArray["nivel_educativo_candidato"]) && $formArray["nivel_educativo_candidato"] == "Secundaria" ): echo "selected='selected'"; endif;?>>Secundaria</option>
-							      <option value="Primaria" <?php if( isset($formArray["nivel_educativo_candidato"]) && $formArray["nivel_educativo_candidato"] == "Primaria" ): echo "selected='selected'"; endif;?>>Primaria</option>
-							       <option value="Posgrado" <?php if( isset($formArray["nivel_educativo_candidato"]) && $formArray["nivel_educativo_candidato"] == "Posgrado" ): echo "selected='selected'"; endif;?>>Posgrado</option>
+							     <?php
+									  foreach( $Catalogos as  $per ):
+								  
+									  if($per->ObjetosNombre=='nivel_educativo_candidato')
+									  {
+									  $valor= $per->valor;
+									  
+									  ?>
+								  
+								  
+								  
+								  		  <option value="<?php echo $valor; ?>" <?php if( isset($formArray["nivel_educativo_candidato"]) && $formArray["nivel_educativo_candidato"] == $valor ): echo "selected='selected'"; endif;?>><?php echo $valor; ?></option>
+								  <?php
+									  }
+									 
+									  endforeach;
+								  ?>
 						      </select>
 					      </td>
 					      <td>Estado civil</td>
 					     <td>
-						      <select name="estado_civil_candidato" class="estado_civil_candidato" id="estado_civil_candidato" <?php echo ( in_array('estado_civil_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+						      <select name="estado_civil_candidato" class="estado_civil_candidato" id="estado_civil_candidato" <?php echo ( in_array('estado_civil_candidato' , $error_campos) )?"style='border:2px solid red;width:60%;'":"style='width:60%;'"; ?>>
 							      <option value="">Seleccionar estado civil</option>
-							      <option value="Soltero"  <?php if( isset($formArray["estado_civil_candidato"]) && $formArray["estado_civil_candidato"] == "Soltero" ): echo "selected='selected'"; endif;?>>Soltero</option>
-							      <option value="Casado"  <?php if( isset($formArray["estado_civil_candidato"]) && $formArray["estado_civil_candidato"] == "Casado" ): echo "selected='selected'"; endif;?>>Casado</option>
+							      <?php
+									  foreach( $Catalogos as  $per ):
+								  
+									  if($per->ObjetosNombre=='estado_civil_candidato')
+									  {
+									  $valor= $per->valor;
+									  
+									  ?>
+								  
+								  
+								  
+								  		  <option value="<?php echo $valor; ?>" <?php if( isset($formArray["estado_civil_candidato"]) && $formArray["estado_civil_candidato"] == $valor ): echo "selected='selected'"; endif;?>><?php echo $valor; ?></option>
+								  <?php
+									  }
+									 
+									  endforeach;
+								  ?>
 						      </select>
 					      </td>
 				     </tr>
@@ -260,7 +327,7 @@
 			     <table cellpadding="0" cellspacing="0" width="100%">
 				     <tr>
 					    <td>R.F.C.</td>
-					    <td><input type="text" name="rfc_candidato" class="rfc_candidato" id="rfc_candidato" placeholder="R.F.C." autocomplete="off" required value="<?php echo (isset($formArray["rfc_candidato"]))?$formArray["rfc_candidato"]:""; ?>" <?php echo ( in_array('rfc_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+					    <td><input type="text" maxlength="13" name="rfc_candidato" onkeyup="javascript:this.value=this.value.toUpperCase();" class="rfc_candidato" id="rfc_candidato" placeholder="R.F.C." autocomplete="off" required value="<?php echo (isset($formArray["rfc_candidato"]))?$formArray["rfc_candidato"]:""; ?>" <?php echo ( in_array('rfc_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
 					    <?php 
 						if( in_array('rfc_candidato' , $error_campos) ):
 						?>
@@ -270,7 +337,7 @@
 					    ?>	
 					    </td>
 					    <td>CURP</td>
-					    <td><input type="text" name="curp_candidato" onkeyup="javascript:this.value=this.value.toUpperCase();" class="curp_candidato" id="curp_candidato" placeholder="C.U.R.P." autocomplete="off" required value="<?php echo (isset($formArray["curp_candidato"]))?$formArray["curp_candidato"]:""; ?>" <?php echo ( in_array('curp_candidato' , $error_campos) )?"style='width:51%;border:2px solid red;'":""; ?>>
+					    <td><input type="text" maxlength="18" name="curp_candidato"  onkeyup="javascript:this.value=this.value.toUpperCase();" class="curp_candidato" id="curp_candidato" placeholder="C.U.R.P." autocomplete="off" required value="<?php echo (isset($formArray["curp_candidato"]))?$formArray["curp_candidato"]:""; ?>" <?php echo ( in_array('curp_candidato' , $error_campos) )?"style='width:60%;border:2px solid red;'":"style='width:60%;'"; ?>>
 					    <?php 
 						if( in_array('curp_candidato' , $error_campos) ):
 						?>
@@ -282,7 +349,7 @@
 				    </tr>
 				    <tr>
 					    <td>Número de seguro social</td>
-					    <td><input type="text" name="numero_segurosocial_candidato" class="numero_segurosocial_candidato" id="numero_segurosocial_candidato" placeholder="NSS" autocomplete="off" required value="<?php echo (isset($formArray["numero_segurosocial_candidato"]))?$formArray["numero_segurosocial_candidato"]:""; ?>" <?php echo ( in_array('numero_segurosocial_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+					    <td><input type="text" maxlength="11" name="numero_segurosocial_candidato" class="numero_segurosocial_candidato allownumericwithoutdecimal" id="numero_segurosocial_candidato" placeholder="NSS" autocomplete="off" required value="<?php echo (isset($formArray["numero_segurosocial_candidato"]))?$formArray["numero_segurosocial_candidato"]:""; ?>" <?php echo ( in_array('numero_segurosocial_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
 					    <?php 
 						if( in_array('numero_segurosocial_candidato' , $error_campos) ):
 						?>
@@ -303,31 +370,31 @@
 				     </tr>
 				     <tr>
 					    <td>Calle y número</td>
-					    <td><input type="text" name="calle_no_candidato" onkeyup="javascript:this.value=this.value.toUpperCase();" class="calle_no_candidato" id="calle_no_candidato" placeholder="Calle y número" autocomplete="off" required value="<?php echo (isset($formArray["calle_no_candidato"]))?$formArray["calle_no_candidato"]:""; ?>" <?php echo ( in_array('calle_no_candidato' , $error_campos) )?"style='width:95%;border:2px solid red;'":""; ?>></td>
+					    <td><input type="text" name="calle_no_candidato"  onkeyup="javascript:this.value=this.value.toUpperCase();" class="calle_no_candidato" id="calle_no_candidato" placeholder="Calle y número" autocomplete="off" required value="<?php echo (isset($formArray["calle_no_candidato"]))?$formArray["calle_no_candidato"]:""; ?>" <?php echo ( in_array('calle_no_candidato' , $error_campos) )?"style='width:95%;border:2px solid red;'":"style='width:95%;'"; ?>></td>
 					    <td>Código Postal</td>
-					    <td><input type="text" name="cp_candidato" class="cp_candidato" id="cp_candidato" placeholder="C.P." autocomplete="off" required value="<?php echo (isset($formArray["cp_candidato"]))?$formArray["cp_candidato"]:""; ?>" <?php echo ( in_array('cp_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
+					    <td><input type="text" name="cp_candidato" maxlength="5" class="cp_candidato " id="cp_candidato" placeholder="C.P." autocomplete="off" required value="<?php echo (isset($formArray["cp_candidato"]))?$formArray["cp_candidato"]:""; ?>" <?php echo ( in_array('cp_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>></td>
 				    </tr>
 				    <tr>
 					    <td>Estado</td>
 					    <td>
-						    <select name="estado_domicilio_candidato" class="estado_domicilio_candidato" id="estado_domicilio_candidato" <?php echo ( in_array('estado_domicilio_candidato' , $error_campos) )?"style='width:95%;border:2px solid red;'":""; ?>>
+						    <select name="estado_domicilio_candidato"  class="estado_domicilio_candidato" id="estado_domicilio_candidato" <?php echo ( in_array('estado_domicilio_candidato' , $error_campos) )?"style='width:95%;border:2px solid red;'":"style='width:95%;'"; ?>>
 							    <option value="">Seleccionar estado</option>
 							    
 						     </select>
 					    </td>
 					    <td>Ciudad</td>
-					    <td><input type="text" name="ciudad_domicilio_candidato" class="ciudad_domicilio_candidato" id="ciudad_domicilio_candidato" placeholder="Ciudad" autocomplete="off" required value="<?php echo (isset($formArray["ciudad_domicilio_candidato"]))?$formArray["ciudad_domicilio_candidato"]:""; ?>" <?php echo ( in_array('ciudad_domicilio_candidato' , $error_campos) )?"style='width:95%;border:2px solid red;'":""; ?>></td>
+					    <td><input type="text" name="ciudad_domicilio_candidato"  class="ciudad_domicilio_candidato" id="ciudad_domicilio_candidato" placeholder="Ciudad" autocomplete="off" required value="<?php echo (isset($formArray["ciudad_domicilio_candidato"]))?$formArray["ciudad_domicilio_candidato"]:""; ?>" <?php echo ( in_array('ciudad_domicilio_candidato' , $error_campos) )?"style='width:95%;border:2px solid red;'":"style='width:95%;'"; ?>></td>
 				    </tr>
 				    <tr>
 					    <td>Municipio o delegación</td>
 					    <td>
-						   <select name="delegacion_domicilio_candidato" class="delegacion_domicilio_candidato" id="delegacion_domicilio_candidato" <?php echo ( in_array('delegacion_domicilio_candidato' , $error_campos) )?"style='width:95%;border:2px solid red;'":""; ?>>
+						   <select name="delegacion_domicilio_candidato"  class="delegacion_domicilio_candidato" id="delegacion_domicilio_candidato" <?php echo ( in_array('delegacion_domicilio_candidato' , $error_campos) )?"style='width:95%;border:2px solid red;'":"style='width:95%;'"; ?>>
 							   <option value="">Seleccionar delegación o municipio</option> 
 						   </select>
 					    </td>
 					    <td>Colonia</td>
 					    <td>
-						    <select name="colonia_domicilio_candidato" onkeyup="javascript:this.value=this.value.toUpperCase();" class="colonia_domicilio_candidato" id="colonia_domicilio_candidato" required <?php echo ( in_array('colonia_domicilio_candidato' , $error_campos) )?"style='width:95%;border:2px solid red;'":""; ?>>
+						    <select name="colonia_domicilio_candidato"  onkeyup="javascript:this.value=this.value.toUpperCase();" class="colonia_domicilio_candidato" id="colonia_domicilio_candidato" required <?php echo ( in_array('colonia_domicilio_candidato' , $error_campos) )?"style='width:95%;border:2px solid red;'":"style='width:95%;'"; ?>>
 				              <option value="">Seleccionar colonia</option> 
 				            </select>
 						</td>
@@ -347,7 +414,7 @@
 				    </tr>
 				    <tr>
 					    <td>Número de teléfono de casa</td>
-					    <td><input maxlength="10" type="text" name="telefono_casa_candidato" class="telefono_casa_candidato allownumericwithoutdecimal" id="telefono_casa_candidato" placeholder="Tel. casa" autocomplete="off" required value="<?php echo (isset($formArray["telefono_casa_candidato"]))?$formArray["telefono_casa_candidato"]:""; ?>" <?php echo ( in_array('telefono_casa_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>> <p style="color:#aba5a5;font-size: 10pt;">10 dígitos. Ejemplo: 0155xxxxxxx</p></td>
+					    <td><input maxlength="10" type="text" name="telefono_casa_candidato" class="telefono_casa_candidato allownumericwithoutdecimal" id="telefono_casa_candidato" placeholder="Tel. casa" autocomplete="off" required value="<?php echo (isset($formArray["telefono_casa_candidato"]))?$formArray["telefono_casa_candidato"]:""; ?>" <?php echo ( in_array('telefono_casa_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>> <p style="color:#aba5a5;font-size: 10pt;">10 dígitos. Ejemplo: 55xxxxxxx</p></td>
 					    <td>Número de teléfono móvil</td>
 					    <td><input type="text" maxlength="10" name="telefono_movil_candidato" class="telefono_movil_candidato allownumericwithoutdecimal" id="telefono_movil_candidato" placeholder="Tel. móvil" autocomplete="off" required value="<?php echo (isset($formArray["telefono_movil_candidato"]))?$formArray["telefono_movil_candidato"]:""; ?>" <?php echo ( in_array('telefono_casa_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>><p style="color:#aba5a5;font-size: 10pt;">10 dígitos. Ejemplo: 55xxxxxxxx</p></td>
 				    </tr>
@@ -355,7 +422,7 @@
 					    <td>Otro número de teléfono</td>
 					    <td><input type="text" maxlength="10" name="telefono_otro_candidato" class="telefono_otro_candidato allownumericwithoutdecimal" id="telefono_otro_candidato" placeholder="Otro teléfono" autocomplete="off" value="<?php echo (isset($formArray["telefono_otro_candidato"]))?$formArray["telefono_otro_candidato"]:""; ?>"></td>
 					    <td>Correo electrónico personal</td>
-					    <td><input type="text" name="correo_electronico_candidato" class="correo_electronico_candidato" id="correo_electronico_candidato" placeholder="Correo electrónico" autocomplete="off" required value="<?php echo (isset($formArray["correo_electronico_candidato"]))?$formArray["correo_electronico_candidato"]:""; ?>" <?php echo ( in_array('correo_electronico_candidato' , $error_campos) )?"style='width:95%;border:2px solid red;'":""; ?>>
+					    <td><input type="text" name="correo_electronico_candidato"  class="correo_electronico_candidato" id="correo_electronico_candidato" placeholder="Correo electrónico" autocomplete="off" required value="<?php echo (isset($formArray["correo_electronico_candidato"]))?$formArray["correo_electronico_candidato"]:""; ?>" <?php echo ( in_array('correo_electronico_candidato' , $error_campos) )?"style='width:95%;border:2px solid red;'":"style='width:95%;'"; ?>>
 					    <?php 
 						if( in_array('correo_electronico_candidato' , $error_campos) ):
 						?>
@@ -395,11 +462,23 @@
 					    <td>
 						    <select name="escolaridad_jefefamilia_candidato" class="escolaridad_jefefamilia_candidato" id="escolaridad_jefefamilia_candidato" <?php echo ( in_array('escolaridad_jefefamilia_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
 							   <option value="">Seleccionar escolaridad</option> 
-							   <option value="SinInstruccion" <?php if( isset($formArray["escolaridad_jefefamilia_candidato"]) && $formArray["escolaridad_jefefamilia_candidato"] == "SinInstruccion" ): echo "selected='selected'"; endif;?>>Sin instrucción</option>
-							   <option value="primaria_secundaria" <?php if( isset($formArray["escolaridad_jefefamilia_candidato"]) && $formArray["escolaridad_jefefamilia_candidato"] == "primaria_secundaria" ): echo "selected='selected'"; endif;?>>Primaria o secundaria, completa o incompleta</option>
-							   <option value="tecnico_preparatoria" <?php if( isset($formArray["escolaridad_jefefamilia_candidato"]) && $formArray["escolaridad_jefefamilia_candidato"] == "tecnico_preparatoria" ): echo "selected='selected'"; endif;?>>Carrera técnica, preparatoria completa o incompleta</option>
-							   <option value="licenciatura" <?php if( isset($formArray["escolaridad_jefefamilia_candidato"]) && $formArray["escolaridad_jefefamilia_candidato"] == "licenciatura" ): echo "selected='selected'"; endif;?>>Licenciatura completa o incompleta</option>
-							   <option value="posgrado" <?php if( isset($formArray["escolaridad_jefefamilia_candidato"]) && $formArray["escolaridad_jefefamilia_candidato"] == "posgrado" ): echo "selected='selected'"; endif;?>>Posgrado</option>
+							    <?php
+									  foreach( $Catalogos as  $per ):
+								  
+									  if($per->ObjetosNombre=='escolaridad_jefefamilia_candidato')
+									  {
+									  $valor= $per->valor;
+									  
+									  ?>
+								  
+								  
+								  
+								  		  <option value="<?php echo $valor; ?>" <?php if( isset($formArray["escolaridad_jefefamilia_candidato"]) && $formArray["escolaridad_jefefamilia_candidato"] == $valor ): echo "selected='selected'"; endif;?>><?php echo $valor; ?></option>
+								  <?php
+									  }
+									 
+									  endforeach;
+								  ?>
 						   </select>
 					    </td>
 				    </tr>  
@@ -516,8 +595,23 @@
 					    <td>
 						    <select name="credito_infonavit" class="credito_infonavit" id="credito_infonavit" <?php echo ( in_array('credito_infonavit' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
 							   <option value="">Seleccionar opción</option> 
-							   <option value="si" <?php if( isset($formArray["credito_infonavit"]) && $formArray["credito_infonavit"] == "si" ): echo "selected='selected'"; endif;?>>si</option>
-							   <option value="no" <?php if( isset($formArray["credito_infonavit"]) && $formArray["credito_infonavit"] == "no" ): echo "selected='selected'"; endif;?>>no</option>
+							   <?php
+									  foreach( $Catalogos as  $per ):
+								  
+									  if($per->ObjetosNombre=='credito_infonavit')
+									  {
+									  $valor= $per->valor;
+									  
+									  ?>
+								  
+								  
+								  
+								  		  <option value="<?php echo $valor; ?>" <?php if( isset($formArray["credito_infonavit"]) && $formArray["credito_infonavit"] == $valor ): echo "selected='selected'"; endif;?>><?php echo $valor; ?></option>
+								  <?php
+									  }
+									 
+									  endforeach;
+								  ?>
 						   </select>
 					    </td>
 					    </tr>
@@ -527,8 +621,23 @@
 					    <td>
 						    <select name="credito_fonacot" class="credito_fonacot" id="credito_fonacot" <?php echo ( in_array('credito_fonacot' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
 							   <option value="">Seleccionar opción</option> 
-							   <option value="si" <?php if( isset($formArray["credito_fonacot"]) && $formArray["credito_fonacot"] == "si" ): echo "selected='selected'"; endif;?>>si</option>
-							   <option value="no" <?php if( isset($formArray["credito_fonacot"]) && $formArray["credito_fonacot"] == "no" ): echo "selected='selected'"; endif;?>>no</option>
+							    <?php
+									  foreach( $Catalogos as  $per ):
+								  
+									  if($per->ObjetosNombre=='credito_fonacot')
+									  {
+									  $valor= $per->valor;
+									  
+									  ?>
+								  
+								  
+								  
+								  		  <option value="<?php echo $valor; ?>" <?php if( isset($formArray["credito_fonacot"]) && $formArray["credito_fonacot"] == $valor ): echo "selected='selected'"; endif;?>><?php echo $valor; ?></option>
+								  <?php
+									  }
+									 
+									  endforeach;
+								  ?>
 						   </select>
 					    </td>
 					    </tr>
@@ -538,8 +647,23 @@
 					    <td>
 						    <select name="pension_alimenticia" class="pension_alimenticia" id="pension_alimenticia" <?php echo ( in_array('pension_alimenticia' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
 							   <option value="">Seleccionar opción</option> 
-							   <option value="si" <?php if( isset($formArray["pension_alimenticia"]) && $formArray["pension_alimenticia"] == "si" ): echo "selected='selected'"; endif;?>>si</option>
-							   <option value="no" <?php if( isset($formArray["pension_alimenticia"]) && $formArray["pension_alimenticia"] == "no" ): echo "selected='selected'"; endif;?>>no</option>
+							   <?php
+									  foreach( $Catalogos as  $per ):
+								  
+									  if($per->ObjetosNombre=='pension_alimenticia')
+									  {
+									  $valor= $per->valor;
+									  
+									  ?>
+								  
+								  
+								  
+								  		  <option value="<?php echo $valor; ?>" <?php if( isset($formArray["pension_alimenticia"]) && $formArray["pension_alimenticia"] == $valor ): echo "selected='selected'"; endif;?>><?php echo $valor; ?></option>
+								  <?php
+									  }
+									 
+									  endforeach;
+								  ?>
 						   </select>
 					    </td>
 					    </tr>
@@ -638,26 +762,22 @@
 							  
 							   
 						   
-						     <select name="oficina_candidato" class="oficina_candidato" id="oficina_candidato" <?php echo ( in_array('oficina_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?> >
+						     <select name="oficina_candidato" class="oficina_candidato" id="oficina_candidato" <?php echo ( in_array('oficina_candidato' , $error_campos) )?"style='border:2px solid red;width:50%;'":"style='width:50%;'"; ?> >
 							     
 							     <option value="">Selecciona Ubicación</option>
-								  <?php
-									  $perfiles = $catalogos->fdpOficina();
+								 <?php
+									  foreach( $CatOficinas as  $per ):
+								  
+									  $puesto= $per->nombreOficina;
 									  
-									  foreach( $perfiles as $key => $per ):
-								  ?>
-								  		
-								  		
-								  		
-								  		  <option value="<?php echo $per; ?>" <?php if( isset($formArray["oficina_candidato"]) && $formArray["oficina_candidato"] == $per ): echo "selected='selected'"; endif;?>><?php echo $per; ?></option>
-							  
-								  			
-								  			
-								  		
+									  ?>
+								  
+								  
+								  
+								  		  <option value="<?php echo $puesto; ?>" <?php if( isset($formArray["oficina_candidato"]) && $formArray["oficina_candidato"] == $puesto ): echo "selected='selected'"; endif;?>><?php echo $puesto; ?></option>
 								  <?php	  
 									  endforeach;
 								  ?>
-							     
 							     
 						      </select>
 						   
@@ -674,22 +794,19 @@
 					    <td> 
 						   
 						   
-						    <select name="plaza_candidato" class="plaza_candidato" id="plaza_candidato" <?php echo ( in_array('plaza_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?> >
+						    <select name="plaza_candidato" class="plaza_candidato" id="plaza_candidato" <?php echo ( in_array('plaza_candidato' , $error_campos) )?"style='border:2px solid red;width:50%;'":"style='width:50%;'"; ?> >
 							     
 							     <option value="">Selecciona Ubicación</option>
-								  <?php
-									  $perfiles = $catalogos->fdpPlaza();
+								    <?php
+									  foreach( $CatPlazas as  $per ):
+								  
+									  $puesto= $per->nombrePlaza;
 									  
-									  foreach( $perfiles as $key => $per ):
-								  ?>
-								  		
-								  		
-								  		
-								  		  <option value="<?php echo $per; ?>" <?php if( isset($formArray["plaza_candidato"]) && $formArray["plaza_candidato"] == $per ): echo "selected='selected'"; endif;?>><?php echo $per; ?></option>
-							  
-								  			
-								  			
-								  		
+									  ?>
+								  
+								  
+								  
+								  		  <option value="<?php echo $puesto; ?>" <?php if( isset($formArray["plaza_candidato"]) && $formArray["plaza_candidato"] == $puesto ): echo "selected='selected'"; endif;?>><?php echo $puesto; ?></option>
 								  <?php	  
 									  endforeach;
 								  ?>
@@ -707,22 +824,19 @@
 					    <td>Jefe Inmediato</td>
 					    <td> 
 						   
-						    <select name="jefe_candidato" class="jefe_candidato" id="jefe_candidato" <?php echo ( in_array('jefe_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?> >
+						    <select name="jefe_candidato" class="jefe_candidato" id="jefe_candidato" <?php echo ( in_array('jefe_candidato' , $error_campos) )?"style='border:2px solid red;width:50%;'":"style='width:50%;'"; ?> >
 							     
-							     <option value="">Selecciona Ubicación</option>
+							     <option value="">Selecciona Jefe Inmediato</option>
 								  <?php
-									  $perfiles = $catalogos->fdpJefeInmediato();
+									  foreach( $CatUsuarios as  $per ):
+								  
+									  $puesto= $per->nombreUsuario;
 									  
-									  foreach( $perfiles as $key => $per ):
-								  ?>
-								  		
-								  		
-								  		
-								  		  <option value="<?php echo $per; ?>" <?php if( isset($formArray["jefe_candidato"]) && $formArray["jefe_candidato"] == $per ): echo "selected='selected'"; endif;?>><?php echo $per; ?></option>
-							  
-								  			
-								  			
-								  		
+									  ?>
+								  
+								  
+								  
+								  		  <option value="<?php echo $puesto; ?>" <?php if( isset($formArray["jefe_candidato"]) && $formArray["jefe_candidato"] == $puesto ): echo "selected='selected'"; endif;?>><?php echo $puesto; ?></option>
 								  <?php	  
 									  endforeach;
 								  ?>
@@ -737,11 +851,25 @@
 				    </tr>
 				    <tr>
 					    <td>Turno</td>
-					    <td> <select name="turno_candidato" class="turno" id="turno_candidato" <?php echo ( in_array('turno_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
+					    <td> <select name="turno_candidato" class="turno" id="turno_candidato" <?php echo ( in_array('turno_candidato' , $error_campos) )?"style='border:2px solid red;width:50%;'":"style='width:50%;'"; ?>>
 							   <option value="">Seleccione un Turno</option>
-							    <option value="Matutino" <?php if( isset($formArray["turno_candidato"]) && $formArray["turno_candidato"] == "Matutino" ): echo "selected='selected'"; endif;?>>Matutino</option>
-							       <option value="Vespertino" <?php if( isset($formArray["turno_candidato"]) && $formArray["turno_candidato"] == "Vespertino" ): echo "selected='selected'"; endif;?>>Vespertino</option>
-							       <option value="Mixto" <?php if( isset($formArray["turno_candidato"]) && $formArray["turno_candidato"] == "Mixto" ): echo "selected='selected'"; endif;?>>Mixto</option>
+							    <?php
+									  foreach( $Catalogos as  $per ):
+								  
+									  if($per->ObjetosNombre=='turno_candidato')
+									  {
+									  $valor= $per->valor;
+									  
+									  ?>
+								  
+								  
+								  
+								  		  <option value="<?php echo $valor; ?>" <?php if( isset($formArray["turno_candidato"]) && $formArray["turno_candidato"] == $valor ): echo "selected='selected'"; endif;?>><?php echo $valor; ?></option>
+								  <?php
+									  }
+									 
+									  endforeach;
+								  ?>
 							   
 						   </select></td>
 				    </tr>
@@ -783,18 +911,23 @@
 					   <td>
 						    <select name="parentesco_familiar_candidato" class="parentesco_familiar_candidato" id="parentesco_familiar_candidato" >
 							   <option value="">Seleccionar opción</option> 
-							   <option value="amigo" <?php if( isset($formArray["parentesco_familiar_candidato"]) && $formArray["parentesco_familiar_candidato"] == "amigo" ): echo "selected='selected'"; endif;?>>Amigo</option>
-							   <option value="conocido" <?php if( isset($formArray["parentesco_familiar_candidato"]) && $formArray["parentesco_familiar_candidato"] == "conocido" ): echo "selected='selected'"; endif;?>>Conocido</option>
-							   <option value="esposo" <?php if( isset($formArray["parentesco_familiar_candidato"]) && $formArray["parentesco_familiar_candidato"] == "esposo" ): echo "selected='selected'"; endif;?>>Esposo</option>
-							   <option value="esposa" <?php if( isset($formArray["parentesco_familiar_candidato"]) && $formArray["parentesco_familiar_candidato"] == "esposa" ): echo "selected='selected'"; endif;?>>Esposa</option>
-							   <option value="hija" <?php if( isset($formArray["parentesco_familiar_candidato"]) && $formArray["parentesco_familiar_candidato"] == "hija" ): echo "selected='selected'"; endif;?>>Hija</option>
-							   <option value="hijo" <?php if( isset($formArray["parentesco_familiar_candidato"]) && $formArray["parentesco_familiar_candidato"] == "hijo" ): echo "selected='selected'"; endif;?>>Hijo</option>
-							   <option value="madre" <?php if( isset($formArray["parentesco_familiar_candidato"]) && $formArray["parentesco_familiar_candidato"] == "madre" ): echo "selected='selected'"; endif;?>>Madre</option>
-							   <option value="padre" <?php if( isset($formArray["parentesco_familiar_candidato"]) && $formArray["parentesco_familiar_candidato"] == "padre" ): echo "selected='selected'"; endif;?>>Padre</option>
-							   <option value="novio" <?php if( isset($formArray["parentesco_familiar_candidato"]) && $formArray["parentesco_familiar_candidato"] == "novio" ): echo "selected='selected'"; endif;?>>Novio</option>
-							   <option value="novia" <?php if( isset($formArray["parentesco_familiar_candidato"]) && $formArray["parentesco_familiar_candidato"] == "novia" ): echo "selected='selected'"; endif;?>>Novia</option>
-							      <option value="hermano" <?php if( isset($formArray["parentesco_familiar_candidato"]) && $formArray["parentesco_familiar_candidato"] == "hermano" ): echo "selected='selected'"; endif;?>>Hermano</option>
-							   <option value="hermana" <?php if( isset($formArray["parentesco_familiar_candidato"]) && $formArray["parentesco_familiar_candidato"] == "hermana" ): echo "selected='selected'"; endif;?>>Hermana</option>
+							    <?php
+									  foreach( $Catalogos as  $per ):
+								  
+									  if($per->ObjetosNombre=='parentesco_familiar_candidato')
+									  {
+									  $valor= $per->valor;
+									  
+									  ?>
+								  
+								  
+								  
+								  		  <option value="<?php echo $valor; ?>" <?php if( isset($formArray["parentesco_familiar_candidato"]) && $formArray["parentesco_familiar_candidato"] == $valor ): echo "selected='selected'"; endif;?>><?php echo $valor; ?></option>
+								  <?php
+									  }
+									 
+									  endforeach;
+								  ?>
 						   </select>
 					    </td>
 				    </tr>
@@ -820,7 +953,7 @@
 							    
 							    <tr>
 								    <td>Nombre:</td>
-								    <td><input type="text" name="nombre_parentesco[]" class="nombre_parentesco" id="nombre_parentesco" placeholder="Nombre" autocomplete="off" required value="<?php echo (isset($formArray["nombre_parentesco"][$x]))?$formArray["nombre_parentesco"][$x]:""; ?>">
+								    <td><input type="text" style='width:90%;' name="nombre_parentesco[]" class="nombre_parentesco" id="nombre_parentesco" placeholder="Nombre" autocomplete="off" required value="<?php echo (isset($formArray["nombre_parentesco"][$x]))?$formArray["nombre_parentesco"][$x]:""; ?>">
 								    </td>
 								    <td>Parentesco:</td>
 								    <td>
@@ -852,23 +985,28 @@
 			    <table cellpadding="0" cellspacing="0" width="100%">
 				   <tr>
 					   <td>Nombre de contacto</td>
-					   <td><input type="text" name="nombre_contacto_emergencia_candidato" onkeyup="javascript:this.value=this.value.toUpperCase();" class="nombre_contacto_emergencia_candidato" id="nombre_contacto_emergencia_candidato" placeholder="Nombre" autocomplete="off" required value="<?php echo (isset($formArray["nombre_contacto_emergencia_candidato"]))?$formArray["nombre_contacto_emergencia_candidato"]:""; ?>" <?php echo ( in_array('nombre_contacto_emergencia_candidato' , $error_campos) )?"style='width:95%;border:2px solid red;'":""; ?>></td>
+					   <td><input type="text" name="nombre_contacto_emergencia_candidato"  onkeyup="javascript:this.value=this.value.toUpperCase();" class="nombre_contacto_emergencia_candidato" id="nombre_contacto_emergencia_candidato" placeholder="Nombre" autocomplete="off" required value="<?php echo (isset($formArray["nombre_contacto_emergencia_candidato"]))?$formArray["nombre_contacto_emergencia_candidato"]:""; ?>" <?php echo ( in_array('nombre_contacto_emergencia_candidato' , $error_campos) )?"style='width:95%;border:2px solid red;'":"style='width:95%;'"; ?>></td>
 					   <td>Parentesco</td>
 					   <td>
 						   <select name="parentesco_contacto_emergencia_candidato" class="parentesco_contacto_emergencia_candidato" id="parentesco_contacto_emergencia_candidato" <?php echo ( in_array('parentesco_contacto_emergencia_candidato' , $error_campos) )?"style='border:2px solid red;'":""; ?>>
 							   <option value="">Seleccionar opción</option> 
-							   <option value="amigo" <?php if( isset($formArray["parentesco_contacto_emergencia_candidato"]) && $formArray["parentesco_contacto_emergencia_candidato"] == "amigo" ): echo "selected='selected'"; endif;?>>Amigo</option>
-							   <option value="conocido" <?php if( isset($formArray["parentesco_contacto_emergencia_candidato"]) && $formArray["parentesco_contacto_emergencia_candidato"] == "conocido" ): echo "selected='selected'"; endif;?>>Conocido</option>
-							   <option value="esposo" <?php if( isset($formArray["parentesco_contacto_emergencia_candidato"]) && $formArray["parentesco_contacto_emergencia_candidato"] == "esposo" ): echo "selected='selected'"; endif;?>>Esposo</option>
-							   <option value="esposa" <?php if( isset($formArray["parentesco_contacto_emergencia_candidato"]) && $formArray["parentesco_contacto_emergencia_candidato"] == "esposa" ): echo "selected='selected'"; endif;?>>Esposa</option>
-							   <option value="hija" <?php if( isset($formArray["parentesco_contacto_emergencia_candidato"]) && $formArray["parentesco_contacto_emergencia_candidato"] == "hija" ): echo "selected='selected'"; endif;?>>Hija</option>
-							   <option value="hijo" <?php if( isset($formArray["parentesco_contacto_emergencia_candidato"]) && $formArray["parentesco_contacto_emergencia_candidato"] == "hijo" ): echo "selected='selected'"; endif;?>>Hijo</option>
-							   <option value="madre" <?php if( isset($formArray["parentesco_contacto_emergencia_candidato"]) && $formArray["parentesco_contacto_emergencia_candidato"] == "madre" ): echo "selected='selected'"; endif;?>>Madre</option>
-							   <option value="padre" <?php if( isset($formArray["parentesco_contacto_emergencia_candidato"]) && $formArray["parentesco_contacto_emergencia_candidato"] == "padre" ): echo "selected='selected'"; endif;?>>Padre</option>
-							   <option value="novio" <?php if( isset($formArray["parentesco_contacto_emergencia_candidato"]) && $formArray["parentesco_contacto_emergencia_candidato"] == "novio" ): echo "selected='selected'"; endif;?>>Novio</option>
-							   <option value="novia" <?php if( isset($formArray["parentesco_contacto_emergencia_candidato"]) && $formArray["parentesco_contacto_emergencia_candidato"] == "novia" ): echo "selected='selected'"; endif;?>>Novia</option>
-							   <option value="hermano" <?php if( isset($formArray["parentesco_contacto_emergencia_candidato"]) && $formArray["parentesco_contacto_emergencia_candidato"] == "hermano" ): echo "selected='selected'"; endif;?>>Hermano</option>
-							   <option value="hermana" <?php if( isset($formArray["parentesco_contacto_emergencia_candidato"]) && $formArray["parentesco_contacto_emergencia_candidato"] == "hermana" ): echo "selected='selected'"; endif;?>>Hermana</option>
+							   <?php
+									  foreach( $Catalogos as  $per ):
+								  
+									  if($per->ObjetosNombre=='parentesco_contacto_emergencia_candidato')
+									  {
+									  $valor= $per->valor;
+									  
+									  ?>
+								  
+								  
+								  
+								  		  <option value="<?php echo $valor; ?>" <?php if( isset($formArray["parentesco_contacto_emergencia_candidato"]) && $formArray["parentesco_contacto_emergencia_candidato"] == $valor ): echo "selected='selected'"; endif;?>><?php echo $valor; ?></option>
+								  <?php
+									  }
+									 
+									  endforeach;
+								  ?>
 						   </select>
 					   </td>
 				   </tr>
@@ -923,6 +1061,104 @@
 	<!-- The basic File Upload plugin -->
 	<script src="<?php echo HOME_URL; ?>assets/js/jquery.fileupload.js"></script>
 	<script>
+
+	$(document).ready(function(){
+		$("input[name=telefono_otro_candidato]").change(function(){
+		var	valor= $('input[name=telefono_otro_candidato]').val();
+
+			var n = valor.length;
+
+if (n>0 && n!=10)
+{	
+			alert("Capture el número telefónico a 10 digitos ");
+			$('input[name=telefono_otro_candidato]').val("");
+}
+			
+		});
+	
+	})
+
+
+	</script>
+	
+	
+	<script>
+
+	$(document).ready(function(){
+		$("input[name=correo_electronico_candidato]").change(function(){
+		var	valor= $('input[name=correo_electronico_candidato]').val();
+
+
+		
+		$.post("<?php echo HOME_URL; ?>/Empleados/ValidaEmail", {
+			cp: valor
+		}, function(municipio) {
+			
+
+			var str = municipio;
+			var res = str.replace("-", "");
+
+			
+			if (res=="registrado") {
+
+                $("#correo_electronico_candidato").val("");
+
+
+                alert("El correo electrónico ya esta regitrado");
+             
+                
+			} else {
+				
+			}
+		});
+		
+			
+		});
+	
+	})
+
+
+	</script>
+	
+	<script>
+
+	$(document).ready(function(){
+		$("input[name=rfc_candidato]").change(function(){
+		var	valor= $('input[name=rfc_candidato]').val();
+
+
+		
+		$.post("<?php echo HOME_URL; ?>/Empleados/ValidaRFCBase", {
+			cp: valor
+		}, function(municipio) {
+			
+
+			var str = municipio;
+			var res = str.replace("-", "");
+
+			
+			if (res=="registrado") {
+
+                $("#rfc_candidato").val("");
+
+
+                alert("El RFC ya esta regitrado");
+
+                
+			} else {
+				
+			}
+		});
+		
+			
+		});
+	
+	})
+
+
+	</script>
+	
+	<script>
 	/*jslint unparam: true */
 	/*global window, $ */
 	$(function () {
@@ -937,17 +1173,17 @@
 			
 			if ((valor).length == 5) {
 				$("#resultado").html("Procesando, espere por favor...");
-				$.post("<?php echo site_url()?>/empleados/colonia", {
+				$.post("<?php echo HOME_URL; ?>/empleados/colonia", {
 					cp: valor
 				}, function(data) {
 					$("#colonia_domicilio_candidato").html(data)
 				});
-				$.post("<?php echo site_url()?>/empleados/estado", {
+				$.post("<?php echo HOME_URL; ?>/empleados/estado", {
 					cp: valor
 				}, function(estado) {
 					$('#estado_domicilio_candidato').html(estado);
 				});
-				$.post("<?php echo site_url()?>/empleados/municipio", {
+				$.post("<?php echo HOME_URL; ?>/empleados/municipio", {
 					cp: valor
 				}, function(municipio) {
 					
@@ -970,7 +1206,7 @@
 		var valorCPCandidato = $("#cp_candidato").val();
 		if ((valorCPCandidato).length == 5) {
 			$("#resultado").html("Procesando, espere por favor...");
-				$.post("<?php echo site_url()?>/empleados/colonia", {
+				$.post("<?php echo HOME_URL; ?>/empleados/colonia", {
 					cp: valorCPCandidato
 				}, function(data) {
 					$("#colonia_domicilio_candidato").html(data);
@@ -983,12 +1219,13 @@
 					});
 					
 				});
-				$.post("<?php echo site_url()?>/empleados/estado", {
+				
+				$.post("<?php echo HOME_URL; ?>/empleados/estado", {
 					cp: valorCPCandidato
 				}, function(estado) {
 					$('#estado_domicilio_candidato').html(estado);
 				});
-				$.post("<?php echo site_url()?>/empleados/municipio", {
+				$.post("<?php echo HOME_URL; ?>/empleados/municipio", {
 					cp: valorCPCandidato
 				}, function(municipio) {
 					
@@ -1011,7 +1248,7 @@
 			var numeroTablas = tablas.length;
 
 var html ='<tr><td>Nombre:</td>'+
-    '<td><input type="text" name="nombre_parentesco[]" class="nombre_parentesco" id="nombre_parentesco" placeholder="Nombre" autocomplete="off" required value="<?php echo (isset($formArray["nombre_parentesco"][$x]))?$formArray["nombre_parentesco"][$x]:""; ?>">'+
+    '<td><input type="text" name="nombre_parentesco[]" style="width:95%;" class="nombre_parentesco" id="nombre_parentesco" placeholder="Nombre" autocomplete="off" required value="<?php echo (isset($formArray["nombre_parentesco"][$x]))?$formArray["nombre_parentesco"][$x]:""; ?>">'+
     '</td>'+
 '<td>Parentesco:</td><td>'+
 	   '<select name="parentesco_dependiente_economico_candidato[]" class="parentesco_dependiente_economico_candidato" id="parentesco_dependiente_economico_candidato">'+

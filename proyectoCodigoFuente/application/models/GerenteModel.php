@@ -144,6 +144,7 @@ class GerenteModel extends CI_Model {
 		$sqlAltaUsuarios = "SELECT RecursosHumanosFDP.*,Usuarios.nombreUsuario,
 				 (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = RecursosHumanosFDP.idUsuarios and prefijoMetaDatos='Sdi') as sdi,
 				(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = RecursosHumanosFDP.idUsuarios and prefijoMetaDatos='puesto') as puesto,
+								(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = RecursosHumanosFDP.idUsuarios and prefijoMetaDatos='horario') as horario,
 				(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = RecursosHumanosFDP.idUsuarios and prefijoMetaDatos='fechaAlta') as fechaAlta,
                                 (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = RecursosHumanosFDP.idUsuarios and prefijoMetaDatos='descanso') as descanso,
                                (SELECT Empresas.nombreEmpresas FROM Empresas WHERE Empresas.idEmpresas=(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = RecursosHumanosFDP.idUsuarios and prefijoMetaDatos='empresa_contrata')) as empresa,
@@ -169,7 +170,8 @@ where  Oficinas_idOficinas = (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE
 				"fechaAlta" => $entre->fechaAlta,
 				"descanso" => $entre->descanso,
 				"empresa" => $entre->empresa,
-				"oficina" => $entre->oficina
+				"oficina" => $entre->oficina,
+				"horario" => $entre->horario
 	
 		);
 		endforeach;
@@ -187,7 +189,7 @@ where  Oficinas_idOficinas = (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE
 left outer join Usuarios
 on SolPermisos.idUsuarios=Usuarios.idUsuarios
 left outer join TaxPuestoUsuario
-on TaxPuestoUsuario.idUsuarios =  SolPermisos.idUsuarios ';
+on TaxPuestoUsuario.idUsuarios =  SolPermisos.idUsuarios where SolPermisos.aprobado=0';
 	
 		$querySolPermisos = $this->db->query( $sqlSolPermisos );
 		$arraySolPermisos = array();
@@ -196,6 +198,7 @@ on TaxPuestoUsuario.idUsuarios =  SolPermisos.idUsuarios ';
 		foreach($resultadoSolPermisos as $aprobados):
 		$arraySolPermisos[] = array(
 				"idUsuarios" => $aprobados->idUsuarios,
+				"IdPermiso" => $aprobados->IdPermiso,
 				"nombreUsuario" => $aprobados->nombreUsuario,
 				"autorizacion" => "permiso",
 				
@@ -208,7 +211,7 @@ on TaxPuestoUsuario.idUsuarios =  SolPermisos.idUsuarios ';
 left outer join Usuarios
 on SolDiaDescanso.idUsuarios=Usuarios.idUsuarios
 left outer join TaxPuestoUsuario
-on TaxPuestoUsuario.idUsuarios =  SolDiaDescanso.idUsuarios';
+on TaxPuestoUsuario.idUsuarios =  SolDiaDescanso.idUsuarios where SolDiaDescanso.aprobado=0';
 	
 		$querySolDescanso = $this->db->query( $sqlSolDescanso );
 		$arraySolDescanso = array();
@@ -216,6 +219,7 @@ on TaxPuestoUsuario.idUsuarios =  SolDiaDescanso.idUsuarios';
 		$resultadoSolDescanso = $querySolDescanso->result();
 		foreach($resultadoSolDescanso as $SolDescanso):
 		$arraySolDescanso[] = array(
+				"idSolDiaDescanso" => $SolDescanso->idSolDiaDescanso,
 				"idUsuarios" => $SolDescanso->idUsuarios,
 				"nombreUsuario" => $SolDescanso->nombreUsuario,
 				"autorizacion" => "descanso"
@@ -228,7 +232,7 @@ on TaxPuestoUsuario.idUsuarios =  SolDiaDescanso.idUsuarios';
 left outer join Usuarios
 on SolCambioTurno.idUsuarios=Usuarios.idUsuarios
 left outer join TaxPuestoUsuario
-on TaxPuestoUsuario.idUsuarios =  SolCambioTurno.idUsuarios';
+on TaxPuestoUsuario.idUsuarios =  SolCambioTurno.idUsuarios where SolCambioTurno.aprobado=0';
 	
 		$querySolTurno = $this->db->query( $sqlSolTurno );
 		$arraySolTurno = array();
@@ -236,6 +240,7 @@ on TaxPuestoUsuario.idUsuarios =  SolCambioTurno.idUsuarios';
 		$resultadoSolTurno = $querySolTurno->result();
 		foreach($resultadoSolTurno as $SolTurno):
 		$arraySolTurno[] = array(
+				"idSolCambioTurno" => $SolTurno->idSolCambioTurno,
 				"idUsuarios" => $SolTurno->idUsuarios,
 				"nombreUsuario" => $SolTurno->nombreUsuario,
 				"autorizacion" => "turno"
@@ -251,5 +256,117 @@ on TaxPuestoUsuario.idUsuarios =  SolCambioTurno.idUsuarios';
 	
 		return $resultadoMovimientos;
 	}
+	
+	
+	public function DatosusuariosPermiso($idPermiso){
+	
+	
+		$peticiones = array();
+	
+		$sqlPeticiones = "
+		SELECT SolPermisos.*, Usuarios.nombreUsuario	from SolPermisos
+		left outer join Usuarios
+		on Usuarios.idUsuarios=SolPermisos.idUsuarios where SolPermisos.IdPermiso= $idPermiso
+	
+		";//Agregar AND ReclutacionFDP aprobado, RecursosHumanosFDP aprobado
+	
+		$queryPeticiones = $this->db->query( $sqlPeticiones );
+	
+		if( $queryPeticiones->num_rows() > 0 ):
+		$resultadoPeticiones = $queryPeticiones->result();
+		$peticiones = array();
+		foreach( $resultadoPeticiones as $pet):
+	
+		$peticiones[] = array(
+				"IdPermiso" => $pet->IdPermiso,
+				"idUsuarios" => $pet->idUsuarios,
+				"nombreUsuario" => $pet->nombreUsuario,
+				"observaciones" => $pet->observaciones,
+				"fecha_inicio" => $pet->fecha_inicio,
+				"fecha_fin" => $pet->fecha_fin
+	
+		);
+		endforeach;
+		return $peticiones;
+		else:
+		return array();
+		endif;
+	
+	
+	}
+	
+	public function DatosusuariosDescanso($idDescanso){
+	
+	
+		$peticiones = array();
+	
+		$sqlPeticiones = "
+		SELECT SolDiaDescanso.*, Usuarios.nombreUsuario	from SolDiaDescanso
+		left outer join Usuarios
+		on Usuarios.idUsuarios=SolDiaDescanso.idUsuarios where SolDiaDescanso.idSolDiaDescanso= $idDescanso
+	
+		";//Agregar AND ReclutacionFDP aprobado, RecursosHumanosFDP aprobado
+	
+		$queryPeticiones = $this->db->query( $sqlPeticiones );
+	
+		if( $queryPeticiones->num_rows() > 0 ):
+		$resultadoPeticiones = $queryPeticiones->result();
+		$peticiones = array();
+		foreach( $resultadoPeticiones as $pet):
+	
+		$peticiones[] = array(
+				"idSolDiaDescanso" => $pet->idSolDiaDescanso,
+				"idUsuarios" => $pet->idUsuarios,
+				"nombreUsuario" => $pet->nombreUsuario,
+				"observaciones" => $pet->observaciones,
+				"dia" => $pet->dia
+	
+		);
+		endforeach;
+		return $peticiones;
+		else:
+		return array();
+		endif;
+	
+	
+	}
+	
+	public function DatosusuariosCambioTurno($idTurno){
+	
+	
+		$peticiones = array();
+	
+		$sqlPeticiones = "
+		SELECT SolCambioTurno.*, Usuarios.nombreUsuario	from SolCambioTurno
+		left outer join Usuarios
+		on Usuarios.idUsuarios=SolCambioTurno.idUsuarios where SolCambioTurno.idSolCambioTurno= $idTurno
+	
+		";//Agregar AND ReclutacionFDP aprobado, RecursosHumanosFDP aprobado
+	
+		$queryPeticiones = $this->db->query( $sqlPeticiones );
+	
+		if( $queryPeticiones->num_rows() > 0 ):
+		$resultadoPeticiones = $queryPeticiones->result();
+		$peticiones = array();
+		foreach( $resultadoPeticiones as $pet):
+	
+		$peticiones[] = array(
+				"idSolCambioTurno" => $pet->idSolCambioTurno,
+				"idUsuarios" => $pet->idUsuarios,
+				"nombreUsuario" => $pet->nombreUsuario,
+				"observaciones" => $pet->observaciones,
+				"turno" => $pet->turno,
+				"fechaAplicacion" => $pet->fechaAplicacion,
+	
+		);
+		endforeach;
+		return $peticiones;
+		else:
+		return array();
+		endif;
+	
+	
+	}
+	
 	
 }

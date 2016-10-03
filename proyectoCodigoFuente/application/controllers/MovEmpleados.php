@@ -18,6 +18,7 @@ class MovEmpleados extends CI_Controller {
         
         /*Mandar llamar modelos que requieran de actividades de BD*/
         $this->load->model('User');
+        $this->load->model('MovimientosModel');
        // $this->load->model('Sepomex' , 'sepomex');
     }
     
@@ -28,8 +29,22 @@ class MovEmpleados extends CI_Controller {
     			"titulo" => "Empleado"
     	);
     
-    		
-    	$dataContent = array();
+    	$sessionUser = $this->session->userdata('logged_in');
+    	//echo "<pre>";
+    	//print_r( $sessionUser );die;
+    	$idUsuario=$sessionUser["usuario"]["idUsuarios"];
+    	
+    	$movimientosEmpleados = $this->MovimientosModel->obtenerMovimientosEmpleados($idUsuario);
+    	
+    	
+    	$dataContent = array(
+    			
+    			"movimientos" => $movimientosEmpleados,
+    	);
+    	
+    	//print_r($dataContent);
+    	
+    	
     	$this->load->view('includes/header' , $dataHeader);
     	$this->load->view('empleados/movimientos' , $dataContent);
     	$this->load->view('includes/footer');
@@ -115,8 +130,13 @@ class MovEmpleados extends CI_Controller {
 				"titulo" => "Cambio de turno"
 		);
 	
-			
-		$dataContent = array();
+		
+		$sqlCatalogos = 'SELECT * from catalogos left outer join cat_detalle on catalogos.id=cat_detalle.id_catalogo
+    left outer join ObjetosCatalogo
+    on catalogos.id=ObjetosCatalogo.idCatalogo where cat_detalle.estatus=1';
+		$queryCatalogos = $this->db->query($sqlCatalogos);
+		$dataContent["Catalogos"] = $queryCatalogos->result();
+		
 		$this->load->view('includes/header' , $dataHeader);
 		$this->load->view('empleados/solicitud_cambio_turno' , $dataContent);
 		$this->load->view('includes/footer');
@@ -144,7 +164,23 @@ class MovEmpleados extends CI_Controller {
 		);
 	
 			
-		$dataContent = array();
+		$idUsuario = $this->Sanitize->clean_string ( $_REQUEST ["idUsuario"] );
+		
+		
+		
+		$vacacionesEmpleados = $this->MovimientosModel->obtenervacacionesEmpleados($idUsuario);
+		 
+		 
+		$dataContent = array(
+				 
+				"vacaciones" => $vacacionesEmpleados,
+		);
+		 
+		//print_r($dataContent);
+		
+		
+		
+		
 		$this->load->view('includes/header' , $dataHeader);
 		$this->load->view('empleados/informacion_vacaciones' , $dataContent);
 		$this->load->view('includes/footer');
@@ -231,7 +267,112 @@ class MovEmpleados extends CI_Controller {
 		exit ();
 	}
 	
+	public function informacion_biografica()
+	{
+		$dataHeader = array(
+				"titulo" => "Actualizacion de datos"
+		);
 	
+		
+		$id = $this->Sanitize->clean_string ( $_REQUEST ["idUsuario"] );
+		
+		
+		
+		$formArray = $this->MovimientosModel->obtenerDatosBiografia($id);
+			
+			
+		$sqlCatalogos = 'SELECT * from catalogos left outer join cat_detalle on catalogos.id=cat_detalle.id_catalogo
+    left outer join ObjetosCatalogo
+    on catalogos.id=ObjetosCatalogo.idCatalogo where cat_detalle.estatus=1';
+		$queryCatalogos = $this->db->query($sqlCatalogos);
+		
+		
+		$dataContent["formArray"]=$formArray;
+		
+		$dataContent["Catalogos"]=$queryCatalogos->result();
+		
+		
+		
+	//	print_r($dataContent);
+		
+		$this->load->view('includes/header' , $dataHeader);
+		$this->load->view('empleados/informacion_biografica' , $dataContent);
+		$this->load->view('includes/footer');
+	
+	}
+	
+	
+	
+	function GuardaBiografia() {
+	
+		$sessionUser = $this->session->userdata('logged_in');
+			
+		$idUsuario=$sessionUser["usuario"]["idUsuarios"];
+	
+		
+		$idCandidato=$this->input->post('idCandidato');
+		$nivel_educativo=$this->input->post('nivel_educativo_candidato');
+		$estado_civil=$this->input->post('estado_civil_candidato');
+		
+		
+		
+		
+		
+		$arrayFormPart = array(
+		"calle_no_candidato"=>$this->input->post('calle_no_candidato'),
+		"cp_candidato"=>$this->input->post('cp_candidato'),
+		"estado_domicilio_candidato"=>$this->input->post('estado_domicilio_candidato'),
+		"ciudad_domicilio_candidato"=>$this->input->post('ciudad_domicilio_candidato'),
+		"delegacion_domicilio_candidato"=>$this->input->post('delegacion_domicilio_candidato'),
+		"colonia_domicilio_candidato"=>$this->input->post('colonia_domicilio_candidato'),
+		"telefono_casa_candidato"=>$this->input->post('telefono_casa_candidato'),
+		"telefono_movil_candidato"=>$this->input->post('telefono_movil_candidato'),
+		"telefono_otro_candidato"=>$this->input->post('telefono_otro_candidato'),
+		"correo_electronico_candidato"=>$this->input->post('correo_electronico_candidato'),
+		"nombre_contacto_emergencia_candidato"=>$this->input->post('nombre_contacto_emergencia_candidato'),
+		"parentesco_contacto_emergencia_candidato"=>$this->input->post('parentesco_contacto_emergencia_candidato'),
+		"telefono_casa_emergencia_candidato"=>$this->input->post('telefono_casa_emergencia_candidato'),
+		"telefono_movil_emergencia_candidato"=>$this->input->post('telefono_movil_emergencia_candidato'),);
+		
+		
+		$resultado =  $arrayFormPart;
+		
+		$metasCandidato=$resultado;
+		
+		foreach( $metasCandidato as $key => $res ):
+		
+		$sqlInsertMetaDatos = "Update MetaDatosCandidatoFDP set  valorMetaDatos = '$res' where prefijoMetaDatos='$key' and idCandidatoFDP=$idCandidato";
+		$this->db->query( $sqlInsertMetaDatos );
+		
+		endforeach;
+	
+		
+	
+		$sqlQuery = "update CandidatoFDP set nivelEducativo='$nivel_educativo',estadoCivil= '$estado_civil' where idCandidatoFDP=$idCandidato" ;
+		$queryGrupo = $this->db->query($sqlQuery);
+		
+
+		
+		if ($queryGrupo)
+		{
+			$resultado = array (
+					"codigo" => 200,
+					"exito" => true,
+					"mensaje" => "Informacion guardada correctamente."
+			);
+		}
+		else {
+			$resultado = array (
+					"codigo" => 400,
+					"exito" => false,
+					"mensaje" => "Error, vuelva a intentarlo."
+			);
+		}
+	
+		ob_clean ();
+		echo json_encode ( $resultado );
+		exit ();
+	}
 	
 }
 

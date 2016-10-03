@@ -207,6 +207,7 @@ $("#cerrarGrupo").click(function(){
                     success: function(response) {
                         if (response.codigo==200) {
                         	$("#guarda").html("Grupo cerrado correctamente..");
+                        	$("#paso").remove();
                            
                         } else {
                         	$("#resultado").html("Favor de intentar nuevamente..");

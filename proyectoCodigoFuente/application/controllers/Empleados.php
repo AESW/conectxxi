@@ -81,7 +81,7 @@ class Empleados extends CI_Controller {
     	$error_campos[] = "apellido_materno_candidato";
     	endif;
     	
-    	if( $resultado["fecha_nacimiento_candidato"] == "" ):
+    	if( $resultado["fecha_nacimiento_candidato"] == ""  || !validarFechaNacimiento($resultado["fecha_nacimiento_candidato"],$resultado["rfc_candidato"])):
     	$error_campos[] = "fecha_nacimiento_candidato";
     	endif;
     	if( $resultado["pais_nacimiento_candidato"] == "" ):
@@ -116,6 +116,16 @@ class Empleados extends CI_Controller {
     	else:
     	
     	$valRFC = False;
+    	
+    	endif;
+    	
+    	
+    	$sqlHash = "SELECT * FROM CandidatoFDP where rfcCandidato = '$idRFC' ";
+    	$selectHash = $this->db->query( $sqlHash );
+    	
+    	if( $selectHash->num_rows() > 0 ):
+    	
+    	$error_campos[] = "rfc_candidato";
     	
     	endif;
     	
@@ -234,7 +244,7 @@ class Empleados extends CI_Controller {
     	/*if( $resultado["cuenta_con_cuenta_bancaria"] == "" ):
     	 $error_campos[] = "cuenta_con_cuenta_bancaria";
     	 endif;*/
-    	if( $resultado["telefono_casa_candidato"] == "" && $resultado["telefono_movil_candidato"] == ""):
+    	if( !validarTelefono($resultado["telefono_casa_candidato"]) && !validarTelefono($resultado["telefono_movil_candidato"] )):
     	$error_campos[] = "telefono_casa_candidato";
     	endif;
     	
@@ -245,6 +255,18 @@ class Empleados extends CI_Controller {
     	if( $resultado["correo_electronico_candidato"] == "" || !$this->VerificarrDireccionCorreo($resultado["correo_electronico_candidato"]) ):
     	$error_campos[] = "correo_electronico_candidato";
     	endif;
+    	
+    	$correoVlida=$resultado["correo_electronico_candidato"];
+
+    	$sqlHash = "SELECT * FROM CandidatoFDP where correoElectronico = '$correoVlida' ";
+		$selectHash = $this->db->query( $sqlHash );
+			
+		if( $selectHash->num_rows() > 0 ):
+		
+		$error_campos[] = "correo_electronico_candidato";
+		
+		endif;
+    	
     	/*if( $resultado["nombre_completo_familiar_candidato"] == "" ):
     	 $error_campos[] = "nombre_completo_familiar_candidato";
     	 endif;*/
@@ -258,7 +280,7 @@ class Empleados extends CI_Controller {
     	$error_campos[] = "parentesco_contacto_emergencia_candidato";
     	endif;
     	
-    	if( $resultado["telefono_casa_emergencia_candidato"] == "" && $resultado["telefono_movil_emergencia_candidato"] == ""):
+    	if( !validarTelefono($resultado["telefono_casa_emergencia_candidato"]) && !validarTelefono($resultado["telefono_movil_emergencia_candidato"])):
     	$error_campos[] = "telefono_casa_emergencia_candidato";
     	endif;
     	
@@ -371,7 +393,7 @@ class Empleados extends CI_Controller {
     			"genero_candidato" => $this->Sanitize->clean_string($_POST["genero_candidato"]),
     			"profesion" => $this->Sanitize->clean_string($_POST["profesion"]),
     			"nivel_educativo_candidato" => $this->Sanitize->clean_string($_POST["nivel_educativo_candidato"]),
-    			"estado_civil_candidato" => $this->Sanitize->clean_string($_POST["estado_civil_candidato"]),
+    			"estado_civil_candidato" => $_POST["estado_civil_candidato"],
     			"rfc_candidato" => $this->Sanitize->clean_string($_POST["rfc_candidato"]),
     			"curp_candidato" => $this->Sanitize->clean_string($_POST["curp_candidato"]),
     			"numero_segurosocial_candidato" => $this->Sanitize->clean_string($_POST["numero_segurosocial_candidato"]),
@@ -422,11 +444,11 @@ class Empleados extends CI_Controller {
     			"telefono_otro_candidato" => $this->Sanitize->clean_string($_POST["telefono_otro_candidato"]),
     			"correo_electronico_candidato" => $this->Sanitize->clean_email($_POST["correo_electronico_candidato"]),
     			"nombre_completo_familiar_candidato" => $this->Sanitize->clean_string($_POST["nombre_completo_familiar_candidato"]),
-    			"parentesco_familiar_candidato" => $this->Sanitize->clean_string($_POST["parentesco_familiar_candidato"]),
+    			"parentesco_familiar_candidato" => $_POST["parentesco_familiar_candidato"],
     			"parentesco_dependiente_economico_candidato" => $_POST["parentesco_dependiente_economico_candidato"],
     			"nombre_parentesco" => $_POST["nombre_parentesco"],
     			"nombre_contacto_emergencia_candidato" => $this->Sanitize->clean_string($_POST["nombre_contacto_emergencia_candidato"]),
-    			"parentesco_contacto_emergencia_candidato" => $this->Sanitize->clean_string($_POST["parentesco_contacto_emergencia_candidato"]),
+    			"parentesco_contacto_emergencia_candidato" => $_POST["parentesco_contacto_emergencia_candidato"],
     			"telefono_casa_emergencia_candidato" => $this->Sanitize->clean_string($_POST["telefono_casa_emergencia_candidato"]),
     			"telefono_movil_emergencia_candidato" => $this->Sanitize->clean_string($_POST["telefono_movil_emergencia_candidato"]),
     			//"numero_cuenta_candidato" => $this->Sanitize->clean_string($_POST["numero_cuenta_candidato"]),
@@ -633,7 +655,7 @@ class Empleados extends CI_Controller {
     	$EscolaridadJefeFamilia = $resultado["escolaridad_jefefamilia_candidato"];
     	$dataScoring["amai_escolaridad_jefe_familia"] = 0;
     	if( $EscolaridadJefeFamilia == "SinInstruccion" ||  $EscolaridadJefeFamilia == ""):
-    	$dataScoring["amai_escolaridad_jefe_familia"] = array("scoring" => 0 , "respuesta" => "Sin instrucción" );
+    	$dataScoring["amai_escolaridad_jefe_familia"] = array("scoring" => 0 , "respuesta" => "Sin instrucciï¿½n" );
     	elseif( $EscolaridadJefeFamilia == "primaria_secundaria" ):
     	$dataScoring["amai_escolaridad_jefe_familia"] = array("scoring" => 22 , "respuesta" => "1" );
     	elseif ( $EscolaridadJefeFamilia == "tecnico_preparatoria" ):
@@ -647,7 +669,7 @@ class Empleados extends CI_Controller {
     	$Focos = $resultado["focos_vivienda_candidato"];
     		
     	if( $Focos == "5menos" ):
-    	$dataScoring["amai_no_focos"] = array("scoring" => 0 , "respuesta" => "Sin instrucción" );
+    	$dataScoring["amai_no_focos"] = array("scoring" => 0 , "respuesta" => "Sin instrucciï¿½n" );
     	elseif( $Focos == "6-10" ):
     	$dataScoring["amai_no_focos"] = array("scoring" => 15 , "respuesta" => "1" );
     	elseif ( $Focos == "11-15" ):
@@ -739,7 +761,7 @@ class Empleados extends CI_Controller {
     	$config = array (
     	
     			'protocol' => 'smtp',
-    			'smtp_host' => $smtp,
+    			'smtp_host' => 'ssl://a2plcpnl0742.prod.iad2.secureserver.net',
     			'smtp_port' => 465,
     			'smtp_user' => $from,
     			'smtp_pass' => 'Agosto2013',
@@ -760,7 +782,7 @@ class Empleados extends CI_Controller {
     	
     	$ci->email->from ( $from, 'DATOS PERSONALES' );
     	$ci->email->to ( $to );
-    	$ci->email->subject ( 'Confirmación de datos personales para candidatos.' );
+    	$ci->email->subject ( 'Confirmaciï¿½n de datos personales para candidatos.' );
     	$ci->email->message ('
     	
 								<table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -784,7 +806,7 @@ class Empleados extends CI_Controller {
      <p style="font-weight:bold;color:#26313c;">Apreciable '.$resultado["nombre_candidato"].' '.$resultado["apellido_paterno_candidato"].' '.$resultado["apellido_materno_candidato"].',</p>
    		<p>
 			Gracias por hacer el registro de tus datos personales. </p><hr />
-        <p>Confirmar tu cuenta de correo <a href="'.HOME_URL.'Empleados/verificar/?token='.$hashValidacion.'" target="_blank">dando clic aquí</a></p>
+        <p>Confirmar tu cuenta de correo <a href="'.HOME_URL.'Empleados/verificar/?token='.$hashValidacion.'" target="_blank">dando clic aquï¿½</a></p>
     </center>
     </td>
     </tr>
@@ -802,14 +824,12 @@ class Empleados extends CI_Controller {
     	
     	$ci->email->send ();
     		
+    	
+    	//$valor=$ci->email->print_debugger (array('subject'));
+    	
+    	//$this->RecursoshumanosModel->EstatusCorreo(trim($valor));
+    	
     	//	var_dump ( $ci->email->print_debugger () );
-    	
-    	
-    	
-    	
-    	
-    	
-    	
     	
     	
     	unset($_COOKIE['formArray1']);
@@ -884,7 +904,30 @@ class Empleados extends CI_Controller {
     	//echo "<pre>";print_r($dataContent);
     	
     	
-    	$dataContent["catalogos"] = new Catalogos();
+    
+    	
+    	$sqlCatUsuarios = 'SELECT * from Usuarios order by nombreUsuario asc';
+    	$queryUsuarios = $this->db->query($sqlCatUsuarios);
+    	$dataContent["CatUsuarios"] = $queryUsuarios->result();
+    	
+    	$sqlCatOficinas = 'SELECT * from Oficinas where estatus= 1 order by nombreOficina asc';
+    	$queryOficinas = $this->db->query($sqlCatOficinas);
+    	$dataContent["CatOficinas"] = $queryOficinas->result();
+    	
+    	
+    	$sqlCatPuestos = 'SELECT * from Plazas where estatus= 1 order by nombrePlaza asc';
+    	$queryCatPuestos = $this->db->query($sqlCatPuestos);
+    	$dataContent["CatPlazas"] = $queryCatPuestos->result();
+    	
+    	$sqlCatalogos = 'SELECT * from catalogos left outer join cat_detalle on catalogos.id=cat_detalle.id_catalogo
+    			left outer join ObjetosCatalogo
+    			on catalogos.id=ObjetosCatalogo.idCatalogo where cat_detalle.estatus=1';
+    	$queryCatalogos = $this->db->query($sqlCatalogos);
+    	$dataContent["Catalogos"] = $queryCatalogos->result();
+    	
+    	
+    	//print_r($dataContent["Catalogos"]);
+    	
     	
     	$this->load->view('includes/header' , $dataHeader);
     	$this->load->view('empleados/fdp' , $dataContent);
@@ -1125,10 +1168,46 @@ $dataHeader = array(
 	}
 	
 	
+	public function ValidaEmail(){
+	
+		$cp = $this->input->post('cp');
+	
+		$sqlHash = "SELECT * FROM CandidatoFDP where correoElectronico = '$cp' ";
+		$selectHash = $this->db->query( $sqlHash );
+			
+		if( $selectHash->num_rows() > 0 ):
+		
+		echo  "registrado";
+		
+		else:
+		
+		echo "";
+		
+		endif;
+	
 }
 
 
+public function ValidaRFCBase(){
 
+	$cp = $this->input->post('cp');
+
+	$sqlHash = "SELECT * FROM CandidatoFDP where rfcCandidato = '$cp' ";
+	$selectHash = $this->db->query( $sqlHash );
+		
+	if( $selectHash->num_rows() > 0 ):
+
+	echo  "registrado";
+
+	else:
+
+	echo "";
+
+	endif;
+
+}
+
+}
 
 
 

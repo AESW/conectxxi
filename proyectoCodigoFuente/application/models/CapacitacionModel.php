@@ -52,8 +52,7 @@ select Usuarios.nombreUsuario,Usuarios.idUsuarios,CursosUsuarios.Asignado from R
 			$peticiones = array();
 	
 			$sqlPeticiones = '
-select CatalogoCursos.NombreDelCurso,CatalogoCursos.idCursos from Empresas_has_CatalogoDeCursos left outer join CatalogoCursos on Empresas_has_CatalogoDeCursos.CatalogoDeCursos_idCursos=CatalogoCursos.idCursos
-					
+select CatalogoCursos.NombreDelCurso,CatalogoCursos.idCursos from  CatalogoCursos where estatus=1					
 					';//Agregar AND ReclutacionFDP aprobado, RecursosHumanosFDP aprobado
 	
 			$queryPeticiones = $this->db->query( $sqlPeticiones );
@@ -255,7 +254,7 @@ select Usuarios.nombreUsuario,Usuarios.idUsuarios from TaxPuestoUsuario left out
 		{
 			$peticiones = array();
 	
-			$sqlPeticiones = 'select * from CatalogoCursos';//Agregar AND ReclutacionFDP aprobado, RecursosHumanosFDP aprobado
+			$sqlPeticiones = 'select * from CatalogoCursos where estatus=1';//Agregar AND ReclutacionFDP aprobado, RecursosHumanosFDP aprobado
 	
 			$queryPeticiones = $this->db->query( $sqlPeticiones );
 	
@@ -493,7 +492,7 @@ select Usuarios.nombreUsuario,Usuarios.idUsuarios,CursosUsuarios.Asignado from R
 			$peticiones = array();
 		
 			$sqlPeticiones = "
-			select * from CatalogoTemas where CatalogoDeCursos_idCursos = $id
+			select * from CatalogoTemas where CatalogoDeCursos_idCursos = $id and estatus=1
 				
 			";//Agregar AND ReclutacionFDP aprobado, RecursosHumanosFDP aprobado
 		

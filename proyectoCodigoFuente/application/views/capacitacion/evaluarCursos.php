@@ -16,7 +16,7 @@
 							{
 								?>
 								
-		              <input style="margin-left: 5.5%"type="text" name="nombreCurso" id="nombreCurso" class="nombreCurso" value="<?php echo $fila['NombreDelCurso']; ?>">
+		              <input style="margin-left: 5.5%"type="text" name="nombreCurso" readonly id="nombreCurso" class="nombreCurso" value="<?php echo $fila['NombreDelCurso']; ?>">
 		             
 					            <?php
 					            }
@@ -33,7 +33,7 @@
 							{
 								?>
 								
-		             <input style="margin-left: 1%;width:40%" type="text" name="nomEmp" id="nomEmp" class="nomEmp" value="<?php echo $fila['nombreUsuario']; ?>">
+		             <input style="margin-left: 1%;width:40%" type="text" name="nomEmp" readonly id="nomEmp" class="nomEmp" value="<?php echo $fila['nombreUsuario']; ?>">
 					            <?php
 					            }
 					        	 
