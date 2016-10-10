@@ -40,6 +40,7 @@ class MovEmpleados extends CI_Controller {
     	$dataContent = array(
     			
     			"movimientos" => $movimientosEmpleados,
+    			"idUsuario" => $idUsuario,
     	);
     	
     	//print_r($dataContent);
@@ -131,11 +132,26 @@ class MovEmpleados extends CI_Controller {
 		);
 	
 		
+		$sessionUser = $this->session->userdata('logged_in');
+		//echo "<pre>";
+		//print_r( $sessionUser );die;
+		$idUsuario=$sessionUser["usuario"]["idUsuarios"];
+			
+		$sqlturno = "select * from UsuariosMetaDatos where idUsuarios=$idUsuario and prefijoMetaDatos='turno'";
+		$queryturno = $this->db->query($sqlturno);
+		$dataContent["turno"] = $queryturno->result();
+			
+		
+		
 		$sqlCatalogos = 'SELECT * from catalogos left outer join cat_detalle on catalogos.id=cat_detalle.id_catalogo
     left outer join ObjetosCatalogo
     on catalogos.id=ObjetosCatalogo.idCatalogo where cat_detalle.estatus=1';
 		$queryCatalogos = $this->db->query($sqlCatalogos);
 		$dataContent["Catalogos"] = $queryCatalogos->result();
+		
+		
+		
+	//	print_r($dataContent["turno"]);
 		
 		$this->load->view('includes/header' , $dataHeader);
 		$this->load->view('empleados/solicitud_cambio_turno' , $dataContent);
@@ -149,8 +165,23 @@ class MovEmpleados extends CI_Controller {
 				"titulo" => "Cambio de dia de descanso"
 		);
 	
-			
-		$dataContent = array();
+		
+		$sessionUser = $this->session->userdata('logged_in');
+		//echo "<pre>";
+		//print_r( $sessionUser );die;
+		$idUsuario=$sessionUser["usuario"]["idUsuarios"];
+		 
+		$movimientosDescanso = $this->MovimientosModel->obtenerMovimientosDescanso($idUsuario);
+		 
+		 
+		$dataContent = array(
+				 
+				"descanso" => $movimientosDescanso,
+		);
+		
+		
+		//print_r($dataContent);
+	
 		$this->load->view('includes/header' , $dataHeader);
 		$this->load->view('empleados/solicitud_cambio_descanso' , $dataContent);
 		$this->load->view('includes/footer');
@@ -372,6 +403,166 @@ class MovEmpleados extends CI_Controller {
 		ob_clean ();
 		echo json_encode ( $resultado );
 		exit ();
+	}
+	
+	
+	
+	public function ConsultaIncapacidades()
+	{
+	
+		$dataHeader = array(
+				"titulo" => "Incapacidades"
+		);
+	
+		$sessionUser = $this->session->userdata('logged_in');
+		//echo "<pre>";
+		//print_r( $sessionUser );die;
+		$idUsuario=$sessionUser["usuario"]["idUsuarios"];
+		 
+		$incapacidadesEmpleados = $this->MovimientosModel->obtenerIncapacidadesEmpleados($idUsuario);
+		 
+		 
+		$dataContent = array(
+				 
+				"incapacidades" => $incapacidadesEmpleados,
+		);
+		 
+		//print_r($incapacidadesEmpleados);
+		 
+		 
+		$this->load->view('includes/header' , $dataHeader);
+		$this->load->view('empleados/consultaIncapacidades' , $dataContent);
+		$this->load->view('includes/footer');
+	
+	
+	
+	}
+	
+	
+	public function ConsultaBonos()
+	{
+	
+		$dataHeader = array(
+				"titulo" => "Bonos"
+		);
+	
+		$sessionUser = $this->session->userdata('logged_in');
+		//echo "<pre>";
+		//print_r( $sessionUser );die;
+		$idUsuario=$sessionUser["usuario"]["idUsuarios"];
+			
+		$bonosEmpleados = $this->MovimientosModel->obtenerBonosEmpleados($idUsuario);
+			
+			
+		$dataContent = array(
+					
+				"abonos" => $bonosEmpleados,
+		);
+			
+		//print_r($dataContent);
+			
+			
+		$this->load->view('includes/header' , $dataHeader);
+		$this->load->view('empleados/consultaBonos' , $dataContent);
+		$this->load->view('includes/footer');
+	
+	
+	
+	}
+	
+	public function ConsultaDescuentos()
+	{
+	
+		$dataHeader = array(
+				"titulo" => "Descuentos"
+		);
+	
+		$sessionUser = $this->session->userdata('logged_in');
+		//echo "<pre>";
+		//print_r( $sessionUser );die;
+		$idUsuario=$sessionUser["usuario"]["idUsuarios"];
+			
+		$descuentosEmpleados = $this->MovimientosModel->obtenerDescuentosEmpleados($idUsuario);
+			
+			
+		$dataContent = array(
+					
+				"descuentos" => $descuentosEmpleados,
+		);
+			
+		//print_r($dataContent);
+			
+			
+		$this->load->view('includes/header' , $dataHeader);
+		$this->load->view('empleados/consultaDescuentos' , $dataContent);
+		$this->load->view('includes/footer');
+	
+	
+	
+	}
+
+	
+	public function ConsultaAsistencia()
+	{
+	
+		$dataHeader = array(
+				"titulo" => "Asistencia"
+		);
+	
+		$sessionUser = $this->session->userdata('logged_in');
+		//echo "<pre>";
+		//print_r( $sessionUser );die;
+		$idUsuario=$sessionUser["usuario"]["idUsuarios"];
+			
+		$asistenciaEmpleados = $this->MovimientosModel->obtenerAsistenciaEmpleados($idUsuario);
+			
+			
+		$dataContent = array(
+					
+				"asistencia" => $asistenciaEmpleados,
+		);
+			
+		//print_r($dataContent);
+			
+			
+		$this->load->view('includes/header' , $dataHeader);
+		$this->load->view('empleados/consultaAsistencia' , $dataContent);
+		$this->load->view('includes/footer');
+	
+	
+	
+	}
+	
+	
+	public function ConsultaCapacitacion()
+	{
+	
+		$dataHeader = array(
+				"titulo" => "Capacitación"
+		);
+	
+		$sessionUser = $this->session->userdata('logged_in');
+		//echo "<pre>";
+		//print_r( $sessionUser );die;
+		$idUsuario=$sessionUser["usuario"]["idUsuarios"];
+			
+		$capacitacion = $this->MovimientosModel->obtenerCapacitacionEmpleados($idUsuario);
+			
+			
+		$dataContent = array(
+					
+				"capacitacion" => $capacitacion,
+		);
+			
+		//print_r($dataContent);
+			
+			
+		$this->load->view('includes/header' , $dataHeader);
+		$this->load->view('empleados/consultaCapacitacion' , $dataContent);
+		$this->load->view('includes/footer');
+	
+	
+	
 	}
 	
 }

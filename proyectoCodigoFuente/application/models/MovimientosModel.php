@@ -173,7 +173,7 @@ on TaxPuestoUsuario.idUsuarios =  SolCambioTurno.idUsuarios where SolCambioTurno
 	public function obtenerDatosBiografia($id){
 	
 	
-		$id=927;
+		
 		
 		$sqlDatos = "Select RecursosHumanosFDP.idUsuarios,CandidatoFDP.idCandidatoFDP,CandidatoFDP.estadoCivil as estado_civil_candidato,CandidatoFDP.nivelEducativo as nivel_educativo_candidato,
 				(select valorMetaDatos from MetaDatosCandidatoFDP where idCandidatoFDP=RecursosHumanosFDP.idCandidatoFDP and prefijoMetaDatos='calle_no_candidato') as calle_no_candidato,
@@ -209,4 +209,165 @@ on TaxPuestoUsuario.idUsuarios =  SolCambioTurno.idUsuarios where SolCambioTurno
 	
 		return $arrayDatos;
 	}
+	
+	
+	public function obtenerIncapacidadesEmpleados($idUsuario){
+	
+		$sqlSolMovimiento = "select * from Incapacidades where idUsuarios=$idUsuario";
+	
+		$querySolMovimiento = $this->db->query( $sqlSolMovimiento );
+		$arraySolMovimiento = array();
+		if(  $querySolMovimiento->num_rows() > 0 ):
+		$resultadoSolMovimiento = $querySolMovimiento->result();
+		foreach($resultadoSolMovimiento as $aprobados):
+		$arraySolMovimiento[] = array(
+				"incapacidad" => $aprobados->incapacidad,
+				"inicio" => $aprobados->inicio,
+				"fin" => $aprobados->fin,
+				"aprobada" => $aprobados->aprobada,
+				"fecha_Aprobacion" => $aprobados->fecha_Aprobacion,
+				"observaciones" => $aprobados->observaciones,
+	
+		);
+		endforeach;
+		endif;
+		
+		return $arraySolMovimiento;
+	}
+	
+	public function obtenerMovimientosDescanso($idUsuario){
+	
+		$sqlSolMovimiento = "select * from UsuariosMetaDatos where idUsuarios=$idUsuario and prefijoMetaDatos='descanso'";
+	
+		$querySolMovimiento = $this->db->query( $sqlSolMovimiento );
+		$arraySolMovimiento = array();
+		if(  $querySolMovimiento->num_rows() > 0 ):
+		$resultadoSolMovimiento = $querySolMovimiento->result();
+		foreach($resultadoSolMovimiento as $aprobados):
+		$arraySolMovimiento[] = array(
+				"valorMetaDatos" => $aprobados->valorMetaDatos,
+				
+		);
+		endforeach;
+		endif;
+		
+		return $arraySolMovimiento;
+		
+	}
+	
+	
+	public function obtenerBonosEmpleados($idUsuario){
+	
+		$sqlSolMovimiento = "select DescuentosAbono.*,Usuarios.nombreUsuario from DescuentosAbono
+		left outer join Usuarios
+		on Usuarios.idUsuarios=$idUsuario
+		where movimiento=2 and numeroEmpleado=(select valorMetaDatos from UsuariosMetaDatos where prefijoMetaDatos='noEmpleado' and idUsuarios= $idUsuario) ";
+	
+		$querySolMovimiento = $this->db->query( $sqlSolMovimiento );
+		$arraySolMovimiento = array();
+		if(  $querySolMovimiento->num_rows() > 0 ):
+		$resultadoSolMovimiento = $querySolMovimiento->result();
+		foreach($resultadoSolMovimiento as $aprobados):
+		$arraySolMovimiento[] = array(
+				"nombreUsuario" => $aprobados->nombreUsuario,
+				"concepto" => $aprobados->concepto,
+				"Importe" => $aprobados->Importe,
+				"movimiento" => $aprobados->movimiento,
+				"movimientoFecha" => $aprobados->movimientoFecha
+	
+		);
+		endforeach;
+		endif;
+	
+		return $arraySolMovimiento;
+	
+	}
+	
+	public function obtenerDescuentosEmpleados($idUsuario){
+	
+		$sqlSolMovimiento = "select DescuentosAbono.*,Usuarios.nombreUsuario from DescuentosAbono
+		left outer join Usuarios
+		on Usuarios.idUsuarios=$idUsuario
+		where movimiento=1 and numeroEmpleado=(select valorMetaDatos from UsuariosMetaDatos where prefijoMetaDatos='noEmpleado' and idUsuarios= $idUsuario)";
+	
+		$querySolMovimiento = $this->db->query( $sqlSolMovimiento );
+		$arraySolMovimiento = array();
+		if(  $querySolMovimiento->num_rows() > 0 ):
+		$resultadoSolMovimiento = $querySolMovimiento->result();
+		foreach($resultadoSolMovimiento as $aprobados):
+		$arraySolMovimiento[] = array(
+				"nombreUsuario" => $aprobados->nombreUsuario,
+				"concepto" => $aprobados->concepto,
+				"Importe" => $aprobados->Importe,
+				"movimiento" => $aprobados->movimiento,
+				"movimientoFecha" => $aprobados->movimientoFecha
+	
+		);
+		endforeach;
+		endif;
+	
+		return $arraySolMovimiento;
+	
+	}
+	
+	
+
+	public function obtenerAsistenciaEmpleados($idUsuario){
+	
+		$sqlSolMovimiento = "select Asistencia.*,Usuarios.nombreUsuario from Asistencia left outer join Usuarios on 
+Asistencia.Usuarios_idUsuarios = Usuarios.idUsuarios
+where Usuarios_idUsuarios= $idUsuario";
+	
+		$querySolMovimiento = $this->db->query( $sqlSolMovimiento );
+		$arraySolMovimiento = array();
+		if(  $querySolMovimiento->num_rows() > 0 ):
+		$resultadoSolMovimiento = $querySolMovimiento->result();
+		foreach($resultadoSolMovimiento as $aprobados):
+		$arraySolMovimiento[] = array(
+				"turno" => $aprobados->turno,
+				"fechaAsistencia" => $aprobados->fechaAsistencia,
+				"nombreUsuario" => $aprobados->nombreUsuario
+	
+		);
+		endforeach;
+		endif;
+	
+		return $arraySolMovimiento;
+	
+	}
+	
+	
+	public function obtenerCapacitacionEmpleados($idUsuario){
+	
+		$sqlSolMovimiento = "SELECT CursosUsuarios.*,Usuarios.nombreUsuario,CatalogoGrupos.*,CatalogoCursos.NombreDelCurso FROM CursosUsuarios
+left outer join Usuarios
+on Usuarios.idUsuarios=CursosUsuarios.idUsuarios
+left outer join CatalogoGrupos
+on CatalogoGrupos.idGrupo=CursosUsuarios.CatalogoGrupos_idGrupo
+left outer join CatalogoCursos
+on CatalogoGrupos.CatalogoCursos_idCursos=CatalogoCursos.idCursos
+WHERE CursosUsuarios.idUsuarios= $idUsuario";
+	
+		$querySolMovimiento = $this->db->query( $sqlSolMovimiento );
+		$arraySolMovimiento = array();
+		if(  $querySolMovimiento->num_rows() > 0 ):
+		$resultadoSolMovimiento = $querySolMovimiento->result();
+		foreach($resultadoSolMovimiento as $aprobados):
+		$arraySolMovimiento[] = array(
+				"nombreUsuario" => $aprobados->nombreUsuario,
+				"NombreDelCurso" => $aprobados->NombreDelCurso,
+				"NombreGrupo" => $aprobados->NombreGrupo,
+				"fechaInicial" => $aprobados->fechaInicial,
+				"fechaFinal" => $aprobados->fechaFinal,
+				
+	
+		);
+		endforeach;
+		endif;
+	
+		return $arraySolMovimiento;
+	
+	}
+	
+	
 }

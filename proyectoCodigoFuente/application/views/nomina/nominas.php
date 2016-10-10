@@ -47,12 +47,12 @@
 
     </div> 
 
-    <a style="padding: 20px 40px; width:250px; height:60px;  margin-top: 30px; margin-right: 7%"class="btnNextFDP" id="btnExportarNom">Exportar n&oacute;mina</a>
-    <a  style="padding: 20px 40px; width:250px; height:60px; margin-top: 30px; margin-right: 7%"class="btnNextFDP" id="btnMovNomin">Movimientos para la n&oacute;mina</a>
+<!--     <a style="padding: 20px 40px; width:250px; height:60px;  margin-top: 30px; margin-right: 7%"class="btnNextFDP" id="btnExportarNom">Exportar n&oacute;mina</a> -->
+    <a  style="padding: 20px 40px; width:250px; height:60px; margin-top: 30px; margin-right: 7%"class="btnNextFDP" id="btnMovNomin" href="<?php echo HOME_URL."Nomina/ImportAbonos"; ?>">Abonos</a>
    
-    <a style="padding: 20px 40px; width:250px; height:60px; margin-top: 30px; margin-right: 7%" class="btnNextFDP" id="btnReportes" href=>Reportes</a>
+    <a style="padding: 20px 40px; width:250px; height:60px; margin-top: 30px; margin-right: 7%" class="btnNextFDP" id="btnReportes" href="<?php echo HOME_URL."Nomina/ImportDescuentos"; ?>" >Descuentos</a>
     
-    <a style="padding: 20px 40px; width:250px; height:60px; margin-top: 30px; margin-right: 7%" class="btnNextFDP" id="btnAclaracion" href=>Aclaraci&oacute;n de movimientos</a>
+ <!--      <a style="padding: 20px 40px; width:250px; height:60px; margin-top: 30px; margin-right: 7%" class="btnNextFDP" id="btnAclaracion" href=>Aclaraci&oacute;n de movimientos</a> -->
 </div>
 
 

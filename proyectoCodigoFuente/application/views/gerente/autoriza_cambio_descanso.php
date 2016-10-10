@@ -21,6 +21,7 @@
                 <td>
            		<input type="text"  style="width: 80%" name="usuario" class="usuario" id="usuario" value="<?php echo $fila["nombreUsuario"]; ?>" required readonly>
 	<input type="hidden"  style="width: 50%" name="idDescanso" class="idDescanso" id="idDescanso" value="<?php echo $fila["idSolDiaDescanso"]; ?>" required readonly >
+              <input type="hidden"  style="width: 50%" name="idUsuario" class="idUsuario" id="idUsuario" value="<?php echo $fila["idUsuarios"]; ?>" required readonly >
               </td>
               
             </tr>  

@@ -813,5 +813,120 @@ public function EstatusCorreo($valor){
 	
 }
 	
+public function personalBajaTodos(){
+
+
+	$sqlAltaUsuarios = "SELECT RecursosHumanosFDP.*,Usuarios.nombreUsuario,
+	(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = RecursosHumanosFDP.idUsuarios and prefijoMetaDatos='Sdi') as sdi,
+	(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = RecursosHumanosFDP.idUsuarios and prefijoMetaDatos='puesto') as puesto,
+	(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = RecursosHumanosFDP.idUsuarios and prefijoMetaDatos='horario') as horario,
+	(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = RecursosHumanosFDP.idUsuarios and prefijoMetaDatos='fechaAlta') as fechaAlta,
+	(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = RecursosHumanosFDP.idUsuarios and prefijoMetaDatos='descanso') as descanso,
+	(SELECT Empresas.nombreEmpresas FROM Empresas WHERE Empresas.idEmpresas=(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = RecursosHumanosFDP.idUsuarios and prefijoMetaDatos='empresa_contrata')) as empresa,
+	(SELECT Oficinas.nombreOficina FROM Oficinas_has_Empresas
+	left outer join Oficinas on Oficinas.idOficinas = Oficinas_has_Empresas.Oficinas_idOficinas
+	where  Oficinas_idOficinas = (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = RecursosHumanosFDP.idUsuarios and prefijoMetaDatos='oficina')) as oficina
+	FROM RecursosHumanosFDP
+	left outer join CandidatoFDP on CandidatoFDP.idCandidatoFDP= RecursosHumanosFDP.idCandidatoFDP
+	left outer join Usuarios on Usuarios.idUsuarios = RecursosHumanosFDP.idUsuarios
+	 ";
+
+	$queryAltaUsuarios = $this->db->query( $sqlAltaUsuarios );
+	if( $queryAltaUsuarios->num_rows() > 0 ):
+	$resultadoAltaUsuarios = $queryAltaUsuarios->result();
+	$altas = array();
+		
+	foreach( $resultadoAltaUsuarios as $entre):
+	$altas[] = array(
+			"nombreUsuario" => $entre->nombreUsuario,
+			"idUsuarios" => $entre->idUsuarios,
+			"sdi" => $entre->sdi,
+			"puesto" => $entre->puesto,
+			"fechaAlta" => $entre->fechaAlta,
+			"descanso" => $entre->descanso,
+			"empresa" => $entre->empresa,
+			"oficina" => $entre->oficina,
+			"horario" => $entre->horario
+
+	);
+	endforeach;
+		
+	return $altas;
+	else:
+	return array();
+	endif;
+
+}
+
+public function personalBaja($id){
+
+
+	$sqlAltaUsuarios = "SELECT RecursosHumanosFDP.*,Usuarios.nombreUsuario,
+	(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = RecursosHumanosFDP.idUsuarios and prefijoMetaDatos='Sdi') as sdi,
+	(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = RecursosHumanosFDP.idUsuarios and prefijoMetaDatos='puesto') as puesto,
+	(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = RecursosHumanosFDP.idUsuarios and prefijoMetaDatos='horario') as horario,
+	(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = RecursosHumanosFDP.idUsuarios and prefijoMetaDatos='fechaAlta') as fechaAlta,
+	(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = RecursosHumanosFDP.idUsuarios and prefijoMetaDatos='descanso') as descanso,
+	(SELECT Empresas.nombreEmpresas FROM Empresas WHERE Empresas.idEmpresas=(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = RecursosHumanosFDP.idUsuarios and prefijoMetaDatos='empresa_contrata')) as empresa,
+	(SELECT Oficinas.nombreOficina FROM Oficinas_has_Empresas
+	left outer join Oficinas on Oficinas.idOficinas = Oficinas_has_Empresas.Oficinas_idOficinas
+	where  Oficinas_idOficinas = (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = RecursosHumanosFDP.idUsuarios and prefijoMetaDatos='oficina')) as oficina
+	FROM RecursosHumanosFDP
+	left outer join CandidatoFDP on CandidatoFDP.idCandidatoFDP= RecursosHumanosFDP.idCandidatoFDP
+	left outer join Usuarios on Usuarios.idUsuarios = RecursosHumanosFDP.idUsuarios
+	where RecursosHumanosFDP.idUsuarios  = $id ";
+
+	$queryAltaUsuarios = $this->db->query( $sqlAltaUsuarios );
+	if( $queryAltaUsuarios->num_rows() > 0 ):
+	$resultadoAltaUsuarios = $queryAltaUsuarios->result();
+	$altas = array();
+		
+	foreach( $resultadoAltaUsuarios as $entre):
+	$altas[] = array(
+			"nombreUsuario" => $entre->nombreUsuario,
+			"idUsuarios" => $entre->idUsuarios,
+			"sdi" => $entre->sdi,
+			"puesto" => $entre->puesto,
+			"fechaAlta" => $entre->fechaAlta,
+			"descanso" => $entre->descanso,
+			"empresa" => $entre->empresa,
+			"oficina" => $entre->oficina,
+			"horario" => $entre->horario
+
+	);
+	endforeach;
+		
+	return $altas;
+	else:
+	return array();
+	endif;
+
+}
+
+public function personal(){
+
+
+	$sqlAltaUsuarios = "SELECT Usuarios.nombreUsuario,Usuarios.idUsuarios
+	FROM  Usuarios   ";
+
+	$queryAltaUsuarios = $this->db->query( $sqlAltaUsuarios );
+	if( $queryAltaUsuarios->num_rows() > 0 ):
+	$resultadoAltaUsuarios = $queryAltaUsuarios->result();
+	$altas = array();
+		
+	foreach( $resultadoAltaUsuarios as $entre):
+	$altas[] = array(
+			"nombreUsuario" => $entre->nombreUsuario,
+			"idUsuarios" => $entre->idUsuarios
+
+	);
+	endforeach;
+		
+	return $altas;
+	else:
+	return array();
+	endif;
+
+}
 	
 }

@@ -12,6 +12,42 @@
         <table style=" border-collapse: separate; border-spacing:  10px" cellpadding="0" cellspacing="0" width="80%">
             <br>
             <tr>
+                <td><label>Turno actual</label></td>
+                <td>	<select style="width: 175px"name="turno_actual" class="turno_actual" id="turno_actual" readonly >
+                       
+                       
+                         <?php
+                         
+                         
+                         foreach( $turno as  $per ):
+                         
+                       $turno=$per->valorMetaDatos;
+                         									 
+                         									  endforeach;
+                         
+									  foreach( $Catalogos as  $per ):
+								  
+									  if($per->ObjetosNombre=='turno')
+									  {
+									  $valor= $per->id;
+									  $turnoTexto= $per->valor;
+									 
+									  
+									  ?>
+								  
+								   <option value="<?php echo $turnoTexto; ?>" <?php if( $turno == $valor ): echo "selected='selected'"; endif;?>><?php echo $turnoTexto; ?></option>
+								  
+								  
+								  		 
+								  <?php
+									  }
+									 
+									  endforeach;
+								  ?>
+								  
+</td>
+            </tr>
+            <tr>
                 <td><label>Fecha de aplicaci&oacute;n</label></td>
                 <td>	<input type="text" onfocus="this.blur()" name="fecha_inicio" class="fecha_inicio" id="fecha_inicio" placeholder="dd/mm/YYYY" autocomplete="off" required >
 </td>
@@ -86,8 +122,13 @@ $("#btnSolicitarCambio").click(function(){
     		{
 
 
-    			
+    			var nuevo_turno=$("#turno").val();
+    			var turno_actual=$("#turno_actual").val();
 
+
+    			if(nuevo_turno!=turno_actual)
+    			
+    			{
 
     				 
     		    $.ajax({
@@ -112,7 +153,12 @@ $("#btnSolicitarCambio").click(function(){
                        
                     }
                 });
-    			
+    			}
+    			else
+    			{
+
+    				$("#resultados").html("Seleccione otro turno..");
+    			}
     			
     		}
     		else

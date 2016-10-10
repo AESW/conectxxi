@@ -77,6 +77,8 @@
 	
 	
 	  <a style="padding: 20px 40px; width:250px; height:60px; margin-top: 30px; margin-right: 7%" class="btnNextFDP" id="btnAclaracion" href="<?php echo HOME_URL."Gerente/BajaPersonal/";?>">Solicitud de baja de empleado</a>
+	  
+	    <a style="padding: 20px 40px; width:250px; height:60px; margin-top: 30px; margin-right: 7%" class="btnNextFDP" id="btnAclaracion" href="<?php echo HOME_URL."Gerente/CambioSalario/";?>">Solicitud de cambio de salario</a>
 	
 	
 	

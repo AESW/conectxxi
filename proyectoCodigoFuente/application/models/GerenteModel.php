@@ -185,11 +185,11 @@ where  Oficinas_idOficinas = (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE
 	
 	public function obtenerAutorizacionesGerente($idUsuario){
 		
-		$sqlSolPermisos = 'select SolPermisos.*,Usuarios.nombreUsuario from SolPermisos
+		$sqlSolPermisos = "select SolPermisos.*,Usuarios.nombreUsuario from SolPermisos
 left outer join Usuarios
 on SolPermisos.idUsuarios=Usuarios.idUsuarios
 left outer join TaxPuestoUsuario
-on TaxPuestoUsuario.idUsuarios =  SolPermisos.idUsuarios where SolPermisos.aprobado=0';
+on TaxPuestoUsuario.idUsuarios =  SolPermisos.idUsuarios where SolPermisos.aprobado=0 and TaxPuestoUsuario.idUsuariosPadre= $idUsuario";
 	
 		$querySolPermisos = $this->db->query( $sqlSolPermisos );
 		$arraySolPermisos = array();
@@ -207,11 +207,11 @@ on TaxPuestoUsuario.idUsuarios =  SolPermisos.idUsuarios where SolPermisos.aprob
 		endif;
 	
 	
-		$sqlSolDescanso = 'select SolDiaDescanso.*,Usuarios.nombreUsuario from SolDiaDescanso
+		$sqlSolDescanso = "select SolDiaDescanso.*,Usuarios.nombreUsuario from SolDiaDescanso
 left outer join Usuarios
 on SolDiaDescanso.idUsuarios=Usuarios.idUsuarios
 left outer join TaxPuestoUsuario
-on TaxPuestoUsuario.idUsuarios =  SolDiaDescanso.idUsuarios where SolDiaDescanso.aprobado=0';
+on TaxPuestoUsuario.idUsuarios =  SolDiaDescanso.idUsuarios where SolDiaDescanso.aprobado=0 and TaxPuestoUsuario.idUsuariosPadre= $idUsuario";
 	
 		$querySolDescanso = $this->db->query( $sqlSolDescanso );
 		$arraySolDescanso = array();
@@ -228,11 +228,11 @@ on TaxPuestoUsuario.idUsuarios =  SolDiaDescanso.idUsuarios where SolDiaDescanso
 		endif;
 	
 	
-		$sqlSolTurno = 'select SolCambioTurno.*,Usuarios.nombreUsuario from SolCambioTurno
+		$sqlSolTurno = "select SolCambioTurno.*,Usuarios.nombreUsuario from SolCambioTurno
 left outer join Usuarios
 on SolCambioTurno.idUsuarios=Usuarios.idUsuarios
 left outer join TaxPuestoUsuario
-on TaxPuestoUsuario.idUsuarios =  SolCambioTurno.idUsuarios where SolCambioTurno.aprobado=0';
+on TaxPuestoUsuario.idUsuarios =  SolCambioTurno.idUsuarios where SolCambioTurno.aprobado=0 and TaxPuestoUsuario.idUsuariosPadre= $idUsuario";
 	
 		$querySolTurno = $this->db->query( $sqlSolTurno );
 		$arraySolTurno = array();
@@ -368,5 +368,24 @@ on TaxPuestoUsuario.idUsuarios =  SolCambioTurno.idUsuarios where SolCambioTurno
 	
 	}
 	
+	public function obtenerMovimientosSueldo($idUsuario){
+	
+		$sqlSolMovimiento = "select * from UsuariosMetadatos where idUsuarios=$idUsuario and prefijoMetaDatos='descanso'";
+	
+		$querySolMovimiento = $this->db->query( $sqlSolMovimiento );
+		$arraySolMovimiento = array();
+		if(  $querySolMovimiento->num_rows() > 0 ):
+		$resultadoSolMovimiento = $querySolMovimiento->result();
+		foreach($resultadoSolMovimiento as $aprobados):
+		$arraySolMovimiento[] = array(
+				"valorMetaDatos" => $aprobados->valorMetaDatos,
+	
+		);
+		endforeach;
+		endif;
+	
+		return $arraySolMovimiento;
+	
+	}
 	
 }

@@ -353,6 +353,8 @@ class Gerente extends CI_Controller {
     	);
     
     	$idDescanso = $this->Sanitize->clean_string ( $_POST ["idDescanso"] );
+    	$dia = $this->Sanitize->clean_string ( $_POST ["dia"] );
+    	$idUsuario = $this->Sanitize->clean_string ( $_POST ["idUsuario"] );
     
     	//	$finiquito = $this->Sanitize->clean_string ( $_POST ["finiquito"] );
     	//	$cheque = $this->Sanitize->clean_string ( $_POST ["cheque"] );
@@ -362,9 +364,16 @@ class Gerente extends CI_Controller {
     	$sqlUpdateUsuario = "UPDATE SolDiaDescanso set  aprobado= 1 , fecha_aprobacion=now() where idSolDiaDescanso= $idDescanso";
     
     	$UpdateUsuario = $this->db->query ( $sqlUpdateUsuario );
+    	
+    	if($UpdateUsuario)
+    	{
+    	
+    	$sqlUpdateDescanso = "UPDATE UsuariosMetadatos set  valorMetaDatos = '$dia'  where idusuarios= $idUsuario and prefijoMetaDatos='descanso'";
+    	
+    	$UpdateDescanso = $this->db->query ( $sqlUpdateDescanso );
+    	}
     
-    
-    	if ($UpdateUsuario)
+    	if ($UpdateDescanso)
     	{
     		$resultado = array (
     				"codigo" => 200,
@@ -414,17 +423,25 @@ class Gerente extends CI_Controller {
     
     	$idTurno = $this->Sanitize->clean_string ( $_POST ["idTurno"] );
     
-    	//	$finiquito = $this->Sanitize->clean_string ( $_POST ["finiquito"] );
-    	//	$cheque = $this->Sanitize->clean_string ( $_POST ["cheque"] );
+    	$turno = $this->Sanitize->clean_string ( $_POST ["turno"] );
+    	$idUsuario = $this->Sanitize->clean_string ( $_POST ["idUsuario"] );
     
     
     
     	$sqlUpdateUsuario = "UPDATE SolCambioTurno set  aprobado= 1 , fecha_aprobacion=now() where idSolCambioTurno= 	$idTurno";
     
     	$UpdateUsuario = $this->db->query ( $sqlUpdateUsuario );
+    	
+    	if($UpdateUsuario)
+    	{
+    	
+    	$sqlUpdateTurno = "UPDATE UsuariosMetadatos set  valorMetaDatos = '$turno'  where idusuarios= $idUsuario and prefijoMetaDatos='turno'";
+    	
+    	$UpdateTurno = $this->db->query ( $sqlUpdateTurno );
     
-    
-    	if ($UpdateUsuario)
+    	}
+    	
+    	if ($UpdateTurno)
     	{
     		$resultado = array (
     				"codigo" => 200,
@@ -443,5 +460,43 @@ class Gerente extends CI_Controller {
     	ob_clean ();
     	echo json_encode ( $resultado );
     	exit ();
+    }
+    
+    public function CambioSalario()
+    {
+    	$dataHeader = array(
+    			"titulo" => "Cambio de salario"
+    	);
+    
+    
+    	$sessionUser = $this->session->userdata('logged_in');
+    	//echo "<pre>";
+    	//print_r( $sessionUser );die;
+    	$idUsuario=$sessionUser["usuario"]["idUsuarios"];
+    	
+    	
+    	$sqlCatalogos = 'SELECT * from catalogos left outer join cat_detalle on catalogos.id=cat_detalle.id_catalogo
+    left outer join ObjetosCatalogo
+    on catalogos.id=ObjetosCatalogo.idCatalogo where cat_detalle.estatus=1';
+    	$queryCatalogos = $this->db->query($sqlCatalogos);
+    	
+    	
+    	
+    	
+    	$dataContent["Catalogos"]=$queryCatalogos->result();
+    		
+    	$movimientosSalario = $this->GerenteModel->obtenerMovimientosSueldo($idUsuario);
+    		
+    		
+    	$dataContent["salario"]=$movimientosSalario;
+    	
+    	
+    
+    	//print_r($dataContent);
+    
+    	$this->load->view('includes/header' , $dataHeader);
+    	$this->load->view('gerente/solicitud_cambio_salario' , $dataContent);
+    	$this->load->view('includes/footer');
+    
     }
 }

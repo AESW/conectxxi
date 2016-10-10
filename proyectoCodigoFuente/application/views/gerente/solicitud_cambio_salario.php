@@ -1,7 +1,7 @@
 
 <div class="content_generic">
     <div style="width: 100%" class="block_box_gen">
-        <h2><label>Solicitud de cambio de día de descanso</label></h2>
+        <h2><label>Solicitud de cambio de salario</label></h2>
         
         	<div id="resultado" style="color:red;font-weight: bold;margin-bottom: 15px;"	></div>
        		 <p><span id="guarda" style="font-weight: bold; text-align: center;font-size: 13pt; color: #00db05"></span></p>
@@ -11,7 +11,7 @@
             <br>
           
             <tr>
-            <td><label>Día actual de descanso:</label></td>
+            <td><label>Salario actual:</label></td>
               <?php 
                  if( !empty($descanso) ):    
 	                                                    foreach($descanso as  $v){ ?>
@@ -23,7 +23,7 @@
 	                                                    } 
 	                                                    endif;
 	                                                ?>
-                <td><label>Seleccione el nuevo día de descanso:</label></td>
+                <td><label>Seleccione el nuevo salario:</label></td>
                 <td><select style="width: 175px"name="dia" class="dia" id="dia">
                         <option value="">Seleccione día</option>
                         <option value="lunes">lunes</option>
