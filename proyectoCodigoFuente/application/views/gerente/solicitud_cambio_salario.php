@@ -7,34 +7,97 @@
        		 <p><span id="guarda" style="font-weight: bold; text-align: center;font-size: 13pt; color: #00db05"></span></p>
         
   <form id="formdescanso" name="formdescanso">       
-        <table style=" border-collapse: separate; border-spacing:  10px" cellpadding="0" cellspacing="0" width="80%">
-            <br>
-          
-            <tr>
-            <td><label>Salario actual:</label></td>
-              <?php 
-                 if( !empty($descanso) ):    
-	                                                    foreach($descanso as  $v){ ?>
-                
-                <td><input type="text" name="actual" id="actual" readonly value="<?php echo $v["valorMetaDatos"]; ?>">
-                </td> 
-                 <?php 
-	                                                   
-	                                                    } 
-	                                                    endif;
-	                                                ?>
-                <td><label>Seleccione el nuevo salario:</label></td>
-                <td><select style="width: 175px"name="dia" class="dia" id="dia">
-                        <option value="">Seleccione día</option>
-                        <option value="lunes">lunes</option>
-                          <option value="Martes">Martes</option>
-                            <option value="Miércoles">Miércoles</option>
-                              <option value="Jueves">Jueves</option>
-                                <option value="Viernes">Viernes</option>
-                                  <option value="Sábado">Sábado</option>
-                                    <option value="Domingo">Domingo</option></select>
-                </td> 
+            <table cellpadding="0" cellspacing="0"   style="margin: 0 auto;" >
+            <tr >
+                            <td>Nombre del Empleado .</td>
+                            <td> <select  name="selecUsuario" class="selecUsuario" id="selecUsuario" style="width:100%;">
+                                   
+
+ <?php
+                                    if(!empty( $datos ) ):
+                                    foreach($datos as $fila)
+                                    {
+                                    ?>
+
+                                    <option value="<?php echo $fila["idUsuarios"]; ?>"><?php echo $fila["nombreUsuario"]; ?></option>  
+                                    <?php
+                                    }
+                                    
+                                    
+                                    if(!empty( $personal ) ):
+                                    foreach($personal as $fila)
+                                    {
+                                    	?>
+                                    
+                                                                        <option value="<?php echo $fila["idUsuarios"]; ?>"><?php echo $fila["nombreUsuario"]; ?></option>  
+                                                                        <?php
+                                                                        }
+                                                                        endif;
+                                    
+                                    else:
+                                    ?>
+                                    <option value="">Seleccione Personal</option>
+                                      
+                                    <?php
+                                    if(!empty( $personal ) ):
+                                    foreach($personal as $fila)
+                                    {
+                                    	?>
+                                    
+                                                                        <option value="<?php echo $fila["idUsuarios"]; ?>"><?php echo $fila["nombreUsuario"]; ?></option>  
+                                                                        <?php
+                                                                        }
+                                                                        endif;
+                                                                       
+                                    
+                                    endif;
+                                    ?>
+
+
+                                   
+
+                               </select></td>
+                        </tr>
+                          <tr style="height: 5px">
+                             </tr>
+                        <tr >
+                            <td>Salario Actual: </td>
+                            <td><select  name="salario_actual" class="salario_actual" id="salario_actual" style="width:100%;">
+                                  
+                                                                        <option value="">Seleccione Salario</option>
+                                                                  </select></td>
+                        </tr>
+                          <tr style="height: 5px">
+                             </tr>
+                        <tr >
+                            <td>Nuevo salarios:</td>
+                            <td><select  name="salario_nuevo" class="salario_nuevo" id="salario_nuevo" style="width:100%;">
+                                            <option value="">Seleccione Salario</option>
+                                            
+                                             <?php
+                                            
+                                              if(!empty( $salario ) ):
+                                    foreach($salario as $fila)
+                                    {
+                                    	?>
+                                    
+                                                                        <option value="<?php echo $fila["idSueldos"]; ?>"><?php echo $fila["sueldo"]; ?></option>  
+                                                                        <?php
+                                                                        }
+                                                                        endif;
+                                            
+                                            ?>
+                                                                   </select></td>
+                        </tr>
+                          <tr style="height: 5px">
+                             </tr>
+                              <tr>
+                <td>Fecha de aplicación:</td>
+                <td><input type="text" onfocus="this.blur()" name="fecha_inicio" class="fecha_inicio" id="fecha_inicio" placeholder="dd/mm/YYYY" autocomplete="off" required ></td>
+               
             </tr>
+             <tr style="height: 5px">
+                             </tr>
             <tr>
                 <td><label>Observaciones</label></td>
             </tr>
@@ -63,9 +126,24 @@
 $("#btnSolicitarCambio").click(function(){
 
     		error_campos = [];
-    		if( $("#dia").val() == "" ) {
-        		error_campos.push(  "dia");
-        		 $("#dia").css("border", "2px solid red");
+    		if( $("#selecUsuario").val() == "" ) {
+        		error_campos.push(  "selecUsuario");
+        		 $("#selecUsuario").css("border", "2px solid red");
+    		}
+
+    		if( $("#salario_actual").val() == "" ) {
+        		error_campos.push(  "salario_actual");
+        		 $("#salario_actual").css("border", "2px solid red");
+    		}
+
+    		if( $("#salario_nuevo").val() == "" ) {
+        		error_campos.push(  "salario_nuevo");
+        		 $("#salario_nuevo").css("border", "2px solid red");
+    		}
+
+    		if( $("#fecha_inicio").val() == "" ) {
+        		error_campos.push(  "fecha_inicio");
+        		 $("#fecha_inicio").css("border", "2px solid red");
     		}
 
     		
@@ -74,18 +152,19 @@ $("#btnSolicitarCambio").click(function(){
     		{
 
 
-    			var nuevo_dia=$("#dia").val();
-    			var dia_actual=$("#actual").val();
+    			var nuevo_salario=$("#salario_actual").val();
+    			var salario_actual=$("#salario_nuevo").val();
 
 
-    			if(nuevo_dia!=dia_actual)
+    			if(parseInt(nuevo_salario)!=parseInt(salario_actual))
     			
     			{
 
 
+    				
     				 
     		    $.ajax({
-                    url: '<?php echo HOME_URL; ?>MovEmpleados/GuardaDescanso',
+                    url: '<?php echo HOME_URL; ?>Gerente/GuardaSueldo',
                     type: 'POST',
                     dataType: 'json',
                     data: $('#formdescanso').serialize(),
@@ -111,7 +190,7 @@ $("#btnSolicitarCambio").click(function(){
     			else
     			{
 
-    				$("#resultado").html("Seleccione otro dia de descanso..");
+    				$("#resultado").html("Seleccione otro Sueldo..");
     			}
     			
     			
@@ -131,5 +210,42 @@ $("#btnSolicitarCambio").click(function(){
 
 
 </script>
+
+
+ <script type="text/javascript">
+    
+        $(document).ready(function() {
+
+
+            
+            $("#selecUsuario").change(function() {
+                $("#selecUsuario option:selected").each(function() {
+                	usuario = $('#selecUsuario').val();
+
+                	
+                    $.post("<?php echo HOME_URL; ?>Gerente/SalarioActual", {
+                    	usuario : usuario
+                    }, function(data) {
+                        $("#salario_actual").html(data);
+                   });
+
+                 				
+                   
+                });
+            })
+        });
+    </script>
+    
+    	<script type="text/javascript">
+    $( "#fecha_inicio" ).datepicker({
+	        dateFormat: "yy-mm-dd",
+	        yearRange: "-100:+0",
+	        changeYear:true,
+        });
+
+    
+
+    
+    </script> 
         
           

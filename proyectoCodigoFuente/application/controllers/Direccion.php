@@ -54,7 +54,7 @@ class Direccion extends CI_Controller {
     	/*Entrevistas por realizar*/
     
     	/*Segundas entrevistas*/
-   // 	$entrevistasRealizarSegundaParte = $this->ReclutamientoModel->obtenerEntrevistasRealizarSegundaParte();
+    	$cambiosSueldo = $this->DireccionModel->obtenerCambiosSueldo();
     	/*Segundas entrevistas*/
     	//print_r( $entrevistasRealizarSegundaParte );
     
@@ -62,8 +62,8 @@ class Direccion extends CI_Controller {
     
     
     	$dataContent = array(
-    		 "SolicitudPersonal" => $SolicitudPersonal
-    	//		"entrevistasRealizar" => $entrevistasRealizar,
+    		 "SolicitudPersonal" => $SolicitudPersonal,
+    		   "cambiosSueldo" => $cambiosSueldo
     		//	"entrevistasRealizarSegundaParte" => $entrevistasRealizarSegundaParte,
    // 			"movimientos" => $movimientosCandidatosRH
     	);
@@ -210,5 +210,128 @@ class Direccion extends CI_Controller {
     	echo json_encode($resultado);
     }
     
+    
+    
+    public function CambioSuledoDetalle()
+    {
+    	$dataHeader = array(
+    			"titulo" => "Solcitud Cambio de Sueldo"
+    	);
+    	 
+    	 
+    	$idCambio = $this->Sanitize->clean_string($_REQUEST["idCambio"]);
+    	$idUsuario = $this->Sanitize->clean_string($_REQUEST["User"]);
+    	 
+    	if( $idCambio == "" and $idUsuario==""):
+    	redirect("panel");
+    	endif;
+    	 
+    	 
+    	/*Obtener datos de usuario, roles, modulos , permisos*/
+    	$sessionUser = $this->session->userdata('logged_in');
+    	//echo "<pre>";
+    	//print_r( $sessionUser );die;
+    
+    	$DatosUsuario=$sessionUser['usuario']['nombreUsuario'];
+    
+    
+    	$CambioSueldoDetalle=$this->DireccionModel->CambioSueldoDetalle($idCambio,$idUsuario);
+    
+    
+    
+    	$dataContent = array(
+    			"CambioSueldoDetalle" => $CambioSueldoDetalle,
+    			 
+    	);
+    
+    
+    	//	print_r($dataContent);
+    
+    	$this->load->view('includes/header' , $dataHeader);
+    	$this->load->view('direccion/CambioSueldo',$dataContent );
+    	$this->load->view('includes/footer');
+    
+    }
+    
+    
+    
+    public function AprobarCambioSueldo()
+    {
+    
+    	/*Obtener datos de usuario, roles, modulos , permisos*/
+    	$sessionUser = $this->session->userdata('logged_in');
+    	//echo "<pre>";
+    	//print_r( $sessionUser );die;
+    
+    	$IdUsuario=$sessionUser['usuario']['idUsuarios'];
+    
+    	$Id=$this->Sanitize->clean_string($_POST["idCambio"]);
+    
+    	$AprobarSueldo=$this->DireccionModel->AprobarCambioSueldo($Id);
+    	 
+    	if($AprobarSueldo)
+    	{
+    
+    		$resultado = array(
+    				"codigo" => 200,
+    				"unique" => false,
+    				"mensaje" => "Sueldo Aprobado Correctamente"
+    		);
+    	}
+    	else
+    
+    	{
+    		$resultado = array(
+    				"codigo" => 400,
+    				"unique" => false
+    		);
+    
+    
+    	}
+    	 
+    	ob_clean();
+    
+    	echo json_encode($resultado);
+    }
+    
+    
+    public function RechazarCambioSueldo()
+    {
+    
+    	/*Obtener datos de usuario, roles, modulos , permisos*/
+    	$sessionUser = $this->session->userdata('logged_in');
+    	//echo "<pre>";
+    	//print_r( $sessionUser );die;
+    
+    	$IdUsuario=$sessionUser['usuario']['idUsuarios'];
+    
+    	$Id=$this->Sanitize->clean_string($_POST["idCambio"]);
+    
+    	$RechazarSueldo=$this->DireccionModel->RechazarCambioSueldo($Id);
+    
+    	if($RechazarSueldo)
+    	{
+    
+    		$resultado = array(
+    				"codigo" => 200,
+    				"unique" => false,
+    				"mensaje" => "Sueldo Rechazado Correctamente"
+    		);
+    	}
+    	else
+    
+    	{
+    		$resultado = array(
+    				"codigo" => 400,
+    				"unique" => false
+    		);
+    
+    
+    	}
+    
+    	ob_clean();
+    
+    	echo json_encode($resultado);
+    }
     
 }

@@ -22,6 +22,18 @@
 				endforeach;
 			endif;
 		?>
+		
+		<?php 
+			if(!empty( $cambiosSueldo ) ):
+				foreach($cambiosSueldo as $valorSueldo):
+		?>
+					<li><a href="<?php echo HOME_URL; ?>Direccion/CambioSuledoDetalle/?idCambio=<?php echo $valorSueldo["idSolCambioSalario"];?>&User=<?php echo $valorSueldo["idUsuarios"];?>">Sol. Cambio de sueldo - <?php echo $valorSueldo["nombreUsuario"]; ?></a></li>
+		<?php
+				endforeach;
+			endif;
+		?>
+		
+		
 		</ul>
 	</div>
 	

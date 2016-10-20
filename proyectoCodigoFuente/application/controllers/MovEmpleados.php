@@ -43,7 +43,7 @@ class MovEmpleados extends CI_Controller {
     			"idUsuario" => $idUsuario,
     	);
     	
-    	//print_r($dataContent);
+    //	print_r($dataContent);
     	
     	
     	$this->load->view('includes/header' , $dataHeader);
@@ -142,7 +142,6 @@ class MovEmpleados extends CI_Controller {
 		$dataContent["turno"] = $queryturno->result();
 			
 		
-		
 		$sqlCatalogos = 'SELECT * from catalogos left outer join cat_detalle on catalogos.id=cat_detalle.id_catalogo
     left outer join ObjetosCatalogo
     on catalogos.id=ObjetosCatalogo.idCatalogo where cat_detalle.estatus=1';
@@ -190,6 +189,9 @@ class MovEmpleados extends CI_Controller {
 	
 	public function solicitud_vacaciones()
 	{
+		
+		date_default_timezone_set('America/Mexico_City');
+		
 		$dataHeader = array(
 				"titulo" => "Solicitud Vacaciones"
 		);
@@ -199,17 +201,120 @@ class MovEmpleados extends CI_Controller {
 		
 		
 		
-		$vacacionesEmpleados = $this->MovimientosModel->obtenervacacionesEmpleados($idUsuario);
-		 
-		 
+		$DatosEmpleados = $this->MovimientosModel->DatosEmpleados($idUsuario);
+		
+		
+		$añoIngreso=$DatosEmpleados[0]['fechaIngreso'];
+		
+		$diasDisponibles=0;
+		$fecha1 = new DateTime($añoIngreso);
+		$fecha2 = new DateTime();
+		$fecha = $fecha1->diff($fecha2);
+		$Y= $fecha->y;
+		
+		
+		
+		
+		if($Y>0)
+		{
+			
+			
+			for ($i = 1;$i <= $Y ; $i++) {
+				
+				
+				
+				$sqlCatalogos = "SELECT cat_detalle.parametro from catalogos left outer join cat_detalle on catalogos.id=cat_detalle.id_catalogo
+				left outer join ObjetosCatalogo
+				on catalogos.id=ObjetosCatalogo.idCatalogo where cat_detalle.estatus=1 and catalogos.id=43 and cat_detalle.valor=$i";
+				$queryCatalogos = $this->db->query($sqlCatalogos);
+				$sqlResult = $queryCatalogos->result();
+				
+				
+				foreach($sqlResult as $valor):
+				$DiasAsignados = $valor->parametro;
+				
+				endforeach;
+				
+				
+				$fechaOtorga = date($añoIngreso);
+				$nuevafechaOtorga = strtotime ( '+'.$i.' year' , strtotime ( $fechaOtorga ) ) ;
+				$nuevafechaOtorga = date ( 'Y-m-j' , $nuevafechaOtorga );
+				
+				
+				$fechaVencen = date($nuevafechaOtorga);
+				$nuevafechaVencen = strtotime ( '+1 year' , strtotime ( $fechaVencen ) ) ;
+				$nuevafechaVencen = date ( 'Y-m-j' , $nuevafechaVencen );
+				
+				
+				$fechaVencenFinal = date($nuevafechaVencen);
+				$nuevafechaVencenFinal = strtotime ( '+180 day' , strtotime ( $fechaVencenFinal ) ) ;
+				$nuevafechaVencenFinal = date ( 'Y-m-j' , $nuevafechaVencenFinal );
+				
+				
+				$periodo = date ('Y', strtotime($nuevafechaOtorga) );
+				
+				
+				$sqlDiasTomados = "SELECT sum(dias) as dias FROM solvacaciones WHERE Periodo=$periodo and idUsuarios=$idUsuario";
+				$queryDiasTomados = $this->db->query($sqlDiasTomados);
+				$sqlResultDiasTomados = $queryDiasTomados->result();
+				
+				
+				foreach($sqlResultDiasTomados as $valorDiasTomados):
+				$DiasTomados = $valorDiasTomados->dias;
+				
+				endforeach;
+				
+				$diasRestantes=$DiasAsignados-$DiasTomados;
+				
+				if($nuevafechaVencenFinal>=date('Y-m-j'))
+				{
+					$diasDisponibles=$diasDisponibles+$diasRestantes;
+				}
+				
+				
+			
+				
+				
+			
+			
+				$arrayVacaciones[] = array(
+						"Periodo" => $periodo,
+						"DiasOtorgados" => $DiasAsignados,
+						"DiasRestantes" => $diasRestantes,
+						"FechaOtorgacion" => $nuevafechaOtorga,
+						"Prescriben" => $nuevafechaVencenFinal,
+						"DiasDisponibles" => $diasDisponibles
+				);
+					
+				
+				
+			}
+			
+			
+		
+			
+		}
+		else
+		{
+			$arrayVacaciones[] = array(
+					"Periodo" => '',
+					"DiasOtorgados" => 0,
+					"DiasRestantes" => 0,
+					"FechaOtorgacion" => '',
+					"Prescriben" => '',
+					"DiasDisponibles" => 0
+				
+			);
+		}
+		
+		
+		
+			 
 		$dataContent = array(
-				 
-				"vacaciones" => $vacacionesEmpleados,
+				 "DatosEmpleados" => $DatosEmpleados,
+				"arrayVacaciones" => $arrayVacaciones
 		);
 		 
-		//print_r($dataContent);
-		
-		
 		
 		
 		$this->load->view('includes/header' , $dataHeader);
@@ -563,6 +668,179 @@ class MovEmpleados extends CI_Controller {
 	
 	
 	
+	}
+	
+	
+	public function ConsultaVacaciones()
+	{
+	
+		$dataHeader = array(
+				"titulo" => "Vacaciones"
+		);
+	
+		$sessionUser = $this->session->userdata('logged_in');
+		//echo "<pre>";
+		//print_r( $sessionUser );die;
+		$idUsuario=$sessionUser["usuario"]["idUsuarios"];
+			
+		$vacaciones = $this->MovimientosModel->obtenerVacacionesEmpleados($idUsuario);
+			
+			
+		$dataContent = array(
+					
+				"vacaciones" => $vacaciones,
+		);
+			
+		//print_r($dataContent);
+			
+			
+		$this->load->view('includes/header' , $dataHeader);
+		$this->load->view('empleados/consultaVacaciones' , $dataContent);
+		$this->load->view('includes/footer');
+	
+	
+	
+	}
+	
+	
+	function GuardaVacaciones() {
+	
+		$sessionUser = $this->session->userdata('logged_in');
+			
+		$idUsuario=$sessionUser["usuario"]["idUsuarios"];
+		
+		$fecha_inicio_paso=$this->input->post('fecha_inicio');
+		$fecha_fin_paso=$this->input->post('fecha_fin');
+		$dias=$this->input->post('diasPed');
+		
+		
+		
+		$fecha_inicio=substr($fecha_inicio_paso, 6,4)."-".substr($fecha_inicio_paso, 3,2)."-".substr($fecha_inicio_paso, 0,2);
+		$fecha_fin=substr($fecha_fin_paso, 6,4)."-".substr($fecha_fin_paso, 3,2)."-".substr($fecha_fin_paso, 0,2);
+		
+		$DatosEmpleados = $this->MovimientosModel->DatosEmpleados($idUsuario);
+		
+		
+		$añoIngreso=$DatosEmpleados[0]['fechaIngreso'];
+		
+		$diasDisponibles=0;
+		$fecha1 = new DateTime($añoIngreso);
+		$fecha2 = new DateTime();
+		$fecha = $fecha1->diff($fecha2);
+		$Y= $fecha->y;
+		
+		
+		
+		
+		if($Y>0)
+		{
+				
+				
+			for ($i = 1;$i <= $Y ; $i++) {
+		
+		
+		
+				$sqlCatalogos = "SELECT cat_detalle.parametro from catalogos left outer join cat_detalle on catalogos.id=cat_detalle.id_catalogo
+				left outer join ObjetosCatalogo
+				on catalogos.id=ObjetosCatalogo.idCatalogo where cat_detalle.estatus=1 and catalogos.id=43 and cat_detalle.valor=$i";
+				$queryCatalogos = $this->db->query($sqlCatalogos);
+				$sqlResult = $queryCatalogos->result();
+		
+		
+				foreach($sqlResult as $valor):
+				$DiasAsignados = $valor->parametro;
+		
+				endforeach;
+		
+		
+				$fechaOtorga = date($añoIngreso);
+				$nuevafechaOtorga = strtotime ( '+'.$i.' year' , strtotime ( $fechaOtorga ) ) ;
+				$nuevafechaOtorga = date ( 'Y-m-j' , $nuevafechaOtorga );
+		
+		
+				$fechaVencen = date($nuevafechaOtorga);
+				$nuevafechaVencen = strtotime ( '+1 year' , strtotime ( $fechaVencen ) ) ;
+				$nuevafechaVencen = date ( 'Y-m-j' , $nuevafechaVencen );
+		
+		
+				$fechaVencenFinal = date($nuevafechaVencen);
+				$nuevafechaVencenFinal = strtotime ( '+180 day' , strtotime ( $fechaVencenFinal ) ) ;
+				$nuevafechaVencenFinal = date ( 'Y-m-j' , $nuevafechaVencenFinal );
+		
+		
+				$periodo = date ('Y', strtotime($nuevafechaOtorga) );
+		
+		
+				$sqlDiasTomados = "SELECT sum(dias) as dias FROM solvacaciones WHERE Periodo=$periodo and idUsuarios=$idUsuario";
+				$queryDiasTomados = $this->db->query($sqlDiasTomados);
+				$sqlResultDiasTomados = $queryDiasTomados->result();
+		
+		
+				foreach($sqlResultDiasTomados as $valorDiasTomados):
+				$DiasTomados = $valorDiasTomados->dias;
+		
+				endforeach;
+		
+				$diasRestantes=$DiasAsignados-$DiasTomados;
+		
+				if($nuevafechaVencenFinal>=date('Y-m-j'))
+				{
+					
+					
+					if($diasRestantes>0)
+					{
+				
+						if($dias>0)
+						$sqlSolcitud = "Insert into SolVacaciones (fechaSolicitud,dias,fechaSalida,fechaEntrada,Periodo,idUsuarios,idAutoriza,estatus) values (now(),0,'$fecha_inicio','$fecha_fin',$periodo,$idUsuario,$idUsuario,0)" ;
+						$querySolictud = $this->db->query($sqlSolcitud);
+						$solicitudInsertID = $this->db->insert_id();
+						
+						
+						for ($j = 1;$j <= $diasRestantes ; $j++) {
+							
+							if($dias>0)
+							{
+					$sqlActualiza = "update SolVacaciones set SolVacaciones.dias = SolVacaciones.dias+1 where idUSuarios=$idUsuario and idSolVacaciones=$solicitudInsertID" ;
+					$queryActualiza = $this->db->query($sqlActualiza);
+						
+					$dias=$dias-1;
+							}
+					
+						}
+					}
+					
+				
+				}
+		
+				
+			}
+				
+				
+		
+				
+		}
+		
+	
+					
+		if ($queryActualiza)
+		{
+			$resultado = array (
+					"codigo" => 200,
+					"exito" => true,
+					"mensaje" => "Solicitud guardada correctamente."
+			);
+		}
+		else {
+			$resultado = array (
+					"codigo" => 400,
+					"exito" => false,
+					"mensaje" => "Error, vuelva a intentarlo."
+			);
+		}
+	
+		ob_clean ();
+		echo json_encode ( $resultado );
+		exit ();
 	}
 	
 }

@@ -249,10 +249,28 @@ on TaxPuestoUsuario.idUsuarios =  SolCambioTurno.idUsuarios where SolCambioTurno
 		endif;
 	
 	
+		$sqlSolVacaciones = "select SolVacaciones.*,Usuarios.nombreUsuario from SolVacaciones
+		left outer join Usuarios
+		on SolVacaciones.idUsuarios=Usuarios.idUsuarios
+		left outer join TaxPuestoUsuario
+		on TaxPuestoUsuario.idUsuarios =  SolVacaciones.idUsuarios where SolVacaciones.estatus=0 and TaxPuestoUsuario.idUsuariosPadre= $idUsuario";
 		
+		$querySolVacaciones = $this->db->query( $sqlSolVacaciones );
+		$arraySolVacaciones = array();
+		if(  $querySolVacaciones->num_rows() > 0 ):
+		$resultadoSolVacaciones = $querySolVacaciones->result();
+		foreach($resultadoSolVacaciones as $SolVacaciones):
+		$arraySolVacaciones[] = array(
+				"idSolVacaciones" => $SolVacaciones->idSolVacaciones,
+				"idUsuarios" => $SolVacaciones->idUsuarios,
+				"nombreUsuario" => $SolVacaciones->nombreUsuario,
+				"autorizacion" => "vacaciones"
+		);
+		endforeach;
+		endif;
 	
 	
-		$resultadoMovimientos = array_merge($arraySolPermisos, $arraySolDescanso,$arraySolTurno);
+		$resultadoMovimientos = array_merge($arraySolPermisos, $arraySolDescanso,$arraySolTurno,$arraySolVacaciones);
 	
 		return $resultadoMovimientos;
 	}
@@ -370,22 +388,88 @@ on TaxPuestoUsuario.idUsuarios =  SolCambioTurno.idUsuarios where SolCambioTurno
 	
 	public function obtenerMovimientosSueldo($idUsuario){
 	
-		$sqlSolMovimiento = "select * from UsuariosMetadatos where idUsuarios=$idUsuario and prefijoMetaDatos='descanso'";
+		$sqlSolMovimiento = "select valorMetaDatos as idSueldos,Sueldos.sueldo from UsuariosMetadatos left outer join Sueldos
+		on UsuariosMetadatos.valorMetaDatos = Sueldos.idSueldos where idUsuarios=$idUsuario and prefijoMetaDatos='sueldoNOI'";
 	
 		$querySolMovimiento = $this->db->query( $sqlSolMovimiento );
 		$arraySolMovimiento = array();
 		if(  $querySolMovimiento->num_rows() > 0 ):
 		$resultadoSolMovimiento = $querySolMovimiento->result();
-		foreach($resultadoSolMovimiento as $aprobados):
-		$arraySolMovimiento[] = array(
-				"valorMetaDatos" => $aprobados->valorMetaDatos,
-	
-		);
-		endforeach;
+		
 		endif;
 	
-		return $arraySolMovimiento;
+		return $resultadoSolMovimiento;
 	
 	}
+	
+	public function obtenerCatSueldo(){
+	
+	
+		$peticiones = array();
+	
+		$sqlPeticiones = "
+		SELECT * from Sueldos where estatus=1
+	
+		";//Agregar AND ReclutacionFDP aprobado, RecursosHumanosFDP aprobado
+	
+		$queryPeticiones = $this->db->query( $sqlPeticiones );
+	
+		if( $queryPeticiones->num_rows() > 0 ):
+		$resultadoPeticiones = $queryPeticiones->result();
+		$peticiones = array();
+		foreach( $resultadoPeticiones as $pet):
+	
+		$peticiones[] = array(
+				"idSueldos" => $pet->idSueldos,
+				"sueldo" => $pet->sueldo,
+			
+		);
+		endforeach;
+		return $peticiones;
+		else:
+		return array();
+		endif;
+	
+	
+	}
+	
+	public function DatosusuariosVacaciones($idVacaciones){
+	
+	
+		$peticiones = array();
+	
+		$sqlPeticiones = "
+		SELECT SolVacaciones.*, Usuarios.nombreUsuario	from SolVacaciones
+		left outer join Usuarios
+		on Usuarios.idUsuarios=SolVacaciones.idUsuarios where SolVacaciones.idSolVacaciones= $idVacaciones
+	
+		";//Agregar AND ReclutacionFDP aprobado, RecursosHumanosFDP aprobado
+	
+		$queryPeticiones = $this->db->query( $sqlPeticiones );
+	
+		if( $queryPeticiones->num_rows() > 0 ):
+		$resultadoPeticiones = $queryPeticiones->result();
+		$peticiones = array();
+		foreach( $resultadoPeticiones as $pet):
+	
+		$peticiones[] = array(
+				"idSolVacaciones" => $pet->idSolVacaciones,
+				"idUsuarios" => $pet->idUsuarios,
+				"nombreUsuario" => $pet->nombreUsuario,
+				"fechaSalida" => $pet->fechaSalida,
+				"fechaEntrada" => $pet->fechaEntrada,
+				"dias" => $pet->dias,
+				"Periodo" => $pet->Periodo,
+				
+		);
+		endforeach;
+		return $peticiones;
+		else:
+		return array();
+		endif;
+	
+	
+	}
+	
 	
 }

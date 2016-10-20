@@ -187,4 +187,115 @@ WHERE idVacantesPeticiones = $idVacante  ";
 	
 	}
 	
+	
+	public function obtenerCambiosSueldo(){
+	
+	
+		$sqlVAcantes = "SELECT SolCambioSalario.*,Usuarios.nombreUsuario from SolCambioSalario
+				left outer join usuarios
+				on SolCambioSalario.idUsuarios=Usuarios.idusuarios where SolCambioSalario.aprobadoDireccion=0 ";
+		$queryVacantes = $this->db->query( $sqlVAcantes );
+	
+		if( $queryVacantes->num_rows() > 0 ):
+		$resultadoVacantes = $queryVacantes->result();
+		$peticiones = array();
+		foreach( $resultadoVacantes as $pet):
+		 
+		$Vacantes[] = array(
+				"nombreUsuario" => $pet->nombreUsuario,
+				"idSolCambioSalario" => $pet->idSolCambioSalario,
+				"idUsuarios" => $pet->idUsuarios
+			
+				 
+		);
+		endforeach;
+		return $Vacantes;
+		else:
+		return array();
+		endif;
+	
+	}
+	
+	
+	public function CambioSueldoDetalle($idCambio,$idUsuario){
+	
+	
+		$sqlCambioSualdo = "SELECT SolCambioSalario.*,Usuarios.nombreUsuario,Sueldos.sueldo,
+		(select Sueldos.sueldo from UsuariosMetadatos left outer join Sueldos
+		on UsuariosMetadatos.valorMetaDatos = Sueldos.idSueldos where idUsuarios=$idUsuario and prefijoMetaDatos='sueldoNOI') as SueldoActual
+		from SolCambioSalario
+				left outer join usuarios
+				on SolCambioSalario.idUsuarios=Usuarios.idusuarios
+		        left outer join Sueldos
+		        on SolCambioSalario.salario = Sueldos.idSueldos where SolCambioSalario.idSolCambioSalario = $idCambio  ";
+		$queryCambioSualdo = $this->db->query( $sqlCambioSualdo );
+	
+		if( $queryCambioSualdo->num_rows() > 0 ):
+		$resultadoCambioSualdo = $queryCambioSualdo->result();
+		$peticiones = array();
+		foreach( $resultadoCambioSualdo as $pet):
+			
+		$CambioSueldo[] = array(
+				"nombreUsuario" => $pet->nombreUsuario,
+				"idSolCambioSalario" => $pet->idSolCambioSalario,
+				"observaciones" => $pet->observaciones,
+				"sueldo" => $pet->sueldo,
+				"SueldoActual" => $pet->SueldoActual,
+				"fechaAplicacion" => $pet->fechaAplicacion
+			
+		);
+		endforeach;
+		return $CambioSueldo;
+		else:
+		return array();
+		endif;
+	
+	}
+	
+	
+	public function AprobarCambioSueldo($Id){
+	
+	
+		$sqlInsert = "update SolCambioSalario set aprobadoDireccion=1 ,fecha_aprobacionDireccion=now() where idSolCambioSalario=$Id ";
+	
+		$queryInsert = $this->db->query($sqlInsert);
+		//	$idAltaUsuario = $this->db->insert_id();
+	
+		if ($queryInsert)
+		{
+	
+	
+	
+			return true;
+		}
+		else{
+			return false;
+		}
+	
+	
+	}
+	
+	
+	public function RechazarCambioSueldo($Id){
+	
+	
+		$sqlInsert = "update SolCambioSalario set aprobadoDireccion=2 ,fecha_aprobacionDireccion=now() where idSolCambioSalario=$Id ";
+	
+		$queryInsert = $this->db->query($sqlInsert);
+		//	$idAltaUsuario = $this->db->insert_id();
+	
+		if ($queryInsert)
+		{
+	
+	
+	
+			return true;
+		}
+		else{
+			return false;
+		}
+	
+	
+	}
+	
 }

@@ -234,8 +234,47 @@ class RecursoshumanosModel extends CI_Model {
 		endforeach;
 		endif;
 		
+		
+		$sqlCambiosSueldo = "SELECT SolCambioSalario.*,Usuarios.nombreUsuario from SolCambioSalario
+				left outer join usuarios
+				on SolCambioSalario.idUsuarios=Usuarios.idusuarios where SolCambioSalario.aprobadoDireccion=1 and aprobadoRH=0";
+		
+		$queryCambiosSueldos = $this->db->query( $sqlCambiosSueldo );
+		$arrayCambiosSueldo = array();
+		if(  $queryCambiosSueldos->num_rows() > 0 ):
+		$resultadoCambiosSueldo = $queryCambiosSueldos->result();
+		foreach($resultadoCambiosSueldo as $pet):
+		$arrayCambiosSueldo[] = array(
+				"nombreUsuario" => $pet->nombreUsuario,
+				"idSolCambioSalario" => $pet->idSolCambioSalario,
+				"estatusCandidato" => "Cambio Sueldo",
+				"idUsuarios" => $pet->idUsuarios
+					
+		);
+		endforeach;
+		endif;
+		
+		$sqlVacaciones = "SELECT SolVacaciones.*,Usuarios.nombreUsuario from SolVacaciones
+				left outer join usuarios
+				on SolVacaciones.idUsuarios=Usuarios.idusuarios where SolVacaciones.estatus=1 and aprobadoRH=0";
+		
+		$queryVacaciones = $this->db->query( $sqlVacaciones );
+		$arrayVacaciones = array();
+		if(  $queryVacaciones->num_rows() > 0 ):
+		$resultadoVacaciones = $queryVacaciones->result();
+		foreach($resultadoVacaciones as $pet):
+		$arrayVacaciones[] = array(
+				"nombreUsuario" => $pet->nombreUsuario,
+				"idSolVacaciones" => $pet->idSolVacaciones,
+				"estatusCandidato" => "Vacaciones",
+				"idUsuarios" => $pet->idUsuarios
+					
+		);
+		endforeach;
+		endif;
+		
 	
-		$resultadoMovimientos = array_merge($arrayAprobados, $arrayRechazados,$arrayBajas,$arrayCheque,$arrayIncapacidad);
+		$resultadoMovimientos = array_merge($arrayAprobados, $arrayRechazados,$arrayBajas,$arrayCheque,$arrayIncapacidad,$arrayCambiosSueldo,$arrayVacaciones);
 	
 		return $resultadoMovimientos;
 	}
@@ -928,5 +967,125 @@ public function personal(){
 	endif;
 
 }
-	
+
+
+public function CambioSueldoDetalle($idCambio,$idUsuario){
+
+
+	$sqlCambioSualdo = "SELECT SolCambioSalario.*,Usuarios.nombreUsuario,Sueldos.sueldo,
+	(select Sueldos.sueldo from UsuariosMetadatos left outer join Sueldos
+	on UsuariosMetadatos.valorMetaDatos = Sueldos.idSueldos where idUsuarios=$idUsuario and prefijoMetaDatos='sueldoNOI') as SueldoActual
+	from SolCambioSalario
+	left outer join usuarios
+	on SolCambioSalario.idUsuarios=Usuarios.idusuarios
+	left outer join Sueldos
+	on SolCambioSalario.salario = Sueldos.idSueldos where SolCambioSalario.idSolCambioSalario = $idCambio  ";
+	$queryCambioSualdo = $this->db->query( $sqlCambioSualdo );
+
+	if( $queryCambioSualdo->num_rows() > 0 ):
+	$resultadoCambioSualdo = $queryCambioSualdo->result();
+	$peticiones = array();
+	foreach( $resultadoCambioSualdo as $pet):
+		
+	$CambioSueldo[] = array(
+			"nombreUsuario" => $pet->nombreUsuario,
+			"idSolCambioSalario" => $pet->idSolCambioSalario,
+			"observaciones" => $pet->observaciones,
+			"sueldo" => $pet->sueldo,
+			"SueldoActual" => $pet->SueldoActual,
+			"fechaAplicacion" => $pet->fechaAplicacion
+				
+	);
+	endforeach;
+	return $CambioSueldo;
+	else:
+	return array();
+	endif;
+
+}
+
+
+public function AprobarCambioSueldo($Id){
+
+
+	$sqlInsert = "update SolCambioSalario set aprobadoRH=1 ,fecha_aprobacionRH=now() where idSolCambioSalario=$Id ";
+
+	$queryInsert = $this->db->query($sqlInsert);
+	//	$idAltaUsuario = $this->db->insert_id();
+
+	if ($queryInsert)
+	{
+
+
+
+		return true;
+	}
+	else{
+		return false;
+	}
+
+
+}
+
+
+public function RechazarCambioSueldo($Id){
+
+
+	$sqlInsert = "update SolCambioSalario set aprobadoRH=2 ,fecha_aprobacionRH=now() where idSolCambioSalario=$Id ";
+
+	$queryInsert = $this->db->query($sqlInsert);
+	//	$idAltaUsuario = $this->db->insert_id();
+
+	if ($queryInsert)
+	{
+
+
+
+		return true;
+	}
+	else{
+		return false;
+	}
+
+
+}
+
+public function DatosusuariosVacaciones($idVacaciones){
+
+
+	$peticiones = array();
+
+	$sqlPeticiones = "
+	SELECT SolVacaciones.*, Usuarios.nombreUsuario	from SolVacaciones
+	left outer join Usuarios
+	on Usuarios.idUsuarios=SolVacaciones.idUsuarios where SolVacaciones.idSolVacaciones= $idVacaciones
+
+	";//Agregar AND ReclutacionFDP aprobado, RecursosHumanosFDP aprobado
+
+	$queryPeticiones = $this->db->query( $sqlPeticiones );
+
+	if( $queryPeticiones->num_rows() > 0 ):
+	$resultadoPeticiones = $queryPeticiones->result();
+	$peticiones = array();
+	foreach( $resultadoPeticiones as $pet):
+
+	$peticiones[] = array(
+			"idSolVacaciones" => $pet->idSolVacaciones,
+			"idUsuarios" => $pet->idUsuarios,
+			"nombreUsuario" => $pet->nombreUsuario,
+			"fechaSalida" => $pet->fechaSalida,
+			"fechaEntrada" => $pet->fechaEntrada,
+			"dias" => $pet->dias,
+			"Periodo" => $pet->Periodo,
+			"observaGerente" => $pet->observaGerente
+
+	);
+	endforeach;
+	return $peticiones;
+	else:
+	return array();
+	endif;
+
+
+}
 }

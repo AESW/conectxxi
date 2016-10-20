@@ -37,11 +37,17 @@ class Nomina extends CI_Controller {
 		
 		$BajasDatos = $this->NominaModel->obtenerBajasDatos();
 		
+		$CambioSueldos = $this->NominaModel->CambioSueldos();
+		
+		$Vacaciones = $this->NominaModel->Vacaciones();
+		
 			
 		$dataContent = array(
 				"Altas" => $AltasUsuario,
 				"Bajas" => $BajasUsuario,
-				"BajasDatos" => $BajasDatos
+				"BajasDatos" => $BajasDatos,
+				"CambioSueldos" => $CambioSueldos,
+				"Vacaciones" => $Vacaciones
 				
 		);
 		
@@ -995,4 +1001,88 @@ class Nomina extends CI_Controller {
 								        	
 								        }
 			}  
+			
+			
+			public function CambioSueldos()
+			{
+				$dataHeader = array(
+						"titulo" => "Cambios de Sueldo"
+				);
+				/*Obtener datos de usuario, roles, modulos , permisos*/
+				$sessionUser = $this->session->userdata('logged_in');
+			
+				$isReclutamiento = 0;
+				$accionesReclutamiento = array();
+				if( isset( $sessionUser["puesto"]["permisos"] ) ):
+				foreach( $sessionUser["puesto"]["permisos"] as $permisos ):
+				if( $permisos["prefijoModulos"] == "nomina"):
+				$isReclutamiento = 1;
+				$accionesReclutamiento[] = $permisos["accionPermisos"];
+				endif;
+				endforeach;
+				else:
+				redirect("panel");
+				endif;
+					
+				if( $isReclutamiento == 0 ):
+				redirect("panel");
+				endif;
+					
+			
+				$catEmpresas=$this->NominaModel->obtenerEmpresas();
+				//		$AltasUsuarios=$this->NominaModel->AltaUsuarios();
+			
+				$dataContent["Empresas"] = $catEmpresas;
+				//	$dataContent["DatosUsuario"] = $AltasUsuarios;
+			
+			
+				//print_r($AltasUsuarios);
+			
+				$this->load->view('includes/header' , $dataHeader);
+				$this->load->view('nomina/CambioSueldos' , $dataContent);
+				$this->load->view('includes/footer');
+			
+			}
+			
+			
+			public function altaVacaciones()
+			{
+				$dataHeader = array(
+						"titulo" => "Alta Vacaciones"
+				);
+				/*Obtener datos de usuario, roles, modulos , permisos*/
+				$sessionUser = $this->session->userdata('logged_in');
+					
+				$isReclutamiento = 0;
+				$accionesReclutamiento = array();
+				if( isset( $sessionUser["puesto"]["permisos"] ) ):
+				foreach( $sessionUser["puesto"]["permisos"] as $permisos ):
+				if( $permisos["prefijoModulos"] == "nomina"):
+				$isReclutamiento = 1;
+				$accionesReclutamiento[] = $permisos["accionPermisos"];
+				endif;
+				endforeach;
+				else:
+				redirect("panel");
+				endif;
+					
+				if( $isReclutamiento == 0 ):
+				redirect("panel");
+				endif;
+					
+					
+				$catEmpresas=$this->NominaModel->obtenerEmpresas();
+				//		$AltasUsuarios=$this->NominaModel->AltaUsuarios();
+					
+				$dataContent["Empresas"] = $catEmpresas;
+				//	$dataContent["DatosUsuario"] = $AltasUsuarios;
+					
+					
+				//print_r($AltasUsuarios);
+					
+				$this->load->view('includes/header' , $dataHeader);
+				$this->load->view('nomina/AltaVacaciones' , $dataContent);
+				$this->load->view('includes/footer');
+					
+			}
 }

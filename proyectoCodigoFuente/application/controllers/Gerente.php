@@ -475,28 +475,152 @@ class Gerente extends CI_Controller {
     	$idUsuario=$sessionUser["usuario"]["idUsuarios"];
     	
     	
-    	$sqlCatalogos = 'SELECT * from catalogos left outer join cat_detalle on catalogos.id=cat_detalle.id_catalogo
-    left outer join ObjetosCatalogo
-    on catalogos.id=ObjetosCatalogo.idCatalogo where cat_detalle.estatus=1';
-    	$queryCatalogos = $this->db->query($sqlCatalogos);
+    	$personal = $this->GerenteModel->personalIncapacidad($idUsuario);
     	
-    	
-    	
-    	
-    	$dataContent["Catalogos"]=$queryCatalogos->result();
     		
-    	$movimientosSalario = $this->GerenteModel->obtenerMovimientosSueldo($idUsuario);
+    	$movimientosSalario = $this->GerenteModel->obtenerCatSueldo();
     		
     		
     	$dataContent["salario"]=$movimientosSalario;
     	
+    	$dataContent["personal"]=$personal;
     	
     
-    	//print_r($dataContent);
+    //	print_r($dataContent);
     
     	$this->load->view('includes/header' , $dataHeader);
     	$this->load->view('gerente/solicitud_cambio_salario' , $dataContent);
     	$this->load->view('includes/footer');
     
     }
+    
+    public function SalarioActual(){
+    
+    	$idUsuario = $this->input->post('usuario');
+    	
+    	$data = $this->GerenteModel->obtenerMovimientosSueldo($idUsuario);
+    	 
+    	if( count($data) > 1 ):
+    	?>
+    		 <option value="">Seleccione Salario</option>
+    		<?php
+    		else:
+    		 
+    		endif;
+    		
+    		foreach($data as $fila){
+    	    ?>
+    	     	<option value= "<?php echo $fila->idSueldos; ?>" ><?php echo $fila->sueldo; ?></option>
+    	    <?php
+    		}
+    		
+    	}
+    	
+    	
+    	function GuardaSueldo() {
+    	
+    	
+    		
+    		$sessionUser = $this->session->userdata('logged_in');
+    		//echo "<pre>";
+    		//print_r( $sessionUser );die;
+    		$idUsuario=$sessionUser["usuario"]["idUsuarios"];
+    		
+    		
+    		$usuario=$this->input->post('selecUsuario');
+    		$salario=$this->input->post('salario_nuevo');
+    		$observaciones=$this->input->post('observaciones');
+    		$fechaAplicacion=$this->input->post('fecha_inicio');
+    		
+    	
+    	
+    		$sqlAlta = "insert into SolCambioSalario (salario,idUsuarios,solicita_idUsuarios,aprobadoDireccion,aprobadoRH,altaNoi,observaciones,fechaAplicacion) values ($salario,$usuario,$idUsuario,0,0,0,'$observaciones','$fechaAplicacion')" ;
+    	
+    	
+    	
+    		$queryGrupo = $this->db->query($sqlAlta);
+    	
+    		if ($queryGrupo)
+    		{
+    			$resultado = array (
+    					"codigo" => 200,
+    					"exito" => true,
+    					"mensaje" => "Solicitud guardada correctamente."
+    			);
+    		}
+    		else {
+    			$resultado = array (
+    					"codigo" => 400,
+    					"exito" => false,
+    					"mensaje" => "Error, vuelva a intentarlo."
+    			);
+    		}
+    	
+    		ob_clean ();
+    		echo json_encode ( $resultado );
+    		exit ();
+    	}
+    	
+    	
+    	public function Vacaciones() {
+    		$dataHeader = array (
+    				"titulo" => "Autorizacion de vacaciones"
+    		);
+    	
+    		$idVacaciones = $this->input->get ( 'idVacaciones' );
+    		$Datosusuarios = $this->GerenteModel->DatosusuariosVacaciones($idVacaciones);
+    	
+    	
+    	
+    	
+    		$dataContent ["Datosusuarios"] = $Datosusuarios;
+    	
+    	
+    	
+    		$this->load->view ( 'includes/header', $dataHeader );
+    		$this->load->view ( 'gerente/autoriza_vacaciones', $dataContent );
+    		$this->load->view ( 'includes/footer' );
+    	}
+    	
+    	
+    	public function AutorizaVacaciones() {
+    		$dataHeader = array (
+    				"titulo" => "Autorizacion de vacaciones"
+    		);
+    	
+    		$sessionUser = $this->session->userdata('logged_in');
+    		//echo "<pre>";
+    		//print_r( $sessionUser );die;
+    		$idUsuario=$sessionUser["usuario"]["idUsuarios"];
+    		
+    		$idVacaciones = $this->Sanitize->clean_string ( $_POST ["idVacaciones"] );
+    	
+    		
+    		$observaciones = $this->Sanitize->clean_string ( $_POST ["observaciones"] );
+    			 
+    			$sqlUpdateVacaciones = "UPDATE SolVacaciones set  estatus = 1 , fechaAutoriza=now(),observaGerente='$observaciones',idAutoriza=$idUsuario  where idSolVacaciones = $idVacaciones ";
+    			 
+    			$UpdateVacaciones = $this->db->query ( $sqlUpdateVacaciones );
+    	
+    		 
+    		if ($UpdateVacaciones)
+    		{
+    			$resultado = array (
+    					"codigo" => 200,
+    					"exito" => true,
+    					"mensaje" => "Solicitud Autorizada correctamente."
+    			);
+    		}
+    		else {
+    			$resultado = array (
+    					"codigo" => 400,
+    					"exito" => false,
+    					"mensaje" => "Error, vuelva a intentarlo."
+    			);
+    		}
+    	
+    		ob_clean ();
+    		echo json_encode ( $resultado );
+    		exit ();
+    	}
 }

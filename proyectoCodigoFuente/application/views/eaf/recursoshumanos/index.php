@@ -108,6 +108,39 @@
 																																	<?php 
 																																	endif;
 																																endforeach;
+																																
+																																
+																																foreach( $movimientos as $mo ):
+																																$accion = $mo["estatusCandidato"] ;
+																																if( $accion == "Cambio Sueldo" ):
+																																?>
+																																																																	
+																																																																		<li><a href="<?php echo HOME_URL; ?>eaf/RecursosHumanos/CambioSueldoDetalle/?idCambio=<?php echo $mo["idSolCambioSalario"];?>&User=<?php echo $mo["idUsuarios"];?>"><?php echo $mo["nombreUsuario"]." , ".$accion;?> </a></li>
+																																																																
+																																																																<?php 
+																																																																	else:
+																																																																	?>
+																																																																		<!--<li><?php echo $mo["nombreUsuario"];?> ,<?php echo $accion;?></li>!-->
+																																																																	
+																																																																	<?php 
+																																																																	endif;
+																																																																endforeach;
+																																
+   foreach( $movimientos as $mo ):
+    $accion = $mo["estatusCandidato"] ;
+      if( $accion == "Vacaciones" ):
+   ?>
+																																																																																																																																	
+		<li><a href="<?php echo HOME_URL; ?>eaf/RecursosHumanos/Vacaciones/?idVacaciones=<?php echo $mo["idSolVacaciones"];?>&User=<?php echo $mo["idUsuarios"];?>"><?php echo $mo["nombreUsuario"]." , ".$accion;?> </a></li>
+																																																																																																																																
+    <?php 
+	  else:
+	  ?>																																																																																																																																	
+		<!--<li><?php echo $mo["nombreUsuario"];?> ,<?php echo $accion;?></li>!-->
+	<?php 
+	  endif;
+   endforeach;																																																																																																																																
+																																																																																																																																	
 				
 				
 			endif;

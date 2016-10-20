@@ -57,7 +57,7 @@
         </tr>
         <tr>
             <td></td>
-            <td><a style="padding: 20px 40px; width:250px; height:60px; margin-top: 30px; margin-right: 7%" class="btnNextFDP" id="btnVacaciones" href="<?php echo HOME_URL."MovEmpleados/solicitud_vacaciones/?idUsuario=". $datos["idUsuarios"];  ?> " >Vacaciones</a></td>
+            <td><a style="padding: 20px 40px; width:250px; height:60px; margin-top: 30px; margin-right: 7%" class="btnNextFDP" id="btnVacaciones" href="<?php echo HOME_URL."MovEmpleados/solicitud_vacaciones/?idUsuario=". $idUsuario;  ?> " >Vacaciones</a></td>
         </tr>
     </table> 
     <br>

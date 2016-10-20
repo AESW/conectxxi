@@ -35,6 +35,13 @@
 															
 															<?php 
 															endif;
+															
+		                if( $accion == "vacaciones" ):
+															?>
+					    <li><a href="<?php echo HOME_URL; ?>Gerente/Vacaciones/?idVacaciones=<?php echo $datos["idSolVacaciones"];?>"><?php echo $datos["nombreUsuario"]." , Autorización de ".$accion;?></a></li>
+																														
+																														<?php 
+																														endif;
 					
 		
 				endforeach;

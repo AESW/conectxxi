@@ -838,4 +838,56 @@ where Empresas_idEmpresas = (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE 
 	
 		return $arrayAbonos;
 	}
+	
+	
+	public function CambioSueldos(){
+	
+	
+		$sqlAltaUsuarios = "SELECT count(*) as cuenta FROM SolCambioSalario
+				where aprobadoDireccion =1 and aprobadoRH = 1 and altaNoi= 0";
+	
+		$queryAltaUsuarios = $this->db->query( $sqlAltaUsuarios );
+		if( $queryAltaUsuarios->num_rows() > 0 ):
+		$resultadoAltaUsuarios = $queryAltaUsuarios->result();
+		$altas = array();
+			
+		foreach( $resultadoAltaUsuarios as $entre):
+		$altas[] = array(
+				"cuenta" => $entre->cuenta
+	
+		);
+		endforeach;
+			
+		return $altas;
+		else:
+		return array();
+		endif;
+	
+	}
+	
+	public function Vacaciones(){
+	
+	
+		$sqlAltaUsuarios = "SELECT count(*) as cuenta FROM SolVacaciones
+				where estatus =1 and aprobadoRH = 1 and altaNoi= 0";
+	
+		$queryAltaUsuarios = $this->db->query( $sqlAltaUsuarios );
+		if( $queryAltaUsuarios->num_rows() > 0 ):
+		$resultadoAltaUsuarios = $queryAltaUsuarios->result();
+		$altas = array();
+			
+		foreach( $resultadoAltaUsuarios as $entre):
+		$altas[] = array(
+				"cuenta" => $entre->cuenta
+	
+		);
+		endforeach;
+			
+		return $altas;
+		else:
+		return array();
+		endif;
+	
+	}
+	
 }

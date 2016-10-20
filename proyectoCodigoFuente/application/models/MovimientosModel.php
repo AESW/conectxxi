@@ -158,14 +158,27 @@ on TaxPuestoUsuario.idUsuarios =  SolCambioTurno.idUsuarios where SolCambioTurno
 		return $resultadoMovimientos;
 	}
 	
-	public function obtenervacacionesEmpleados($idUsuario){
+	public function DatosEmpleados($idUsuario){
 	
 	
-		$sqlCatPuestos = "SELECT IdCartera,Cartera FROM Cartera order by Cartera asc ";
-		$queryCatPuestos = $this->db->query( $sqlCatPuestos );
-	
-		return $queryCatPuestos->result();
-	
+		$sqlDatos = "Select nombreUsuario,
+				(Select valorMetaDatos from UsuariosMetaDatos where prefijoMetaDatos='fechaIngreso' and idUsuarios= $idUsuario) as fechaIngreso
+		        from Usuarios where idUsuarios=$idUsuario";
+		$queryDatos = $this->db->query( $sqlDatos );
+		
+		$arrayDatos = array();
+		if(  $queryDatos->num_rows() > 0 ):
+		$resultadoDatos = $queryDatos->result();
+		foreach($resultadoDatos as $aprobados):
+		$arrayDatos[] = array(
+				"nombreUsuario" => $aprobados->nombreUsuario,
+				"fechaIngreso" => $aprobados->fechaIngreso,
+			
+		);
+		endforeach;
+		endif;
+		
+		return $arrayDatos;
 	
 	}
 	
@@ -369,5 +382,33 @@ WHERE CursosUsuarios.idUsuarios= $idUsuario";
 	
 	}
 	
+	public function obtenerVacacionesEmpleados($idUsuario){
+	
+		$sqlSolMovimiento = "select SolVacaciones.*,Usuarios.nombreUsuario from SolVacaciones
+		left outer join Usuarios
+		on SolVacaciones.idAutoriza=Usuarios.idUsuarios where SolVacaciones.idUsuarios=$idUsuario";
+	
+		$querySolMovimiento = $this->db->query( $sqlSolMovimiento );
+		$arraySolMovimiento = array();
+		if(  $querySolMovimiento->num_rows() > 0 ):
+		$resultadoSolMovimiento = $querySolMovimiento->result();
+		foreach($resultadoSolMovimiento as $aprobados):
+		$arraySolMovimiento[] = array(
+				"Periodo" => $aprobados->Periodo,
+				"dias" => $aprobados->dias,
+				"fechaSalida" => $aprobados->fechaSalida,
+				"fechaEntrada" => $aprobados->fechaEntrada,
+				"fechaAutoriza" => $aprobados->fechaAutoriza,
+				"estatus" => $aprobados->estatus,
+				"nombreUsuario" => $aprobados->nombreUsuario,
+			
+				
+	
+		);
+		endforeach;
+		endif;
+	
+		return $arraySolMovimiento;
+	}
 	
 }

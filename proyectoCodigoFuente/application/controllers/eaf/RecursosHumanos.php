@@ -2334,4 +2334,186 @@ public function SelHorario()
 			exit ();
 		}
 		
+		public function CambioSueldoDetalle()
+		{
+			$dataHeader = array(
+					"titulo" => "Solcitud Cambio de Sueldo"
+			);
+		
+		
+			$idCambio = $this->Sanitize->clean_string($_REQUEST["idCambio"]);
+			$idUsuario = $this->Sanitize->clean_string($_REQUEST["User"]);
+		
+			if( $idCambio == "" and $idUsuario==""):
+			redirect("panel");
+			endif;
+		
+		
+			/*Obtener datos de usuario, roles, modulos , permisos*/
+			$sessionUser = $this->session->userdata('logged_in');
+			//echo "<pre>";
+			//print_r( $sessionUser );die;
+		
+			$DatosUsuario=$sessionUser['usuario']['nombreUsuario'];
+		
+		
+			$CambioSueldoDetalle=$this->RecursoshumanosModel->CambioSueldoDetalle($idCambio,$idUsuario);
+		
+		
+		
+			$dataContent = array(
+					"CambioSueldoDetalle" => $CambioSueldoDetalle,
+		
+			);
+		
+		
+			//	print_r($dataContent);
+		
+			$this->load->view('includes/header' , $dataHeader);
+			$this->load->view('eaf/recursoshumanos/CambioSueldo',$dataContent );
+			$this->load->view('includes/footer');
+		
+		}
+		
+		
+		
+		public function AprobarCambioSueldo()
+		{
+		
+			/*Obtener datos de usuario, roles, modulos , permisos*/
+			$sessionUser = $this->session->userdata('logged_in');
+			//echo "<pre>";
+			//print_r( $sessionUser );die;
+		
+			$IdUsuario=$sessionUser['usuario']['idUsuarios'];
+		
+			$Id=$this->Sanitize->clean_string($_POST["idCambio"]);
+		
+			$AprobarSueldo=$this->RecursoshumanosModel->AprobarCambioSueldo($Id);
+		
+			if($AprobarSueldo)
+			{
+		
+				$resultado = array(
+						"codigo" => 200,
+						"unique" => false,
+						"mensaje" => "Sueldo Aprobado Correctamente"
+				);
+			}
+			else
+		
+			{
+				$resultado = array(
+						"codigo" => 400,
+						"unique" => false
+				);
+		
+		
+			}
+		
+			ob_clean();
+		
+			echo json_encode($resultado);
+		}
+		
+		
+		public function RechazarCambioSueldo()
+		{
+		
+			/*Obtener datos de usuario, roles, modulos , permisos*/
+			$sessionUser = $this->session->userdata('logged_in');
+			//echo "<pre>";
+			//print_r( $sessionUser );die;
+		
+			$IdUsuario=$sessionUser['usuario']['idUsuarios'];
+		
+			$Id=$this->Sanitize->clean_string($_POST["idCambio"]);
+		
+			$RechazarSueldo=$this->RecursoshumanosModel->RechazarCambioSueldo($Id);
+		
+			if($RechazarSueldo)
+			{
+		
+				$resultado = array(
+						"codigo" => 200,
+						"unique" => false,
+						"mensaje" => "Sueldo Rechazado Correctamente"
+				);
+			}
+			else
+		
+			{
+				$resultado = array(
+						"codigo" => 400,
+						"unique" => false
+				);
+		
+		
+			}
+		
+			ob_clean();
+		
+			echo json_encode($resultado);
+		}
+		
+		public function Vacaciones() {
+			$dataHeader = array (
+					"titulo" => "Autorización de Vacaciones"
+			);
+		
+			$idVacaciones = $this->input->get ( 'idVacaciones' );
+			$Datosusuarios = $this->RecursoshumanosModel->DatosusuariosVacaciones($idVacaciones);
+		
+		
+		
+		
+			$dataContent ["Datosusuarios"] = $Datosusuarios;
+		
+			// echo "<pre>";print_r($error_campos);
+			//	echo "<pre>";print_r($dataContent);
+			//// echo "<pre>";print_r($resultado);
+			// echo "<pre>";print_r($formArray);
+		
+			$this->load->view ( 'includes/header', $dataHeader );
+			$this->load->view ( 'eaf/recursoshumanos/vacaciones', $dataContent );
+			$this->load->view ( 'includes/footer' );
+		}
+		
+		public function AutorizaVacaciones() {
+			$dataHeader = array (
+					"titulo" => "Autorizacion de vacaciones"
+			);
+			 
+			
+		
+			$idVacaciones = $this->Sanitize->clean_string ( $_POST ["idVacaciones"] );
+			 
+		
+		
+		
+			$sqlUpdateVacaciones = "UPDATE SolVacaciones set  aprobadoRH = 1  where idSolVacaciones = $idVacaciones ";
+		
+			$UpdateVacaciones = $this->db->query ( $sqlUpdateVacaciones );
+			 
+			 
+			if ($UpdateVacaciones)
+			{
+				$resultado = array (
+						"codigo" => 200,
+						"exito" => true,
+						"mensaje" => "Solicitud Autorizada correctamente."
+				);
+			}
+			else {
+				$resultado = array (
+						"codigo" => 400,
+						"exito" => false,
+						"mensaje" => "Error, vuelva a intentarlo."
+				);
+			}
+			 
+			ob_clean ();
+			echo json_encode ( $resultado );
+			exit ();
+		}
 }

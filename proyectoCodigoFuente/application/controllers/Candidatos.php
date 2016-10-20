@@ -1024,21 +1024,8 @@ class Candidatos extends CI_Controller {
   <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td style="background-color: #fff; padding-top:25px; padding-bottom:135px; padding-left:10px; padding-right:10px; font-family: Arial;color: #7F7F7F; font-size:15px;"><center>
-     <p style="font-weight:bold;color:#26313c;">Apreciable '.$resultHash[0]->nombre.' '.$resultHash[0]->apeliidoPaterno.' '.$resultHash[0]->apellidoMaterno.',</p>
-   		<p>
-			Hemos recibido la confirmación de registro de tus datos personales, en breve nos pondremos en contacto contigo para que nos visites. </p>
-        <p>Por favor el día de tu entrevista traer los siguientes documentos en original:</p>
-		<p>CURP</p>
-		<p>Acta de nacimiento</p>
-		<p>Comprobante de domicilio</p>
-		<p>RFC</p>
-		<p>IMSS</p>
-		<p>Antecedentes No Penales</p>
-		<p>Buró de Crédito</p>
-		<p>Identificación Oficial</p>
-		<p>Comprobante de Estudios</p>
-		<p>Foto digital reciente de frente y fondo blanco</p>
-    </center>
+   <p>Apreciable candidato, gracias por el registro de tus datos, si cubres el perfil nos podremos en contacto contigo.</p>
+       </center>
     </td>
     </tr>
     </table>
