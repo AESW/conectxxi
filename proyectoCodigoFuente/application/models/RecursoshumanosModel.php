@@ -236,7 +236,7 @@ class RecursoshumanosModel extends CI_Model {
 		
 		
 		$sqlCambiosSueldo = "SELECT SolCambioSalario.*,Usuarios.nombreUsuario from SolCambioSalario
-				left outer join usuarios
+				left outer join Usuarios
 				on SolCambioSalario.idUsuarios=Usuarios.idusuarios where SolCambioSalario.aprobadoDireccion=1 and aprobadoRH=0";
 		
 		$queryCambiosSueldos = $this->db->query( $sqlCambiosSueldo );
@@ -255,7 +255,7 @@ class RecursoshumanosModel extends CI_Model {
 		endif;
 		
 		$sqlVacaciones = "SELECT SolVacaciones.*,Usuarios.nombreUsuario from SolVacaciones
-				left outer join usuarios
+				left outer join Usuarios
 				on SolVacaciones.idUsuarios=Usuarios.idusuarios where SolVacaciones.estatus=1 and aprobadoRH=0";
 		
 		$queryVacaciones = $this->db->query( $sqlVacaciones );

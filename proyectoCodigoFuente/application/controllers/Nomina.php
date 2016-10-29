@@ -1085,4 +1085,93 @@ class Nomina extends CI_Controller {
 				$this->load->view('includes/footer');
 					
 			}
+			
+			
+			public function ExportarNomina()
+			{
+				$dataHeader = array(
+						"titulo" => "Nomina - NOI"
+				);
+				/*Obtener datos de usuario, roles, modulos , permisos*/
+				$sessionUser = $this->session->userdata('logged_in');
+			
+				$isReclutamiento = 0;
+				$accionesReclutamiento = array();
+				if( isset( $sessionUser["puesto"]["permisos"] ) ):
+				foreach( $sessionUser["puesto"]["permisos"] as $permisos ):
+				if( $permisos["prefijoModulos"] == "nomina"):
+				$isReclutamiento = 1;
+				$accionesReclutamiento[] = $permisos["accionPermisos"];
+				endif;
+				endforeach;
+				else:
+				redirect("panel");
+				endif;
+					
+				if( $isReclutamiento == 0 ):
+				redirect("panel");
+				endif;
+					
+			
+				$catEmpresas=$this->NominaModel->obtenerEmpresas();
+				//		$AltasUsuarios=$this->NominaModel->AltaUsuarios();
+			
+				$dataContent["Empresas"] = $catEmpresas;
+				//	$dataContent["DatosUsuario"] = $AltasUsuarios;
+			
+			
+				//print_r($dataContent);
+			
+				$this->load->view('includes/header' , $dataHeader);
+				$this->load->view('nomina/control_nomina' , $dataContent);
+				$this->load->view('includes/footer');
+			
+			}
+			
+			
+			
+			function exportNomina() {
+			
+					
+				//	$this->load->library('noi');
+					
+			
+				$fecha_inicio=$this->input->post('fecha_inicio');
+				$fecha_final=$this->input->post('fecha_fin');
+				$idEmpres=$this->input->post('empresa_contrata');
+			
+			
+				
+					$sqlEmpresa = "SELECT nombreCorto FROM Empresas
+					where idEmpresas = $idEmpres";
+			
+					$queryEmpresa = $this->db->query( $sqlEmpresa );
+			
+					$resultadoEmpresa = $queryEmpresa->result();
+			
+						
+					foreach( $resultadoEmpresa as $entre):
+			
+					$empresa= $entre->nombreCorto;
+			
+			
+					endforeach;
+						
+			
+			
+				$table = $this->NominaModel->queryNomina($fecha_inicio,$fecha_final,$idEmpres);
+			
+			
+				//	print_r($table);
+			
+			
+				$accion="NOMINA";
+			
+				$this->noi->export($table,$empresa,$accion);
+			
+					
+			
+				//$this->load->view("Reportes");
+			
+			}
 }

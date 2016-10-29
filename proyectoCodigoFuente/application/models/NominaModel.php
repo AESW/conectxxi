@@ -890,4 +890,335 @@ where Empresas_idEmpresas = (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE 
 	
 	}
 	
+	
+	function queryNomina($fecha_inicio,$fecha_final,$idEmpres)   //en el modelo my_model
+	{
+		//datos a seleccionar
+			
+		date_default_timezone_set('America/Mexico_City');
+		//encabezados de las columnas
+		$headers = array('CORPORATIVO',
+'PAGO EXTERNO',
+'ESTATUS',
+'NUM TRAB',
+'NOMBRE DEL TRABAJADOR',
+'RAZON SOCIAL',
+'OFICINA',
+'PLAZA',
+'FECHA DE INGRESO',
+'FECHA DE ALTA',
+'MES DE INGRESO',
+'REPORTA A',
+'PUESTO REPORTA',
+'NOMBRE DE GERENTE DE NEGOCIO',
+'CURP',
+'RFC',
+'LOGIN',
+'AGENTE',
+'CUENTA DE CORREO ELECTRONICO',
+'CUENTA NOMINA',
+'CUENTA INTERBANCARIA',
+'PUESTO',
+'# PUESTO',
+'DESCRIPCION DEPARTAMENTO',
+'# DEPARTAMENTO',
+'TURNO',
+'HORA ENTRADA',
+'HORA SALIDA',
+'DESCANSO',
+'DIAS  MES',
+'SUELDO MENSUAL NOI',
+'CUOTA DIARIA NOI',
+'DIAS TRAB NOI',
+'FALTAS',
+'INC',
+'VAC',
+'PAGO DIAS TRAB NOI',
+'COMISION',
+'CAJA DE AHORRO',
+'INFONAVIT / FONACOT',
+'OTROS DESCUENTOS',
+'TOTAL PAGADO QUINCENA NOI',
+'SUELDO SINERGIA',
+'CUOTA DIARIA SINERGIA',
+'DIAS TRAB SINERGIA',
+'PAGO DIAS TRAB SINERGIA',
+'SUELDO NOI + SINERGIA',
+'PAGO QUIN NOI + SINERGIA',
+'OBSERVACIONES',
+'FECHA DE BAJA',
+'MES DE BAJA',
+'VAC PENDIENTES POR TOMAR',
+'FINIQUITO PAGADO',
+'PAGO',
+'AJUTE');
+		
+		$fechaItem=$fecha_inicio;
+		
+		while ( $fechaItem <= date ( 'd-m-Y',strtotime($fecha_final))  )
+			
+			{
+			
+				array_push($headers, $fechaItem);
+				
+			$fechaPaso = date($fechaItem);
+			$nuevafecha = strtotime ( '+1 day' , strtotime ( $fechaPaso ) ) ;
+			$fechaItem = date ( 'd-m-Y' , $nuevafecha );
+			
+			
+			
+		}
+		
+		
+				
+		
+		$i=1;
+		$table[] = $headers;
+		
+		
+		$consultaUsuarios="Select * from Usuarios ";
+		
+		$queryUsuarios = $this->db->query($consultaUsuarios);
+		
+		
+		
+		foreach ($queryUsuarios->result() as $rowUsuarios)
+		{
+		
+			$idUser=$rowUsuarios->idUsuarios;
+		
+	
+				$consulta="SELECT RecursosHumanosFDP.*,Usuarios.*,Empresas.nombreEmpresas,Oficinas.nombreOficina,Plazas.nombrePlaza,Sueldos.sueldo,Incapacidades.inicio,Incapacidades.fin,SolVacaciones.fechaSalida,SolVacaciones.fechaEntrada,SolBajasPersonal.fechaBaja,SolBajasPersonal.finiquitoTotal, 
+				(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = $idUser and prefijoMetaDatos='corporativo') as corporativo ,
+				(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = $idUser and prefijoMetaDatos='despagoExterno') as despagoExterno,
+				(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = $idUser and prefijoMetaDatos='noEmpleado') as noEmpleado,
+				(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = $idUser and prefijoMetaDatos='fechaAlta') as fechaAlta,
+				(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = $idUser and prefijoMetaDatos='fechaIngreso') as fechaIngreso,
+				(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = $idUser and prefijoMetaDatos='curp') as curp,
+				(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = $idUser and prefijoMetaDatos='rfc') as rfc,
+				(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = $idUser and prefijoMetaDatos='cuentaNomina') as cuentaNomina,
+				(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = $idUser and prefijoMetaDatos='clabeInterbancaria') as clabeInterbancaria,
+				(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = $idUser and prefijoMetaDatos='puesto') as puesto,
+				(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = $idUser and prefijoMetaDatos='idPuesto') as idPuesto,
+				(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = $idUser and prefijoMetaDatos='idDepartamento') as idDepartamento,
+				(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = $idUser and prefijoMetaDatos='descripcionDepartamento') as descripcionDepartamento,
+				(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = $idUser and prefijoMetaDatos='turno') as turno,
+				(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = $idUser and prefijoMetaDatos='descanso') as descanso,
+			    (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = $idUser and prefijoMetaDatos='horario') as horario,
+				(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = $idUser and prefijoMetaDatos='pagoExterno') as pagoExterno,
+				(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = $idUser and prefijoMetaDatos='estatus') as estatus,
+				(SELECT Usuarios.nombreUsuario FROM Usuarios WHERE Usuarios.idUsuarios =  (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = $idUser and prefijoMetaDatos='idPadre')) as reporta,
+				(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = $idUser and prefijoMetaDatos='idPadre') and prefijoMetaDatos='puesto') as puestoReporta,
+                (SELECT Usuarios.nombreUsuario FROM Usuarios WHERE Usuarios.idUsuarios =  (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = (SELECT Usuarios.idUsuarios FROM Usuarios WHERE Usuarios.idUsuarios =  (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = RecursosHumanosFDP.idUsuarios and prefijoMetaDatos='idPadre')) and prefijoMetaDatos='idPadre')) as gerente,
+				(SELECT sum(Importe)  FROM DescuentosAbono WHERE movimiento=1 and numeroEmpleado=(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = $idUser and prefijoMetaDatos='noEmpleado')) as abono,
+				(SELECT sum(Importe)  FROM DescuentosAbono WHERE movimiento=2 and numeroEmpleado=(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = $idUser and prefijoMetaDatos='noEmpleado')) as otrosDescuentos,
+				(SELECT sum(Importe)  FROM DescuentosAbono WHERE movimiento=2 and idConcepto=1 and numeroEmpleado=(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = $idUser and prefijoMetaDatos='noEmpleado')) as CajaAhorro,
+				(SELECT sum(Importe)  FROM DescuentosAbono WHERE movimiento=2 and idConcepto=2 and numeroEmpleado=(SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = $idUser and prefijoMetaDatos='noEmpleado')) as infonavitFonacot
+				FROM Usuarios
+				left outer join Empresas on Empresas.idEmpresas = (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = $idUser and prefijoMetaDatos='empresa_contrata') 
+				left outer join Oficinas on Oficinas.idOficinas = (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = $idUser and prefijoMetaDatos='oficina') 
+				left outer join Plazas on Plazas.idPlazas = (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = $idUser and prefijoMetaDatos='plaza')
+				left outer join Sueldos on Sueldos.idSueldos = (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = $idUser and prefijoMetaDatos='sueldoNOI') 
+				left outer join RecursosHumanosFDP on $idUser =  	RecursosHumanosFDP.idUsuarios  
+				left outer join Incapacidades on Incapacidades.idUsuarios  = $idUser
+				left outer join SolBajasPersonal on SolBajasPersonal.idUsuarios  = $idUser 
+				left outer join SolVacaciones on SolVacaciones.idUsuarios  = $idUser  where Usuarios.idUsuarios=$idUser and (SELECT valorMetaDatos FROM UsuariosMetaDatos WHERE UsuariosMetaDatos.idUsuarios = $idUser and prefijoMetaDatos='empresa_contrata') =$idEmpres   group by Usuarios.idUsuarios";
+				
+				
+	//
+	
+			$query = $this->db->query($consulta);
+	
+				
+				
+			foreach ($query->result() as $row)
+			{
+	
+	
+				
+				$fechaIngreso=$row->fechaIngreso;
+				
+				$añoIngreso=date('Y',strtotime($fechaIngreso));
+				$mesIngreso=date('m',strtotime($fechaIngreso));
+				
+				$pos = strpos($row->horario, 'a'); // 
+				
+				$entrada=substr($row->horario,0,$pos);
+				$salida=substr($row->horario,($pos+1),10);
+				
+				
+				
+				if($row->inicio!='')
+				{
+				
+				$fecha = date($row->inicio);
+				$nuevafecha = strtotime ( '-1 day' , strtotime ( $fecha ) ) ;
+				$nuevafecha = date ( 'Y-m-j' , $nuevafecha );
+				
+				$datetime1 = new DateTime($nuevafecha);
+				$datetime2 = new DateTime($row->fin);
+				
+				$inc = $datetime2->diff($datetime1)->d;
+				}
+				else 
+				{
+					$inc=0;
+				}
+				
+				
+				
+				$fechaSalida = new DateTime($row->fechaSalida);
+				$fechaEntrada = new DateTime($row->fechaEntrada);
+				
+				$vac = $fechaEntrada->diff($fechaSalida)->d;
+				
+				$faltas=0;
+				
+		        $sueldo=$row->sueldo;
+				
+				$cuotaDiaria=( $row->sueldo/30);
+				
+				$diasTrabajados=(16-$faltas-$inc);
+				
+				$pagosDiasTrab=($cuotaDiaria*$diasTrabajados);
+				
+				$sueldoSinergia=$row->pagoExterno;
+				
+				$cuotaDiariaSinergia=$sueldoSinergia/30;
+				
+				$pagosDiasTrabSinergia=($cuotaDiariaSinergia*$diasTrabajados);
+				
+				$noiMasSiergia=$sueldo+$sueldoSinergia;
+				
+				$totalPagadoQuincenaNoi=($pagosDiasTrab+$row->abono-$row->CajaAhorro-$row->infonavitFonacot-$row->otrosDescuentos);
+				
+				$sueldoNoiMasSinergia=$totalPagadoQuincenaNoi+$pagosDiasTrabSinergia;
+				
+				$fechaBaja=$row->fechaBaja;
+				
+				$añoBaja=date('Y',strtotime($fechaBaja));
+				$mesBaja=date('m',strtotime($fechaBaja));
+				
+				//  $row->ID = $i;
+				$table[$i]['corporativo'] = $row->corporativo;
+				$table[$i]['despagoExterno'] = $row->despagoExterno;
+				$table[$i]['estatus'] = $row->estatus;
+				$table[$i]['noEmpleado'] = $row->noEmpleado;
+				$table[$i]['nombreUsuario'] = $row->nombreUsuario;
+				$table[$i]['nombreEmpresas'] = $row->nombreEmpresas;
+				$table[$i]['nombreOficina'] = $row->nombreOficina;
+				$table[$i]['nombrePlaza'] = $row->nombrePlaza;
+				$table[$i]['fechaIngreso'] = $row->fechaIngreso;
+				$table[$i]['fechaAlta'] = $row->fechaAlta;
+				$table[$i]['mesIngreso'] = $mesIngreso."-".$añoIngreso;
+				$table[$i]['reporta'] = $row->reporta;
+				$table[$i]['puestoReporta'] = $row->puestoReporta;
+				$table[$i]['Gerente'] = $row->gerente;
+				$table[$i]['curp'] = $row->curp;
+				$table[$i]['rfc'] = $row->rfc;
+				$table[$i]['login'] = $row->RFC;
+				$table[$i]['agente'] = $row->RFC;
+				$table[$i]['correo'] = $row->correoUsuario;
+				$table[$i]['cuentaNomina'] = $row->cuentaNomina;
+				$table[$i]['clabeInterbancaria'] =  $row->clabeInterbancaria;
+				$table[$i]['puesto'] = $row->puesto;
+				$table[$i]['idPuesto'] =$row->idPuesto;
+				$table[$i]['descripcionDepartamento'] = $row->descripcionDepartamento;
+				$table[$i]['idDepartamento'] = $row->idDepartamento;
+				$table[$i]['turno'] = $row->turno;
+				$table[$i]['horaEntrada'] = $entrada;
+				$table[$i]['horaSalida'] = $salida;
+				$table[$i]['descanso'] = $row->descanso;
+				$table[$i]['diasMes'] = 30;
+				$table[$i]['sueldo'] = $sueldo;
+				$table[$i]['cuotaDiaria'] = $cuotaDiaria;
+				$table[$i]['diasTrabajados'] = $diasTrabajados;
+				$table[$i]['faltas'] = $faltas;
+				$table[$i]['inc'] = $inc;
+				$table[$i]['vac'] =$vac;
+				$table[$i]['pagosDiasTrab'] = $pagosDiasTrab;
+				$table[$i]['comision'] = $row->abono;
+				$table[$i]['cajaAhorro'] = $row->CajaAhorro;
+				$table[$i]['infonavit'] = $row->infonavitFonacot;
+				$table[$i]['otrosDescuentos'] = $row->otrosDescuentos;
+				$table[$i]['totalQuincena'] = $totalPagadoQuincenaNoi;
+				$table[$i]['sueldoSinergia'] = $sueldoSinergia;
+				$table[$i]['cuotaDiariaSinergia'] =$cuotaDiariaSinergia;
+				$table[$i]['diasTrabSinergia'] = $diasTrabajados;
+				$table[$i]['pagosDiasTrabSinergia'] = $pagosDiasTrabSinergia;
+				$table[$i]['noiMasSiergia'] = $noiMasSiergia;
+				$table[$i]['quincenaNoiMasSiergia'] = $sueldoNoiMasSinergia;
+				$table[$i]['observaciones'] = "";
+				$table[$i]['fechaBAja'] = $row->fechaBaja;
+				$table[$i]['mesBAja'] =  $mesBaja."-".$añoBaja;
+				$table[$i]['vacPen'] = "";
+				$table[$i]['finiquitp'] = $row->finiquitoTotal;
+				$table[$i]['pagado'] = "";
+				$table[$i]['ajustes'] = "";
+				
+				
+				
+				$fechaItem=$fecha_inicio;
+				
+					while ( $fechaItem <= date ( 'Y-m-d',strtotime($fecha_final))  )
+					{
+						
+					
+						
+						
+						
+						
+					$consultaVacaciones= "SELECT * FROM SolVacaciones WHERE idUsuarios= $idUser and  fechaSalida<='$fechaItem'  And  fechaEntrada>='$fechaItem'" ;
+							
+					$queryVacaciones = $this->db->query($consultaVacaciones);
+					
+					if($queryVacaciones->num_rows() > 0)
+					{
+						array_push($table[$i], "V");
+					}
+					else
+					{
+					$consultaIncapacidades= "SELECT * FROM Incapacidades WHERE idUsuarios= $idUser and  inicio<='$fechaItem'   And  fin>='$fechaItem' ";
+						
+					$queryIncapacidad = $this->db->query($consultaIncapacidades);
+						
+					if($queryIncapacidad->num_rows() > 0)
+					{
+						array_push($table[$i], "I");
+					}
+					else{
+					
+					$consultaPermiso= "SELECT * FROM SolPermisos WHERE idUsuarios= $idUser and fecha_inicio<='$fechaItem' and fecha_fin>='$fechaItem'";
+					
+					$queryPermiso = $this->db->query($consultaPermiso);
+					
+					if($queryPermiso->num_rows() > 0)
+					{
+						array_push($table[$i], "P");
+					}
+					else{
+						
+						array_push($table[$i], "A");
+					}
+					}}
+					
+					
+					$fechaPaso = date($fechaItem);
+					$nuevafecha = strtotime ( '+1 day' , strtotime ( $fechaPaso ) ) ;
+					$fechaItem = date ( 'Y-m-d' , $nuevafecha );
+					
+				}
+				
+				
+	
+				$i++;
+	
+	
+	
+			}
+		}	
+			
+		return $table;
+	}
+	
 }
