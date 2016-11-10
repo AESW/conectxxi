@@ -556,8 +556,10 @@
 				    </tr>
 			
 			    </table>
-			    
+			    <br>
+			    <center>
 			       <a class="btnNextFDP" id="btnNextFDP1">Continuar</a>
+			       </center>
 			     <div style="clear: both;"></div>
 			    <!-- content -->
 			  </div>
@@ -835,9 +837,10 @@
 				
 				
 			    </table>
+			    <center>
 			  
 			   <a class="btnNextFDP" id="btnNextFDP2">Continuar</a>
-				
+				</center>
 				
 			    <div style="clear: both;"></div>
 			  </div>	 	   
@@ -909,6 +912,8 @@
 			    </table>
 				<br>
 				<br>
+				
+				<center>
 					 
 				  <a  href="#" class="btnNextFDP" id="btnCredencial"><i class="glyphicon glyphicon-user"></i> Credencial</a>
 				  <a href="<?php echo HOME_URL; ?>eaf/RecursosHumanos/Contrato/<?php echo $idCandidatoFDP["idCandidatoFDP"];?>" target="_blank" class="btnNextFDP" ><i class="glyphicon glyphicon-file"></i> Contrato</a>
@@ -916,7 +921,7 @@
 				  <a class="btnNextFDP" id="btnNextFDP5">Guardar</a>
 				   <a class="btnNextFDP" id="btnSolicitudCuenta">Solicitar Cuenta</a>
 			   
-			   
+			   </center>
 			   
 			   
 			   

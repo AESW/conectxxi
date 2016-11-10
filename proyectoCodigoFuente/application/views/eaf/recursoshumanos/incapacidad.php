@@ -70,8 +70,13 @@
                     <br>
 
                     </div>
-                    <a class="btnNextFDP" id="btnMenu" href="">Men&uacute; principal</a>
+                 
+                 <center>
+                  <div style="padding-top: 38%; "  >
                     <a class="btnNextFDP" id="btnGuardar" href="#">Autorizar</a>
+                       <a class="btnNextFDP" id="btnMenu" href="<?php echo HOME_URL; ?>" >Men&uacute; principal</a>
+                       </div>
+                       </center>
                 </form>
 
 

@@ -27,9 +27,13 @@
             </ul>
         </center>
     </div>   
-    <a class="btnNextFDP" id="btnMenu" href="<?php echo HOME_URL; ?>capacitacion">Men&uacute; principal</a>
+  
+   <center>
+     <div style="padding-top: 35%; "  >
     <a class="btnNextFDP" id="btnProgramar">Programar curso</a>
-    
+     <a class="btnNextFDP" id="btnMenu" href="<?php echo HOME_URL; ?>capacitacion">Men&uacute; principal</a>
+     </div>
+    </center>
     </form>
     
 </div>

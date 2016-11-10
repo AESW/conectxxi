@@ -308,9 +308,13 @@
                         <br>
                     </center>
             </div>
+            <center>
+             <div style="padding-top: 54%; "  >
             <a class="btnNextFDP" id="btnSolicitarBaja" href="#">Solicitar baja</a>
 
-            <a class="btnNextFDP" id="btnMenu" href="">Men&uacute; principal</a>
+            <a class="btnNextFDP" id="btnMenu" href="<?php echo HOME_URL; ?>" >Men&uacute; principal</a>
+            </div>
+            </center>
         </form>
 
     </div>

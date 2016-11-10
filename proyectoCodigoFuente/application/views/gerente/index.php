@@ -76,17 +76,18 @@
 		?>
 		</ul>
 	</div>
+	<center>
+	<div style="padding-top: 35%; ">
+	
+    <a  class="btnNextFDP" id="btnAclaracion" href="<?php echo HOME_URL."Movimientos/NuevoPersonal/";?>">Solicitud de nuevo empleado</a>
+	
+	  <a  class="btnNextFDP" id="btnAclaracion" href="<?php echo HOME_URL."Gerente/incapacidad/";?>">Alta de incapacidades</a>
 	
 	
-    <a style="padding: 20px 40px; width:250px; height:60px; margin-top: 30px; margin-right: 7%" class="btnNextFDP" id="btnAclaracion" href="<?php echo HOME_URL."Movimientos/NuevoPersonal/";?>">Solicitud de nuevo empleado</a>
-	
-	  <a style="padding: 20px 40px; width:250px; height:60px; margin-top: 30px; margin-right: 7%" class="btnNextFDP" id="btnAclaracion" href="<?php echo HOME_URL."Gerente/incapacidad/";?>">Alta de incapacidades</a>
-	
-	
-	  <a style="padding: 20px 40px; width:250px; height:60px; margin-top: 30px; margin-right: 7%" class="btnNextFDP" id="btnAclaracion" href="<?php echo HOME_URL."Gerente/BajaPersonal/";?>">Solicitud de baja de empleado</a>
+	  <a  class="btnNextFDP" id="btnAclaracion" href="<?php echo HOME_URL."Gerente/BajaPersonal/";?>">Solicitud de baja de empleado</a>
 	  
-	    <a style="padding: 20px 40px; width:250px; height:60px; margin-top: 30px; margin-right: 7%" class="btnNextFDP" id="btnAclaracion" href="<?php echo HOME_URL."Gerente/CambioSalario/";?>">Solicitud de cambio de salario</a>
+	    <a  class="btnNextFDP" id="btnAclaracion" href="<?php echo HOME_URL."Gerente/CambioSalario/";?>">Solicitud de cambio de salario</a>
 	
-	
-	
+	</div>
+	</center>
 </div>

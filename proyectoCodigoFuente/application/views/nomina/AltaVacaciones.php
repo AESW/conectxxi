@@ -1,6 +1,5 @@
 <div class="content_generic">
 
-    <br>
     <div style="width: 99%" class="block_box_gen">
 
 
@@ -57,14 +56,15 @@
         
        
         
-
-        <a class="btnNextFDP" id="btnMenu">Men&uacute; principal</a>
+<center>
        
        <input class="btnNextFDP" type="submit" value="Exportar">
+       
+        <a class="btnNextFDP" href="<?php echo HOME_URL; ?>" id="btnMenu">Men&uacute; principal</a>
+        
+        </center>
        </form>
-        <br>
-        <br>
-        <br>
+       
         
     </div>
     

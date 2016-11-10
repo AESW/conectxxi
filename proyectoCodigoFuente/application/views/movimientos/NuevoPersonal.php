@@ -113,7 +113,7 @@
 <tr>
 <td></td>
  <td >
-						       <a   target="_blank" class="btnPerfil" id="btnPerfil"><i class="glyphicon glyphicon-search"></i> Ver Perfil del Puesto Solicitado</a>
+						       <a   target="_blank" class="btnPerfil btnNextFDP" id="btnPerfil"><i class="glyphicon glyphicon-search"></i> Ver Perfil del Puesto Solicitado</a>
                </td>
 
 </tr>
@@ -130,13 +130,16 @@
 
 
         </table>
+<br>
 
+    <center>
     
         <a class="btnNextFDP" id="btnSolicitar">Solicitar Empleado</a>
+               <a class="btnNextFDP" id="btnMenu" href="<?php echo HOME_URL; ?>" >Men&uacute; principal</a>
+              
+        </center>
+        <br>
         
-        <br>
-        <br>
-        <br>
         </form>
       </div>
     </div> 
@@ -246,3 +249,5 @@ else
              }
          });
     </script>
+    
+    

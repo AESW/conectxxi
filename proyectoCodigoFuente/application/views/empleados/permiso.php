@@ -37,13 +37,15 @@
             </tr>
 </table>
    
-   
-
+    <br>
+<center>
     
         <a class="btnNextFDP" id="btnSolicitar">Solicitar Permiso</a>
         
-        <br>
-        <br>
+       
+         <a class="btnNextFDP" href="<?php echo HOME_URL; ?>" id="btnMenu">Men&uacute; principal</a>
+     
+</center>
         <br>
         </form>
         

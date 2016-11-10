@@ -50,21 +50,17 @@
 				    </table>
 				   
         <br>
-        <br>
-        
-        
        
-        
-
-        <a class="btnNextFDP" id="btnMenu">Men&uacute; principal</a>
+       <center>
         
          <a class="btnNextFDP" id="btnExportar">Exportar</a>
+          <a class="btnNextFDP" href="<?php echo HOME_URL; ?>" id="btnMenu">Men&uacute; principal</a>
        
        <input class="btnNextFDP"   style="visibility:hidden"  type="submit" value="Exportar">
+       
+       </center>
        </form>
-        <br>
-        <br>
-        <br>
+      
         
     </div>
     

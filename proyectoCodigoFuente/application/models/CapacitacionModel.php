@@ -422,10 +422,10 @@ select Usuarios.nombreUsuario,Usuarios.idUsuarios,CursosUsuarios.Asignado from R
 			$peticiones = array();
 		
 			$sqlPeticiones = "
-			select Usuarios.nombreUsuario,Usuarios.idUsuarios,CursosUsuarios.Asignado from CursosUsuarios left outer join Usuarios 
-			on CursosUsuarios.idUsuarios = Usuarios.idusuarios
-			left outer join CatalogoGrupos
-			on CursosUsuarios.CatalogoGrupos_idGrupo= $id 
+			select Usuarios.nombreUsuario,Usuarios.idUsuarios,CursosUsuarios.Asignado from CursosUsuarios inner join Usuarios 
+			on CursosUsuarios.idUsuarios = Usuarios.idusuarios and CursosUsuarios.CatalogoGrupos_idGrupo= $id
+			inner join CatalogoGrupos
+			on CursosUsuarios.CatalogoGrupos_idGrupo=  CatalogoGrupos.idGrupo
 			where  CatalogoGrupos.cerrado=1
 				
 			";//Agregar AND ReclutacionFDP aprobado, RecursosHumanosFDP aprobado

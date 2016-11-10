@@ -230,19 +230,6 @@ footer, header, hgroup, menu, nav, section {
     display: inline-block;
     margin-right: 10px;
 }
-.btnNextFDP{
-	padding: 10px;
-	float: right;
-	background-color: #1391c4; /* Green */
-    border: none;
-    color: white;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    margin-right: 10px; 
-	
-}
 
 
 .btnPerfil{
@@ -259,12 +246,42 @@ footer, header, hgroup, menu, nav, section {
 	
 }
 
+.btnNextFDP{
+	
+	 border:1px solid ;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #63b8ee), color-stop(1, #468ccf) );
+	color: white;
+		padding: 10px;
+		 font-family:Arial;
+  font-size:13px;
+  font-weight:bold;
+  font-style:normal;
+		border-radius: 5px;
+		position: relative;
+		box-sizing: border-box;
+		transition: all 500ms ease; 
+}
 
+	.btnNextFDP:before {
+		content:'';
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		width: 0px;
+		height: 42px;
+		background: rgba(255,255,255,0.4);
+		border-radius: 5px;
+		transition: all 1s ease;
+	}
+	
+	.btnNextFDP:hover:before {
+		width: 100%;
+	}
 
 
 .btnNextFDP:hover{
 	text-decoration: none;
-	color: #fff;
+	color: white;
 }
 .btn-success {
     background-color: #1391c4;
@@ -862,14 +879,7 @@ footer, header, hgroup, menu, nav, section {
 		font-size: 17pt;
 		opacity: 0.8;
 	}
-	.block_box_gen{
-		float: none;
-		min-height: 300px;
-		width: 90%;
-		margin: 10px auto !important;
-		border: 1px solid #357db8;
-		
-	}
+	
 	.block_box_gen_rh{
 		float: none !important;
 		min-height: 300px;

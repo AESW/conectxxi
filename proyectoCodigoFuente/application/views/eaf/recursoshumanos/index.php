@@ -194,13 +194,12 @@
 	</div>
 	
 	
-	 <table style=" border-collapse: separate; border-spacing:  2px" cellpadding="0" cellspacing="0" width="97%">
-       
-        <tr>
- <td>  <a style="padding: 20px 40px; width:250px; height:60px; margin-top: 30px; margin-right: 7%" class="btnNextFDP" id="btnAclaracion" href="<?php echo HOME_URL."eaf/RecursosHumanos/BajaPersonal/";?>">Solicitud de baja de empleado</a></td>
-	
-            <td><a style="padding: 20px 40px; width:200px; height:60px; margin-top: 10px; "class="btnNextFDP" id="btnActualizDatos" href="<?php echo HOME_URL."Administrador/Catalogos"  ?> " >Administraci&oacute;n de Catalogos</a></td>
-        </tr>
+	 <center>
+	    <div style="padding-top: 61%; "  >
         
-    </table> 
+ <a  class="btnNextFDP" id="btnAclaracion" href="<?php echo HOME_URL."eaf/RecursosHumanos/BajaPersonal/";?>">Solicitud de baja de empleado</a>
+	
+            <a class="btnNextFDP" id="btnActualizDatos" href="<?php echo HOME_URL."Administrador/Catalogos"  ?> " >Administraci&oacute;n de Catalogos</a>
+            </div>
+         </center>
 </div>

@@ -113,17 +113,18 @@
         <br>
         <br>
         
-        
+        <center>
        
             <a id="cerrarGrupo" class="btnNextFDP" id="btnMenu" herf="#">Cerrar grupo</a>
 
-        <a class="btnNextFDP" id="btnMenu">Men&uacute; principal</a>
+    
        
        <input class="btnNextFDP" type="submit" value="Asignar">
+           <a class="btnNextFDP" id="btnMenu" href="<?php echo HOME_URL; ?>" >Men&uacute; principal</a>
+           </center>
        </form>
-        <br>
-        <br>
-        <br>
+       
+      
         </ul>
     </div>
     </div>

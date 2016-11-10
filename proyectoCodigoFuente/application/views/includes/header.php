@@ -44,14 +44,16 @@
 			
 			<div class="bar_center_header">
 				<?php 
-					if( $titulo != "" ):
-						echo $titulo;
+					if( $titulo != "Panel de usuario" and $titulo != "Inicio de sesión"):
+						?>
+						<a href="javascript:history.back()"><i class="glyphicon glyphicon-hand-left"></i> Regresar</a>
+						<?php
 					endif;
 				?>
 				<?php 
 					if (isset($this->session->userdata['logged_in'])):
 				?>
-					<a href="<?php echo HOME_URL."home/logout/";?>" style="float: right;font-size: 9pt; text-decoration: none;">Cerrar sesión</a>
+					<a href="<?php echo HOME_URL."home/logout/";?>" style="float: right;font-size: 9pt; text-decoration: none;"><i class="glyphicon glyphicon-off"></i> Cerrar sesión</a>
 					
 				<?php 
 					endif;

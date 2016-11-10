@@ -68,16 +68,15 @@
 </form>
         <br>
         <br>
-        <br>
-        <br>
-        <br>
-        <a class="btnNextFDP" id="btnMenu">Men&uacute; principal</a>
-    
+      
+       
+      
+    <center>
         <a class="btnNextFDP" id="btnSolicitarCambio">Autorizar</a>
-
+          <a class="btnNextFDP" id="btnMenu" href="<?php echo HOME_URL; ?>" >Men&uacute; principal</a>
+</center>
         <br>
-        <br>
-        <br>
+       
     </div>
     
     

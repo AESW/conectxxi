@@ -39,8 +39,9 @@
 					        	 
 					        
                   ?>
-          <a class="btnNextFDP" id="btnMenu">Men&uacute; principal</a>
-        <a class="btnNextFDP" id="btnEvaluar" href="#">Evaluar</a>
+                   <a class="btnNextFDP" id="btnEvaluar" href="#">Evaluar</a>
+          <a class="btnNextFDP" href="<?php echo HOME_URL; ?>" id="btnMenu">Men&uacute; principal</a>
+       
         <br>
         <br>
         <h2>Captura de resultados</h2>
@@ -81,7 +82,11 @@
         
         <br>
         <input type="radio" name="cursoAprob" id="cursoAprob" value="3" style="margin-left: 60px">No Aprobado
-       
+       <br>
+          <br>
+             <br>
+                <br>
+                  
       
         </form>
        
@@ -98,7 +103,7 @@ $("#btnEvaluar").click(function(){
     	
     				 
     		    $.ajax({
-                    url: '<?= base_url(); ?>Capacitacion/GuardaEvaluacionCurso',
+                    url: '<?php echo HOME_URL; ?>Capacitacion/GuardaEvaluacionCurso',
                     type: 'POST',
                     dataType: 'json',
                     data: $('#form1').serialize(),
@@ -114,8 +119,8 @@ $("#btnEvaluar").click(function(){
                         }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
-                    //	$("#resultado").html("Favor de intentar nuevamente..");
-                       alert(jqXHR.responseText);
+                    	$("#resultado").html("Favor de intentar nuevamente..");
+                    //   alert(jqXHR.responseText);
                     }
                 });
     			

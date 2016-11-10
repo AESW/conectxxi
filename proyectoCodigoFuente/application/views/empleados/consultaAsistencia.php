@@ -13,9 +13,6 @@
 		 <div class='panel-container'>
 			
             
-                 <a href="javascript:history.back()"> Regresar</a>
-			 
-			
 			    <h2><label>.</label></h2>
 			    
 				   

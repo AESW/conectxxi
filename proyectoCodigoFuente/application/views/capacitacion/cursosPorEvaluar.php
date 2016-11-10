@@ -56,10 +56,12 @@
         </center>
     </div>
     
-    
+    <center>
+        <div style="padding-top: 35%; "  >
     <a href="#" class="btnNextFDP" id="btnEvaluar" href="<?php echo HOME_URL; ?>Capacitacion">Evaluar</a>
-    
-    <a class="btnNextFDP" id="btnMenu" href="<?php echo HOME_URL; ?>Capacitacion">Men&uacute; principal</a>
+    <a class="btnNextFDP" id="btnMenu" href="<?php echo HOME_URL; ?>">Men&uacute; principal</a>
+    </div>
+    </center>
 </div>
 
 

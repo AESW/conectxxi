@@ -59,12 +59,12 @@
 </table>
    
    
-
-    
+<br>
+<br>
+    <center>
         <a class="btnNextFDP" id="btnSolicitar">Autorizar Permiso</a>
-        
-        <br>
-        <br>
+           <a class="btnNextFDP" id="btnMenu" href="<?php echo HOME_URL; ?>" >Men&uacute; principal</a>
+        </center>
         <br>
         </form>
         

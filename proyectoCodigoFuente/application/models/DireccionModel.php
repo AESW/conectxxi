@@ -192,8 +192,8 @@ WHERE idVacantesPeticiones = $idVacante  ";
 	
 	
 		$sqlVAcantes = "SELECT SolCambioSalario.*,Usuarios.nombreUsuario from SolCambioSalario
-				left outer join usuarios
-				on SolCambioSalario.idUsuarios=Usuarios.idusuarios where SolCambioSalario.aprobadoDireccion=0 ";
+				left outer join Usuarios
+				on SolCambioSalario.idUsuarios=Usuarios.idUsuarios where SolCambioSalario.aprobadoDireccion=0 ";
 		$queryVacantes = $this->db->query( $sqlVAcantes );
 	
 		if( $queryVacantes->num_rows() > 0 ):
@@ -224,8 +224,8 @@ WHERE idVacantesPeticiones = $idVacante  ";
 		(select Sueldos.sueldo from UsuariosMetadatos left outer join Sueldos
 		on UsuariosMetadatos.valorMetaDatos = Sueldos.idSueldos where idUsuarios=$idUsuario and prefijoMetaDatos='sueldoNOI') as SueldoActual
 		from SolCambioSalario
-				left outer join usuarios
-				on SolCambioSalario.idUsuarios=Usuarios.idusuarios
+				left outer join Usuarios
+				on SolCambioSalario.idUsuarios=Usuarios.idUsuarios
 		        left outer join Sueldos
 		        on SolCambioSalario.salario = Sueldos.idSueldos where SolCambioSalario.idSolCambioSalario = $idCambio  ";
 		$queryCambioSualdo = $this->db->query( $sqlCambioSualdo );

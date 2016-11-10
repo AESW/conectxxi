@@ -96,16 +96,16 @@
 	       
             </form>
             <br>
-        <br>
-        <br>
+        
         </ul>
         <div>
-     <a class="btnNextFDP" id="btnReportes">Men&uacute; principal</a>
+    <center>
         <a class="btnNextFDP" id="btnProgramarCurso" href="#">Programar</a>
+         <a class="btnNextFDP" id="btnReportes" href="<?php echo HOME_URL; ?>" >Men&uacute; principal</a>
+         </center>
 </div>
       <br>
-      <br>
-      <br>  
+      
     </div>
    
  

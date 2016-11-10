@@ -52,16 +52,14 @@
         
 
 
-        <a class="btnNextFDP" id="btnMenu">Men&uacute; principal</a>
-
+     <center>
 
 <input type="submit"  class="btnNextFDP" value="Importar Ahora"  onclick="javascript:document.form1.submit();document.getElementById('bloquea').style.display='block';"/>
-       
-       
+          <a class="btnNextFDP" href="<?php echo HOME_URL; ?>" id="btnMenu">Men&uacute; principal</a>
+       </center>
        </form>
-        <br>
-        <br>
-        <br>
+       <br>
+       
         </ul>
     </div>
     

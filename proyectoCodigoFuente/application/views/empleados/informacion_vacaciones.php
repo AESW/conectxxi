@@ -89,11 +89,12 @@
         
         </form>
         <br>
-        <a class="btnNextFDP" id="btnMenu">Men&uacute; principal</a>
-        <a class="btnNextFDP" id="btnSolicitar">Solicitar</a>
-        <br>
-        <br>
-        <br>
+        <center>
+            <a class="btnNextFDP" id="btnSolicitar">Solicitar</a>
+        <a class="btnNextFDP" href="<?php echo HOME_URL; ?>"  id="btnMenu">Men&uacute; principal</a>
+        </center>
+    <br>
+       
     </div>
     
     

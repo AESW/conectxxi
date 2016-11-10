@@ -1199,10 +1199,16 @@
 					  </tr>
 				  </table>
 				  	
+				  	<br>
+				  	<center>
+				  	
 				  <input type="hidden" name="aprobar_rechazar" id="aprobar_rechazar" class="aprobar_rechazar" />
-				  <a class="btnNextFDP" id="btnMenuPrincipal">Menú principal</a>
+				 
 				  <a class="btnNextFDP" id="btnAprobarCandidato">Continuar proceso</a>
 				  <a class="btnNextFDP" id="btnRechazarCandidato">Rechazar</a>
+				   <a class="btnNextFDP" href="<?php echo HOME_URL; ?>" id="btnMenuPrincipal">Menú principal</a>
+				   </center>
+				   <br>
 				  <div style="clear:both"></div>
 			  </div>	  
 			  </form>

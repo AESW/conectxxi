@@ -77,9 +77,12 @@
        
         
 
-        <a class="btnNextFDP" id="btnMenu">Men&uacute; principal</a>
+      <center>
        
        <input class="btnNextFDP" type="submit" value="Guardar">
+         <a class="btnNextFDP" href="<?php echo HOME_URL; ?>" id="btnMenu">Men&uacute; principal</a>
+         
+         </center>
        </form>
         <br>
         <br>
